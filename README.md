@@ -1,5 +1,5 @@
 # Ogar unlimited - More features such as gamemodes, op, commands, anti-bot measures, and more
-A fully functional open source Agar.io server implementation, written in Node.js. Ogar is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots,merge (editedbyme),killrange(editedbyme),kickrange(editedbyme) commands and the nocollision game modes. Every other Extra feature I created.
+A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots,merge (editedbyme),killrange(editedbyme),kickrange(editedbyme) commands and the nocollision game modes. Every other Extra feature I created.
 This Modified copy was created to help those who want to open their server to the public. I will add more features like remote control similar to pocket dock console in pocketmine (mabye) im also probably going to add more commands and I will also add more things in OP.
 ### Highlight features in this modified copy
  1. PMSG command, to periodically send a message (no need for admin to be online to explain rules)
