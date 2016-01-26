@@ -59,6 +59,7 @@ function GameServer() {
         smartbthome: 1,
         showopactions: 0,
         showbmessage: 0,
+        splitSpeedMultiplyer: 0,
         showjlinfo: 0,
         ejectvspeed: 120,
         serverMaxConnectionsPerIp: 5,
