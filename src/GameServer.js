@@ -9,6 +9,7 @@ var Packet = require('./packet');
 var PlayerTracker = require('./PlayerTracker');
 var PacketHandler = require('./PacketHandler');
 var Entity = require('./entity');
+var Cell = require('./entity/Cell.js');
 var Gamemode = require('./gamemodes');
 var BotLoader = require('./ai/BotLoader');
 var Logger = require('./modules/log');
@@ -138,7 +139,7 @@ GameServer.prototype.start = function() {
         // Done
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
-
+Cell.spi = this.config.SpikedCells
         // Player bots (Experimental)
         if (this.config.serverBots > 0) {
             for (var i = 0;i < this.config.serverBots;i++) {
