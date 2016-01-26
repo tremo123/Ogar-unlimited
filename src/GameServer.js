@@ -35,7 +35,7 @@ function GameServer() {
     this.banned = [];
     this.currentFood = 0;
     this.movingNodes = []; // For move engine
-    this.leaderboard = [];
+    this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
 
     this.bots = new BotLoader(this);
