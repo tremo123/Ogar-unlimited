@@ -69,6 +69,7 @@ Id   | Name
 10. ejectvspeed: Speed of ejected virus
 11. SpikedCells: 1 = cells have spikes 0 = they dont have spikes
 12. ffaMaxLB: Maximum amount of people to be listed in the leaderboard
+13. splitSpeed: Splitting Speed
 
 ## OP
 
