@@ -67,54 +67,14 @@ Id   | Name
 8. serverMaxConnectionsPerIp: only allows a certain amount of players per ip to prevent suicide bots WARNING, if you set it to bigger than 10, your server may experience many suicide bots
 9. auto-ban: Bans an IP after reaching over the amount of clients allowed in serverMaxConnectionsPerIP, 1 = enabled, 2 = disabled (Default)
 10. ejectvspeed: Speed of ejected virus
+11. SpikedCells: 1 = cells have spikes 0 = they dont have spikes
+12. ffaMaxLB: Maximum amount of people to be listed in the leaderboard
 
-ejectvspeed = 120
+## OP
 
-// [Ejected Mass]
-// ejectMass: Mass of ejected cells
-// ejectMassCooldown: Time until a player can eject mass again (ms)
-// ejectMassLoss: Mass lost when ejecting cells
-// ejectSpeed: Base speed of ejected cells
-// ejectSpawnPlayer: Chance for a player to spawn from ejected mass
-ejectMass = 12
-ejectMassCooldown = 200
-ejectMassLoss = 16
-ejectSpeed = 160
-ejectSpawnPlayer = 50
-
-// [Player]
-// playerRecombineTime: Base amount of ticks before a cell is allowed to recombine (1 tick = 1000 milliseconds)
-// playerMassDecayRate: Amount of mass lost per tick (Multiplier) (1 tick = 1000 milliseconds)
-// playerMinMassDecay: Minimum mass for decay to occur
-// playerDisconnectTime: The amount of seconds it takes for a player cell to be removed after disconnection (If set to -1, cells are never removed)
-// SpikedCells: 1 = cells have spikes 0 = they dont have spikes
-playerStartMass = 10
-SpikedCells = 0
-playerMaxMass = 22500
-playerMinMassEject = 32
-playerMinMassSplit = 36
-playerMaxCells = 16
-playerRecombineTime = 30
-playerMassDecayRate = .002
-playerMinMassDecay = 9
-playerMaxNickLength = 15
-playerSpeed = 30
-playerDisconnectTime = 60
-
-// [Gamemode]
-// Custom gamemode settings
-// tourneyTimeLimit: Time limit of the game, in minutes.
-// tourneyAutoFill: If set to a value higher than 0, the tournament match will automatically fill up with bots after value seconds
-// tourneyAutoFillPlayers: The timer for filling the server with bots will not count down unless there is this amount of real players
-tourneyMaxPlayers = 12
-tourneyPrepTime = 10
-tourneyEndTime = 30
-tourneyTimeLimit = 20
-tourneyAutoFill = 0
-tourneyAutoFillPlayers = 1
-
-
-// [Leaderboard]
-// ffaMaxLB: Maximum amount of people to be listed in the leaderboard
-
-ffaMaxLB = 10
+1. Add 100 mass
+2. Rejoin instantly
+3. shoot virus
+4. shoot Anti-matter
+5. shoot troll virus
+6. shoot kill virus
