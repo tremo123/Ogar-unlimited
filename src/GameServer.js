@@ -59,7 +59,7 @@ function GameServer() {
         smartbthome: 1,
         showopactions: 0,
         showbmessage: 0,
-        splitSpeedMultiplyer: 0,
+        splitSpeed: 6,
         showjlinfo: 0,
         ejectvspeed: 120,
         serverMaxConnectionsPerIp: 5,
@@ -689,7 +689,7 @@ GameServer.prototype.splitCells = function(client) {
             y: cell.position.y + ( size * Math.cos(angle) )
         };
         // Calculate mass and speed of splitting cell
-        var splitSpeed = cell.getSpeed() * 6;
+        var splitSpeed = cell.getSpeed() * this.config.splitSpeed;
         var newMass = cell.mass / 2;
         cell.mass = newMass;
         // Create cell
