@@ -12,6 +12,8 @@ This Modified copy was created to help those who want to open their server to th
  8. autoban option (see gameserver.ini)
  9. More control (gameserver.ini)
  10. and other features such as merge or nojoin or kick/killrange
+ 
+(You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
 ### Note: I need a person who can code who organizes and formats my code (it is pretty messy)
 
