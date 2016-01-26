@@ -129,8 +129,9 @@ Commands.list = {
                 for (var j in client.cells) {
                     client.cells[j].setColor(colors[tteam]);
                 }
-               break;
+               
                  console.log("[Console] Successively changed the players team");
+                 break;
              } 
          } 
         
