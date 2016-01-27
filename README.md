@@ -38,9 +38,10 @@ You use OP by first setting who has op by doing op [id] in console. Then, that p
 
 As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws" module installed to use it (unless you are using the Windows binary). You can usually download Node using your distribution's package manager (for *nix-like systems), or from [the Node website](http://nodejs.org). To install the "ws" module that is required, open up your system command line (cmd for windows, terminal for mac) and type "npm install ws". If you are on Linux, you can use the install script which would also automatically install node.js and ws. To see a detailed guide go to the [Installation guide] (https://github.com/AJS-development/Ogar-unlimited/wiki/Installation) in the wiki
 
+(You can install and use Ogar unlimited on windows very quickly. First click `InstallWSForNoobs.bat` in src. the wait (it takes awhile) then click `ClickToStartForNoobs.bat` and your off! the next time you start the server, you only have to click `ClickToStartForNoobs.bat`)
 
 Currently, Ogar listens on the following addresses and ports:
-* *:80 - for the stats server (I would use it to track servers)
+* *:88 - for the stats server (I would use it to track servers)
 * *:443 - for the game server
 
 Please note that on some systems, you may have to run the process as root or otherwise elevate your privileges to allow the process to listen on the needed ports. **If you are getting an EADDRINUSE error, it means that the port required to run Ogar is being used. Usually, Skype is the culprit. To solve this, either close out skype, or change the serverPort value in gameserver.ini to a different port. You will have to change your connection ip to "127.0.0.1:PORT"**
