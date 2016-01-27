@@ -311,9 +311,10 @@ gameServer.pmsg = 1;
   
     
     spfmsg: function(gameServer,split) {
-    	if (pfmsgt == undefined) {
-    	 console.log("[Console] You have no SPMSG Process");	
+    	if (gameServer.pfmsg == 0) {
+    	 console.log("[Console] You have no SPFMSG Process");	
     	} else {
+gameServer.pfmsg = 1;
         clearInterval(pfmsgt);
         console.log("[Console] Stopped any periodicForceMSG process");
     	}
@@ -342,6 +343,7 @@ gameServer.pmsg = 1;
 console.log("[PFMSG] Your request has been sent" );
   console.log (delay+" "+ dur+" "+ re);
   var n = [];
+gameServer.pfmsg = 1;
         var r=1;
     pfmsgt = setInterval(function() {
        gameServer.gameMode.packetLB = 48;
