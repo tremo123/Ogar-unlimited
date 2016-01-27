@@ -37,7 +37,7 @@ As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws" modu
 
 
 Currently, Ogar listens on the following addresses and ports:
-* *:80 - for the master server
+* *:80 - for the stats server (I would use it to track servers)
 * *:443 - for the game server
 
 Please note that on some systems, you may have to run the process as root or otherwise elevate your privileges to allow the process to listen on the needed ports. **If you are getting an EADDRINUSE error, it means that the port required to run Ogar is being used. Usually, Skype is the culprit. To solve this, either close out skype, or change the serverPort value in gameserver.ini to a different port. You will have to change your connection ip to "127.0.0.1:PORT"**
