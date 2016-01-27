@@ -32,9 +32,8 @@ You use OP by first setting who has op by doing op [id] in console. Then, that p
 * Note: This is still in beta so there might be problems (most concerned one is that the names (CC's) dont work when player name is blank) also, it doesnt work on Virus and Leap gamemodes
 
 ## Obtaining and Using
-If you are on Windows, you can download the latest binary build of Ogar [from this page](http://dl.ogarproject.com/). The binary is the easiest way to get started running an Ogar server. If you'd like to tinker with the source code, you can follow the instructions below (and slightly modify them) to run the source on Windows.
 
-As Ogar is written in Node.js, you must have Node.js and its "ws" module installed to use it (unless you are using the Windows binary). You can usually download Node using your distribution's package manager (for *nix-like systems), or from [the Node website](http://nodejs.org). To install the "ws" module that is required, open up your system command line (cmd for windows, terminal for mac) and type "npm install ws". If you are on Linux, you can use the install script which would also automatically install node.js and ws. To see a detailed guide go to the [Installation guide] (https://github.com/Andrews54757/Andrews-version-of-Ogar-more-features-commands-gamemodes-opmode/wiki/Installation) in the wiki
+As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws" module installed to use it (unless you are using the Windows binary). You can usually download Node using your distribution's package manager (for *nix-like systems), or from [the Node website](http://nodejs.org). To install the "ws" module that is required, open up your system command line (cmd for windows, terminal for mac) and type "npm install ws". If you are on Linux, you can use the install script which would also automatically install node.js and ws. To see a detailed guide go to the [Installation guide] (https://github.com/AJS-development/Ogar-unlimited/wiki/Installation) in the wiki
 
 
 Currently, Ogar listens on the following addresses and ports:
