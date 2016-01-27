@@ -3,7 +3,7 @@ To Install Ogar Unlimited, you need [Node.js](nodejs.org)
 (To install Node.js for linux simply do this `curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo apt-get install -y nodes` Then do this `sudo apt-get install -y build-essential`)
 
-(You can install and use Ogar unlimited on windows very quickly. First click `InstallWSForNoobs.bat` in src. the wait (it takes awhile) then click `ClickToStartForNoobs.bat` and your off! the next time you start the server, you only have to click `ClickToStartForNoobs.bat`)
+(You can install and use Ogar unlimited on windows very quickly. First click `InstallWSForNoobs.bat` in src. then wait (it takes awhile) then click `ClickToStartForNoobs.bat` and your off! the next time you start the server, you only have to click `ClickToStartForNoobs.bat`)
 
 First download the repository and unzip it or do `git clone https://github.com/AJS-development/Ogar-unlimited.git`
 
