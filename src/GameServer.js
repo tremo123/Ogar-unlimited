@@ -495,10 +495,10 @@ GameServer.prototype.mainLoop = function() {
             }
         }
             if ( !this.run && humans != 0 ) {
-                console.log("[Console] Game Resumed!");
+                console.log("[Autopause] Game Resumed!");
                 this.run = true;
             } else if ( this.run && humans == 0 ) {
-                console.log("[Console] Game Paused!");
+                console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
                 this.run = false;
                 this.nodesEjected = [];
                 this.leaderboard = [];
