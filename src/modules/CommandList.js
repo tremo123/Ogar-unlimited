@@ -249,8 +249,13 @@ if (isNaN(ops)) {
         
     
     spmsg: function(gameServer,split) {
+    	if (pmsgt == undefined) {
+    	 console.log("[Console] You have no PMSG Process");	
+    	} else {
+    	
         clearInterval(pmsgt);
         console.log("[Console] Stopped any periodicMSG process");
+    }
     },
     pmsg: function(gameServer,split) {
     var delay = parseInt(split[1]*1000);
@@ -305,8 +310,12 @@ console.log("[PMSG] Your request has been sent" );
   
     
     spfmsg: function(gameServer,split) {
+    	if (pfmsgt == undefined) {
+    	 console.log("[Console] You have no SPMSG Process");	
+    	} else {
         clearInterval(pfmsgt);
         console.log("[Console] Stopped any periodicForceMSG process");
+    	}
     },
     pfmsg: function(gameServer,split) {
     var delay = parseInt(split[1]*1000);
