@@ -58,6 +58,7 @@ function GameServer() {
         ejectantispeed: 120,
         maxopvirus: 60,
         SpikedCells: 0,
+        autopause: 1,
         smartbthome: 1,
         showopactions: 0,
         showbmessage: 0,
@@ -482,6 +483,27 @@ GameServer.prototype.mainLoop = function() {
 
         // Reset
         this.tick = 0;
+        if ( gameServer.config.autopause == 1 )
+        {
+            
+            var humans = 0, bots = 0;
+        for (var i = 0; i < this.clients.length; i++) {
+            if ('_socket' in this.clients[i]) {
+                humans++;
+            } else {
+                bots++;
+            }
+        }
+            if ( !this.run && humans != 0 ) {
+                console.log("[Console] Game Resumed!");
+                this.run = true;
+            } else if ( this.run && humans == 0 ) {
+                console.log("[Console] Game Paused!");
+                this.run = false;
+                this.nodesEjected = [];
+                this.leaderboard = [];
+            }
+        }
     }
 };
 
