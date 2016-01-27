@@ -249,10 +249,10 @@ if (isNaN(ops)) {
         
     
     spmsg: function(gameServer,split) {
-    	if (pmsgt == undefined) {
+    	if (gameServer.pmsg == 0) {
     	 console.log("[Console] You have no PMSG Process");	
     	} else {
-    	
+    	gameServer.pmsg = 0;
         clearInterval(pmsgt);
         console.log("[Console] Stopped any periodicMSG process");
     }
@@ -280,6 +280,7 @@ if (isNaN(ops)) {
 console.log("[PMSG] Your request has been sent" );
   console.log (delay+" "+ dur+" "+ re);
         var r=1;
+gameServer.pmsg = 1;
     pmsgt = setInterval(function() {
        gameServer.gameMode.packetLB = 48;
         gameServer.gameMode.specByLeaderboard = false;
