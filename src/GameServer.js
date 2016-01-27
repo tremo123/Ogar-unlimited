@@ -483,7 +483,7 @@ GameServer.prototype.mainLoop = function() {
 
         // Reset
         this.tick = 0;
-        if ( gameServer.config.autopause == 1 )
+        if ( this.config.autopause == 1 )
         {
             
             var humans = 0, bots = 0;
