@@ -17,6 +17,7 @@ module.exports = {
     UnlimitFFA: require('./Unlimitffa.js'),
     Leap: require('./Leap.js'),
     Virus: require('./Virus.js'),
+    BlackHole: require('./BlackHole.js'),
 };
 
 var get = function(id) {
@@ -70,6 +71,9 @@ var get = function(id) {
             break;
         case 21: // Debug
             mode = new module.exports.Debug();
+            break;
+                    case 22: // test
+            mode = new module.exports.BlackHole();
             break;
         default: // FFA is default
             mode = new module.exports.FFA();
