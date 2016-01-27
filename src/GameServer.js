@@ -22,6 +22,8 @@ function GameServer() {
     this.troll = [];
     this.run = true;
     this.op = [];
+    this.pmsg = 0;
+    this.pfmsg = 0;
     this.opc = [];
     this.oppname = [];
         this.opname = [];
