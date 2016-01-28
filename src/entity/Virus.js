@@ -104,14 +104,14 @@ Virus.prototype.onConsume = function(consumer,gameServer) {
     var angle = 0; // Starting angle
     for (var k = 0; k < numSplits; k++) {
         angle += 6/numSplits; // Get directions of splitting cells
-        gameServer.newCellVirused(client, consumer, angle, splitMass);
+        gameServer.newCellVirused(client, consumer, angle, splitMass,150);
         consumer.mass -= splitMass;
     }
 
     for (var k = 0; k < bigSplits; k++) {
         angle = Math.random() * 6.28; // Random directions
         splitMass = consumer.mass / 4;
-        gameServer.newCellVirused(client, consumer, angle, splitMass);
+        gameServer.newCellVirused(client, consumer, angle, splitMass,20);
         consumer.mass -= splitMass;
         
     }
@@ -138,4 +138,3 @@ Virus.prototype.onRemove = function(gameServer) {
         console.log("[Warning] Tried to remove a non existing virus!");
     }
 };
-
