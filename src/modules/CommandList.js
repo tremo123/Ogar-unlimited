@@ -926,7 +926,7 @@ gameServer.pfmsg = 1;
     } else {
         gameServer.overideauto = false;
     }
-        console.log(gameServer.overideauto);
+        
         var s = gameServer.run ? "Unpaused" : "Paused";
         console.log("[Console] " + s + " the game.");
     },
