@@ -56,8 +56,7 @@ Cell.prototype.getSquareSize = function () {
 Cell.prototype.addMass = function(n) {
     if(this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
         this.mass = (this.mass + n) / 2;
-        var randomAngle = Math.random() * 6.28 // Get random angle
- +        this.owner.gameServer.newCellVirused(this.owner, this, randomAngle, this.mass);
+        this.owner.gameServer.newCellVirused(this.owner, this, 0, this.mass, 150);
     } else {
         this.mass = Math.min(this.mass + n,this.owner.gameServer.config.playerMaxMass);
     }
@@ -199,4 +198,3 @@ Cell.prototype.onAutoMove = function(gameServer) {
 Cell.prototype.moveDone = function(gameServer) {
     // Called when this cell finished moving with the auto move engine
 };
-
