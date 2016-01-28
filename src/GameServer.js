@@ -499,7 +499,7 @@ GameServer.prototype.mainLoop = function() {
             if ( (!this.run) && (humans != 0) && (!this.overideauto)) {
                 console.log("[Autopause] Game Resumed!");
                 this.run = true;
-                console.log(this.overideauto);
+                
             } else if ( this.run && humans == 0 ) {
                 console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
                 this.run = false;
