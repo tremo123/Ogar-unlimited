@@ -13,12 +13,7 @@ unlimitffa.prototype = new Mode();
 
 // Gamemode Specific Functions
 
-
-
-
-
-
-unlimitffa.prototype.leaderboardAddSort = function(player,leaderboard) {
+unlimitffa.prototype.leaderboardAddSort = function(player, leaderboard) {
     // Adds the player and sorts the leaderboard
     var len = leaderboard.length - 1;
     var loop = true;
@@ -32,21 +27,21 @@ unlimitffa.prototype.leaderboardAddSort = function(player,leaderboard) {
     }
     if (loop) {
         // Add to top of the list because no spots were found
-        leaderboard.splice(0, 0,player);
+        leaderboard.splice(0, 0, player);
     }
 };
 
 // Override
 
-unlimitffa.prototype.onPlayerSpawn = function(gameServer,player) {
+unlimitffa.prototype.onPlayerSpawn = function(gameServer, player) {
     // Random color
     gameServer.config.playerMaxCells = 100;
-gameServer.config.playerRecombineTime = -1000;
+    gameServer.config.playerRecombineTime = -1000;
     player.color = gameServer.getRandomColor();
-    
+
     // Set up variables
     var pos, startMass;
-    
+
     // Check if there are ejected mass in the world.
     if (gameServer.nodesEjected.length > 0) {
         var index = Math.floor(Math.random() * 100) + 1;
@@ -59,7 +54,10 @@ gameServer.config.playerRecombineTime = -1000;
             gameServer.removeNode(e);
 
             // Inherit
-            pos = {x: e.position.x, y: e.position.y};
+            pos = {
+                x: e.position.x,
+                y: e.position.y
+            };
             startMass = e.mass;
 
             var color = e.getColor();
@@ -70,9 +68,9 @@ gameServer.config.playerRecombineTime = -1000;
             });
         }
     }
-    
+
     // Spawn player
-    gameServer.spawnPlayer(player,pos,startMass);
+    gameServer.spawnPlayer(player, pos, startMass);
 }
 
 unlimitffa.prototype.updateLB = function(gameServer) {
@@ -94,16 +92,15 @@ unlimitffa.prototype.updateLB = function(gameServer) {
             lb.push(player);
             continue;
         } else if (lb.length < 10) {
-            this.leaderboardAddSort(player,lb);
+            this.leaderboardAddSort(player, lb);
         } else {
             // 10 in leaderboard already
             if (playerScore > lb[9].getScore(false)) {
                 lb.pop();
-                this.leaderboardAddSort(player,lb);
+                this.leaderboardAddSort(player, lb);
             }
         }
     }
 
     this.rankOne = lb[0];
 };
-

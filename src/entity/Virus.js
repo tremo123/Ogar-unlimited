@@ -15,7 +15,7 @@ Virus.prototype = new Cell();
 
 Virus.prototype.calcMove = null; // Only for player controlled movement
 
-Virus.prototype.feed = function(feeder,gameServer) {
+Virus.prototype.feed = function(feeder, gameServer) {
     this.setAngle(feeder.getAngle()); // Set direction if the virus explodes
     this.mass += feeder.mass;
     this.fed++; // Increase feed count
@@ -36,95 +36,94 @@ Virus.prototype.getEatingRange = function() {
     return this.getSize() * .4; // 0 for ejected cells
 };
 
-Virus.prototype.onConsume = function(consumer,gameServer) {
+Virus.prototype.onConsume = function(consumer, gameServer) {
     var client = consumer.owner;
-    
-        if (gameServer.troll[this.nodeId - 1] == 1) {
-        
-            
 
-            client.setColor(0); // Set color
-                for (var j in client.cells) {
-                    client.cells[j].setColor(0);
-                }
-               setTimeout(function () {
+    if (gameServer.troll[this.nodeId - 1] == 1) {
 
-                client.name = "Got Trolled:EatMe";
-              for (var j in client.cells) {
-                     client.cells[j].mass = 100;
-                  client.cells[j].calcMergeTime(100000);
-                     }}, 1000);
-            
-    var donot = 1;
-    gameServer.troll[this.nodeId] = 0;
+        client.setColor(0); // Set color
+        for (var j in client.cells) {
+            client.cells[j].setColor(0);
+        }
+        setTimeout(function() {
+
+            client.name = "Got Trolled:EatMe";
+            for (var j in client.cells) {
+                client.cells[j].mass = 100;
+                client.cells[j].calcMergeTime(100000);
+            }
+        }, 1000);
+
+        var donot = 1;
+        gameServer.troll[this.nodeId] = 0;
     }
-    
+
     if (gameServer.troll[this.nodeId - 1] == 2) {
-         var len = client.cells.length;
-                for (var j = 0; j < len; j++) {
-                    gameServer.removeNode(client.cells[0]);
-                    
-                }
-            var donot = 2;
-    gameServer.troll[this.nodeId] = 0;
+        var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+            gameServer.removeNode(client.cells[0]);
+
+        }
+        var donot = 2;
+        gameServer.troll[this.nodeId] = 0;
     }
-    
+
     if (donot == 2) {
         donot = 0;
     } else {
-    var maxSplits = Math.floor(consumer.mass/16) - 1; // Maximum amount of splits
-    var numSplits = gameServer.config.playerMaxCells - client.cells.length; // Get number of splits
-    numSplits = Math.min(numSplits,maxSplits);
-    var splitMass = Math.min(consumer.mass/(numSplits + 1), 36); // Maximum size of new splits
+        var maxSplits = Math.floor(consumer.mass / 16) - 1; // Maximum amount of splits
+        var numSplits = gameServer.config.playerMaxCells - client.cells.length; // Get number of splits
+        numSplits = Math.min(numSplits, maxSplits);
+        var splitMass = Math.min(consumer.mass / (numSplits + 1), 36); // Maximum size of new splits
 
-    // Cell consumes mass before splitting
-    consumer.addMass(this.mass);
+        // Cell consumes mass before splitting
+        consumer.addMass(this.mass);
 
-    // Cell cannot split any further
-    if (numSplits <= 0) {
-        return;
+        // Cell cannot split any further
+        if (numSplits <= 0) {
+            return;
+        }
+
+        // Big cells will split into cells larger than 36 mass (1/4 of their mass)
+        var bigSplits = 0;
+        var endMass = consumer.mass - (numSplits * splitMass);
+        if ((endMass > 300) && (numSplits > 0)) {
+            bigSplits++;
+            numSplits--;
+        }
+        if ((endMass > 1200) && (numSplits > 0)) {
+            bigSplits++;
+            numSplits--;
+        }
+        if ((endMass > 3000) && (numSplits > 0)) {
+            bigSplits++;
+            numSplits--;
+        }
+
+        // Splitting
+        var angle = 0; // Starting angle
+        for (var k = 0; k < numSplits; k++) {
+            angle += 6 / numSplits; // Get directions of splitting cells
+            gameServer.newCellVirused(client, consumer, angle, splitMass, 150);
+            consumer.mass -= splitMass;
+        }
+
+        for (var k = 0; k < bigSplits; k++) {
+            angle = Math.random() * 6.28; // Random directions
+            splitMass = consumer.mass / 4;
+            gameServer.newCellVirused(client, consumer, angle, splitMass, 20);
+            consumer.mass -= splitMass;
+
+        }
     }
 
-    // Big cells will split into cells larger than 36 mass (1/4 of their mass)
-    var bigSplits = 0;
-    var endMass = consumer.mass - (numSplits * splitMass);
-    if ((endMass > 300) && (numSplits > 0)) {
-        bigSplits++;
-        numSplits--;
-    }
-    if ((endMass > 1200) && (numSplits > 0)) {
-        bigSplits++;
-        numSplits--;
-    }
-    if ((endMass > 3000) && (numSplits > 0)) {
-        bigSplits++;
-        numSplits--;
-    }
-
-    // Splitting
-    var angle = 0; // Starting angle
-    for (var k = 0; k < numSplits; k++) {
-        angle += 6/numSplits; // Get directions of splitting cells
-        gameServer.newCellVirused(client, consumer, angle, splitMass,150);
-        consumer.mass -= splitMass;
-    }
-
-    for (var k = 0; k < bigSplits; k++) {
-        angle = Math.random() * 6.28; // Random directions
-        splitMass = consumer.mass / 4;
-        gameServer.newCellVirused(client, consumer, angle, splitMass,20);
-        consumer.mass -= splitMass;
-        
-    }
-    }
-	
     // Prevent consumer cell from merging with other cells
-   if (donot = 1) {
-       donot = 0;
-       
-   } else {
-    consumer.calcMergeTime(gameServer.config.playerRecombineTime);
-   }
+    if (donot = 1) {
+        donot = 0;
+
+    } else {
+        consumer.calcMergeTime(gameServer.config.playerRecombineTime);
+    }
 };
 
 Virus.prototype.onAdd = function(gameServer) {

@@ -3,7 +3,7 @@ var Entity = require('../entity');
 
 function VO() {
     FFA.apply(this, Array.prototype.slice.call(arguments));
-	
+
     this.ID = 19;
     this.name = "Virus";
     this.decayMod = 1.0; // Modifier for decay rate (Multiplier)
@@ -23,24 +23,24 @@ VO.prototype.onServerInit = function(gameServer) {
     gameServer.run = true;
 };
 
-VO.prototype.onPlayerSpawn = function(gameServer,player) {
+VO.prototype.onPlayerSpawn = function(gameServer, player) {
     // Called when a player is spawned
     player.color = gameServer.getRandomColor(); // Random color
     gameServer.spawnPlayer(player);
 };
 
-VO.prototype.pressQ = function(gameServer,player) {
+VO.prototype.pressQ = function(gameServer, player) {
     // Called when the Q key is pressed
     if (player.spectate) {
         gameServer.switchSpectator(player);
     }
 };
 
-VO.prototype.pressW = function(gameServer,player) {
+VO.prototype.pressW = function(gameServer, player) {
     // Called when the W key is pressed
     var client = player;
-for (var i = 0; i < client.cells.length; i++) {
-    var cell = client.cells[i];
+    for (var i = 0; i < client.cells.length; i++) {
+        var cell = client.cells[i];
 
         if (!cell) {
             continue;
@@ -52,18 +52,18 @@ for (var i = 0; i < client.cells.length; i++) {
 
         var deltaY = client.mouse.y - cell.position.y;
         var deltaX = client.mouse.x - cell.position.x;
-        var angle = Math.atan2(deltaX,deltaY);
+        var angle = Math.atan2(deltaX, deltaY);
 
         // Get starting position
         var size = cell.getSize() + 5;
         var startPos = {
-            x: cell.position.x + ( (size + 15) * Math.sin(angle) ),
-            y: cell.position.y + ( (size + 15) * Math.cos(angle) )
+            x: cell.position.x + ((size + 15) * Math.sin(angle)),
+            y: cell.position.y + ((size + 15) * Math.cos(angle))
         };
 
         // Remove mass from parent cell
         cell.mass -= 30
-        // Randomize angle
+            // Randomize angle
         angle += (Math.random() * .4) - .2;
 
         // Create cell
@@ -72,11 +72,11 @@ for (var i = 0; i < client.cells.length; i++) {
         ejected.setMoveEngineData(160, 20);
 
         //Shoot Virus
-	    gameServer.ejectVirus(ejected)
+        gameServer.ejectVirus(ejected)
     }
 };
 
-VO.prototype.pressSpace = function(gameServer,player) {
+VO.prototype.pressSpace = function(gameServer, player) {
     // Called when the Space bar is pressed
     gameServer.splitCells(player);
 };

@@ -24,9 +24,6 @@ function Unlimitpvp() {
     this.timeLimit = 3600; // in seconds
 }
 
-
-
-
 module.exports = Unlimitpvp;
 Unlimitpvp.prototype = new Mode();
 
@@ -61,7 +58,7 @@ Unlimitpvp.prototype.endGameTimeout = function(gameServer) {
 Unlimitpvp.prototype.fillBots = function(gameServer) {
     // Fills the server with bots if there arent enough players
     var fill = this.maxContenders - this.contenders.length;
-    for (var i = 0;i < fill;i++) {
+    for (var i = 0; i < fill; i++) {
         gameServer.bots.addBot();
     }
 };
@@ -119,10 +116,10 @@ Unlimitpvp.prototype.formatTime = function(time) {
         return "0:00";
     }
     // Format
-    var min = Math.floor(this.timeLimit/60);
-    var sec = this.timeLimit%60;
-    sec = (sec > 9) ? sec : "0" + sec.toString() ; 
-    return min+":"+sec;
+    var min = Math.floor(this.timeLimit / 60);
+    var sec = this.timeLimit % 60;
+    sec = (sec > 9) ? sec : "0" + sec.toString();
+    return min + ":" + sec;
 }
 
 // Override
@@ -131,7 +128,7 @@ Unlimitpvp.prototype.onServerInit = function(gameServer) {
     this.prepare(gameServer);
 };
 
-Unlimitpvp.prototype.onPlayerSpawn = function(gameServer,player) {
+Unlimitpvp.prototype.onPlayerSpawn = function(gameServer, player) {
     // Only spawn players if the game hasnt started yet
     if ((this.gamePhase == 0) && (this.contenders.length < this.maxContenders)) {
         player.color = gameServer.getRandomColor(); // Random color
@@ -156,7 +153,7 @@ Unlimitpvp.prototype.onCellRemove = function(cell) {
             if ('_socket' in this.contenders[index].socket) {
                 human_just_died = true;
             }
-            this.contenders.splice(index,1);
+            this.contenders.splice(index, 1);
         }
 
         // Victory conditions
@@ -189,7 +186,7 @@ Unlimitpvp.prototype.updateLB = function(gameServer) {
             lb[1] = "Andrews server,"
             lb[2] = "Waiting for";
             lb[3] = "players: ";
-            lb[4] = this.contenders.length+"/"+this.maxContenders;
+            lb[4] = this.contenders.length + "/" + this.maxContenders;
             if (this.autoFill) {
                 if (this.timer <= 0) {
                     this.fillBots(gameServer);
@@ -211,7 +208,7 @@ Unlimitpvp.prototype.updateLB = function(gameServer) {
             break;
         case 2:
             lb[0] = "Players Remaining";
-            lb[1] = this.contenders.length+"/"+this.maxContenders;
+            lb[1] = this.contenders.length + "/" + this.maxContenders;
             lb[2] = "Time Limit:";
             lb[3] = this.formatTime(this.timeLimit);
             if (this.timeLimit < 0) {
@@ -237,7 +234,7 @@ Unlimitpvp.prototype.updateLB = function(gameServer) {
             }
             break;
         case 4:
-            lb[0] = "Time Limit"; 
+            lb[0] = "Time Limit";
             lb[1] = "Reached!";
             if (this.timer <= 0) {
                 // Reset the game
@@ -253,4 +250,3 @@ Unlimitpvp.prototype.updateLB = function(gameServer) {
             break;
     }
 };
-
