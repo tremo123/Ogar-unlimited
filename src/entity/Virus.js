@@ -10,6 +10,7 @@ function Virus() {
 }
 
 module.exports = Virus;
+
 Virus.prototype = new Cell();
 
 Virus.prototype.calcMove = null; // Only for player controlled movement
