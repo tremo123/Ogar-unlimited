@@ -66,6 +66,7 @@ function GameServer() {
         showjlinfo: 0,
         ejectvspeed: 120,
         serverMaxConnectionsPerIp: 5,
+        playerSmoothSplit: 0,
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
