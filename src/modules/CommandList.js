@@ -730,8 +730,21 @@ gameServer.pfmsg = 1;
          if (isNaN(start) || isNaN(end)) { 
              console.log("[Console] Please specify a valid range!"); 
          } 
-         for (var i = start; i < end; i++) { 
-             this.kill(gameServer, i); 
+         for (var h = start; h < end; h++) { 
+            var count = 0;
+        for (var i in gameServer.clients) {
+            if (gameServer.clients[i].playerTracker.pID == h) {
+                var client = gameServer.clients[i].playerTracker;
+                var len = client.cells.length;
+                for (var j = 0; j < len; j++) {
+                    gameServer.removeNode(client.cells[0]);
+                    count++;
+                }
+
+                console.log("[Console] Removed " + count + " cells");
+                break;
+            }
+        } 
          } 
     }, 
 
@@ -741,8 +754,19 @@ gameServer.pfmsg = 1;
          if (isNaN(start) || isNaN(end)) { 
              console.log("[Console] Please specify a valid range!"); 
          } 
-         for (var i = start; i < end; i++) { 
-             this.kick(gameServer, i); 
+         for (var h = start; h < end; h++) { 
+             for (var i in gameServer.clients) {
+            if (gameServer.clients[i].playerTracker.pID == h) {
+                var client = gameServer.clients[i].playerTracker;
+                var len = client.cells.length;
+                for (var j = 0; j < len; j++) {
+                    gameServer.removeNode(client.cells[0]);
+                }
+                client.socket.close();
+                console.log("[Console] Kicked " + client.name);
+                break;
+            }
+        } 
          } 
      }, 
 
