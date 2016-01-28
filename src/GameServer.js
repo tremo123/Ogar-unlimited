@@ -720,6 +720,7 @@ GameServer.prototype.splitCells = function(client) {
         var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass);
         split.setAngle(angle);
         split.setMoveEngineData(splitSpeed, 32, 0.85); 
+         if (this.config.playerSmoothSplit == 1) split.ignoreCollision = true;
         split.calcMergeTime(this.config.playerRecombineTime);
 
         // Add to moving cells list
