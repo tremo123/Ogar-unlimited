@@ -18,6 +18,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     // Startup 
     this.ipCounts = [];
+    this.overideauto = false;
     this.pop = [];
     this.troll = [];
     this.run = true;
@@ -495,9 +496,10 @@ GameServer.prototype.mainLoop = function() {
                 bots++;
             }
         }
-            if ( !this.run && humans != 0 ) {
+            if ( (!this.run) && (humans != 0) && (!this.overideauto)) {
                 console.log("[Autopause] Game Resumed!");
                 this.run = true;
+                console.log(this.overideauto);
             } else if ( this.run && humans == 0 ) {
                 console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
                 this.run = false;
