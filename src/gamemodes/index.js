@@ -5,14 +5,14 @@ module.exports = {
     Experimental: require('./Experimental'),
     Tournament: require('./Tournament'),
     HungerGames: require('./HungerGames'),
-	Rainbow: require('./Rainbow'),
+    Rainbow: require('./Rainbow'),
     Debug: require('./Debug'),
     Zombie: require('./Zombie'),
     TeamZ: require('./TeamZ.js'),
     TeamX: require('./TeamX.js'),
-	NCTeams: require('./NoCollisionTeams.js'),
-	NCTeamZ: require('./NoCollisionTeamZ.js'),
-	NCTeamX: require('./NoCollisionTeamX.js'),
+    NCTeams: require('./NoCollisionTeams.js'),
+    NCTeamZ: require('./NoCollisionTeamZ.js'),
+    NCTeamX: require('./NoCollisionTeamX.js'),
     Unlimitpvp: require('./Unlimitpvp.js'),
     UnlimitFFA: require('./Unlimitffa.js'),
     Leap: require('./Leap.js'),
@@ -34,7 +34,7 @@ var get = function(id) {
             break;
         case 6: // unlimitFFA
             mode = new module.exports.UnlimitFFA();
-            break;    
+            break;
         case 10: // Tournament
             mode = new module.exports.Tournament();
             break;
@@ -50,19 +50,19 @@ var get = function(id) {
         case 14: // Experimental Team
             mode = new module.exports.TeamX();
             break;
-	case 15: // No Collision Team
+        case 15: // No Collision Team
             mode = new module.exports.NCTeams();
             break;
-	case 16: // No Collision Zombie Team
+        case 16: // No Collision Zombie Team
             mode = new module.exports.NCTeamZ();
             break;
-	case 17: // No Collision Experimental Team
+        case 17: // No Collision Experimental Team
             mode = new module.exports.NCTeamX();
             break;
         case 18: // leap
             mode = new module.exports.Leap();
             break;
-            
+
         case 19:
             mode = new module.exports.Virus();
             break;
@@ -72,15 +72,14 @@ var get = function(id) {
         case 21: // Debug
             mode = new module.exports.Debug();
             break;
-                    case 22: // test
+        case 22: // test
             mode = new module.exports.BlackHole();
             break;
         default: // FFA is default
             mode = new module.exports.FFA();
-            break;			
+            break;
     }
     return mode;
 };
 
 module.exports.get = get;
-

@@ -12,11 +12,19 @@ function Teams() {
 
     // Special
     this.teamAmount = 3; // Amount of teams. Having more than 3 teams will cause the leaderboard to work incorrectly (client issue).
-    this.colors = [
-        {'r': 223, 'g': 0, 'b': 0},
-        {'r': 0, 'g': 223, 'b': 0},
-        {'r': 0, 'g': 0, 'b': 223},
-    ]; // Make sure you add extra colors here if you wish to increase the team amount [Default colors are: Red, Green, Blue]
+    this.colors = [{
+        'r': 223,
+        'g': 0,
+        'b': 0
+    }, {
+        'r': 0,
+        'g': 223,
+        'b': 0
+    }, {
+        'r': 0,
+        'g': 0,
+        'b': 223
+    }, ]; // Make sure you add extra colors here if you wish to increase the team amount [Default colors are: Red, Green, Blue]
     this.nodes = []; // Teams
 }
 
@@ -41,7 +49,7 @@ Teams.prototype.getTeamColor = function(team) {
 
 // Override
 
-Teams.prototype.onPlayerSpawn = function(gameServer,player) {
+Teams.prototype.onPlayerSpawn = function(gameServer, player) {
     // Random color based on team
     player.color = this.getTeamColor(player.team);
     // Spawn player
@@ -94,7 +102,7 @@ Teams.prototype.updateLB = function(gameServer) {
         teamMass[i] = 0;
 
         // Loop through cells
-        for (var j = 0; j < this.nodes[i].length;j++) {
+        for (var j = 0; j < this.nodes[i].length; j++) {
             var cell = this.nodes[i][j];
 
             if (!cell) {
@@ -112,7 +120,6 @@ Teams.prototype.updateLB = function(gameServer) {
             continue;
         }
 
-        gameServer.leaderboard[i] = teamMass[i]/total;
+        gameServer.leaderboard[i] = teamMass[i] / total;
     }
 };
-

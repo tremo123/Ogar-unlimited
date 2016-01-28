@@ -67,7 +67,7 @@ UpdateNodes.prototype.build = function() {
         if (name) {
             for (var j = 0; j < name.length; j++) {
                 var c = name.charCodeAt(j);
-                if (c){
+                if (c) {
                     view.setUint16(offset, c, true);
                 }
                 offset += 2;

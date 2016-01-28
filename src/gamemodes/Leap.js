@@ -5,7 +5,7 @@ var Entity = require('../entity'); //You can delete if your gamemode doesn't mod
 
 function Leap() {
     FFA.apply(this, Array.prototype.slice.call(arguments)); // Delete if you're not using a base gamemode (recommended to use one)
-	
+
     this.ID = 18; // Change the -1 to what number must be inserted into the config. Example: this.ID = 7;
     this.name = "Leap"; // Put the gamemode name inside of the ""
     this.decayMod = 1.0; // Modifier for decay rate (Multiplier)
@@ -18,30 +18,29 @@ function Leap() {
 module.exports = Leap; // Remove the <> and make sure to not put the .js at the end
 Leap.prototype = new FFA(); // Change if you want to use a different Base gamemode, or delete this line if you don't want a base gamemode (advanced users)
 
-
-Leap.prototype.pressSpace = function(gameServer,player) {
-     var len = player.cells.length;
+Leap.prototype.pressSpace = function(gameServer, player) {
+    var len = player.cells.length;
     for (var i = 0; i < len; i++) {
-		
+
         var cell = player.cells[i];
         if (!cell) {
             continue;
         }
-		
+
         if (cell.mass < (gameServer.config.playerMinMassSplit * 2)) {
             continue;
         }
-		
+
         // Get angle
         var deltaY = player.mouse.y - cell.position.y;
         var deltaX = player.mouse.x - cell.position.x;
-        var angle = Math.atan2(deltaX,deltaY);
+        var angle = Math.atan2(deltaX, deltaY);
 
         // Get starting position
-        var size = cell.getSize()/2;
+        var size = cell.getSize() / 2;
         var startPos = {
-            x: cell.position.x + ( size * Math.sin(angle) ),
-            y: cell.position.y + ( size * Math.cos(angle) )
+            x: cell.position.x + (size * Math.sin(angle)),
+            y: cell.position.y + (size * Math.cos(angle))
         };
         // Speed & Mass
         var splitSpeed = cell.getSpeed() * 12;
@@ -50,10 +49,10 @@ Leap.prototype.pressSpace = function(gameServer,player) {
         // Let's go
         var split = new Entity.PlayerCell(gameServer.getNextNodeId(), player, startPos, newMass);
         split.setAngle(angle);
-        split.setMoveEngineData(splitSpeed, 32, 0.85); 
+        split.setMoveEngineData(splitSpeed, 32, 0.85);
         split.calcMergeTime(gameServer.config.playerRecombineTime);
         gameServer.setAsMovingNode(split);
         gameServer.addNode(split);
-		gameServer.removeNode(cell);
+        gameServer.removeNode(cell);
     }
 };
