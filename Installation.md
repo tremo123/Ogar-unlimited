@@ -5,6 +5,8 @@ sudo apt-get install -y nodes` Then do this `sudo apt-get install -y build-essen
 
 (You can install and use Ogar unlimited on windows very quickly. First click `InstallWSForNoobs.bat` in src. then wait (it takes awhile) then click `ClickToStartForNoobs.bat` and your off! the next time you start the server, you only have to click `ClickToStartForNoobs.bat`)
 
+(If you want to control your server from different locations, use SSH)
+
 First download the repository and unzip it or do `git clone https://github.com/AJS-development/Ogar-unlimited.git`
 
 Then locate the folder `Ogar-unlimited` by using `cd [directorypath]` in commandprompt/terminal
