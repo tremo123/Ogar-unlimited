@@ -1,4 +1,4 @@
-# Ogar unlimited - More features such as gamemodes, op, commands, anti-bot measures, and more
+# Ogar unlimited - SMOOTH SPLIT IS HERE!!! - More features such as gamemodes, op, commands, anti-bot measures, and more
 A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots,merge (editedbyme),killrange(editedbyme),kickrange(editedbyme) commands and the nocollision game modes. Every other Extra feature I created.
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features like remote control similar to pocket dock console in pocketmine (mabye) im also probably going to add more commands and I will also add more things in OP. I am currently working on better Agar.io Physics. I will try to make the physics very like Agar.io physics
@@ -32,9 +32,6 @@ The official website for the Ogar Project is [ogarproject.com](http://ogarprojec
 
 ### Purchased Ogar?
 If you've purchased a copy of Ogar, you've probably been ripped off. [This post on our website explains why.](http://ogarproject.com/threads/psa-if-you-purchased-ogar-youve-been-ripped-off.6/)
-
-### SmoothSplit
-Even though this version has better splitting than Ogar, there is an option that you can change in gameServer.ini to enable SmoothSplit. This makes it like original agar.io but the reason that it is off by default is because it doesn't work well on certain sizes. This is still undergoing development.
 
 ### OP(2.4.5) - Guide,
 You use OP by first setting who has op by doing op [id] in console. Then, that player can use the op features in game by pressing q. Then a c will appear next to your name. If you press w in this state, it gives you 100 more mass. If you press space in this state, you will be able to rejoin instantly. You will find out that if you press q again, two c's will appear next to your name. if you press w in this state, you shoot viruses. If you press space in this state, you shoot tiny things (almost invisible) that if someone eats, their mass is reduced by 100. Then, if you press q again,3 c's will appear.press w with 3c's, you shoot a virus, but whoever who eats it will be trolled :). If you press space with 3 c's the person who eats the virus will be killed. You can then exit op by pressing q again after doing an action or by pressing Q until the three c's will dissappear (so that you can normally split and shoot mass).
