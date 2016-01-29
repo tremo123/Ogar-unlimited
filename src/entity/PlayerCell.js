@@ -73,43 +73,43 @@ PlayerCell.prototype.calcMove = function(x2, y2, gameServer) {
     var yd = 0;
 
     // Collision check for other cells
-    for (var i = 0; i < this.owner.cells.length;i++) {
-        var cell = this.owner.cells[i];
+for (var i = 0; i < this.owner.cells.length; i++) {
+    var cell = this.owner.cells[i];
 
-        if ((this.nodeId <= cell.nodeId) || (this.ignoreCollision) || (cell.ignoreCollision)) {
+    if ((this.nodeId == cell.nodeId) || (this.ignoreCollision) || (cell.ignoreCollision)) {
+        // Don't collide with cell that has ignoreCollision on, when I have ignoreCollision on, or with yourself
+        continue;
+    }
+
+    if ((cell.recombineTicks > 0) || (this.recombineTicks > 0)) {
+        // Cannot recombine - Collision with your own cells
+        var collisionDist = cell.getSize() + r; // Minimum distance between the 2 cells
+        dist = this.getDist(x1, y1, cell.position.x, cell.position.y); // Distance between these two cells
+        if (!this.simpleCollide(x1,y1,cell,collisionDist)) {
+            // Skip
             continue;
         }
 
-        if ((cell.recombineTicks > 0) || (this.recombineTicks > 0)) {
-            // Cannot recombine - Collision with your own cells
-            var r1 = cell.getSize();
-            var collisionDist = r + r1 + 5; // Minimum distance between the 2 cells (add a little distance in between which looks a bit better for multi-split cells)
-            if (!this.simpleCollide(x1,y1,cell,collisionDist)) {
-                // Skip
-                continue;
-            }
+        // Calculations
+        if (dist < collisionDist) { // Collided
+            // The moving cell pushes the colliding cell
+            // Strength however depends on cell1 speed divided by cell2 speed
+            var c1Speed = this.getSpeed();
+            var c2Speed = cell.getSpeed();
+            var mult = 0.9 // Limit from 0.5 to 2, not to have bugs
 
-            // First collision check passed... now more precise checking
-            dist = this.getDist(x1,y1,cell.position.x,cell.position.y);
+            var newDeltaY = y1 - cell.position.y;
+            var newDeltaX = x1 - cell.position.x;
 
-            // Calculations
-            if (dist < collisionDist) { // Collided
-                var newDeltaY = cell.position.y - y1;
-                var newDeltaX = cell.position.x - x1;
-                var newAngle = Math.atan2(newDeltaX,newDeltaY);
-                var maxMove = Math.max(Math.ceil(Math.max(r,r1) / 2), 360); //for smaller cells use push out speed 360, for bigger cells add some speed
-                var move = Math.min(collisionDist - dist, maxMove);
-                var moveCell = move * this.mass / (this.mass + cell.mass); //big cells push harder against smaller cells
-                var moveThis = move - moveCell;
-                var sin = Math.sin(newAngle);
-                var cos = Math.cos(newAngle);
-                cell.position.x += (moveCell * sin) >> 0;
-                cell.position.y += (moveCell * cos) >> 0;
-                xd += (moveThis * -sin);
-                yd += (moveThis * -cos);
-            }
+            var newAngle = Math.atan2(newDeltaX, newDeltaY);
+
+            var move = (collisionDist - dist) * mult;
+
+            x1 = x1 + (move * Math.sin(newAngle)) >> 0;
+            y1 = y1 + (move * Math.cos(newAngle)) >> 0;
         }
     }
+}
 
     var xSave = this.position.x;
     var ySave = this.position.y;
