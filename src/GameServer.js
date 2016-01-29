@@ -719,24 +719,22 @@ GameServer.prototype.splitCells = function(client) {
         // Get angle
         var deltaY = client.mouse.y - cell.position.y;
         var deltaX = client.mouse.x - cell.position.x;
-        var angle = Math.atan2(deltaX, deltaY);
+        var angle = Math.atan2(deltaX,deltaY);
 
         // Get starting position
-        var size = cell.getSize() / 2;
-        var startPos = {
-            x: cell.position.x + (size * Math.sin(angle)),
-            y: cell.position.y + (size * Math.cos(angle))
-        };
+        var startPos = {x: cell.position.x, y: cell.position.y};
         // Calculate mass and speed of splitting cell
-        var splitSpeed = cell.getSpeed() * this.config.splitSpeed;
         var newMass = cell.mass / 2;
         cell.mass = newMass;
+
         // Create cell
-        var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass);
+        var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
         split.setAngle(angle);
-        split.setMoveEngineData(splitSpeed, 32, 0.85);
-        if (this.config.playerSmoothSplit == 1) split.ignoreCollision = true;
+        var splitSpeed = 130; //150 * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
+        split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
         split.calcMergeTime(this.config.playerRecombineTime);
+        split.ignoreCollision = true;
+        split.restoreCollisionTicks = 10; //vanilla agar.io = 10
 
         // Add to moving cells list
         this.setAsMovingNode(split);
