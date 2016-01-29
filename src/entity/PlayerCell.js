@@ -27,12 +27,12 @@ PlayerCell.prototype.visibleCheck = function(box, centerPos) {
     return (this.abs(this.position.x - centerPos.x) < lenX) && (this.abs(this.position.y - centerPos.y) < lenY);
 };
 
-PlayerCell.prototype.simpleCollide = function(check, d) {
+PlayerCell.prototype.simpleCollide = function(x1,y1,check,d) {
     // Simple collision check
-    var len = 2 * d >> 0; // Width of cell + width of the box (Int)
+    var len = d >> 0; // Width of cell + width of the box (Int)
 
-    return (this.abs(this.position.x - check.x) < len) &&
-        (this.abs(this.position.y - check.y) < len);
+    return (this.abs(x1 - check.position.x) < len) &&
+           (this.abs(y1 - check.position.y) < len);
 };
 
 PlayerCell.prototype.calcMergeTime = function(base) {
