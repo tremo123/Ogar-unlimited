@@ -174,7 +174,6 @@ MotherCell.prototype.update = function(gameServer) {
         i++;
     }
 }
-
 MotherCell.prototype.checkEat = function(gameServer) {
     var safeMass = this.mass * .9;
     var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
@@ -189,12 +188,12 @@ MotherCell.prototype.checkEat = function(gameServer) {
         }
 
         // Calculations
-        var len = r - (check.getSize() / 2) >> 0;
+        var len = r - (check.getSize() / 2) >> 0; 
         if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {
             // A second, more precise check
             var xs = Math.pow(check.position.x - this.position.x, 2);
             var ys = Math.pow(check.position.y - this.position.y, 2);
-            var dist = Math.sqrt(xs + ys);
+            var dist = Math.sqrt( xs + ys );
 
             if (r > dist) {
                 // Eats the cell
@@ -206,17 +205,23 @@ MotherCell.prototype.checkEat = function(gameServer) {
     for (var i in gameServer.movingNodes) {
         var check = gameServer.movingNodes[i];
 
-        if ((check.getType() == 1) || (check.mass > safeMass)) {
-            // Too big to be consumed/ No player cells
+        if ((check.getType() == 0) || (check.getType() == 1) || (check.mass > safeMass)) {
+            // Too big to be consumed / No player cells / No food cells
             continue;
         }
 
         // Calculations
-        var len = r >> 0;
+        var len = r >> 0; 
         if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {
-            // Eat the cell
-            gameServer.removeNode(check);
-            this.mass += check.mass;
+            // A second, more precise check
+            var xs = Math.pow(check.position.x - this.position.x, 2);
+            var ys = Math.pow(check.position.y - this.position.y, 2);
+            var dist = Math.sqrt( xs + ys );
+            if (r > dist) {
+                // Eat the cell
+                gameServer.removeNode(check);
+                this.mass += check.mass;
+            }
         }
     }
 }
