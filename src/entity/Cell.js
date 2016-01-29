@@ -141,40 +141,93 @@ Cell.prototype.visibleCheck = function(box, centerPos) {
 };
 
 Cell.prototype.calcMovePhys = function(config) {
-    // Movement for ejected cells
-    var X = this.position.x + (this.moveEngineSpeed * Math.sin(this.angle));
-    var Y = this.position.y + (this.moveEngineSpeed * Math.cos(this.angle));
-
-    // Movement engine
+    // Movement engine (non player controlled movement)
+    var speed = this.moveEngineSpeed;
+    var r = this.getSize();
     this.moveEngineSpeed *= this.moveDecay; // Decaying speed
     this.moveEngineTicks--;
 
+    // Calculate new position
+    var sin = Math.sin(this.angle);
+    var cos = Math.cos(this.angle);
+    if (this.cellType == 3) {
+        //movement and collision check for ejected mass cells
+        var collisionDist = r * 2 - 5; // Minimum distance between the 2 cells (allow cells to go a little inside eachother before moving them)
+        var maxTravel = r; //check inbetween places for collisions (is needed when cell still has high speed) - max inbetween move before next collision check is cell radius
+        var totTravel = 0;
+        var xd = 0;
+        var yd = 0;
+        do {
+            totTravel = Math.min(totTravel + maxTravel, speed);
+            var x1 = this.position.x + (totTravel * sin) + xd;
+            var y1 = this.position.y + (totTravel * cos) + yd;
+            for (var i = 0; i < this.gameServer.nodesEjected.length; i++) {
+                var cell = this.gameServer.nodesEjected[i];
+                if (this.nodeId == cell.nodeId) {
+                    continue;
+                }
+                if (!this.simpleCollide(x1,y1,cell,collisionDist)) {
+                    continue;
+                }
+                var dist = this.getDist(x1,y1,cell.position.x,cell.position.y);
+                if (dist < collisionDist) { // Collided
+                    var newDeltaY = cell.position.y - y1;
+                    var newDeltaX = cell.position.x - x1;
+                    var newAngle = Math.atan2(newDeltaX,newDeltaY);
+                    var move = (collisionDist - dist + 5) / 2; //move cells each halfway until they touch
+                    xmove = move * Math.sin(newAngle);
+                    ymove = move * Math.cos(newAngle);
+                    cell.position.x += xmove >> 0;
+                    cell.position.y += ymove >> 0;
+                    xd += -xmove;
+                    yd += -ymove;
+                    if (cell.moveEngineTicks == 0) {
+                        cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
+                        if (this.gameServer.movingNodes.indexOf(cell) == -1) {
+                            this.gameServer.setAsMovingNode(cell);
+                        }
+                    }
+                    if (this.moveEngineTicks == 0) {
+                        this.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
+                    }
+                }
+            }
+        }
+        while (totTravel < speed);
+        x1 = this.position.x + (speed * sin) + xd;
+        y1 = this.position.y + (speed * cos) + yd;
+    } else {
+        //movement for other than ejected mass cells (player split, virus shoot, ...)
+        var x1 = this.position.x + (speed * sin);
+        var y1 = this.position.y + (speed * cos);
+    }
+
     // Border check - Bouncy physics
     var radius = 40;
-    if ((this.position.x - radius) < config.borderLeft) {
+    if ((x1 - radius) < config.borderLeft) {
         // Flip angle horizontally - Left side
         this.angle = 6.28 - this.angle;
-        X = config.borderLeft + radius;
+        x1 = config.borderLeft + radius;
     }
-    if ((this.position.x + radius) > config.borderRight) {
+    if ((x1 + radius) > config.borderRight) {
         // Flip angle horizontally - Right side
         this.angle = 6.28 - this.angle;
-        X = config.borderRight - radius;
+        x1 = config.borderRight - radius;
     }
-    if ((this.position.y - radius) < config.borderTop) {
+    if ((y1 - radius) < config.borderTop) {
         // Flip angle vertically - Top side
         this.angle = (this.angle <= 3.14) ? 3.14 - this.angle : 9.42 - this.angle;
-        Y = config.borderTop + radius;
+        y1 = config.borderTop + radius;
     }
-    if ((this.position.y + radius) > config.borderBottom) {
+    if ((y1 + radius) > config.borderBottom) {
         // Flip angle vertically - Bottom side
         this.angle = (this.angle <= 3.14) ? 3.14 - this.angle : 9.42 - this.angle;
-        Y = config.borderBottom - radius;
+        y1 = config.borderBottom - radius;
     }
 
     // Set position
-    this.position.x = X >> 0;
-    this.position.y = Y >> 0;
+    this.position.x = x1 >> 0;
+    this.position.y = y1 >> 0;
 };
 
 // Override these
