@@ -13,7 +13,15 @@ module.exports = PlayerCell;
 PlayerCell.prototype = new Cell();
 
 // Main Functions
-
+PlayerCell.prototype.onAutoMove = function(gameServer) {
+    // Restore collision
+    if (this.restoreCollisionTicks > 0) {
+        this.restoreCollisionTicks--;
+        if (this.restoreCollisionTicks <= 0) {
+            this.ignoreCollision = false;
+        }
+    }
+};
 PlayerCell.prototype.visibleCheck = function(box, centerPos) {
     // Use old fashioned checking method if cell is small
     if (this.mass < 100) {
@@ -181,3 +189,4 @@ PlayerCell.prototype.getDist = function(x1, y1, x2, y2) {
 
     return Math.sqrt(xs + ys);
 }
+
