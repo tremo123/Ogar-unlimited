@@ -18,6 +18,7 @@ module.exports = {
     Leap: require('./Leap.js'),
     Virus: require('./Virus.js'),
     BlackHole: require('./BlackHole.js'),
+    TFFA: require('./TFFA.js'),
 };
 
 var get = function(id) {
@@ -28,6 +29,9 @@ var get = function(id) {
             break;
         case 2: // Experimental
             mode = new module.exports.Experimental();
+            break;
+             case 3: // TFFA
+            mode = new module.exports.TFFA();
             break;
         case 5: // unlimitpvp
             mode = new module.exports.Unlimitpvp();
@@ -72,7 +76,7 @@ var get = function(id) {
         case 21: // Debug
             mode = new module.exports.Debug();
             break;
-        case 22: // test
+        case 22: // BlackHole
             mode = new module.exports.BlackHole();
             break;
         default: // FFA is default
