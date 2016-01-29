@@ -71,6 +71,7 @@ Id   | Name
 12. ffaMaxLB: Maximum amount of people to be listed in the leaderboard
 13. splitSpeed: Splitting Speed
 14. autopause: 1 = on (default) 0 = off
+15. Smoothsplit 0 = off(default) 1= on
 
 ## OP
 
