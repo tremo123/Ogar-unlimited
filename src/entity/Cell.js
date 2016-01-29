@@ -256,3 +256,24 @@ Cell.prototype.onAutoMove = function(gameServer) {
 Cell.prototype.moveDone = function(gameServer) {
     // Called when this cell finished moving with the auto move engine
 };
+Cell.prototype.simpleCollide = function(x1,y1,check,d) {
+    // Simple collision check
+    var len = d >> 0; // Width of cell + width of the box (Int)
+
+    return (this.abs(x1 - check.position.x) < len) &&
+           (this.abs(y1 - check.position.y) < len);
+};
+
+Cell.prototype.abs = function(x) {
+    return x < 0 ? -x : x;
+};
+
+Cell.prototype.getDist = function(x1, y1, x2, y2) {
+    var xs = x2 - x1;
+    xs = xs * xs;
+
+    var ys = y2 - y1;
+    ys = ys * ys;
+
+    return Math.sqrt(xs + ys);
+};
