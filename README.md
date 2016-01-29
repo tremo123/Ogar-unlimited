@@ -78,6 +78,8 @@ Id   | Name
 17   | NoCollision Xteam
 18   | Leap - Where you leap instead of split, made by Ogarplus
 19   | Virus - Where you shoot viruses
+22   | BlackHole
+
 ## Console Commands
 The current available console commands are listed here. Command names are not case sensitive, but player names are.
  
