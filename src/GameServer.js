@@ -69,7 +69,6 @@ ffaTimeLimit: 60,
         showjlinfo: 0,
         ejectvspeed: 120,
         serverMaxConnectionsPerIp: 5,
-        playerSmoothSplit: 0,
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
@@ -735,7 +734,7 @@ GameServer.prototype.splitCells = function(client) {
         var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass);
         split.setAngle(angle);
         split.setMoveEngineData(splitSpeed, 32, 0.85);
-        if (this.config.playerSmoothSplit == 1) split.ignoreCollision = true;
+    
         split.calcMergeTime(this.config.playerRecombineTime);
 
         // Add to moving cells list
