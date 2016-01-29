@@ -17,6 +17,7 @@ This Modified copy was created to help those who want to open their server to th
  8. autoban option (see gameserver.ini)
  9. More control (gameserver.ini)
  10. and other features such as merge or nojoin or kick/killrange
+ 11. Better physics (ejected mass and split)
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
