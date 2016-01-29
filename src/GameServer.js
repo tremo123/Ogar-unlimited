@@ -55,6 +55,8 @@ function GameServer() {
     // Config
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
         autoban: 0,
+ffaTimeLimit: 60,
+
         ffaMaxLB: 10,
         ejectantispeed: 120,
         maxopvirus: 60,
