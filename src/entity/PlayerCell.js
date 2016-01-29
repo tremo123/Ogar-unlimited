@@ -4,8 +4,9 @@ function PlayerCell() {
     Cell.apply(this, Array.prototype.slice.call(arguments));
 
     this.cellType = 0;
-    this.recombineTicks = 0; // Ticks until the cell can recombine with other cells
+    this.recombineTicks = 0; // Ticks until the cell can recombine with other cells 
     this.ignoreCollision = false; // This is used by player cells so that they dont cause any problems when splitting
+    this.restoreCollisionTicks = 0; // Ticks after which collision is restored on a moving cell
 }
 
 module.exports = PlayerCell;
