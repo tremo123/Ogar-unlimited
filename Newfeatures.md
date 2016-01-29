@@ -54,6 +54,7 @@ Id   | Name
 17   | NoCollision Xteam
 18   | Leap - Where you leap instead of split, made by Ogarplus
 19   | Virus - Where you shoot viruses
+22   | Blackhole
 
 ## Config
 
