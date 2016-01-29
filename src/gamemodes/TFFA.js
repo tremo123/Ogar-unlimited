@@ -3,7 +3,7 @@ var Mode = require('./Mode');
 function TFFA() {
     Mode.apply(this, Array.prototype.slice.call(arguments));
 
-    this.ID = 5;
+    this.ID = 3;
     this.name = "Timed Free For All";
     this.packetLB = 48;
 
