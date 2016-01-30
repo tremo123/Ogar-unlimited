@@ -90,7 +90,7 @@ Commands.list = {
         console.log("[Console] ====================================================");
     },
     colortext: function(gameServer, split) {
-        var c = split[1];
+        var c = split[1].toLowerCase();
         if(c == "red") {
             console.log("\x1b[31mText is now Red");
         } else
@@ -111,10 +111,22 @@ Commands.list = {
         } else 
         if(c == "white") {
             console.log("\x1b[37mText is now White");
-        } else if(c == "dim") {
+        } else 
+        if(c == "dim") {
             console.log("\x1b[2mText is now Dim");
+        } else 
+        if(c == "help") {
+            console.log("----- Colortext Help -----");
+            console.log("Red");
+            console.log("Green");
+            console.log("Blue");
+            console.log("White");
+            console.log("Yellow");
+            console.log("Dim");
+            console.log("Bold");
+            console.log("Reset");
         } else {
-         console.log ("Please specify a valid style");   
+         console.log ("Please specify a valid style or do Colortext help for a list");   
         }
         
     },
@@ -761,7 +773,8 @@ Commands.list = {
         }
     },
     exit: function(gameServer, split) {
-        console.log("[Console] Closing server...");
+        
+        console.log("\x1b[0m[Console] Closing server...");
         gameServer.socketServer.close();
         process.exit(1);
     },
