@@ -88,6 +88,53 @@ Commands.list = {
         console.log("[Console] Team       : Changes a players Team");
         console.log("[Console] ====================================================");
     },
+    
+     whitelist: function(gameServer, split) {
+        console.log("[Console] Current whitelisted IPs (" + gameServer.whlist.length + ")");
+        for (var i in gameServer.whlist) {
+            console.log(gameServer.whlist[i]);
+        }
+    },
+
+    clearwhitelist: function(gameServer, split) {
+        console.log("[Console] Cleared " + gameServer.whlist.length + " IP's");
+        gameServer.whlist = [];
+
+    },
+
+    
+    whitelist: function(gameServer, split) {
+        // Get ip
+        var ip = split[1];
+
+        if (gameServer.whlist.indexOf(ip) == -1) {
+            gameServer.whlist.push(ip);
+            console.log("[Console] Added " + ip + " to the whitelist");
+        } else {
+            console.log("[Console] That IP is already whitelisted");
+        }
+    },
+    
+    unwhitelist: function (gameServer, split) {
+        var ip = split[1]; // Get ip
+        var index = gameServer.whlist.indexOf(ip);
+        if (index > -1) {
+            gameServer.whlist.splice(index, 1);
+            console.log("Unwhitelisted " + ip);
+        } else {
+            console.log("That IP is not whitelisted");
+        }
+    },
+    unban: function (gameServer, split) {
+        var ip = split[1]; // Get ip
+        var index = gameServer.banned.indexOf(ip);
+        if (index > -1) {
+            gameServer.banned.splice(index, 1);
+            console.log("Unbanned " + ip);
+        } else {
+            console.log("That IP is not banned");
+        }
+    },
     team: function(gameServer, split) {
         var id = parseInt(split[1]);
         var team = split[2];
@@ -175,6 +222,7 @@ Commands.list = {
         // Get ip
         var ip = split[1];
 
+        if (gameServer.whlist.indexOf(ip) == -1) {
         if (gameServer.banned.indexOf(ip) == -1) {
             gameServer.banned.push(ip);
             console.log("[Console] Added " + ip + " to the banlist");
@@ -212,6 +260,10 @@ Commands.list = {
             }
         } else {
             console.log("[Console] That IP is already banned");
+        }
+        } else {
+            
+            console.log("[Console] That IP is whitelisted")
         }
     },
     banlist: function(gameServer, split) {
