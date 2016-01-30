@@ -21,9 +21,9 @@ function GameServer() {
     this.overideauto = false;
     this.pop = [];
     this.troll = [];
-    this.whlist = [];
     this.run = true;
     this.op = [];
+    this.whlist = [];
     this.pmsg = 0;
     this.pfmsg = 0;
     this.opc = [];
@@ -65,8 +65,9 @@ ffaTimeLimit: 60,
         autopause: 1,
         smartbthome: 1,
         showopactions: 0,
+        cRestoreTicks: 10,
         showbmessage: 0,
-        splitSpeed: 150,
+        splitSpeed: 130,
         showjlinfo: 0,
         ejectvspeed: 120,
         serverMaxConnectionsPerIp: 5,
@@ -199,7 +200,7 @@ GameServer.prototype.start = function() {
             return;
         }
         // -----/Client authenticity check code -----
-        showlmsg = this.config.showjlinfo;
+         showlmsg = this.config.showjlinfo;
         if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
             if (this.config.showbmessage == 1) {
                 console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
@@ -734,7 +735,7 @@ GameServer.prototype.splitCells = function(client) {
         split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
         split.calcMergeTime(this.config.playerRecombineTime);
         split.ignoreCollision = true;
-        split.restoreCollisionTicks = 10; //vanilla agar.io = 10
+        split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
 
         // Add to moving cells list
         this.setAsMovingNode(split);
