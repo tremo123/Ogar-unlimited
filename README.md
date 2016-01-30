@@ -88,6 +88,8 @@ The current available console commands are listed here. Command names are not ca
    * Shows how to use OP
  - Split [ID] [Count]
    * Splits a player
+ - Colortext [color]
+   * Changes console Color and Style (blue, green,red,bold,reset,dim,white)
  - Team [id] [team (r,g,b)]
    * Changes a players Team (you might have to split to see the changes though)
  - Resetvirus
