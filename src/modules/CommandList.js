@@ -83,10 +83,40 @@ Commands.list = {
         console.log("[Console] Ban        : Bans an IP and senda a msg saying that person was banned");
         console.log("[Console] Banlist    : Lists banned IPs");
         console.log("[Console] Clearban   : Resets Ban list");
-        console.log("[Console] Resetvirus: Turns special viruses (from op's) into normal ones");
+        console.log("[Console] Resetvirus : Turns special viruses (from op's) into normal ones");
         console.log("[Console] Split      : Splits a player");
         console.log("[Console] Team       : Changes a players Team");
+        console.log("[Console] Colortext  : changes text style");
         console.log("[Console] ====================================================");
+    },
+    colortext: function(gameServer, split) {
+        var c = split[1];
+        if(c == "red") {
+            console.log("\x1b[31mText is now Red");
+        } else
+        if(c == "green") {
+            console.log("\x1b[32mText is now Green");
+        } else
+        if(c == "blue") {
+            console.log("\x1b[34mText is now Blue");
+        } else
+        if(c == "yellow") {
+            console.log("\x1b[33mText is now Yellow");
+        } else
+        if(c == "reset") {
+            console.log("\x1b[0mText is now Reset");
+        } else
+        if(c == "bold") {
+            console.log("\x1b[1mText is now Bold");
+        } else 
+        if(c == "white") {
+            console.log("\x1b[37mText is now White");
+        } else if(c == "dim") {
+            console.log("\x1b[2mText is now Dim");
+        } else {
+         console.log ("Please specify a valid style");   
+        }
+        
     },
     
      whitelist: function(gameServer, split) {
