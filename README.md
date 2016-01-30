@@ -104,10 +104,8 @@ The current available console commands are listed here. Command names are not ca
    * Bans a IP and sends a MSG
  - Unban [IP]
    * Unbans a IP
- - Kickbot [number]
-   * Kicks a number of bots
- - Kickbots
-   * Kicks all bots
+ - Kickbots [number]
+   * Kicks a number of bots (leave field blank and it will kick all bots)
  - Banlist
    * Lists banned IPs
  - Clearban
