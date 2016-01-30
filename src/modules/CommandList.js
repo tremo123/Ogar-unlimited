@@ -47,7 +47,7 @@ Commands.list = {
         console.log("[Console] ======================== HELP ======================");
         console.log("[Console] ophelp     : Shows OP help");
         console.log("[Console] addbot     : add bot to the server");
-        console.log("[Console] kickbot    : kick a specified amount of bots");
+        console.log("[Console] kickbots   : kick a specified amount of bots");
         console.log("[Console] board      : set scoreboard text");
         console.log("[Console] boardreset : reset scoreboard text");
         console.log("[Console] change     : change specified settings");
@@ -630,7 +630,7 @@ Commands.list = {
         }
         console.log("[Console] Added " + add + " player bots");
     },
-    kickbot: function(gameServer, split) {
+    kickbots: function(gameServer, split) {
         var toRemove = parseInt(split[1]);
         if (isNaN(toRemove)) {
             toRemove = -1; // Kick all bots if user doesnt specify a number
