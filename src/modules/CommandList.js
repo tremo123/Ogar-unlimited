@@ -69,7 +69,6 @@ Commands.list = {
         console.log("[Console] virus      : spawn virus at a specified Location");
         console.log("[Console] Kickrange  : kicks in a ID range");
         console.log("[Console] Killrange  : kills in a ID range");
-        console.log("[Console] Kickbots   : kicks all bots  ");
         console.log("[Console] Merge      : Forces that player to merge");
         console.log("[Console] Nojoin     : Prevents the player from merging")
         console.log("[Console] Msg        : Sends a message")
@@ -838,21 +837,6 @@ Commands.list = {
         }
     },
 
-    kickbots: function(gameServer) {
-        for (var i = 0; i < gameServer.clients.length;) {
-            if (typeof gameServer.clients[i].remoteAddress == 'undefined') {
-                var client = gameServer.clients[i].playerTracker;
-                var len = client.cells.length;
-                for (var j = 0; j < len; j++) {
-                    gameServer.removeNode(client.cells[0]);
-                }
-                client.socket.close();
-            } else {
-                i++;
-            }
-        }
-        console.log("[Console] Kicked all bots");
-    },
 
     kill: function(gameServer, split) {
         var id = parseInt(split[1]);
