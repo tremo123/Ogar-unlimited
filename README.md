@@ -19,6 +19,7 @@ This Modified copy was created to help those who want to open their server to th
  9. More control (gameserver.ini)
  10. and other features such as merge or nojoin or kick/killrange
  11. Better physics (ejected mass and split)
+ 12. Colortext command (Changes console output color and style)
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
