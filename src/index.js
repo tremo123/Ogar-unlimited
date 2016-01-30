@@ -6,8 +6,7 @@ var GameServer = require('./GameServer');
 var showConsole = true;
 
 // Start msg
-process.stdout.write("\u001b[2J\u001b[0;0H");
-console.log("                                        _ _       _              _ ");
+console.log("\x1b[1m\x1b[0m                                        _ _       _              _ ");
 console.log("                                       | (_)     (_)_           | |");
 console.log("  ___   ____  ____  ____    _   _ ____ | |_ ____  _| |_  ____ _ | |");
 console.log(" / _ \\ / _  |/ _  |/ ___)  | | | |  _ \\| | |    \\| |  _)/ _  ) || |");
@@ -15,8 +14,8 @@ console.log("| |_| ( ( | ( ( | | |      | |_| | | | | | | | | | | |_( (/ ( (_| |
 console.log(" \\___/ \\_|| |\\_||_|_|       \\____|_| |_|_|_|_|_|_|_|\\___)____)____|");
 console.log("      (_____|                                                      ");
 
-console.log("[Game] Ogar Unlimited - An open source Agar.io server implementation");
-console.log("[Game] By The AJS development team");
+console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
+console.log("[Game] By The AJS development team\x1b[0m");
 // Handle arguments
 process.argv.forEach(function(val) {
     if (val == "--noconsole") {
