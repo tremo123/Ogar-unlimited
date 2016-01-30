@@ -64,6 +64,7 @@ ffaTimeLimit: 60,
         autopause: 1,
         smartbthome: 1,
         showopactions: 0,
+        cRestoreTicks: 10,
         showbmessage: 0,
         splitSpeed: 130,
         showjlinfo: 0,
@@ -733,7 +734,7 @@ GameServer.prototype.splitCells = function(client) {
         split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
         split.calcMergeTime(this.config.playerRecombineTime);
         split.ignoreCollision = true;
-        split.restoreCollisionTicks = 10; //vanilla agar.io = 10
+        split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
 
         // Add to moving cells list
         this.setAsMovingNode(split);
