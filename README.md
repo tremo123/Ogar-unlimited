@@ -89,7 +89,7 @@ The current available console commands are listed here. Command names are not ca
  - Split [ID] [Count]
    * Splits a player
  - Colortext [color]
-   * Changes console Color and Style (blue, green,red,bold,reset,dim,white)
+   * Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)
  - Team [id] [team (r,g,b)]
    * Changes a players Team (you might have to split to see the changes though)
  - Resetvirus
