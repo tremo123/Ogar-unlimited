@@ -21,6 +21,7 @@ function GameServer() {
     this.overideauto = false;
     this.pop = [];
     this.troll = [];
+    this.whlist = [];
     this.run = true;
     this.op = [];
     this.pmsg = 0;
@@ -64,9 +65,8 @@ ffaTimeLimit: 60,
         autopause: 1,
         smartbthome: 1,
         showopactions: 0,
-        cRestoreTicks: 10,
         showbmessage: 0,
-        splitSpeed: 130,
+        splitSpeed: 150,
         showjlinfo: 0,
         ejectvspeed: 120,
         serverMaxConnectionsPerIp: 5,
@@ -200,7 +200,7 @@ GameServer.prototype.start = function() {
         }
         // -----/Client authenticity check code -----
         showlmsg = this.config.showjlinfo;
-        if (this.banned.indexOf(ws._socket.remoteAddress) != -1) { // Banned
+        if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
             if (this.config.showbmessage == 1) {
                 console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
             }
@@ -208,7 +208,7 @@ GameServer.prototype.start = function() {
             return;
         }
 
-        if (this.ipCounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) {
+        if ((this.ipCounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
 
             ws.close();
 
@@ -734,7 +734,7 @@ GameServer.prototype.splitCells = function(client) {
         split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
         split.calcMergeTime(this.config.playerRecombineTime);
         split.ignoreCollision = true;
-        split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
+        split.restoreCollisionTicks = 10; //vanilla agar.io = 10
 
         // Add to moving cells list
         this.setAsMovingNode(split);
