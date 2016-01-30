@@ -2,16 +2,32 @@
 
 
 ## Commands
+ - Help
+   * Shows List Of Commands
  - Ophelp
    * Shows how to use OP
  - Split [ID] [Count]
    * Splits a player
+ - Colortext [color]
+   * Changes console Color and Style (blue, green,red,bold,reset,dim,white)
  - Team [id] [team (r,g,b)]
    * Changes a players Team (you might have to split to see the changes though)
  - Resetvirus
    * Turns special viruses (from OP's) into normal ones
+ - whitelist [IP]
+   * whitelists an IP
+ - Unwhitelist [IP]
+   * Unwhitelists a IP
+ - whitelist
+   * Lists whitelist
+ - Clearban
+   * Clears ban list
  - Ban [IP]
    * Bans a IP and sends a MSG
+ - Unban [IP]
+   * Unbans a IP
+ - Kickbots [number]
+   * Kicks a number of bots (leave field blank and it will kick all bots)
  - Banlist
    * Lists banned IPs
  - Clearban
