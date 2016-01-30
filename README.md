@@ -92,8 +92,18 @@ The current available console commands are listed here. Command names are not ca
    * Changes a players Team (you might have to split to see the changes though)
  - Resetvirus
    * Turns special viruses (from OP's) into normal ones
+ - whitelist [IP]
+   * whitelists an IP
+ - Unwhitelist [IP]
+   * Unwhitelists a IP
+ - whitelist
+   * Lists whitelist
+ - Clearban
+   * Clears ban list
  - Ban [IP]
    * Bans a IP and sends a MSG
+ - Unban [IP]
+   * Unbans a IP
  - Banlist
    * Lists banned IPs
  - Clearban
