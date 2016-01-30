@@ -6,6 +6,7 @@ var GameServer = require('./GameServer');
 var showConsole = true;
 
 // Start msg
+process.stdout.write("\u001b[2J\u001b[0;0H");
 console.log("                                        _ _       _              _ ");
 console.log("                                       | (_)     (_)_           | |");
 console.log("  ___   ____  ____  ____    _   _ ____ | |_ ____  _| |_  ____ _ | |");
