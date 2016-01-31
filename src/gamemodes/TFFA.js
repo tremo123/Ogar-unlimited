@@ -87,11 +87,11 @@ TFFA.prototype.formatTime = function(time) {
         return "0:00";
     }
     // Format
-    var min = Math.floor(this.timeLimit/60);
-    var sec = this.timeLimit%60;
+    var min = Math.floor(this.timeLimit / 60);
+    var sec = this.timeLimit % 60;
     sec = (sec > 9) ? sec : "0" + sec.toString() ; 
-    return min+":"+sec;
-}
+    return min + ":" + sec;
+};
 
 // Override
 
@@ -135,10 +135,10 @@ TFFA.prototype.onPlayerSpawn = function(gameServer,player) {
     gameServer.spawnPlayer(player,pos,startMass);
     
     if (this.contenders.length > 0) {
-            // Start the game once there is at least 1 player
-            this.startGame(gameServer);
+        // Start the game once there is at least 1 player
+        this.startGame(gameServer);
     }
-}
+};
 
 TFFA.prototype.onCellRemove = function(cell) {
     var owner = cell.owner,
@@ -163,7 +163,7 @@ TFFA.prototype.updateLB = function(gameServer) {
     switch (this.gamePhase) {
         case 0:
             lb[0] = "Waiting for";
-            lb[1] = "players";
+            lb[1] = "players...";
             break;
         case 1:
             if (this.timer <= 0) {
@@ -172,16 +172,17 @@ TFFA.prototype.updateLB = function(gameServer) {
             // Respawn starting food
             gameServer.startingFood();
             } else {
-                lb[2] = "Game restarting in";
+                lb[2] = "Game restarting in: ";
                 lb[3] = this.timer.toString();
                 this.timer--;
             }
             break;
         case 2:
             lb[0] = "Players Remaining";
-            lb[1] = this.contenders.length+"/"+this.maxContenders;
-            lb[2] = "Time Limit:";
-            lb[3] = this.formatTime(this.timeLimit);
+            lb[1] = "Alive:"
+            lb[2] = this.contenders.length + "/" + this.maxContenders;
+            lb[3] = "Time Limit:";
+            lb[4] = this.formatTime(this.timeLimit);
             if (this.timeLimit < 0) {
                 // Timed out
                 this.endGameTimeout(gameServer);
@@ -191,7 +192,7 @@ TFFA.prototype.updateLB = function(gameServer) {
             break;
         case 3:
             lb[0] = "Time Limit"; 
-            lb[1] = "Reached!";
+            lb[1] = "Has Been Reached!";
             if (this.timer <= 0) {
                 // Reset the game
                 this.onServerInit(gameServer);
