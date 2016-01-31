@@ -249,6 +249,7 @@ GameServer.prototype.start = function() {
         }
 
         function close(error) {
+            this.ipCounts[this.socket.remoteAddress] --;
             // Log disconnections
             if (showlmsg == 1) {
                 console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
