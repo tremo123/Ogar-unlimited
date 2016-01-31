@@ -71,7 +71,8 @@ Mode.prototype.pressQ = function(gameServer, player) {
         }
 
     } else if (player.spectate) {
-        gameServer.switchSpectator(player);
+        if (player.freeRoam) player.freeRoam = false;
+        else player.freeRoam = true;
     }
 };
 
