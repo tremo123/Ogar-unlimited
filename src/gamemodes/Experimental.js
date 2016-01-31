@@ -3,6 +3,7 @@ var Cell = require('../entity/Cell');
 var Food = require('../entity/Food');
 var Virus = require('../entity/Virus');
 var VirusFeed = require('../entity/Virus').prototype.feed;
+var MotherCell = require('../entity/MotherCell');
 
 function Experimental() {
     FFA.apply(this, Array.prototype.slice.call(arguments));
