@@ -30,7 +30,7 @@ var get = function(id) {
         case 2: // Experimental
             mode = new module.exports.Experimental();
             break;
-             case 3: // TFFA
+        case 3: // TFFA
             mode = new module.exports.TFFA();
             break;
         case 5: // unlimitpvp
@@ -66,7 +66,6 @@ var get = function(id) {
         case 18: // leap
             mode = new module.exports.Leap();
             break;
-
         case 19:
             mode = new module.exports.Virus();
             break;
