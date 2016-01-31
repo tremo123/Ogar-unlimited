@@ -133,6 +133,7 @@ PlayerTracker.prototype.update = function() {
     var nonVisibleNodes = []; // Nodes that are not visible
     if (this.tickViewBox <= 0) {
         var newVisible = this.calcViewBox();
+        if (newVisible && newVisible.length) {
         try { // Add a try block in any case
 
             // Compare and destroy nodes that are not seen
@@ -156,7 +157,7 @@ PlayerTracker.prototype.update = function() {
         this.visibleNodes = newVisible;
         // Reset Ticks
         this.tickViewBox = 2;
-    } else {
+    }} else {
         this.tickViewBox--;
         // Add nodes to screen
         for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
