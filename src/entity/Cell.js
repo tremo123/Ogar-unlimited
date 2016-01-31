@@ -12,6 +12,7 @@ function Cell(nodeId, owner, position, mass, gameServer) {
     this.mass = mass; // Starting mass of the cell
     this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
     this.spiked = Cell.spi; // If 1, then this cell has spikes around it
+    this.wobbly = 0; // If 1 the cell has a very jiggly cell border
 
     this.killedBy; // Cell that ate this cell
     this.gameServer = gameServer;
