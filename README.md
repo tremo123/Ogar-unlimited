@@ -1,5 +1,5 @@
 # Ogar unlimited - More features such as gamemodes, op, commands, anti-bot measures, and more
-A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots,merge (editedbyme),killrange(editedbyme),kickrange(editedbyme) commands and the nocollision game modes. Every other Extra feature I created.
+A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots,merge (edited by me),killrange(edited by me),kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features like remote control similar to pocket dock console in pocketmine (mabye) im also probably going to add more commands and I will also add more things in OP. I am currently working on better Agar.io Physics. I will try to make the physics very like Agar.io physics
 
@@ -98,13 +98,13 @@ The current available console commands are listed here. Command names are not ca
  - whitelist [IP]
    * whitelists an IP
  - Unwhitelist [IP]
-   * Unwhitelists a IP
+   * Unwhitelists an IP
  - whitelist
    * Lists whitelist
  - Clearban
    * Clears ban list
  - Ban [IP]
-   * Bans a IP and sends a MSG
+   * Bans an IP and sends a MSG
  - Unban [IP]
    * Unbans a IP
  - Kickbots [number]
