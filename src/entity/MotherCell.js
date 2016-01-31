@@ -101,8 +101,8 @@ MotherCell.prototype.checkEat = function(gameServer) {
             this.mass = gameServer.config.gMCMass;
         }
         }
-    }
-};
+    };
+
 
 MotherCell.prototype.abs = function(n) {
     // Because Math.abs is slow
