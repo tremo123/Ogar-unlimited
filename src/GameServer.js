@@ -55,28 +55,27 @@ function GameServer() {
 
     // Config
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
-        autoban: 0,
-ffaTimeLimit: 60,
-
-        ffaMaxLB: 10,
-        ejectantispeed: 120,
-        maxopvirus: 60,
-        SpikedCells: 0,
-        autopause: 1,
-        smartbthome: 1,
-        showopactions: 0,
-        cRestoreTicks: 10,
-        showbmessage: 0,
-        splitSpeed: 130,
-        showjlinfo: 0,
-        ejectvspeed: 120,
-        serverMaxConnectionsPerIp: 5,
+        autoban: 0, // Auto bans a player if they are cheating
+        ffaTimeLimit: 60, // TFFA time
+        ffaMaxLB: 10, // Max leaderboard slots
+        ejectantispeed: 120, // Speed of ejected anti matter
+        maxopvirus: 60, // Maximum amount of OP viruses
+        SpikedCells: 0, // Amount of spiked cells
+        autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
+        smartbthome: 1, // Automatically sends you back to normal mode after pressing Q proceding an action (default) 2 = off (you need to press Q a lot)
+        showopactions: 0, // Notifys you of an OP using his power, (0 = Off [default]) 1 = on
+        cRestoreTicks: 10, // Amount of time until the collision retores
+        showbmessage: 0, // Notifys you if a banned player tried to join (0 = off [default]) 1 = on
+        splitSpeed: 130, // Splitting speed
+        showjlinfo: 0, // Notifys you if a player has left or joined (0 = off [default]) 1 = on
+        ejectvspeed: 120, // How far an ejected virus (from w) shoots
+        serverMaxConnectionsPerIp: 5, // Maximum amount of IPs per player connection
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
         serverViewBaseX: 1024, // Base view distance of players. Warning: high values may cause lag
-        serverViewBaseY: 592,
+        serverViewBaseY: 592, // Same thing as line 77
         serverStatsPort: 88, // Port for stats server. Having a negative number will disable the stats server.
         serverStatsUpdate: 60, // Amount of seconds per update for the server stats
         serverLogLevel: 1, // Logging level of the server. 0 = No logs, 1 = Logs the console, 2 = Logs console and ip connections
@@ -200,7 +199,7 @@ GameServer.prototype.start = function() {
             return;
         }
         // -----/Client authenticity check code -----
-         showlmsg = this.config.showjlinfo;
+        showlmsg = this.config.showjlinfo;
         if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
             if (this.config.showbmessage == 1) {
                 console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
@@ -215,7 +214,7 @@ GameServer.prototype.start = function() {
 
             if (this.config.autoban == 1) {
                 if (this.config.showbmessage == 1) {
-                    console.log("Added " + ws._socket.remoteAddress + " to the banlist because he/she was useing bots");
+                    console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
                 }
 
                 this.banned.push(ws._socket.remoteAddress);
@@ -546,7 +545,7 @@ GameServer.prototype.updateFood = function() {
 };
 
 GameServer.prototype.spawnFood = function() {
-    var f = new Entity.Food(this.getNextNodeId(), null, this.getRandomPosition(), this.config.foodMass, this);
+    var f = new Entity.Food(this.getNextNodeId(), null, this.getRandomPosition(), this.config.foodMass,this);
     f.setColor(this.getRandomColor());
 
     this.addNode(f);
@@ -562,7 +561,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     }
 
     // Spawn player and add to world
-    var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
+    var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass,this);
     this.addNode(cell);
 
     // Set initial mouse coords
@@ -729,7 +728,7 @@ GameServer.prototype.splitCells = function(client) {
         cell.mass = newMass;
 
         // Create cell
-        var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
+        var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass,this);
         split.setAngle(angle);
         var splitSpeed = this.config.splitSpeed * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
         split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
@@ -769,9 +768,7 @@ GameServer.prototype.ejecttMass = function(client) {
             x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
             y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
         };
-
-        // Remove mass from parent cell
-
+        
         // Randomize angle
         angle += (Math.random() * .4) - .2;
 
@@ -813,6 +810,7 @@ GameServer.prototype.ejectMass = function(client) {
 
         // Remove mass from parent cell
         cell.mass -= this.config.ejectMassLoss;
+        
         // Randomize angle
         angle += (Math.random() * .4) - .2;
 
