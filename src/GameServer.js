@@ -98,6 +98,7 @@ function GameServer() {
         virusStartMass: 100, // Starting virus size (In mass)
         virusFeedAmount: 7, // Amount of times you need to feed a virus to shoot it
         mCellMaxMass: 10000, // Maximum size of a mothercell
+        mCellStartMass: 200, // MotherCell Starting mass
         bMCFoodMass: 100, // If mothercell is bigger than mCellMaxMass, it will spawn this food (Mass)
         gMCMass: 10000, // If the food cap is reached, the mothercell will become this mass
         ejectMass: 12, // Mass of ejected cells
