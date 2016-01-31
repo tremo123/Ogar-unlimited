@@ -107,7 +107,7 @@ MotherCell.prototype.checkEat = function(gameServer) {
 MotherCell.prototype.abs = function(n) {
     // Because Math.abs is slow
     return (n < 0) ? -n: n;
-}
+};
 
 MotherCell.prototype.spawnBFood = function(gameServer) {
     // Get starting position
