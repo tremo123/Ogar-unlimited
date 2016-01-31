@@ -135,7 +135,7 @@ module.exports = GameServer;
 GameServer.prototype.start = function() {
     // Logging
     this.log.setup(this);
-
+ ipcounts = [];
     // Gamemode configurations
     this.gameMode.onServerInit(this);
 
@@ -211,7 +211,7 @@ GameServer.prototype.start = function() {
             return;
         }
 
-        if ((this.ipCounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
+        if ((ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
 
             ws.close();
 
@@ -238,10 +238,10 @@ GameServer.prototype.start = function() {
 
             return;
         }
-        if (this.ipCounts[ws._socket.remoteAddress]) {
-            this.ipCounts[ws._socket.remoteAddress]++;
+        if (ipcounts[ws._socket.remoteAddress]) {
+            ipcounts[ws._socket.remoteAddress]++;
         } else {
-            this.ipCounts[ws._socket.remoteAddress] = 1;
+            ipcounts[ws._socket.remoteAddress] = 1;
         }
 
         if (this.config.showjlinfo == 1) {
@@ -249,7 +249,7 @@ GameServer.prototype.start = function() {
         }
 
         function close(error) {
-            this.ipCounts[this.socket.remoteAddress] --;
+         ipcounts[this.socket.remoteAddress] --;
             // Log disconnections
             if (showlmsg == 1) {
                 console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
