@@ -102,7 +102,7 @@ MotherCell.prototype.checkEat = function(gameServer) {
         }
         }
     }
-}
+};
 
 MotherCell.prototype.abs = function(n) {
     // Because Math.abs is slow
