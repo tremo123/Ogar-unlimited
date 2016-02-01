@@ -19,6 +19,7 @@ module.exports = {
     Virus: require('./Virus.js'),
     BlackHole: require('./BlackHole.js'),
     TFFA: require('./TFFA.js'),
+    VirusOff: require('./VirusOff.js'),
 };
 
 var get = function(id) {
@@ -32,6 +33,9 @@ var get = function(id) {
             break;
         case 3: // TFFA
             mode = new module.exports.TFFA();
+            break;
+        case 4: // VirusOff
+            mode = new module.exports.VirusOff();
             break;
         case 5: // unlimitpvp
             mode = new module.exports.Unlimitpvp();
