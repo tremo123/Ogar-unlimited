@@ -62,12 +62,12 @@ Cell.prototype.getSquareSize = function() {
 Cell.prototype.addMass = function(n) {
     if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
         this.mass = (this.mass + n) / 2;
-        this.owner.gameServer.newCellVirused(this.owner, this, 0, this.mass, 150);
+        var randomAngle = Math.random() * 6.28 // Get random angle
+        this.owner.gameServer.newCellVirused(this.owner, this, randomAngle, this.mass, 150);
     } else {
         this.mass = Math.min(this.mass + n, this.owner.gameServer.config.playerMaxMass);
     }
 };
-
 Cell.prototype.getSpeed = function() {
     // Old formula: 5 + (20 * (1 - (this.mass/(70+this.mass))));
     // Based on 50ms ticks. If updateMoveEngine interval changes, change 50 to new value
