@@ -88,11 +88,11 @@ VirusOff.prototype.updateLB = function(gameServer) {
             // Initial player
             lb.push(player);
             continue;
-        } else if (lb.length < gameServer.config.VirusOffMaxLB) {
+        } else if (lb.length < gameServer.config.ffaMaxLB) {
             this.leaderboardAddSort(player, lb);
         } else {
             // 10 in leaderboard already
-            if (playerScore > lb[gameServer.config.VirusOffMaxLB - 1].getScore(false)) {
+            if (playerScore > lb[gameServer.config.ffaMaxLB - 1].getScore(false)) {
                 lb.pop();
                 this.leaderboardAddSort(player, lb);
             }
