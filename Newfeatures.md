@@ -63,6 +63,7 @@
 
 Id   | Name
 -----|--------------
+4    | VirusOff - where no virus's spawn
 5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
 6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
 15   | NoCollision teams
