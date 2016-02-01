@@ -828,7 +828,7 @@ GameServer.prototype.ejectMass = function(client) {
         ejected.setMoveEngineData(this.config.ejectSpeed, 20);
         if (this.config.randomejectmasscolor == 1) {
             ejected.setColor(this.getRandomColor());
-            console.log("random color");
+            
         } else {
           ejected.setColor(cell.getColor());  
         }
