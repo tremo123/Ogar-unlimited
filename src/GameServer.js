@@ -361,6 +361,15 @@ GameServer.prototype.liveconsole = function() {
             players++
     });
                 if (!this.gameMode.haveTeams) {
+                    if (this.leaderboard.length <= 0) {
+                        
+                        var l1 = "No Players";
+                        var l2 = "Are Playing";
+                        var l3 = "";
+                        var l4 = "";
+                        var l5 = "";
+                        
+                    } else {
      if (players > 0) {
         var l1 = this.leaderboard[0].name;
      } else { var l1 = "None" }
@@ -376,6 +385,7 @@ GameServer.prototype.liveconsole = function() {
         if (players > 4) {
         var l5 = this.leaderboard[4].name;
      } else { var l5 = "None" }
+                    }
                 } else {
                     var l1 = "Sorry, No leader";
                     var l2 = "Board in Teams!";
