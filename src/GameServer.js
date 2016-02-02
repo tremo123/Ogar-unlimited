@@ -57,7 +57,7 @@ function GameServer() {
     // Config
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
         autoban: 0, // Auto bans a player if they are cheating
-        randomejectmasscolor: 0, // 0 = off 1 = on
+        randomEjectMassColor: 0, // 0 = off 1 = on
         ffaTimeLimit: 60, // TFFA time
         ffaMaxLB: 10, // Max leaderboard slots
         ejectantispeed: 120, // Speed of ejected anti matter
@@ -826,12 +826,12 @@ GameServer.prototype.ejectMass = function(client) {
         var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass,this);
         ejected.setAngle(angle);
         ejected.setMoveEngineData(this.config.ejectSpeed, 20);
-        if (this.config.randomejectmasscolor == 1) {
+        if (this.config.randomEjectMassColor == 1) {
             ejected.setColor(this.getRandomColor());
-            
         } else {
-          ejected.setColor(cell.getColor());  
+            ejected.setColor(cell.getColor());  
         }
+        
         this.addNode(ejected);
         this.setAsMovingNode(ejected);
     }
