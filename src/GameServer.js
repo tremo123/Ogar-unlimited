@@ -3,7 +3,7 @@ var WebSocket = require('ws');
 var http = require('http');
 var fs = require("fs");
 var ini = require('./modules/ini.js');
-
+var EOL = require('os').EOL;
 // Project imports
 var Packet = require('./packet');
 var PlayerTracker = require('./PlayerTracker');
@@ -20,8 +20,11 @@ function GameServer() {
     this.ipCounts = [];
     this.spawnv = 1;
     this.overideauto = false;
+    this.livestage = 0;
     this.pop = [];
     this.troll = [];
+    this.firstl = true;
+    this.liveticks = 0;
     this.run = true;
     this.op = [];
     this.whlist = [];
@@ -86,6 +89,7 @@ function GameServer() {
         borderRight: 6000, // Right border of map (Vanilla value: 11180.3398875)
         borderTop: 0, // Top border of map (Vanilla value: 0)
         borderBottom: 6000, // Bottom border of map (Vanilla value: 11180.3398875)
+        liveConsole: 0,
         spawnInterval: 20, // The interval between each food cell spawn in ticks (1 tick = 50 ms)
         foodSpawnAmount: 10, // The amount of food to spawn per interval
         foodStartAmount: 100, // The starting amount of food in the map
@@ -326,6 +330,94 @@ GameServer.prototype.getNewPlayerID = function() {
     return this.lastPlayerId++;
 };
 
+GameServer.prototype.liveconsole = function() {
+    
+        if (this.livestage == 0) {
+            if (this.liveticks > 80) {
+            this.livestage = 1;
+                this.liveticks = 0;
+            }
+            var players = 0;
+    this.clients.forEach(function(client) {
+        if (client.playerTracker && client.playerTracker.cells.length > 0)
+            players++
+    });
+     
+            var line1 = "               Status                            ";
+            var line2 = "       Players:      "+this.clients.length+"                           ";
+            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                 ";
+            var line4 = "       Alive:        "+players+ "                               ";
+            var line5 = "       Max Players:  "+ this.config.serverMaxConnections+ "                             ";
+            var line6 = "       Start Time:   "+ this.startTime+ "                    ";
+        } else
+            if (this.livestage == 1) {
+            if (this.liveticks > 80) {
+                this.liveticks = 0;
+            this.livestage = 2;
+            }
+            var players = 0;
+    this.clients.forEach(function(client) {
+        if (client.playerTracker && client.playerTracker.cells.length > 0)
+            players++
+    });
+     if (players > 0) {
+        var l1 = this.leaderboard[0].name;
+     } else { var l1 = "None" }
+                if (players > 1) {
+        var l2 = this.leaderboard[1].name;
+     } else { var l2 = "None" }
+    if (players > 2) {
+        var l3 = this.leaderboard[2].name;
+     } else { var l3 = "None" }
+    if (players > 3) {
+        var l4 = this.leaderboard[3].name;
+     } else { var l4 = "None" }
+        if (players > 4) {
+        var l5 = this.leaderboard[4].name;
+     } else { var l5 = "None" }
+            var line1 = "              Leaderboard                   ";
+            var line2 = "               1."+l1 + "                    ";
+            var line3 = "               2."+l2 + "                    ";
+            var line4 = "               3."+l3 + "                    ";
+            var line5 = "               4."+l4 + "                    ";
+            var line6 = "               5."+l5 + "                    ";
+            } else
+    if (this.livestage == 2) {
+            if (this.liveticks > 80) {
+            this.livestage = 1;
+                this.liveticks = 0;
+            }
+        
+        var line1 = "               Status                            ";
+            var line2 = "       Uptime:      "+ process.uptime() +"                    ";
+            var line3 = "       Memory:      "+ process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
+            var line4 = "       Banned:      "+ this.banned.length+ "        ";
+            var line5 = "                                               ";
+            var line6 = "                                                ";
+        
+    }
+    if (this.firstl) {
+    process.stdout.write("\u001B[s\u001B[H\u001B[6r");
+            process.stdout.write("\u001B[8;36;44m   ___                                                                        " + EOL);
+            process.stdout.write("  / _ \\ __ _ __ _ _ _                                                         " + EOL);
+            process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
+            process.stdout.write("  \\___/\\__, \\__,_|_|                                                          "+EOL);
+            process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
+             process.stdout.write("   u n l i m i t e d                                                          " + EOL);
+            process.stdout.write("\u001B[0m\u001B[u");
+        this.firstl = false;
+    }
+            process.stdout.write("\u001B[s\u001B[H\u001B[6r");
+            process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
+            process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
+            process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
+            process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 +EOL);
+            process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
+             process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
+            process.stdout.write("\u001B[0m\u001B[u");
+    this.liveticks ++;
+        };
+
 GameServer.prototype.getRandomPosition = function() {
     return {
         x: Math.floor(Math.random() * (this.config.borderRight - this.config.borderLeft)) + this.config.borderLeft,
@@ -485,7 +577,10 @@ GameServer.prototype.mainLoop = function() {
             setTimeout(this.spawnTick(), 0);
             setTimeout(this.gamemodeTick(), 0);
         }
-
+        
+        if (this.config.liveConsole == 1) {
+        this.liveconsole();
+        }
         // Update the client's maps
         this.updateClients();
 
