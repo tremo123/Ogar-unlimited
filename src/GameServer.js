@@ -384,7 +384,7 @@ GameServer.prototype.liveconsole = function() {
             } else
     if (this.livestage == 2) {
             if (this.liveticks > 80) {
-            this.livestage = 1;
+            this.livestage = 0;
                 this.liveticks = 0;
             }
         
