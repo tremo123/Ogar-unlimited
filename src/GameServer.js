@@ -3,7 +3,7 @@ var WebSocket = require('ws');
 var http = require('http');
 var fs = require("fs");
 var ini = require('./modules/ini.js');
-var EOL = require('os').EOL;
+
 // Project imports
 var Packet = require('./packet');
 var PlayerTracker = require('./PlayerTracker');
@@ -20,11 +20,8 @@ function GameServer() {
     this.ipCounts = [];
     this.spawnv = 1;
     this.overideauto = false;
-    this.livestage = 0;
     this.pop = [];
     this.troll = [];
-    this.firstl = true;
-    this.liveticks = 0;
     this.run = true;
     this.op = [];
     this.whlist = [];
@@ -60,7 +57,7 @@ function GameServer() {
     // Config
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
         autoban: 0, // Auto bans a player if they are cheating
-        randomejectmasscolor: 0, // 0 = off 1 = on
+        randomEjectMassColor: 0, // 0 = off 1 = on
         ffaTimeLimit: 60, // TFFA time
         ffaMaxLB: 10, // Max leaderboard slots
         ejectantispeed: 120, // Speed of ejected anti matter
@@ -101,7 +98,6 @@ function GameServer() {
         virusMinAmount: 10, // Minimum amount of viruses on the map.
         virusMaxAmount: 50, // Maximum amount of viruses on the map. If this amount is reached, then ejected cells will pass through viruses.
         virusStartMass: 100, // Starting virus size (In mass)
-        liveConsole: 0,
         virusFeedAmount: 7, // Amount of times you need to feed a virus to shoot it
         mCellMaxMass: 10000, // Maximum size of a mothercell
         mCellStartMass: 200, // MotherCell Starting mass
@@ -142,7 +138,7 @@ module.exports = GameServer;
 GameServer.prototype.start = function() {
     // Logging
     this.log.setup(this);
- ipcounts = [];
+    ipcounts = [];
     // Gamemode configurations
     this.gameMode.onServerInit(this);
 
@@ -204,7 +200,12 @@ GameServer.prototype.start = function() {
         // AGAINST YOU. THIS SECTION OF CODE WAS ADDED ON JULY 9, 2015 AT THE REQUEST
         // OF THE AGAR.IO DEVELOPERS.
         var origin = ws.upgradeReq.headers.origin;
-        if (origin != 'http://agar.io' && origin != 'https://agar.io' && origin != 'http://localhost' && origin != 'https://localhost' && origin != 'http://127.0.0.1' && origin != 'https://127.0.0.1') {
+        if (origin != 'http://agar.io' && 
+            origin != 'https://agar.io' && 
+            origin != 'http://localhost' && 
+            origin != 'https://localhost' && 
+            origin != 'http://127.0.0.1' && 
+            origin != 'https://127.0.0.1') {
             ws.close();
             return;
         }
@@ -308,97 +309,6 @@ GameServer.prototype.start = function() {
 GameServer.prototype.getMode = function() {
     return this.gameMode;
 };
-GameServer.prototype.liveconsole = function() {
-    
-        if (this.livestage == 0) {
-            if (this.liveticks > 80) {
-            this.livestage = 1;
-                this.liveticks = 0;
-            }
-            var players = 0;
-    this.clients.forEach(function(client) {
-        if (client.playerTracker && client.playerTracker.cells.length > 0)
-            players++
-    });
-     
-            var line1 = "               Status                            ";
-            var line2 = "       Players:      "+this.clients.length+"                           ";
-            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                 ";
-            var line4 = "       Alive:        "+players+ "                               ";
-            var line5 = "       Max Players:  "+ this.config.serverMaxConnections+ "                             ";
-            var line6 = "       Start Time:   "+ this.startTime+ "                    ";
-        } else
-            if (this.livestage == 1) {
-            if (this.liveticks > 80) {
-                this.liveticks = 0;
-            this.livestage = 2;
-            }
-            var players = 0;
-    this.clients.forEach(function(client) {
-        if (client.playerTracker && client.playerTracker.cells.length > 0)
-            players++
-    });
-     if (players > 0) {
-        var l1 = this.leaderboard[0].name;
-     } else { var l1 = "None" }
-                if (players > 1) {
-        var l2 = this.leaderboard[1].name;
-     } else { var l2 = "None" }
-    if (players > 2) {
-        var l3 = this.leaderboard[2].name;
-     } else { var l3 = "None" }
-    if (players > 3) {
-        var l4 = this.leaderboard[3].name;
-     } else { var l4 = "None" }
-        if (players > 4) {
-        var l5 = this.leaderboard[4].name;
-     } else { var l5 = "None" }
-            var line1 = "              Leaderboard                   ";
-            var line2 = "               1."+l1 + "                    ";
-            var line3 = "               2."+l2 + "                    ";
-            var line4 = "               3."+l3 + "                    ";
-            var line5 = "               4."+l4 + "                    ";
-            var line6 = "               5."+l5 + "                    ";
-            } else
-    if (this.livestage == 2) {
-            if (this.liveticks > 80) {
-            this.livestage = 1;
-                this.liveticks = 0;
-            }
-        
-        var line1 = "               Status                            ";
-            var line2 = "       Uptime:      "+ process.uptime() +"                    ";
-            var line3 = "       Memory:      "+ process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
-            var line4 = "       Banned:      "+ this.banned.length+ "        ";
-            var line5 = "                                               ";
-            var line6 = "                                                ";
-        
-    }
-    if (this.firstl) {
-    process.stdout.write("\u001B[s\u001B[H\u001B[6r");
-            process.stdout.write("\u001B[8;36;44m   ___                                                                        " + EOL);
-            process.stdout.write("  / _ \\ __ _ __ _ _ _                                                         " + EOL);
-            process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
-            process.stdout.write("  \\___/\\__, \\__,_|_|                                                          "+EOL);
-            process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
-             process.stdout.write("   u n l i m i t e d                                                          " + EOL);
-            process.stdout.write("\u001B[0m\u001B[u");
-        this.firstl = false;
-    }
-            process.stdout.write("\u001B[s\u001B[H\u001B[6r");
-            process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
-            process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
-            process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
-            process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 +EOL);
-            process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
-             process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
-            process.stdout.write("\u001B[0m\u001B[u");
-    this.liveticks ++;
-        };
-    
-    
-    
-
 
 GameServer.prototype.getNextNodeId = function() {
     // Resets integer
@@ -574,9 +484,6 @@ GameServer.prototype.mainLoop = function() {
             setTimeout(this.cellTick(), 0);
             setTimeout(this.spawnTick(), 0);
             setTimeout(this.gamemodeTick(), 0);
-        }
-        if (this.config.liveConsole == 1) {
-        this.liveconsole();
         }
 
         // Update the client's maps
@@ -924,12 +831,12 @@ GameServer.prototype.ejectMass = function(client) {
         var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass,this);
         ejected.setAngle(angle);
         ejected.setMoveEngineData(this.config.ejectSpeed, 20);
-        if (this.config.randomejectmasscolor == 1) {
+        if (this.config.randomEjectMassColor == 1) {
             ejected.setColor(this.getRandomColor());
-            
         } else {
-          ejected.setColor(cell.getColor());  
+            ejected.setColor(cell.getColor());  
         }
+        
         this.addNode(ejected);
         this.setAsMovingNode(ejected);
     }
@@ -953,6 +860,7 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
     this.addNode(newCell);
     this.setAsMovingNode(newCell);
 };
+
 GameServer.prototype.newCellVirused = function(client, parent, angle, mass, speed) {
     // Starting position
     var startPos = {
