@@ -6,7 +6,7 @@ function Virus() {
     this.cellType = 2;
     this.spiked = 1;
     this.fed = 0;
-    this.wobbly = 1; // wobbly effect
+    this.wobbly = 0; // wobbly effect
     this.isMotherCell = false; // Not to confuse bots
 }
 
