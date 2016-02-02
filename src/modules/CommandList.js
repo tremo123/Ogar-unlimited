@@ -652,6 +652,8 @@ Commands.list = {
         if (isNaN(add)) {
             add = 1; // Adds 1 bot if user doesnt specify a number
         }
+        gameServer.livestage = 2;
+        gameServer.liveticks = 0;
 
         for (var i = 0; i < add; i++) {
             gameServer.bots.addBot();
