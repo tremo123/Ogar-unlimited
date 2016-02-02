@@ -345,7 +345,7 @@ GameServer.prototype.liveconsole = function() {
      
             var line1 = "               Status                            ";
             var line2 = "       Players:      "+this.clients.length+"                           ";
-            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                           ";
+            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                            ";
             var line4 = "       Alive:        "+players+ "                          ";
             var line5 = "       Max Players:  "+ this.config.serverMaxConnections+ "                        ";
             var line6 = "       Start Time:   "+ this.startTime+ "                ";
@@ -406,6 +406,8 @@ GameServer.prototype.liveconsole = function() {
              process.stdout.write("   u n l i m i t e d                                                          " + EOL);
             process.stdout.write("\u001B[0m\u001B[u");
         this.firstl = false;
+    } else {
+        this.firstl = true;
     }
             process.stdout.write("\u001B[s\u001B[H\u001B[6r");
             process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
