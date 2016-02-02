@@ -37,7 +37,7 @@ If you've purchased a copy of Ogar, you've probably been SERIOUSLY ripped off. [
 ### OP(2.4.5) - Guide,
 You use OP by first setting who has OP by doing op [id] in console. Then, that player can use the op features in game by pressing "Q". Then a "C" will appear next to your name. If you press w in this state, it gives you 100 more mass. If you press space in this state, you will be able to rejoin instantly. You will find out that if you press "Q" again, two c's will appear next to your name. If you press w in this state, you shoot viruses. If you press space in this state, you shoot tiny things (almost invisible) that if someone eats, their mass is reduced by 100. Then, if you press "Q" again, 3 c's will appear. Press w with 3c's, you shoot a virus, but whoever who eats it will be trolled :). If you press space with 3 c's the person who eats the virus will be killed. You can then exit OP by pressing q again after doing an action or by pressing Q until the three c's will disappear (so that you can normally split and shoot mass).
 
-* Note: This is still in beta so there might be problems (most concerned one is that the names (CC's) dont work when player name is blank) also, it doesnt work on Virus and Leap gamemodes
+* Note: names (CC's) dont work when player name is blank and it doesnt work on Virus and Leap gamemodes
 
 ## Obtaining and Using
 
