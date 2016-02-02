@@ -69,7 +69,7 @@ Commands.list = {
         console.log("[Console] Kickrange  : kicks in a ID range");
         console.log("[Console] Killrange  : kills in a ID range");
         console.log("[Console] Merge      : Forces that player to merge");
-        console.log("[Console] Norecombine: Prevents the player from merging")
+        console.log("[Console] Nojoin     : Prevents the player from merging")
         console.log("[Console] Msg        : Sends a message")
         console.log("[Console] Fmsg       : Sends a Force Message");
         console.log("[Console] Pmsg       : Periodically sends a message");
@@ -609,7 +609,7 @@ Commands.list = {
         console.log("[Console] Player " + id + " Was Trolled")
 
     },
-    norecombine: function(gameServer, split) {
+    nojoin: function(gameServer, split) {
         var id = parseInt(split[1]);
         if (isNaN(id)) {
             console.log("[Console] Please specify a valid player ID!");
