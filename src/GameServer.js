@@ -10,6 +10,7 @@ var PlayerTracker = require('./PlayerTracker');
 var PacketHandler = require('./PacketHandler');
 var Entity = require('./entity');
 var Cell = require('./entity/Cell.js');
+var Virus = require('./entity/Virus.js');
 var Gamemode = require('./gamemodes');
 var BotLoader = require('./ai/BotLoader');
 var Logger = require('./modules/log');
@@ -69,6 +70,7 @@ function GameServer() {
         cRestoreTicks: 10, // Amount of time until the collision retores
         showbmessage: 0, // Notifys you if a banned player tried to join (0 = off [default]) 1 = on
         splitSpeed: 130, // Splitting speed
+        wobbvirus: 0, // virus wobboly effect
         showjlinfo: 0, // Notifys you if a player has left or joined (0 = off [default]) 1 = on
         ejectvspeed: 120, // How far an ejected virus (from w) shoots
         serverMaxConnectionsPerIp: 5, // Maximum amount of IPs per player connection
@@ -157,6 +159,7 @@ GameServer.prototype.start = function() {
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
         Cell.spi = this.config.SpikedCells
+        Virus.wobb = this.config.wobbvirus;
             // Player bots (Experimental)
         if (this.config.serverBots > 0) {
             for (var i = 0; i < this.config.serverBots; i++) {
@@ -828,7 +831,7 @@ GameServer.prototype.ejectMass = function(client) {
         ejected.setMoveEngineData(this.config.ejectSpeed, 20);
         if (this.config.randomejectmasscolor == 1) {
             ejected.setColor(this.getRandomColor());
-            
+            console.log("random color");
         } else {
           ejected.setColor(cell.getColor());  
         }
@@ -839,6 +842,7 @@ GameServer.prototype.ejectMass = function(client) {
 
 GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
     // Starting position
+    console.log("autosplit called!");
     var startPos = {
         x: parent.position.x,
         y: parent.position.y
@@ -847,10 +851,11 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
     newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
-    newCell.restoreCollisionTicks = 25;
+    newCell.restoreCollisionTicks
+        = 20;
     newCell.calcMergeTime(this.config.playerRecombineTime);
     newCell.ignoreCollision = true; // Remove collision checks
-
+    newCell.autospliton = true
     // Add to moving cells list
     this.addNode(newCell);
     this.setAsMovingNode(newCell);
