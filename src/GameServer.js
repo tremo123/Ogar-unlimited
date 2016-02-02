@@ -345,7 +345,7 @@ GameServer.prototype.liveconsole = function() {
      
             var line1 = "               Status                            ";
             var line2 = "       Players:      "+this.clients.length+"                           ";
-            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                            ";
+            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                           ";
             var line4 = "       Alive:        "+players+ "                          ";
             var line5 = "       Max Players:  "+ this.config.serverMaxConnections+ "                        ";
             var line6 = "       Start Time:   "+ this.startTime+ "                ";
