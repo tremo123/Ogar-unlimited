@@ -348,7 +348,7 @@ GameServer.prototype.liveconsole = function() {
             var line3 = "       Spectators:   "+ (this.clients.length - players) + "                            ";
             var line4 = "       Alive:        "+players+ "                          ";
             var line5 = "       Max Players:  "+ this.config.serverMaxConnections+ "                        ";
-            var line6 = "       Start Time:   "+ this.startTime+ "                      ";
+            var line6 = "       Start Time:   "+ this.startTime+ "                ";
         } else
             if (this.livestage == 1) {
             if (this.liveticks > 80) {
