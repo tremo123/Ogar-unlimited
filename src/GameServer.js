@@ -360,6 +360,7 @@ GameServer.prototype.liveconsole = function() {
         if (client.playerTracker && client.playerTracker.cells.length > 0)
             players++
     });
+                if (!this.gameMode.haveTeams) {
      if (players > 0) {
         var l1 = this.leaderboard[0].name;
      } else { var l1 = "None" }
@@ -375,6 +376,14 @@ GameServer.prototype.liveconsole = function() {
         if (players > 4) {
         var l5 = this.leaderboard[4].name;
      } else { var l5 = "None" }
+                } else {
+                    var l1 = "Sorry, No leader";
+                    var l2 = "Board in Teams!";
+                    var l3 = "";
+                    var l4 = "";
+                    var l5 = "";
+                    
+                }
             var line1 = "              Leaderboard                   ";
             var line2 = "               1."+l1 + "                    ";
             var line3 = "               2."+l2 + "                    ";
