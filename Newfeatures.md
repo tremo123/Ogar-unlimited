@@ -66,6 +66,7 @@ Id   | Name
 4    | VirusOff - where no virus's spawn
 5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
 6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
+7    | Proportional FFA (in the future, size of map differs on players connected)
 15   | NoCollision teams
 16   | NoCollision Zteam
 17   | NoCollision Xteam
@@ -89,6 +90,7 @@ Id   | Name
 12. ffaMaxLB: Maximum amount of people to be listed in the leaderboard
 13. splitSpeed: Splitting Speed
 14. autopause: 1 = on (default) 0 = off
+15. randomEjectedMassColor: 1 = on, 0 = off
 
 ## OP
 
