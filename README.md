@@ -17,7 +17,7 @@ This Modified copy was created to help those who want to open their server to th
  7. Ban, Unban, Banlist
  8. Autoban option (see gameserver.ini)
  9. More control (gameserver.ini)
- 10. and other features such as merge or norecombine or kick/killrange
+ 10. and other features such as merge or nojoin or kick/killrange
  11. Better physics (ejected mass and split)
  12. Colortext command (Changes console output color and style)
  
@@ -65,6 +65,7 @@ Id   | Name
 1    | Teams
 2    | Experimental (As of 6/13/15)
 3    | Timed FFA
+4    | Virus Off (no virus's)
 10   | Tournament
 11   | Hunger Games
 12   | Zombie Mode
