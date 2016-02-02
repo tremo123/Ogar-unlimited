@@ -42,7 +42,6 @@ Commands.list = {
         console.log("Space = Death virus");
         console.log("[Console] ====================================================");
     },
-
     help: function(gameServer, split) {
         console.log("[Console] ======================== HELP ======================");
         console.log("[Console] ophelp     : Shows OP help");
@@ -70,7 +69,7 @@ Commands.list = {
         console.log("[Console] Kickrange  : kicks in a ID range");
         console.log("[Console] Killrange  : kills in a ID range");
         console.log("[Console] Merge      : Forces that player to merge");
-        console.log("[Console] Nojoin     : Prevents the player from merging")
+        console.log("[Console] Norecombine: Prevents the player from merging")
         console.log("[Console] Msg        : Sends a message")
         console.log("[Console] Fmsg       : Sends a Force Message");
         console.log("[Console] Pmsg       : Periodically sends a message");
@@ -130,21 +129,17 @@ Commands.list = {
         }
         
     },
-    
-     whitelist: function(gameServer, split) {
+    whitelist: function(gameServer, split) {
         console.log("[Console] Current whitelisted IPs (" + gameServer.whlist.length + ")");
         for (var i in gameServer.whlist) {
             console.log(gameServer.whlist[i]);
         }
     },
-
     clearwhitelist: function(gameServer, split) {
         console.log("[Console] Cleared " + gameServer.whlist.length + " IP's");
         gameServer.whlist = [];
 
     },
-
-    
     whitelist: function(gameServer, split) {
         // Get ip
         var ip = split[1];
@@ -156,7 +151,6 @@ Commands.list = {
             console.log("[Console] That IP is already whitelisted");
         }
     },
-    
     unwhitelist: function (gameServer, split) {
         var ip = split[1]; // Get ip
         var index = gameServer.whlist.indexOf(ip);
@@ -213,7 +207,7 @@ Commands.list = {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-
+        
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
@@ -230,7 +224,6 @@ Commands.list = {
         }
 
     },
-
     split: function(gameServer, split) {
         // Validation checks
         var id = parseInt(split[1]);
@@ -243,6 +236,10 @@ Commands.list = {
             console.log("[Console] Since you did not specify split count, We will split the person into 16 cells");
             count = 4;
         }
+        if (count > gameServer.config.playerMaxCells) {
+            console.log("[Console]" + amount + "Is greater than the max cells, split into the max cell amount");
+            count = gameServer.config.playerMaxCells;
+        }
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
@@ -254,7 +251,6 @@ Commands.list = {
             }
         }
     },
-
     resetvirus: function(gameServer, split) {
         gameServer.troll = [];
         console.log("[Console] Turned any Special Viruses (from op's) Into normal ones");
@@ -314,13 +310,11 @@ Commands.list = {
             console.log(gameServer.banned[i]);
         }
     },
-
     clearban: function(gameServer, split) {
         console.log("[Console] Cleared " + gameServer.banned.length + " IP's");
         gameServer.banned = [];
 
     },
-
     rop: function(gameServer, split) {
         gameServer.op = [];
         gameServer.oppname = [];
@@ -337,14 +331,12 @@ Commands.list = {
         gameServer.op[ops] = 547;
         console.log("[Console] Made " + ops + " OP");
     },
-
     dop: function(gameServer, split) {
         var ops = parseInt(split[1]);
         gameServer.op[ops] = 0;
         gameServer.opc[ops] = 0;
         console.log("De opped " + ops);
     },
-
     spmsg: function(gameServer, split) {
         if (gameServer.pmsg == 0) {
             console.log("[Console] You have no PMSG Process");
@@ -402,7 +394,6 @@ Commands.list = {
         }, delay);
 
     },
-
     spfmsg: function(gameServer, split) {
         if (gameServer.pfmsg == 0) {
             console.log("[Console] You have no SPFMSG Process");
@@ -523,7 +514,6 @@ Commands.list = {
             console.log("[ForceMSG] The game has been reset");
         }, 6500);
     },
-
     msg: function(gameServer, split) {
         var newLB = [];
         for (var i = 1; i < split.length; i++) {
@@ -547,7 +537,6 @@ Commands.list = {
 
         }, 14000);
     },
-
     troll: function(gameServer, split) {
         var id = parseInt(split[1]);
         if (isNaN(id)) {
@@ -620,8 +609,7 @@ Commands.list = {
         console.log("[Console] Player " + id + " Was Trolled")
 
     },
-
-    nojoin: function(gameServer, split) {
+    norecombine: function(gameServer, split) {
         var id = parseInt(split[1]);
         if (isNaN(id)) {
             console.log("[Console] Please specify a valid player ID!");
@@ -632,13 +620,12 @@ Commands.list = {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
                 for (var j in client.cells) {
-                    client.cells[j].calcMergeTime(10000);
+                    client.cells[j].calcMergeTime(100000);
                 }
             }
         }
-        console.log("That player cannot rejoin now")
+        console.log("That player cannot recombine now")
     },
-
     merge: function(gameServer, split) {
         // Validation checks
         var id = parseInt(split[1]);
@@ -660,7 +647,6 @@ Commands.list = {
             }
         }
     },
-
     addbot: function(gameServer, split) {
         var add = parseInt(split[1]);
         if (isNaN(add)) {
@@ -857,7 +843,6 @@ Commands.list = {
             }
         }
     },
-
     kickrange: function(gameServer, split) {
         var start = parseInt(split[1]);
         var end = parseInt(split[2]);
@@ -879,8 +864,6 @@ Commands.list = {
             }
         }
     },
-
-
     kill: function(gameServer, split) {
         var id = parseInt(split[1]);
         if (isNaN(id)) {
@@ -920,7 +903,7 @@ Commands.list = {
             return;
         }
 
-        var amount = Math.max(parseInt(split[2]), 9);
+        var amount = Math.max(parseInt(split[2]), 10);
         if (isNaN(amount)) {
             console.log("[Console] Please specify a valid number");
             return;
