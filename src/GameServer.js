@@ -69,6 +69,7 @@ function GameServer() {
         SpikedCells: 0, // Amount of spiked cells
         autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
         smartbthome: 1, // Automatically sends you back to normal mode after pressing Q proceding an action (default) 2 = off (you need to press Q a lot)
+        restartmin: 0, // minutes to restart
         showopactions: 0, // Notifys you of an OP using his power, (0 = Off [default]) 1 = on
         cRestoreTicks: 10, // Amount of time until the collision retores
         showbmessage: 0, // Notifys you if a banned player tried to join (0 = off [default]) 1 = on
@@ -161,6 +162,41 @@ GameServer.prototype.start = function() {
         // Done
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
+        if (this.restartmin != 0) {
+            var time = this.restartmin
+             console.log("Server Restarting in "+time+" minutes!");
+            setTimeout(function() {
+                var newLB = [];
+                newLB[0] = "Server Restarting"
+                newLB[1] = "In 1 Minute"
+                
+                // Clears the update leaderboard function and replaces it with our own
+        gameServer.gameMode.packetLB = 48;
+        gameServer.gameMode.specByLeaderboard = false;
+        gameServer.gameMode.updateLB = function(gameServer) {
+            gameServer.leaderboard = newLB
+        };
+        console.log("The Server is Restarting in 1 Minute");
+        setTimeout(function() {
+            var gm = GameMode.get(gameServer.gameMode.ID);
+
+            // Replace functions
+            gameServer.gameMode.packetLB = gm.packetLB;
+            gameServer.gameMode.updateLB = gm.updateLB;
+
+        }, 14000);
+                
+                
+                
+                
+                setTimeout(function() {
+                console.log("\x1b[0m[Console] Restarting server...");
+        gameServer.socketServer.close();
+        process.exit(3);
+            },60000)
+            },(time * 60000) - 60000)
+            
+        }
         Cell.spi = this.config.SpikedCells
             // Player bots (Experimental)
         if (this.config.serverBots > 0) {
@@ -424,7 +460,7 @@ GameServer.prototype.liveconsole = function() {
         this.firstl = false;
     }
     
-    if (this.resticks > 29) {
+    if (this.resticks > 7) {
         this.firstl = true;
         this.resticks = 0;
     } else {
