@@ -66,6 +66,10 @@ function GameServer() {
         randomEjectMassColor: 0, // 0 = off 1 = on
         ffaTimeLimit: 60, // TFFA time
         ffaMaxLB: 10, // Max leaderboard slots
+        showtopscore: 0,
+        anounceHS: 0,
+        anounceDelay: 70,
+        anounceDuration: 8,
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
         SpikedCells: 0, // Amount of spiked cells
@@ -164,6 +168,32 @@ GameServer.prototype.start = function() {
         // Done
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
+        if (this.config.anounceHS == 1) {
+           var v = setInterval(function(){
+               var newLB = [];
+               newLB[0] = "Highscore:";
+               newLB[1] = this.topscore;
+               newLB[2] = "  By  ";
+               newLB[3] = this.topusername;
+               this.gameMode.packetLB = 48;
+            this.gameMode.specByLeaderboard = false;
+            this.gameMode.updateLB = function(this) {
+                this.leaderboard = newLB
+            }
+            var gm = GameMode.get(this.gameMode.ID);
+               setTimeout(function() {
+                   
+                   this.gameMode.packetLB = gm.packetLB;
+                this.gameMode.updateLB = gm.updateLB;
+               },this.config.anounceDuration);
+               
+               
+               
+           },this.config.anounceDelay);
+        }
+        
+        
+        
         if (this.config.restartmin != 0) {
             var time = this.config.restartmin
             console.log("Server Restarting in " + time + " minutes!");
@@ -173,27 +203,27 @@ GameServer.prototype.start = function() {
                 newLB[1] = "In 1 Minute"
 
                 // Clears the update leaderboard function and replaces it with our own
-                gameServer.gameMode.packetLB = 48;
-                gameServer.gameMode.specByLeaderboard = false;
-                gameServer.gameMode.updateLB = function(gameServer) {
-                    gameServer.leaderboard = newLB
+                this.gameMode.packetLB = 48;
+                this.gameMode.specByLeaderboard = false;
+                this.gameMode.updateLB = function(this) {
+                    this.leaderboard = newLB
                 };
                 console.log("The Server is Restarting in 1 Minute");
                 setTimeout(function() {
-                    var gm = GameMode.get(gameServer.gameMode.ID);
+                    var gm = GameMode.get(this.gameMode.ID);
 
                     // Replace functions
-                    gameServer.gameMode.packetLB = gm.packetLB;
-                    gameServer.gameMode.updateLB = gm.updateLB;
+                    this.gameMode.packetLB = gm.packetLB;
+                    this.gameMode.updateLB = gm.updateLB;
 
                 }, 14000);
 
                 setTimeout(function() {
                     console.log("\x1b[0m[Console] Restarting server...");
-                    gameServer.socketServer.close();
+                    this.socketServer.close();
                     process.exit(3);
-                }, 60000)
-            }, (time * 60000) - 60000)
+                }, 60000);
+            }, (time * 60000) - 60000);
 
         }
         Cell.spi = this.config.SpikedCells
