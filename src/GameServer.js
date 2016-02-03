@@ -460,7 +460,7 @@ GameServer.prototype.liveconsole = function() {
         this.firstl = false;
     }
     
-    if (this.resticks > 7) {
+    if (this.resticks > 29) {
         this.firstl = true;
         this.resticks = 0;
     } else {
