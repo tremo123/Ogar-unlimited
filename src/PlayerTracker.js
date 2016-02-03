@@ -1,5 +1,5 @@
 var Packet = require('./packet');
-var GameServer = require('./GameServer');
+var GameServer = require('./GameServer.js');
 
 function PlayerTracker(gameServer, socket) {
     this.pID = -1;
@@ -82,7 +82,10 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
             this.score = s;
         }
     }
-    return this.score >> 0;
+    if (this.score > this.gameServer.topscore) {
+        this.gameServer.topscore = Math.floor(this.score);
+        this.gameServer.topusername = this.name;
+    } 
 };
 
 PlayerTracker.prototype.setColor = function(color) {
