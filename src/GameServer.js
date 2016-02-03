@@ -177,7 +177,7 @@ GameServer.prototype.start = function() {
                newLB[3] = this.topusername;
                this.gameMode.packetLB = 48;
             this.gameMode.specByLeaderboard = false;
-            this.gameMode.updateLB = function(this) {
+            this.gameMode.updateLB = function() {
                 this.leaderboard = newLB
             }
             var gm = GameMode.get(this.gameMode.ID);
@@ -205,7 +205,7 @@ GameServer.prototype.start = function() {
                 // Clears the update leaderboard function and replaces it with our own
                 this.gameMode.packetLB = 48;
                 this.gameMode.specByLeaderboard = false;
-                this.gameMode.updateLB = function(this) {
+                this.gameMode.updateLB = function() {
                     this.leaderboard = newLB
                 };
                 console.log("The Server is Restarting in 1 Minute");
