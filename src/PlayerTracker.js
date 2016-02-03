@@ -82,9 +82,12 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
             this.score = s;
         }
     }
-    if (this.score > this.gameServer.topscore) {
+    if (this.score > this.gameServer.topscore + 5) {
         this.gameServer.topscore = Math.floor(this.score);
         this.gameServer.topusername = this.name;
+        if (this.gameServer.config.showtopscore == 1) {
+            console.log(this.name +" Made a new high score of "+ this.score);
+        }
     } 
 };
 
