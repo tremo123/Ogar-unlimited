@@ -334,6 +334,7 @@ GameServer.prototype.liveconsole = function() {
         if (this.livestage == 0) {
             if (this.liveticks > 80) {
             this.livestage = 1;
+                this.firstl = true;
                 this.liveticks = 0;
             }
     var players = 0;
@@ -351,6 +352,7 @@ GameServer.prototype.liveconsole = function() {
             if (this.livestage == 1) {
             if (this.liveticks > 80) {
                 this.liveticks = 0;
+                this.firstl = true;
                 this.livestage = 2;
             }
     var players = 0;
@@ -400,6 +402,7 @@ GameServer.prototype.liveconsole = function() {
             if (this.liveticks > 80) {
             this.livestage = 0;
             this.liveticks = 0;
+            this.firstl = true;
             }
         var line1 = "               Status                            ";
             var line2 = "       Uptime:      "+ process.uptime() +"                    ";
@@ -418,8 +421,6 @@ GameServer.prototype.liveconsole = function() {
             process.stdout.write("   u n l i m i t e d                                                          " + EOL);
             process.stdout.write("\u001B[0m\u001B[u");
         this.firstl = false;
-    } else {
-        this.firstl = true;
     }
             process.stdout.write("\u001B[s\u001B[H\u001B[6r");
             process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
