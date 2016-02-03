@@ -91,31 +91,31 @@ Commands.list = {
     },
     colortext: function(gameServer, split) {
         var c = split[1].toLowerCase();
-        if(c == "red") {
+        if (c == "red") {
             console.log("\x1b[31mText is now Red");
         } else
-        if(c == "green") {
+        if (c == "green") {
             console.log("\x1b[32mText is now Green");
         } else
-        if(c == "blue") {
+        if (c == "blue") {
             console.log("\x1b[34mText is now Blue");
         } else
-        if(c == "yellow") {
+        if (c == "yellow") {
             console.log("\x1b[33mText is now Yellow");
         } else
-        if(c == "reset") {
+        if (c == "reset") {
             console.log("\x1b[0mText is now Reset");
         } else
-        if(c == "bold") {
+        if (c == "bold") {
             console.log("\x1b[1mText is now Bold");
-        } else 
-        if(c == "white") {
+        } else
+        if (c == "white") {
             console.log("\x1b[37mText is now White");
-        } else 
-        if(c == "dim") {
+        } else
+        if (c == "dim") {
             console.log("\x1b[2mText is now Dim");
-        } else 
-        if(c == "help") {
+        } else
+        if (c == "help") {
             console.log("----- Colortext Help -----");
             console.log("Red");
             console.log("Green");
@@ -126,9 +126,9 @@ Commands.list = {
             console.log("Bold");
             console.log("Reset");
         } else {
-         console.log ("Please specify a valid style or do Colortext help for a list");   
+            console.log("Please specify a valid style or do Colortext help for a list");
         }
-        
+
     },
     whitelist: function(gameServer, split) {
         console.log("[Console] Current whitelisted IPs (" + gameServer.whlist.length + ")");
@@ -152,7 +152,7 @@ Commands.list = {
             console.log("[Console] That IP is already whitelisted");
         }
     },
-    unwhitelist: function (gameServer, split) {
+    unwhitelist: function(gameServer, split) {
         var ip = split[1]; // Get ip
         var index = gameServer.whlist.indexOf(ip);
         if (index > -1) {
@@ -162,7 +162,7 @@ Commands.list = {
             console.log("That IP is not whitelisted");
         }
     },
-    unban: function (gameServer, split) {
+    unban: function(gameServer, split) {
         var ip = split[1]; // Get ip
         var index = gameServer.banned.indexOf(ip);
         if (index > -1) {
@@ -208,7 +208,7 @@ Commands.list = {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-        
+
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
@@ -262,46 +262,46 @@ Commands.list = {
         var ip = split[1];
 
         if (gameServer.whlist.indexOf(ip) == -1) {
-        if (gameServer.banned.indexOf(ip) == -1) {
-            gameServer.banned.push(ip);
-            console.log("[Console] Added " + ip + " to the banlist");
-            // Remove from game
-            var newLB = [];
-            newLB[0] = "The Ban Hammer";
-            newLB[1] = "Has Spoken!";
-            newLB[2] = "A Player has been";
-            newLB[3] = "Banned with IP";
-            newLB[4] = ip;
-            // Clears the update leaderboard function and replaces it with our own
-            gameServer.gameMode.packetLB = 48;
-            gameServer.gameMode.specByLeaderboard = false;
-            gameServer.gameMode.updateLB = function(gameServer) {
-                gameServer.leaderboard = newLB
-            };
-            setTimeout(function() {
-                var gm = GameMode.get(gameServer.gameMode.ID);
+            if (gameServer.banned.indexOf(ip) == -1) {
+                gameServer.banned.push(ip);
+                console.log("[Console] Added " + ip + " to the banlist");
+                // Remove from game
+                var newLB = [];
+                newLB[0] = "The Ban Hammer";
+                newLB[1] = "Has Spoken!";
+                newLB[2] = "A Player has been";
+                newLB[3] = "Banned with IP";
+                newLB[4] = ip;
+                // Clears the update leaderboard function and replaces it with our own
+                gameServer.gameMode.packetLB = 48;
+                gameServer.gameMode.specByLeaderboard = false;
+                gameServer.gameMode.updateLB = function(gameServer) {
+                    gameServer.leaderboard = newLB
+                };
+                setTimeout(function() {
+                    var gm = GameMode.get(gameServer.gameMode.ID);
 
-                // Replace functions
-                gameServer.gameMode.packetLB = gm.packetLB;
-                gameServer.gameMode.updateLB = gm.updateLB;
+                    // Replace functions
+                    gameServer.gameMode.packetLB = gm.packetLB;
+                    gameServer.gameMode.updateLB = gm.updateLB;
 
-            }, 14000);
-            for (var i in gameServer.clients) {
-                var c = gameServer.clients[i];
-                if (!c.remoteAddress) {
-                    continue;
+                }, 14000);
+                for (var i in gameServer.clients) {
+                    var c = gameServer.clients[i];
+                    if (!c.remoteAddress) {
+                        continue;
+                    }
+                    if (c.remoteAddress == ip) {
+
+                        //this.socket.close();
+                        c.close(); // Kick out
+                    }
                 }
-                if (c.remoteAddress == ip) {
-
-                    //this.socket.close();
-                    c.close(); // Kick out
-                }
+            } else {
+                console.log("[Console] That IP is already banned");
             }
         } else {
-            console.log("[Console] That IP is already banned");
-        }
-        } else {
-            
+
             console.log("[Console] That IP is whitelisted")
         }
     },
@@ -653,7 +653,6 @@ Commands.list = {
         if (isNaN(add)) {
             add = 1; // Adds 1 bot if user doesnt specify a number
         }
-      
 
         for (var i = 0; i < add; i++) {
             gameServer.bots.addBot();
@@ -761,7 +760,7 @@ Commands.list = {
         }
     },
     exit: function(gameServer, split) {
-        
+
         console.log("\x1b[0m[Console] Closing server...");
         gameServer.socketServer.close();
         process.exit(1);
@@ -769,43 +768,40 @@ Commands.list = {
     restart: function(gameServer, split) {
         var time = split[1];
         if (isNaN(time) || time < 1) {
-        
-        console.log("\x1b[0m[Console] Restarting server...");
-        gameServer.socketServer.close();
-        process.exit(3);
+
+            console.log("\x1b[0m[Console] Restarting server...");
+            gameServer.socketServer.close();
+            process.exit(3);
         } else {
-            console.log("Server Restarting in "+time+" minutes!");
+            console.log("Server Restarting in " + time + " minutes!");
             setTimeout(function() {
                 var newLB = [];
                 newLB[0] = "Server Restarting"
                 newLB[1] = "In 1 Minute"
-                
+
                 // Clears the update leaderboard function and replaces it with our own
-        gameServer.gameMode.packetLB = 48;
-        gameServer.gameMode.specByLeaderboard = false;
-        gameServer.gameMode.updateLB = function(gameServer) {
-            gameServer.leaderboard = newLB
-        };
-        console.log("The Server is Restarting in 1 Minute");
-        setTimeout(function() {
-            var gm = GameMode.get(gameServer.gameMode.ID);
-
-            // Replace functions
-            gameServer.gameMode.packetLB = gm.packetLB;
-            gameServer.gameMode.updateLB = gm.updateLB;
-
-        }, 14000);
-                
-                
-                
-                
+                gameServer.gameMode.packetLB = 48;
+                gameServer.gameMode.specByLeaderboard = false;
+                gameServer.gameMode.updateLB = function(gameServer) {
+                    gameServer.leaderboard = newLB
+                };
+                console.log("The Server is Restarting in 1 Minute");
                 setTimeout(function() {
-                console.log("\x1b[0m[Console] Restarting server...");
-        gameServer.socketServer.close();
-        process.exit(3);
-            },60000)
-            },(time * 60000) - 60000)
-            
+                    var gm = GameMode.get(gameServer.gameMode.ID);
+
+                    // Replace functions
+                    gameServer.gameMode.packetLB = gm.packetLB;
+                    gameServer.gameMode.updateLB = gm.updateLB;
+
+                }, 14000);
+
+                setTimeout(function() {
+                    console.log("\x1b[0m[Console] Restarting server...");
+                    gameServer.socketServer.close();
+                    process.exit(3);
+                }, 60000)
+            }, (time * 60000) - 60000)
+
         }
     },
     food: function(gameServer, split) {
