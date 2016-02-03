@@ -87,7 +87,6 @@ Commands.list = {
         console.log("[Console] Split      : Splits a player");
         console.log("[Console] Team       : Changes a players Team");
         console.log("[Console] Colortext  : changes text style");
-        console.log("[Console] Highscore  : Tells you the high score");
         console.log("[Console] ====================================================");
     },
     colortext: function(gameServer, split) {
@@ -377,7 +376,7 @@ Commands.list = {
             gameServer.gameMode.specByLeaderboard = false;
             gameServer.gameMode.updateLB = function(gameServer) {
                 gameServer.leaderboard = newLB
-            };
+            }
             console.log("[PMSG] The message has been broadcast " + r + "/" + re);
             var gm = GameMode.get(gameServer.gameMode.ID);
             setTimeout(function() {
@@ -800,8 +799,8 @@ Commands.list = {
                     console.log("\x1b[0m[Console] Restarting server...");
                     gameServer.socketServer.close();
                     process.exit(3);
-                }, 60000)
-            }, (time * 60000) - 60000)
+                }, 60000);
+            }, (time * 60000) - 60000);
 
         }
     },
