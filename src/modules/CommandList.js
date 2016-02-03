@@ -49,6 +49,7 @@ Commands.list = {
         console.log("[Console] kickbots   : kick a specified amount of bots");
         console.log("[Console] board      : set scoreboard text");
         console.log("[Console] Restart    : Restart server or set time till restart");
+        console.log("[Console] Highscore  : Tells you the highscore");
         console.log("[Console] boardreset : reset scoreboard text");
         console.log("[Console] change     : change specified settings");
         console.log("[Console] clear      : clear console output");
