@@ -164,38 +164,35 @@ GameServer.prototype.start = function() {
         console.log("[Game] Current game mode is " + this.gameMode.name);
         if (this.config.restartmin != 0) {
             var time = this.config.restartmin
-             console.log("Server Restarting in "+time+" minutes!");
+            console.log("Server Restarting in " + time + " minutes!");
             setTimeout(function() {
                 var newLB = [];
                 newLB[0] = "Server Restarting"
                 newLB[1] = "In 1 Minute"
-                
+
                 // Clears the update leaderboard function and replaces it with our own
-        gameServer.gameMode.packetLB = 48;
-        gameServer.gameMode.specByLeaderboard = false;
-        gameServer.gameMode.updateLB = function(gameServer) {
-            gameServer.leaderboard = newLB
-        };
-        console.log("The Server is Restarting in 1 Minute");
-        setTimeout(function() {
-            var gm = GameMode.get(gameServer.gameMode.ID);
-
-            // Replace functions
-            gameServer.gameMode.packetLB = gm.packetLB;
-            gameServer.gameMode.updateLB = gm.updateLB;
-
-        }, 14000);
-                
-                
-                
-                
+                gameServer.gameMode.packetLB = 48;
+                gameServer.gameMode.specByLeaderboard = false;
+                gameServer.gameMode.updateLB = function(gameServer) {
+                    gameServer.leaderboard = newLB
+                };
+                console.log("The Server is Restarting in 1 Minute");
                 setTimeout(function() {
-                console.log("\x1b[0m[Console] Restarting server...");
-        gameServer.socketServer.close();
-        process.exit(3);
-            },60000)
-            },(time * 60000) - 60000)
-            
+                    var gm = GameMode.get(gameServer.gameMode.ID);
+
+                    // Replace functions
+                    gameServer.gameMode.packetLB = gm.packetLB;
+                    gameServer.gameMode.updateLB = gm.updateLB;
+
+                }, 14000);
+
+                setTimeout(function() {
+                    console.log("\x1b[0m[Console] Restarting server...");
+                    gameServer.socketServer.close();
+                    process.exit(3);
+                }, 60000)
+            }, (time * 60000) - 60000)
+
         }
         Cell.spi = this.config.SpikedCells
             // Player bots (Experimental)
@@ -241,11 +238,11 @@ GameServer.prototype.start = function() {
         // AGAINST YOU. THIS SECTION OF CODE WAS ADDED ON JULY 9, 2015 AT THE REQUEST
         // OF THE AGAR.IO DEVELOPERS.
         var origin = ws.upgradeReq.headers.origin;
-        if (origin != 'http://agar.io' && 
-            origin != 'https://agar.io' && 
-            origin != 'http://localhost' && 
-            origin != 'https://localhost' && 
-            origin != 'http://127.0.0.1' && 
+        if (origin != 'http://agar.io' &&
+            origin != 'https://agar.io' &&
+            origin != 'http://localhost' &&
+            origin != 'https://localhost' &&
+            origin != 'http://127.0.0.1' &&
             origin != 'https://127.0.0.1') {
             ws.close();
             return;
@@ -298,7 +295,7 @@ GameServer.prototype.start = function() {
         }
 
         function close(error) {
-         ipcounts[this.socket.remoteAddress] --;
+            ipcounts[this.socket.remoteAddress]--;
             // Log disconnections
             if (showlmsg == 1) {
                 console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
@@ -368,114 +365,124 @@ GameServer.prototype.getNewPlayerID = function() {
 };
 
 GameServer.prototype.liveconsole = function() {
-        if (this.livestage == 0) {
-            if (this.liveticks > 80) {
+    if (this.livestage == 0) {
+        if (this.liveticks > 80) {
             this.livestage = 1;
-                this.firstl = true;
-                this.liveticks = 0;
-            }
-    var players = 0;
-    this.clients.forEach(function(client) {
-        if (client.playerTracker && client.playerTracker.cells.length > 0)
-            players++
-    });
-            var line1 = "               Status                            ";
-            var line2 = "       Players:      "+this.clients.length+"                           ";
-            var line3 = "       Spectators:   "+ (this.clients.length - players) + "                            ";
-            var line4 = "       Alive:        "+players+ "                          ";
-            var line5 = "       Max Players:  "+ this.config.serverMaxConnections+ "                        ";
-            var line6 = "       Start Time:   "+ this.startTime+ "                ";
-        } else
-            if (this.livestage == 1) {
-            if (this.liveticks > 80) {
-                this.liveticks = 0;
-                this.firstl = true;
-                this.livestage = 2;
-            }
-    var players = 0;
-    this.clients.forEach(function(client) {
-        if (client.playerTracker && client.playerTracker.cells.length > 0)
-            players++
-    });
-                if (!this.gameMode.haveTeams) {
-                    if (this.leaderboard.length <= 0) {
-                        var l1 = "No Players";
-                        var l2 = "Are Playing";
-                        var l3 = "";
-                        var l4 = "";
-                        var l5 = "";
-                    } else {
-    if (players > 0) {
-        var l1 = this.leaderboard[0].name;
-    } else { var l1 = "None" }
-    if (players > 1) {
-        var l2 = this.leaderboard[1].name;
-    } else { var l2 = "None" }
-    if (players > 2) {
-        var l3 = this.leaderboard[2].name;
-    } else { var l3 = "None" }
-    if (players > 3) {
-        var l4 = this.leaderboard[3].name;
-    } else { var l4 = "None" }
-    if (players > 4) {
-        var l5 = this.leaderboard[4].name;
-    } else { var l5 = "None" }
-                    }
+            this.firstl = true;
+            this.liveticks = 0;
+        }
+        var players = 0;
+        this.clients.forEach(function(client) {
+            if (client.playerTracker && client.playerTracker.cells.length > 0)
+                players++
+        });
+        var line1 = "               Status                            ";
+        var line2 = "       Players:      " + this.clients.length + "                           ";
+        var line3 = "       Spectators:   " + (this.clients.length - players) + "                            ";
+        var line4 = "       Alive:        " + players + "                          ";
+        var line5 = "       Max Players:  " + this.config.serverMaxConnections + "                        ";
+        var line6 = "       Start Time:   " + this.startTime + "                ";
+    } else
+    if (this.livestage == 1) {
+        if (this.liveticks > 80) {
+            this.liveticks = 0;
+            this.firstl = true;
+            this.livestage = 2;
+        }
+        var players = 0;
+        this.clients.forEach(function(client) {
+            if (client.playerTracker && client.playerTracker.cells.length > 0)
+                players++
+        });
+        if (!this.gameMode.haveTeams) {
+            if (this.leaderboard.length <= 0) {
+                var l1 = "No Players";
+                var l2 = "Are Playing";
+                var l3 = "";
+                var l4 = "";
+                var l5 = "";
+            } else {
+                if (players > 0) {
+                    var l1 = this.leaderboard[0].name;
                 } else {
-                    var l1 = "Sorry, No leader";
-                    var l2 = "Board in Teams!";
-                    var l3 = "";
-                    var l4 = "";
-                    var l5 = "";
+                    var l1 = "None"
                 }
-            var line1 = "              Leaderboard                   ";
-            var line2 = "               1."+l1 + "                    ";
-            var line3 = "               2."+l2 + "                    ";
-            var line4 = "               3."+l3 + "                    ";
-            var line5 = "               4."+l4 + "                    ";
-            var line6 = "               5."+l5 + "                    ";
-            } else
+                if (players > 1) {
+                    var l2 = this.leaderboard[1].name;
+                } else {
+                    var l2 = "None"
+                }
+                if (players > 2) {
+                    var l3 = this.leaderboard[2].name;
+                } else {
+                    var l3 = "None"
+                }
+                if (players > 3) {
+                    var l4 = this.leaderboard[3].name;
+                } else {
+                    var l4 = "None"
+                }
+                if (players > 4) {
+                    var l5 = this.leaderboard[4].name;
+                } else {
+                    var l5 = "None"
+                }
+            }
+        } else {
+            var l1 = "Sorry, No leader";
+            var l2 = "Board in Teams!";
+            var l3 = "";
+            var l4 = "";
+            var l5 = "";
+        }
+        var line1 = "              Leaderboard                   ";
+        var line2 = "               1." + l1 + "                    ";
+        var line3 = "               2." + l2 + "                    ";
+        var line4 = "               3." + l3 + "                    ";
+        var line5 = "               4." + l4 + "                    ";
+        var line6 = "               5." + l5 + "                    ";
+    } else
     if (this.livestage == 2) {
-            if (this.liveticks > 80) {
+        if (this.liveticks > 80) {
             this.livestage = 0;
             this.liveticks = 0;
             this.firstl = true;
-            }
+        }
         var line1 = "               Status                            ";
-            var line2 = "       Uptime:      "+ process.uptime() +"                    ";
-            var line3 = "       Memory:      "+ process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
-            var line4 = "       Banned:      "+ this.banned.length+ "        ";
-            var line5 = "                                               ";
-            var line6 = "                                                ";
+        var line2 = "       Uptime:      " + process.uptime() + "                    ";
+        var line3 = "       Memory:      " + process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
+        var line4 = "       Banned:      " + this.banned.length + "        ";
+        var line5 = "                                               ";
+        var line6 = "                                                ";
     }
     if (this.firstl) {
-    process.stdout.write("\u001B[s\u001B[H\u001B[6r");
-            process.stdout.write("\u001B[8;36;44m   ___                                                                        " + EOL);
-            process.stdout.write("  / _ \\ __ _ __ _ _ _                                                         " + EOL);
-            process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
-            process.stdout.write("  \\___/\\__, \\__,_|_|                                                          "+EOL);
-            process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
-            process.stdout.write("   u n l i m i t e d                                                          " + EOL);
-            process.stdout.write("\u001B[0m\u001B[u");
+        process.stdout.write("\u001B[s\u001B[H\u001B[6r");
+        process.stdout.write("\u001B[8;36;44m   ___                                                                        " + EOL);
+        process.stdout.write("  / _ \\ __ _ __ _ _ _                                                         " + EOL);
+        process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
+        process.stdout.write("  \\___/\\__, \\__,_|_|                                                          " + EOL);
+        process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
+        process.stdout.write("   u n l i m i t e d                                                          " + EOL);
+        process.stdout.write("\u001B[0m\u001B[u");
         this.firstl = false;
     }
-    
+
     if (this.resticks > 29) {
         this.firstl = true;
         this.resticks = 0;
     } else {
-        this.resticks ++;
+        this.resticks++;
     }
-    
-            process.stdout.write("\u001B[s\u001B[H\u001B[6r");
-            process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
-            process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
-            process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
-            process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 +EOL);
-            process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
-            process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
-            process.stdout.write("\u001B[0m\u001B[u");
-    this.liveticks ++;
+
+    process.stdout.write("\u001B[s\u001B[H\u001B[6r");
+    process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
+    process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
+    process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
+    process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 + EOL);
+    process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
+    process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
+    process.stdout.write("\u001B[0m\u001B[u");
+    this.liveticks++;
 };
 
 GameServer.prototype.getRandomPosition = function() {
@@ -637,9 +644,9 @@ GameServer.prototype.mainLoop = function() {
             setTimeout(this.spawnTick(), 0);
             setTimeout(this.gamemodeTick(), 0);
         }
-        
+
         if (this.config.liveConsole == 1) {
-        this.liveconsole();
+            this.liveconsole();
         }
         // Update the client's maps
         this.updateClients();
@@ -712,7 +719,7 @@ GameServer.prototype.updateFood = function() {
 };
 
 GameServer.prototype.spawnFood = function() {
-    var f = new Entity.Food(this.getNextNodeId(), null, this.getRandomPosition(), this.config.foodMass,this);
+    var f = new Entity.Food(this.getNextNodeId(), null, this.getRandomPosition(), this.config.foodMass, this);
     f.setColor(this.getRandomColor());
 
     this.addNode(f);
@@ -728,7 +735,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     }
 
     // Spawn player and add to world
-    var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass,this);
+    var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
     this.addNode(cell);
 
     // Set initial mouse coords
@@ -741,32 +748,33 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
 GameServer.prototype.virusCheck = function() {
     // Checks if there are enough viruses on the map
     if (this.spawnv == 1) {
-    if (this.nodesVirus.length < this.config.virusMinAmount) {
-        // Spawns a virus
-        var pos = this.getRandomPosition();
-        var virusSquareSize = (this.config.virusStartMass * 100) >> 0;
+        if (this.nodesVirus.length < this.config.virusMinAmount) {
+            // Spawns a virus
+            var pos = this.getRandomPosition();
+            var virusSquareSize = (this.config.virusStartMass * 100) >> 0;
 
-        // Check for players
-        for (var i = 0; i < this.nodesPlayer.length; i++) {
-            var check = this.nodesPlayer[i];
+            // Check for players
+            for (var i = 0; i < this.nodesPlayer.length; i++) {
+                var check = this.nodesPlayer[i];
 
-            if (check.mass < this.config.virusStartMass) {
-                continue;
+                if (check.mass < this.config.virusStartMass) {
+                    continue;
+                }
+
+                var squareR = check.getSquareSize(); // squared Radius of checking player cell
+
+                var dx = check.position.x - pos.x;
+                var dy = check.position.y - pos.y;
+
+                if (dx * dx + dy * dy + virusSquareSize <= squareR)
+                    return; // Collided
             }
 
-            var squareR = check.getSquareSize(); // squared Radius of checking player cell
-
-            var dx = check.position.x - pos.x;
-            var dy = check.position.y - pos.y;
-
-            if (dx * dx + dy * dy + virusSquareSize <= squareR)
-                return; // Collided
+            // Spawn if no cells are colliding
+            var v = new Entity.Virus(this.getNextNodeId(), null, pos, this.config.virusStartMass);
+            this.addNode(v);
         }
-
-        // Spawn if no cells are colliding
-        var v = new Entity.Virus(this.getNextNodeId(), null, pos, this.config.virusStartMass);
-        this.addNode(v);
-    }}
+    }
 };
 
 GameServer.prototype.getDist = function(x1, y1, x2, y2) { // Use Pythagoras theorem
@@ -887,16 +895,19 @@ GameServer.prototype.splitCells = function(client) {
         // Get angle
         var deltaY = client.mouse.y - cell.position.y;
         var deltaX = client.mouse.x - cell.position.x;
-        var angle = Math.atan2(deltaX,deltaY);
+        var angle = Math.atan2(deltaX, deltaY);
 
         // Get starting position
-        var startPos = {x: cell.position.x, y: cell.position.y};
+        var startPos = {
+            x: cell.position.x,
+            y: cell.position.y
+        };
         // Calculate mass and speed of splitting cell
         var newMass = cell.mass / 2;
         cell.mass = newMass;
 
         // Create cell
-        var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass,this);
+        var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
         split.setAngle(angle);
         var splitSpeed = this.config.splitSpeed * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
         split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
@@ -936,12 +947,12 @@ GameServer.prototype.ejecttMass = function(client) {
             x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
             y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
         };
-        
+
         // Randomize angle
         angle += (Math.random() * .4) - .2;
 
         // Create cell
-        var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, -100,this);
+        var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, -100, this);
         ejected.setAngle(angle);
         ejected.setMoveEngineData(this.config.ejectantispeed, 20);
         ejected.setColor(cell.getColor());
@@ -978,20 +989,20 @@ GameServer.prototype.ejectMass = function(client) {
 
         // Remove mass from parent cell
         cell.mass -= this.config.ejectMassLoss;
-        
+
         // Randomize angle
         angle += (Math.random() * .4) - .2;
 
         // Create cell
-        var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass,this);
+        var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         ejected.setMoveEngineData(this.config.ejectSpeed, 20);
         if (this.config.randomEjectMassColor == 1) {
             ejected.setColor(this.getRandomColor());
         } else {
-            ejected.setColor(cell.getColor());  
+            ejected.setColor(cell.getColor());
         }
-        
+
         this.addNode(ejected);
         this.setAsMovingNode(ejected);
     }
