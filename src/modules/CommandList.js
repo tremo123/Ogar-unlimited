@@ -928,7 +928,7 @@ Commands.list = {
         }
     },
     highscore: function(gameServer, split) {
-        console.log("High score: "+ gameServer.topscore+ " By " + gameServer.topusername);
+        console.log("High score: " + gameServer.topscore + " By " + gameServer.topusername);
     },
     killall: function(gameServer, split) {
         var count = 0;
