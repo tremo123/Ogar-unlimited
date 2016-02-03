@@ -38,6 +38,8 @@
    * De-OPs a player
  - Rop
    * Resets op
+ - Restart [minutes]
+   * Restarts the server after a number of minutes or if you leave min blank, restarts immediatly
  - Pfmsg [delay] [duration] [x to repeat] [msg1] [msg2] [etc...]
    * Periodically sends a force message (seconds)
  - Spfmsg []
