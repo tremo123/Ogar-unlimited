@@ -162,8 +162,8 @@ GameServer.prototype.start = function() {
         // Done
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
-        if (this.restartmin != 0) {
-            var time = this.restartmin
+        if (this.config.restartmin != 0) {
+            var time = this.config.restartmin
              console.log("Server Restarting in "+time+" minutes!");
             setTimeout(function() {
                 var newLB = [];
