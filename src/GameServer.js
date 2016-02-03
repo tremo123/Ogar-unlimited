@@ -331,18 +331,16 @@ GameServer.prototype.getNewPlayerID = function() {
 };
 
 GameServer.prototype.liveconsole = function() {
-    
         if (this.livestage == 0) {
             if (this.liveticks > 80) {
             this.livestage = 1;
                 this.liveticks = 0;
             }
-            var players = 0;
+    var players = 0;
     this.clients.forEach(function(client) {
         if (client.playerTracker && client.playerTracker.cells.length > 0)
             players++
     });
-     
             var line1 = "               Status                            ";
             var line2 = "       Players:      "+this.clients.length+"                           ";
             var line3 = "       Spectators:   "+ (this.clients.length - players) + "                            ";
@@ -353,38 +351,36 @@ GameServer.prototype.liveconsole = function() {
             if (this.livestage == 1) {
             if (this.liveticks > 80) {
                 this.liveticks = 0;
-            this.livestage = 2;
+                this.livestage = 2;
             }
-            var players = 0;
+    var players = 0;
     this.clients.forEach(function(client) {
         if (client.playerTracker && client.playerTracker.cells.length > 0)
             players++
     });
                 if (!this.gameMode.haveTeams) {
                     if (this.leaderboard.length <= 0) {
-                        
                         var l1 = "No Players";
                         var l2 = "Are Playing";
                         var l3 = "";
                         var l4 = "";
                         var l5 = "";
-                        
                     } else {
-     if (players > 0) {
+    if (players > 0) {
         var l1 = this.leaderboard[0].name;
-     } else { var l1 = "None" }
-                if (players > 1) {
+    } else { var l1 = "None" }
+    if (players > 1) {
         var l2 = this.leaderboard[1].name;
-     } else { var l2 = "None" }
+    } else { var l2 = "None" }
     if (players > 2) {
         var l3 = this.leaderboard[2].name;
-     } else { var l3 = "None" }
+    } else { var l3 = "None" }
     if (players > 3) {
         var l4 = this.leaderboard[3].name;
-     } else { var l4 = "None" }
-        if (players > 4) {
+    } else { var l4 = "None" }
+    if (players > 4) {
         var l5 = this.leaderboard[4].name;
-     } else { var l5 = "None" }
+    } else { var l5 = "None" }
                     }
                 } else {
                     var l1 = "Sorry, No leader";
@@ -392,7 +388,6 @@ GameServer.prototype.liveconsole = function() {
                     var l3 = "";
                     var l4 = "";
                     var l5 = "";
-                    
                 }
             var line1 = "              Leaderboard                   ";
             var line2 = "               1."+l1 + "                    ";
@@ -404,16 +399,14 @@ GameServer.prototype.liveconsole = function() {
     if (this.livestage == 2) {
             if (this.liveticks > 80) {
             this.livestage = 0;
-                this.liveticks = 0;
+            this.liveticks = 0;
             }
-        
         var line1 = "               Status                            ";
             var line2 = "       Uptime:      "+ process.uptime() +"                    ";
             var line3 = "       Memory:      "+ process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
             var line4 = "       Banned:      "+ this.banned.length+ "        ";
             var line5 = "                                               ";
             var line6 = "                                                ";
-        
     }
     if (this.firstl) {
     process.stdout.write("\u001B[s\u001B[H\u001B[6r");
@@ -422,7 +415,7 @@ GameServer.prototype.liveconsole = function() {
             process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
             process.stdout.write("  \\___/\\__, \\__,_|_|                                                          "+EOL);
             process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
-             process.stdout.write("   u n l i m i t e d                                                          " + EOL);
+            process.stdout.write("   u n l i m i t e d                                                          " + EOL);
             process.stdout.write("\u001B[0m\u001B[u");
         this.firstl = false;
     } else {
@@ -434,10 +427,10 @@ GameServer.prototype.liveconsole = function() {
             process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
             process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 +EOL);
             process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
-             process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
+            process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
             process.stdout.write("\u001B[0m\u001B[u");
     this.liveticks ++;
-        };
+};
 
 GameServer.prototype.getRandomPosition = function() {
     return {
