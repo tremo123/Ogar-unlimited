@@ -87,6 +87,7 @@ Commands.list = {
         console.log("[Console] Split      : Splits a player");
         console.log("[Console] Team       : Changes a players Team");
         console.log("[Console] Colortext  : changes text style");
+        console.log("[Console] Highscore  : Tells you the high score");
         console.log("[Console] ====================================================");
     },
     colortext: function(gameServer, split) {
@@ -925,6 +926,9 @@ Commands.list = {
                 break;
             }
         }
+    },
+    highscore: function(gameServer, split) {
+        console.log("High score: "+ gameServer.topscore+ " By " + gameServer.topusername);
     },
     killall: function(gameServer, split) {
         var count = 0;
