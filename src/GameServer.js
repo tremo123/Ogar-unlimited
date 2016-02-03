@@ -18,6 +18,8 @@ var Logger = require('./modules/log');
 function GameServer() {
     // Startup
     this.ipCounts = [];
+    this.topscore = 50;
+    this.topusername = "None";
     this.resticks = 0;
     this.spawnv = 1;
     this.overideauto = false;
@@ -452,7 +454,7 @@ GameServer.prototype.liveconsole = function() {
         var line2 = "       Uptime:      " + process.uptime() + "                    ";
         var line3 = "       Memory:      " + process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
         var line4 = "       Banned:      " + this.banned.length + "        ";
-        var line5 = "                                               ";
+        var line5 = "       Highscore:   "+this.topscore+ " By " + this.topusername + "      ";
         var line6 = "                                                ";
     }
     if (this.firstl) {
