@@ -424,7 +424,7 @@ GameServer.prototype.liveconsole = function() {
         this.firstl = false;
     }
     
-    if (this.resticks > 9) {
+    if (this.resticks > 11) {
         this.firstl = true;
         this.resticks = 0;
     } else {
