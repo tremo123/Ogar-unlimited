@@ -21,6 +21,7 @@ This Modified copy was created to help those who want to open their server to th
  11. Better physics (ejected mass and split)
  12. Colortext command (Changes console output color and style)
  13. Live Console (see gameserver.ini, where a live console appears) NOTE: this is way different that Ogarserv's Console
+ 14. Restart. Make it restart automatically or restart manually, Only works if use windows start script
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
@@ -111,6 +112,8 @@ The current available console commands are listed here. Command names are not ca
    * Unbans an IP
  - Kickbots [number]
    * Kicks a number of bots (leave field blank and it will kick all bots)
+ - Restart [minutes]
+   * Restarts the server after a number of minutes or if you leave min blank, restarts immediatly
  - Banlist
    * Lists banned IPs
  - Clearban
