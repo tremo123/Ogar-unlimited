@@ -94,6 +94,7 @@ Id   | Name
 14. autopause: 1 = on (default) 0 = off
 15. randomEjectedMassColor: 1 = on, 0 = off
 16. liveConsole: 1 = on, 0 = off. Where you can see all stats easily
+17. restartmin: Time in minutes till server restarts (if 0, it is off)
 
 ## OP
 
