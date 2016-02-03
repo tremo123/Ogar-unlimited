@@ -18,6 +18,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     // Startup
     this.ipCounts = [];
+    this.resticks = 0;
     this.spawnv = 1;
     this.overideauto = false;
     this.livestage = 0;
@@ -422,6 +423,14 @@ GameServer.prototype.liveconsole = function() {
             process.stdout.write("\u001B[0m\u001B[u");
         this.firstl = false;
     }
+    
+    if (this.resticks > 7) {
+        this.firstl = true;
+        this.resticks = 0;
+    } else {
+        this.resticks ++;
+    }
+    
             process.stdout.write("\u001B[s\u001B[H\u001B[6r");
             process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
             process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
