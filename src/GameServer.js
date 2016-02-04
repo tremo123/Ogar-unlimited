@@ -18,6 +18,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     // Startup
     this.ipCounts = [];
+    this.lleaderboard = true;
     this.topscore = 50;
     this.topusername = "None";
     this.resticks = 0;
@@ -381,7 +382,7 @@ GameServer.prototype.liveconsole = function() {
             if (client.playerTracker && client.playerTracker.cells.length > 0)
                 players++
         });
-        if (!this.gameMode.haveTeams) {
+        if (!this.gameMode.haveTeams && this.lleaderboard) {
             if (this.leaderboard.length <= 0) {
                 var l1 = "No Players";
                 var l2 = "Are Playing";
