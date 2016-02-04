@@ -39,6 +39,7 @@ function GameServer() {
     this.lastNodeId = 1;
     this.lastPlayerId = 1;
     this.clients = [];
+    this.oldtopscores = {score: 100,name:"none"};
     this.nodes = [];
     this.nodesVirus = []; // Virus nodes
     this.nodesEjected = []; // Ejected mass nodes
@@ -56,6 +57,7 @@ function GameServer() {
     // Main loop tick
     this.time = +new Date;
     this.startTime = this.time;
+    this.atick = 0;
     this.tick = 0; // 1 second ticks of mainLoop
     this.tickMain = 0; // 50 ms ticks, 20 of these = 1 leaderboard update
     this.tickSpawn = 0; // Used with spawning food
@@ -67,7 +69,6 @@ function GameServer() {
         ffaTimeLimit: 60, // TFFA time
         ffaMaxLB: 10, // Max leaderboard slots
         showtopscore: 0,
-        anounceHS: 0,
         anounceDelay: 70,
         anounceDuration: 8,
         ejectantispeed: 120, // Speed of ejected anti matter
@@ -168,64 +169,6 @@ GameServer.prototype.start = function() {
         // Done
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
-        if (0 == 1) {
-           var v = setInterval(function(){
-               var newLB = [];
-               newLB[0] = "Highscore:";
-               newLB[1] = this.topscore;
-               newLB[2] = "  By  ";
-               newLB[3] = this.topusername;
-               this.gameMode.packetLB = 48;
-            this.gameMode.specByLeaderboard = false;
-            this.gameMode.updateLB = function() {
-                this.leaderboard = newLB
-            }
-            var gm = GameMode.get(this.gameMode.ID);
-               setTimeout(function() {
-                   
-                   this.gameMode.packetLB = gm.packetLB;
-                this.gameMode.updateLB = gm.updateLB;
-               },this.config.anounceDuration);
-               
-               
-               
-           },this.config.anounceDelay);
-        }
-        
-        
-        
-        if (1 != 0) {
-            var time = this.config.restartmin
-            console.log("Server Restarting in " + time + " minutes!");
-            setTimeout(function() {
-                var newLB = [];
-                newLB[0] = "Server Restarting"
-                newLB[1] = "In 1 Minute"
-
-                // Clears the update leaderboard function and replaces it with our own
-                this.gameMode.packetLB = 48;
-                this.gameMode.specByLeaderboard = false;
-                this.gameMode.updateLB = function() {
-                    this.leaderboard = newLB
-                };
-                console.log("The Server is Restarting in 1 Minute");
-                setTimeout(function() {
-                    var gm = GameMode.get(this.gameMode.ID);
-
-                    // Replace functions
-                    this.gameMode.packetLB = gm.packetLB;
-                    this.gameMode.updateLB = gm.updateLB;
-
-                }, 14000);
-
-                setTimeout(function() {
-                    console.log("\x1b[0m[Console] Restarting server...");
-                    this.socketServer.close();
-                    process.exit(3);
-                }, 60000);
-            }, (time * 60000) - 60000);
-
-        }
         Cell.spi = this.config.SpikedCells
             // Player bots (Experimental)
         if (this.config.serverBots > 0) {
@@ -233,6 +176,18 @@ GameServer.prototype.start = function() {
                 this.bots.addBot();
             }
             console.log("[Game] Loaded " + this.config.serverBots + " player bots");
+        }
+         if (this.config.restartmin != 0) {
+            var time = this.config.restartmin
+            console.log("[Console] Server Restarting in " + time + " minutes!");
+               setTimeout(function() {
+              console.log("\x1b[0m[Console] Restarting server...");
+            process.exit(3);     
+                   
+                   
+               },this.config.restartmin * 60000)
+                
+
         }
 
     }.bind(this));
@@ -375,10 +330,10 @@ GameServer.prototype.start = function() {
 
     this.startStatsServer(this.config.serverStatsPort);
 };
-
 GameServer.prototype.getMode = function() {
     return this.gameMode;
 };
+
 
 GameServer.prototype.getNextNodeId = function() {
     // Resets integer
@@ -668,6 +623,10 @@ GameServer.prototype.mainLoop = function() {
     var local = new Date();
     this.tick += (local - this.time);
     this.time = local;
+   
+    
+    
+    
 
     if (this.tick >= 50) {
         // Loop main functions
@@ -686,6 +645,21 @@ GameServer.prototype.mainLoop = function() {
         // Update cells/leaderboard loop
         this.tickMain++;
         if (this.tickMain >= 20) { // 1 Second
+            this.atick ++;
+             if (0 == this.config.anounceDelay) {
+          var newLB = [];
+               newLB[0] = "Highscore:";
+               newLB[1] = this.topscore;
+               newLB[2] = "  By  ";
+               newLB[3] = this.topusername;
+        this.customLB(newLB,this);
+        console.log("set");
+        
+    } else if (0 == this.config.anounceDelay +this.config.anounceDuration){
+        this.resetlb();
+        console.log("reset");
+        this.atick = 0;
+    }
             setTimeout(this.cellUpdateTick(), 0);
 
             // Update leaderboard with the gamemode's method
@@ -724,6 +698,12 @@ GameServer.prototype.mainLoop = function() {
             }
         }
     }
+};
+GameServer.prototype.resetlb = function() {
+     // Replace functions
+    var gm = Gamemode.get(this.gameMode.ID);
+            this.gameMode.packetLB = gm.packetLB;
+            this.gameMode.updateLB = gm.updateLB;
 };
 
 GameServer.prototype.updateClients = function() {
@@ -992,6 +972,29 @@ GameServer.prototype.ejecttMass = function(client) {
         this.addNode(ejected);
         this.setAsMovingNode(ejected);
     }
+};
+GameServer.prototype.customLB = function(newLB,gameServer) {
+gameServer.gameMode.packetLB = 48;
+        gameServer.gameMode.specByLeaderboard = false;
+        gameServer.gameMode.updateLB = function(gameServer) {
+            gameServer.leaderboard = newLB
+        };
+               
+};
+
+GameServer.prototype.anounce = function() {
+    
+               var newLB = [];
+               newLB[0] = "Highscore:";
+               newLB[1] = this.topscore;
+               newLB[2] = "  By  ";
+               newLB[3] = this.topusername;
+              
+
+               this.customLB(this.config.anounceDuration * 1000, newLB, this);
+               
+               
+           
 };
 
 GameServer.prototype.ejectMass = function(client) {
