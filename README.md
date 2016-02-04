@@ -90,6 +90,8 @@ The current available console commands are listed here. Command names are not ca
    * Shows List Of Commands
  - Ophelp
    * Shows how to use OP
+ - Announce
+   * Starts the high score announce feature
  - Split [ID] [Count]
    * Splits a player
  - Colortext [color]
