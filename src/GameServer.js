@@ -168,7 +168,7 @@ GameServer.prototype.start = function() {
         // Done
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
-        if (this.config.anounceHS == 1) {
+        if (0 == 1) {
            var v = setInterval(function(){
                var newLB = [];
                newLB[0] = "Highscore:";
@@ -194,7 +194,7 @@ GameServer.prototype.start = function() {
         
         
         
-        if (this.config.restartmin != 0) {
+        if (1 != 0) {
             var time = this.config.restartmin
             console.log("Server Restarting in " + time + " minutes!");
             setTimeout(function() {
