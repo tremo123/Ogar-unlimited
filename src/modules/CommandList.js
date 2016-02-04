@@ -49,7 +49,7 @@ Commands.list = {
         console.log("[Console] kickbots   : kick a specified amount of bots");
         console.log("[Console] board      : set scoreboard text");
         console.log("[Console] Restart    : Restart server or set time till restart");
-        console.log("[Console] Highscore  : Tells you the highscore");
+        console.log("[Console] Announce   : Starts the auto announce for high scores")
         console.log("[Console] boardreset : reset scoreboard text");
         console.log("[Console] change     : change specified settings");
         console.log("[Console] clear      : clear console output");
@@ -131,6 +131,42 @@ Commands.list = {
         }
 
     },
+    announce: function(gameServer,split) {
+        console.log("High Score announce system started");
+        setInterval(function() {
+           var lol = Math.floor(gameServer.topscore) + " ";
+            var lol2 = Math.floor(gameServer.oldtopscores.score) + " ";
+          var newLB = [];
+               newLB[0] = "Highscore:";
+               newLB[1] = gameServer.topusername;
+               newLB[2] = "Withscore:";
+               newLB[3] = lol
+               newLB[4] = "------------";
+               newLB[6] = "Prev Top Score";
+               newLB[7] = lol2;
+               newLB[8] = "By:";
+               newLB[9] = gameServer.oldtopscores.name;
+          gameServer.gameMode.packetLB = 48;
+                gameServer.gameMode.specByLeaderboard = false;
+                gameServer.gameMode.updateLB = function(gameServer) {
+                    gameServer.leaderboard = newLB
+                };
+            console.log("[Console] Successfully set leaderboard");
+            setTimeout(function () {
+                var gm = GameMode.get(gameServer.gameMode.ID);
+
+        // Replace functions
+        gameServer.gameMode.packetLB = gm.packetLB;
+        gameServer.gameMode.updateLB = gm.updateLB;
+        console.log("[Console] Successfully reset leaderboard");
+                
+            },gameServer.config.anounceDuration * 1000);
+            
+            
+        },gameServer.config.anounceDelay*1000);
+    },
+    
+    
     whitelist: function(gameServer, split) {
         console.log("[Console] Current whitelisted IPs (" + gameServer.whlist.length + ")");
         for (var i in gameServer.whlist) {
@@ -928,7 +964,7 @@ Commands.list = {
         }
     },
     highscore: function(gameServer, split) {
-        console.log("High score: " + gameServer.topscore + " By " + gameServer.topusername);
+        console.log("High score: "+ gameServer.topscore+ " By " + gameServer.topusername);
     },
     killall: function(gameServer, split) {
         var count = 0;
@@ -997,7 +1033,7 @@ Commands.list = {
     playerlist: function(gameServer, split) {
         console.log("[Console] Showing " + gameServer.clients.length + " players: ");
         console.log(" ID         | IP              | " + fillChar('NICK', ' ', gameServer.config.playerMaxNickLength) + " | CELLS | SCORE  | POSITION    "); // Fill space
-        console.log(fillChar('', '-', ' ID         | IP              |  | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength));
+        console.log(fillChar(' ', '-', ' ID         | IP              |  | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength));
         for (var i = 0; i < gameServer.clients.length; i++) {
             var client = gameServer.clients[i].playerTracker;
 
