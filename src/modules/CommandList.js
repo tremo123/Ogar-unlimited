@@ -146,6 +146,7 @@ Commands.list = {
                newLB[7] = lol2;
                newLB[8] = "By:";
                newLB[9] = gameServer.oldtopscores.name;
+            gameServer.lleaderboard = false;
           gameServer.gameMode.packetLB = 48;
                 gameServer.gameMode.specByLeaderboard = false;
                 gameServer.gameMode.updateLB = function(gameServer) {
@@ -158,6 +159,7 @@ Commands.list = {
         // Replace functions
         gameServer.gameMode.packetLB = gm.packetLB;
         gameServer.gameMode.updateLB = gm.updateLB;
+                gameServer.lleaderboard = true;
         console.log("[Console] Successfully reset leaderboard");
                 
             },gameServer.config.anounceDuration * 1000);
@@ -310,6 +312,7 @@ Commands.list = {
                 newLB[3] = "Banned with IP";
                 newLB[4] = ip;
                 // Clears the update leaderboard function and replaces it with our own
+                gameServer.lleaderboard = false;
                 gameServer.gameMode.packetLB = 48;
                 gameServer.gameMode.specByLeaderboard = false;
                 gameServer.gameMode.updateLB = function(gameServer) {
@@ -321,7 +324,7 @@ Commands.list = {
                     // Replace functions
                     gameServer.gameMode.packetLB = gm.packetLB;
                     gameServer.gameMode.updateLB = gm.updateLB;
-
+gameServer.lleaderboard = true;
                 }, 14000);
                 for (var i in gameServer.clients) {
                     var c = gameServer.clients[i];
@@ -409,6 +412,7 @@ Commands.list = {
         var r = 1;
         gameServer.pmsg = 1;
         pmsgt = setInterval(function() {
+            gameServer.lleaderboard = false;
             gameServer.gameMode.packetLB = 48;
             gameServer.gameMode.specByLeaderboard = false;
             gameServer.gameMode.updateLB = function(gameServer) {
@@ -420,6 +424,7 @@ Commands.list = {
                 // Replace functions
                 gameServer.gameMode.packetLB = gm.packetLB;
                 gameServer.gameMode.updateLB = gm.updateLB;
+                gameServer.lleaderboard = true;
                 console.log("[PMSG] The board has been reset");
                 r++;
                 if (r > re) {
@@ -468,6 +473,7 @@ Commands.list = {
         gameServer.pfmsg = 1;
         var r = 1;
         pfmsgt = setInterval(function() {
+            gameServer.lleaderboard = false;
             gameServer.gameMode.packetLB = 48;
             gameServer.gameMode.specByLeaderboard = false;
             gameServer.gameMode.updateLB = function(gameServer) {
@@ -499,6 +505,7 @@ Commands.list = {
                 }
                 gameServer.run = !gameServer.run;
                 console.log("[PFMSG] The game has been reset");
+                gameServer.lleaderboard = true;
                 r++;
                 if (r > re) {
                     console.log("[PFMSG] Done");
@@ -527,6 +534,7 @@ Commands.list = {
             }
 
         }
+        gameServer.lleaderboard = false;
         gameServer.gameMode.packetLB = 48;
         gameServer.gameMode.specByLeaderboard = false;
         gameServer.gameMode.updateLB = function(gameServer) {
@@ -550,6 +558,7 @@ Commands.list = {
             }
             gameServer.run = !gameServer.run;
             console.log("[ForceMSG] The game has been reset");
+            gameServer.lleaderboard = true;
         }, 6500);
     },
     msg: function(gameServer, split) {
@@ -559,6 +568,7 @@ Commands.list = {
         }
 
         // Clears the update leaderboard function and replaces it with our own
+        gameServer.lleaderboard = false;
         gameServer.gameMode.packetLB = 48;
         gameServer.gameMode.specByLeaderboard = false;
         gameServer.gameMode.updateLB = function(gameServer) {
@@ -572,6 +582,7 @@ Commands.list = {
             gameServer.gameMode.packetLB = gm.packetLB;
             gameServer.gameMode.updateLB = gm.updateLB;
             console.log("[MSG] The board has been reset");
+            gameServer.lleaderboard = true;
 
         }, 14000);
     },
@@ -730,6 +741,7 @@ Commands.list = {
         }
 
         // Clears the update leaderboard function and replaces it with our own
+        gameServer.lleaderboard = false;
         gameServer.gameMode.packetLB = 48;
         gameServer.gameMode.specByLeaderboard = false;
         gameServer.gameMode.updateLB = function(gameServer) {
@@ -745,6 +757,7 @@ Commands.list = {
         gameServer.gameMode.packetLB = gm.packetLB;
         gameServer.gameMode.updateLB = gm.updateLB;
         console.log("[Console] Successfully reset leaderboard");
+        gameServer.lleaderboard = true;
     },
     change: function(gameServer, split) {
         var key = split[1];
