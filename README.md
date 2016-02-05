@@ -95,6 +95,10 @@ The current available console commands are listed here. Command names are not ca
    * Starts the high score announce feature
  - Split [ID] [Count]
    * Splits a player
+ - Shrink [amount]
+   * Shrinks the game (amount is optional)
+ - Enlarge [amount]
+   * Enlarges the game (amount is optional)
  - Colortext [color]
    * Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)
  - Team [id] [team (r,g,b)]
