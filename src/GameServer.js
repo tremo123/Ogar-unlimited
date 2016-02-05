@@ -451,32 +451,32 @@ GameServer.prototype.liveconsole = function() {
         var line6 = "                                                ";
     }
     if (this.firstl) {
-        process.stdout.write("\u001B[s\u001B[H\u001B[6r");
+        process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
         process.stdout.write("\u001B[8;36;44m   ___                                                                        " + EOL);
         process.stdout.write("  / _ \\ __ _ __ _ _ _                                                         " + EOL);
         process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
         process.stdout.write("  \\___/\\__, \\__,_|_|                                                          " + EOL);
         process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
         process.stdout.write("   u n l i m i t e d                                                          " + EOL);
-        process.stdout.write("\u001B[0m\u001B[u");
+        process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
         this.firstl = false;
     }
 
-    if (this.resticks > 29) {
+    if (this.resticks > 35) {
         this.firstl = true;
         this.resticks = 0;
     } else {
         this.resticks++;
     }
 
-    process.stdout.write("\u001B[s\u001B[H\u001B[6r");
+    process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
     process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
     process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
     process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
     process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 + EOL);
     process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
     process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
-    process.stdout.write("\u001B[0m\u001B[u");
+    process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
     
     if (this.red) {
         process.stdout.write("\x1b[31m\r");
