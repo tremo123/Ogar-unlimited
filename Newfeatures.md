@@ -8,6 +8,8 @@
    * Shows how to use OP
  - Split [ID] [Count]
    * Splits a player
+ - Announce
+   * Starts up the announcement server (highscores)
  - Colortext [color]
    * Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)
  - Team [id] [team (r,g,b)]
@@ -95,6 +97,8 @@ Id   | Name
 15. randomEjectedMassColor: 1 = on, 0 = off
 16. liveConsole: 1 = on, 0 = off. Where you can see all stats easily
 17. restartmin: Time in minutes till server restarts (if 0, it is off)
+18. anounceDelay: delay for highscore announcement
+19. AnounceDuration: duration of announcement
 
 ## OP
 
