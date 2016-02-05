@@ -105,9 +105,9 @@ SFFA.prototype.getSpectate = function() {
 SFFA.prototype.prepare = function(gameServer) {
     // Remove all cells
     gameServer.config.borderLeft = 0;
-    gameServer.config.borderRight = 6400;
+    gameServer.config.borderRight = 7500;
     gameServer.config.borderTop = 0;
-    gameServer.config.borderBottom = 6400;
+    gameServer.config.borderBottom = 7500;
     var len = gameServer.nodes.length;
     for (var i = 0; i < len; i++) {
         var node = gameServer.nodes[0];
