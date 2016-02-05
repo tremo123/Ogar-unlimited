@@ -69,6 +69,10 @@ FFA.prototype.onPlayerSpawn = function(gameServer,player) {
     // Spawn player
     gameServer.spawnPlayer(player,pos,startMass);
 };
+FFA.prototype.onServerInit = function(gameServer) {
+    gameServer.lleaderboard = true
+    
+}
 
 FFA.prototype.updateLB = function(gameServer) {
     var lb = gameServer.leaderboard;
