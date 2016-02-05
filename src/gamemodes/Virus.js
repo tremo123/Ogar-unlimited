@@ -20,6 +20,7 @@ VO.prototype = new FFA();
 
 VO.prototype.onServerInit = function(gameServer) {
     // Called when the server starts
+    gameServer.lleaderboard = true;
     gameServer.run = true;
 };
 
