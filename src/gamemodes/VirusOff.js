@@ -102,6 +102,7 @@ VirusOff.prototype.updateLB = function(gameServer) {
     this.rankOne = lb[0];
 };
 VirusOff.prototype.onServerInit = function(gameServer) {
+    gameServer.lleaderboard = true;
     gameServer.spawnv = 0;
     
 }
