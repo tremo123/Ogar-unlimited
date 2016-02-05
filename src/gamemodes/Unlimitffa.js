@@ -12,6 +12,10 @@ module.exports = unlimitffa;
 unlimitffa.prototype = new Mode();
 
 // Gamemode Specific Functions
+unlimitffa.prototype.onServerInit = function(gameServer) {
+    
+    gameServer.lleaderboard = true;
+}
 
 unlimitffa.prototype.leaderboardAddSort = function(player, leaderboard) {
     // Adds the player and sorts the leaderboard
