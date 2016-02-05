@@ -173,7 +173,7 @@ Commands.list = {
         // Replace functions
         gameServer.gameMode.packetLB = gm.packetLB;
         gameServer.gameMode.updateLB = gm.updateLB;
-                gameServer.lleaderboard = true;
+                setTimeout(function () {gameServer.lleaderboard = true;},2000);
         console.log("[Console] Successfully reset leaderboard");
                 
             },gameServer.config.anounceDuration * 1000);
@@ -338,7 +338,7 @@ Commands.list = {
                     // Replace functions
                     gameServer.gameMode.packetLB = gm.packetLB;
                     gameServer.gameMode.updateLB = gm.updateLB;
-gameServer.lleaderboard = true;
+setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 }, 14000);
                 for (var i in gameServer.clients) {
                     var c = gameServer.clients[i];
@@ -438,7 +438,7 @@ gameServer.lleaderboard = true;
                 // Replace functions
                 gameServer.gameMode.packetLB = gm.packetLB;
                 gameServer.gameMode.updateLB = gm.updateLB;
-                gameServer.lleaderboard = true;
+                setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 console.log("[PMSG] The board has been reset");
                 r++;
                 if (r > re) {
@@ -519,7 +519,7 @@ gameServer.lleaderboard = true;
                 }
                 gameServer.run = !gameServer.run;
                 console.log("[PFMSG] The game has been reset");
-                gameServer.lleaderboard = true;
+                setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 r++;
                 if (r > re) {
                     console.log("[PFMSG] Done");
@@ -572,7 +572,7 @@ gameServer.lleaderboard = true;
             }
             gameServer.run = !gameServer.run;
             console.log("[ForceMSG] The game has been reset");
-            gameServer.lleaderboard = true;
+            setTimeout(function () {gameServer.lleaderboard = true;},2000);
         }, 6500);
     },
     msg: function(gameServer, split) {
@@ -596,7 +596,7 @@ gameServer.lleaderboard = true;
             gameServer.gameMode.packetLB = gm.packetLB;
             gameServer.gameMode.updateLB = gm.updateLB;
             console.log("[MSG] The board has been reset");
-            gameServer.lleaderboard = true;
+            setTimeout(function () {gameServer.lleaderboard = true;},2000);
 
         }, 14000);
     },
@@ -771,7 +771,7 @@ gameServer.lleaderboard = true;
         gameServer.gameMode.packetLB = gm.packetLB;
         gameServer.gameMode.updateLB = gm.updateLB;
         console.log("[Console] Successfully reset leaderboard");
-        gameServer.lleaderboard = true;
+        setTimeout(function () {gameServer.lleaderboard = true;},2000);
     },
     change: function(gameServer, split) {
         var key = split[1];
