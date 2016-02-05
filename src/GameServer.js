@@ -18,7 +18,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     // Startup
     this.ipCounts = [];
-    this.lleaderboard = true;
+    this.lleaderboard = false;
     this.topscore = 50;
     this.topusername = "None";
     this.red = false;
@@ -426,7 +426,7 @@ GameServer.prototype.liveconsole = function() {
         } else {
             var l1 = "Sorry, No leader";
             var l2 = "Board in Teams!";
-            var l3 = "";
+            var l3 = "Or in MSG Mode";
             var l4 = "";
             var l5 = "";
         }
@@ -462,7 +462,7 @@ GameServer.prototype.liveconsole = function() {
         this.firstl = false;
     }
 
-    if (this.resticks > 35) {
+    if (this.resticks > 29) {
         this.firstl = true;
         this.resticks = 0;
     } else {
