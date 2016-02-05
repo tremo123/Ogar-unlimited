@@ -554,7 +554,8 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 }
 
             }
-            gameServer.run = !gameServer.run;
+            gameServer.overideauto = true;
+            gameServer.run = false;
             console.log("[PFMSG] The message has been broadcast " + r + "/" + re);
             var gm = GameMode.get(gameServer.gameMode.ID);
             setTimeout(function() {
@@ -569,7 +570,8 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                     }
 
                 }
-                gameServer.run = !gameServer.run;
+                gameServer.overideauto = false;
+                gameServer.run = true;
                 console.log("[PFMSG] The game has been reset");
                 setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 r++;
@@ -586,7 +588,8 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
     fmsg: function(gameServer, split) {
         var newLB = [];
         var n = [];
-        gameServer.run = !gameServer.run; // Switches the pause state
+        gameServer.overideauto = true;
+        gameServer.run = false; // Switches the pause state
 
         for (var i = 1; i < split.length; i++) {
             newLB[i - 1] = split[i];
@@ -622,7 +625,8 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 }
 
             }
-            gameServer.run = !gameServer.run;
+            gameServer.overideauto = false;
+            gameServer.run = true;
             console.log("[ForceMSG] The game has been reset");
             setTimeout(function () {gameServer.lleaderboard = true;},2000);
         }, 6500);
