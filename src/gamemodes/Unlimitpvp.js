@@ -125,6 +125,7 @@ Unlimitpvp.prototype.formatTime = function(time) {
 // Override
 
 Unlimitpvp.prototype.onServerInit = function(gameServer) {
+    gameServer.overideauto = true;
     this.prepare(gameServer);
 };
 
