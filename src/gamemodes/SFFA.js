@@ -172,6 +172,7 @@ SFFA.prototype.formatsTime = function(time) {
 // Override
 
 SFFA.prototype.onServerInit = function(gameServer) {
+    gameServer.overideauto = true;
     gameServer.config.borderLeft = 0;
     gameServer.config.borderRight = 6400;
     gameServer.config.borderTop = 0;
