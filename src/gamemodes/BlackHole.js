@@ -59,7 +59,7 @@ Blackhole.prototype.spawnMotherCell = function(gameServer) {
 Blackhole.prototype.onServerInit = function(gameServer) {
     // Called when the server starts
     gameServer.run = true;
-
+gameServer.lleaderboard = true;
     // Special virus mechanics
     Virus.prototype.feed = function(feeder, gameServer) {
         gameServer.removeNode(feeder);
