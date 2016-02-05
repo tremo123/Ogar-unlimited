@@ -123,6 +123,7 @@ Tournament.prototype.formatTime = function(time) {
 // Override
 
 Tournament.prototype.onServerInit = function(gameServer) {
+    gameServer.overideauto = true;
     this.prepare(gameServer);
 };
 
