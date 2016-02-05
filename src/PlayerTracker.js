@@ -97,7 +97,7 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
         
         
         if (this.gameServer.config.showtopscore == 1) {
-            console.log(this.name +" Made a new high score of "+ this.score);
+            console.log(this.name +" Made a new high score of "+ Math.floor(this.score));
         }
     }
     return Math.floor(this.score);
