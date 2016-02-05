@@ -895,6 +895,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 var newLB = [];
                 newLB[0] = "Server Restarting"
                 newLB[1] = "In 1 Minute"
+                this.lleaderboard = false;
 
                 // Clears the update leaderboard function and replaces it with our own
                 gameServer.gameMode.packetLB = 48;
@@ -909,7 +910,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                     // Replace functions
                     gameServer.gameMode.packetLB = gm.packetLB;
                     gameServer.gameMode.updateLB = gm.updateLB;
-
+                    setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 }, 14000);
 
                 setTimeout(function() {
