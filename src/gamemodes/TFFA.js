@@ -96,6 +96,7 @@ TFFA.prototype.formatTime = function(time) {
 // Override
 
 TFFA.prototype.onServerInit = function(gameServer) {
+    gameServer.overideauto = true;
     this.prepare(gameServer);
 };
 
