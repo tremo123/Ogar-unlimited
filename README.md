@@ -68,6 +68,7 @@ Id   | Name
 2    | Experimental (As of 6/13/15)
 3    | Timed FFA
 4    | Virus Off (no virus's)
+7    | Shrinking FFA, Shrinks the game as time passes
 10   | Tournament
 11   | Hunger Games
 12   | Zombie Mode
