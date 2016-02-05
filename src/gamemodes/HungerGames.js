@@ -139,6 +139,7 @@ HungerGames.prototype.onServerInit = function(gameServer) {
     }
     gameServer.config.spawnInterval = 20;
     gameServer.config.borderLeft = 0;
+    gameServer.overideauto = true;
     gameServer.config.borderRight = 6400;
     gameServer.config.borderTop = 0;
     gameServer.config.borderBottom = 6400;
