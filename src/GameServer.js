@@ -398,27 +398,27 @@ GameServer.prototype.liveconsole = function() {
                 var l4 = "";
                 var l5 = "";
             } else {
-                if (players > 0) {
+                if (typeof this.leaderboard[0] != "undefined") {
                     var l1 = this.leaderboard[0].name;
                 } else {
                     var l1 = "None"
                 }
-                if (players > 1) {
+                if (typeof this.leaderboard[1] != "undefined") {
                     var l2 = this.leaderboard[1].name;
                 } else {
                     var l2 = "None"
                 }
-                if (players > 2) {
+                if (typeof this.leaderboard[2] != "undefined") {
                     var l3 = this.leaderboard[2].name;
                 } else {
                     var l3 = "None"
                 }
-                if (players > 3) {
+                if (typeof this.leaderboard[3] != "undefined") {
                     var l4 = this.leaderboard[3].name;
                 } else {
                     var l4 = "None"
                 }
-                if (players > 4) {
+                if (typeof this.leaderboard[4] != "undefined") {
                     var l5 = this.leaderboard[4].name;
                 } else {
                     var l5 = "None"
