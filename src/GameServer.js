@@ -21,6 +21,13 @@ function GameServer() {
     this.lleaderboard = true;
     this.topscore = 50;
     this.topusername = "None";
+    this.red = false;
+    this.green = false;
+    this.blue = false;
+    this.bold = false;
+    this.white = false;
+    this.dim = false;
+    this.yellow = false;
     this.resticks = 0;
     this.spawnv = 1;
     this.overideauto = false;
@@ -470,6 +477,28 @@ GameServer.prototype.liveconsole = function() {
     process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
     process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
     process.stdout.write("\u001B[0m\u001B[u");
+    
+    if (this.red) {
+        process.stdout.write("\x1b[31m\r");
+    }
+    if (this.green) {
+        process.stdout.write("\x1b[32m\r");
+    }
+    if (this.blue) {
+        process.stdout.write("\x1b[34m\r");
+    }
+    if (this.white) {
+        process.stdout.write("\x1b[37m\r");
+    }
+    if (this.yellow) {
+        process.stdout.write("\x1b[33m\r");
+    }
+    if (this.bold) {
+        process.stdout.write("\x1b[1m\r");
+    }
+    if (this.dim) {
+        process.stdout.write("\x1b[2m\r");
+    }
     this.liveticks++;
 };
 
