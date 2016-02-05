@@ -65,7 +65,6 @@ function GameServer() {
     // Main loop tick
     this.time = +new Date;
     this.startTime = this.time;
-    this.atick = 0;
     this.tick = 0; // 1 second ticks of mainLoop
     this.tickMain = 0; // 50 ms ticks, 20 of these = 1 leaderboard update
     this.tickSpawn = 0; // Used with spawning food
@@ -676,21 +675,7 @@ GameServer.prototype.mainLoop = function() {
         // Update cells/leaderboard loop
         this.tickMain++;
         if (this.tickMain >= 20) { // 1 Second
-            this.atick ++;
-             if (0 == this.config.anounceDelay) {
-          var newLB = [];
-               newLB[0] = "Highscore:";
-               newLB[1] = this.topscore;
-               newLB[2] = "  By  ";
-               newLB[3] = this.topusername;
-        this.customLB(newLB,this);
-        console.log("set");
-        
-    } else if (0 == this.config.anounceDelay +this.config.anounceDuration){
-        this.resetlb();
-        console.log("reset");
-        this.atick = 0;
-    }
+             
             setTimeout(this.cellUpdateTick(), 0);
 
             // Update leaderboard with the gamemode's method
