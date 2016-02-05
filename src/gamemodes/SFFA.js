@@ -19,7 +19,7 @@ function SFFA() {
     this.contenders = [];
     this.stime = 60;
     this.maxContenders = 12;
-    this.borderDec = 250
+    this.borderDec = 150
 
     this.winner;
     this.timer;
