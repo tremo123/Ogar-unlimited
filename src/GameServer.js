@@ -107,6 +107,7 @@ function GameServer() {
         borderTop: 0, // Top border of map (Vanilla value: 0)
         borderBottom: 6000, // Bottom border of map (Vanilla value: 11180.3398875)
         liveConsole: 0,
+        anounceHighScore: 0,
         spawnInterval: 20, // The interval between each food cell spawn in ticks (1 tick = 50 ms)
         foodSpawnAmount: 10, // The amount of food to spawn per interval
         foodStartAmount: 100, // The starting amount of food in the map
@@ -178,6 +179,10 @@ GameServer.prototype.start = function() {
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
         Cell.spi = this.config.SpikedCells
+        if (this.config.anounceHighScore == 1) {
+        var execute = this.commands["announce"];
+        execute(this, "");
+        }
             // Player bots (Experimental)
         if (this.config.serverBots > 0) {
             for (var i = 0; i < this.config.serverBots; i++) {
@@ -186,14 +191,10 @@ GameServer.prototype.start = function() {
             console.log("[Game] Loaded " + this.config.serverBots + " player bots");
         }
          if (this.config.restartmin != 0) {
-            var time = this.config.restartmin
-            console.log("[Console] Server Restarting in " + time + " minutes!");
-               setTimeout(function() {
-              console.log("\x1b[0m[Console] Restarting server...");
-            process.exit(3);     
-                   
-                   
-               },this.config.restartmin * 60000)
+                 var split = [];
+             split[1] = this.config.restartmin;
+                   var execute = this.commands["restart"];
+                   execute(this, split);
                 
 
         }
