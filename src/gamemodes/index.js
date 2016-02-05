@@ -20,6 +20,7 @@ module.exports = {
     BlackHole: require('./BlackHole.js'),
     TFFA: require('./TFFA.js'),
     VirusOff: require('./VirusOff.js'),
+    SFFA: require('./SFFA.js'),
 };
 
 var get = function(id) {
@@ -42,6 +43,9 @@ var get = function(id) {
             break;
         case 6: // unlimitFFA
             mode = new module.exports.UnlimitFFA();
+            break;
+        case 7:
+            mode = new module.exports.SFFA();
             break;
         case 10: // Tournament
             mode = new module.exports.Tournament();
