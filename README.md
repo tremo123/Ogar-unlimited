@@ -47,6 +47,8 @@ As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws" modu
 
 (You can install and use Ogar unlimited on windows very quickly. First click `InstallWS.bat` in src. Then wait (it takes a while), then click `ClickToStart.bat` and you're off! The next time you start the server, you only have to click `ClickToStart.bat`)
 
+(Binarys are also available in Releases)
+
 Currently, Ogar listens on the following addresses and ports:
 * *:88 - for the stats server (I would use it to track servers)
 * *:443 - for the game server
