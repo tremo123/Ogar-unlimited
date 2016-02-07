@@ -124,6 +124,7 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
 
     } else {
         consumer.calcMergeTime(gameServer.config.playerRecombineTime);
+        client.actionMult += 0.6; // Account for anti-teaming
     }
 };
 
