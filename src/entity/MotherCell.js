@@ -18,30 +18,39 @@ module.exports = MotherCell;
 MotherCell.prototype = new Cell(); // Base
 
 MotherCell.prototype.getEatingRange = function() {
-    return this.getSize() * .5;
+    return this.getSize() / 3.14;
 };
 
 MotherCell.prototype.update = function(gameServer) {
-    // Add mass
-    this.mass += .25;
-    
-    // Spawn food
-    var maxFood = 10; // Max food spawned per tick
-    var i = 0; // Food spawn counter
-    while ((this.mass > gameServer.gameMode.motherCellMass) && (i < maxFood))  {
-        // Only spawn if food cap hasn been reached
-        if (gameServer.currentFood < gameServer.config.foodMaxAmount) {
-            this.spawnFood(gameServer);
+    if (Math.random() * 100 > 97) {
+        var maxFood = Math.random() * 2; // Max food spawned per tick
+        var i = 0; // Food spawn counter
+        while (i < maxFood)  {
+            // Only spawn if food cap hasn't been reached
+            if (gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
+                this.spawnFood(gameServer);
+            }
+            // Increment
+            i++;
         }
-        
-        // Incrementers
-        this.mass--;
-        i++;
+    }
+    if (this.mass > 222) {
+        // Always spawn food if the mother cell is larger than 222
+        var cellSize = gameServer.config.foodMass;
+        if (this.mass > 222 + cellSize * 2) { // Spawn it twice if possible
+            this.spawnFood(gameServer);
+            this.spawnFood(gameServer);
+            this.mass -= cellSize;
+            this.mass -= cellSize;
+        } else if (this.mass > 222 + cellSize) {
+            this.spawnFood(gameServer);
+            this.mass -= cellSize;
+          }
     }
 }
 
 MotherCell.prototype.checkEat = function(gameServer) {
-    var safeMass = this.mass * .9;
+    var safeMass = this.mass * .78;
     var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
     
     // Loop for potential prey
