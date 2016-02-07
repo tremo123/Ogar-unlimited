@@ -255,7 +255,7 @@ GameServer.prototype.start = function() {
 
             this.nospawn[ws._socket.remoteAddress] = true;
 
-            if (this.config.autoban == 1) {
+             if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1) ) {
                 if (this.config.showbmessage == 1) {
                     console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
                 }
