@@ -45,7 +45,7 @@ MotherCell.prototype.update = function(gameServer) {
         } else if (this.mass > 222 + cellSize) {
             this.spawnFood(gameServer);
             this.mass -= cellSize;
-          }
+        }
     }
 }
 
@@ -96,6 +96,10 @@ MotherCell.prototype.checkEat = function(gameServer) {
                 // Eat the cell
                 gameServer.removeNode(check);
                 this.mass += check.mass;
+            
+                if (gameServer.config.motherCellMassProtection == 1) {
+            	    this.mass = Math.min(this.mass, gameServer.config.motherCellMaxMass)
+                }	
             }
         }
     }
