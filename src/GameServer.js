@@ -220,7 +220,7 @@ GameServer.prototype.start = function() {
 
     function connectionEstablished(ws) {
         if (this.clients.length >= this.config.serverMaxConnections) { // Server full
-            // ws.close();
+             ws.close();
             return;
         }
 
@@ -239,7 +239,7 @@ GameServer.prototype.start = function() {
             origin != 'https://localhost' &&
             origin != 'http://127.0.0.1' &&
             origin != 'https://127.0.0.1') {
-            // ws.close();
+            ws.close();
             return;
         }
         // -----/Client authenticity check code -----
@@ -249,7 +249,6 @@ GameServer.prototype.start = function() {
                 console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
             }
             this.nospawn[ws._socket.remoteAddress] = true;
-            return;
         }
 
         if ((ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
