@@ -18,7 +18,7 @@ function Experimental() {
     this.tickMotherS = 0;
 
     // Config
-    this.motherCellMass = 200;
+    this.motherCellMass = 222;
     this.motherUpdateInterval = 5; // How many ticks it takes to update the mother cell (1 tick = 50 ms)
     this.motherSpawnInterval = 100; // How many ticks it takes to spawn another mother cell - Currently 5 seconds
     this.motherMinAmount = 5;
@@ -95,8 +95,8 @@ gameServer.lleaderboard = true;
         gameServer.removeNode(feeder);
         // Pushes the virus
         this.setAngle(feeder.getAngle()); // Set direction if the virus explodes
-        this.moveEngineTicks = 5; // Amount of times to loop the movement function
-        this.moveEngineSpeed = 30;
+        this.moveEngineTicks = 10; // Amount of times to loop the movement function
+        this.moveEngineSpeed = 28;
 
         var index = gameServer.movingNodes.indexOf(this);
         if (index == -1) {
@@ -110,12 +110,7 @@ gameServer.lleaderboard = true;
 
 Experimental.prototype.onTick = function(gameServer) {
     // Mother Cell updates
-    if (this.tickMother >= this.motherUpdateInterval) {
-        this.updateMotherCells(gameServer);
-        this.tickMother = 0;
-    } else {
-        this.tickMother++;
-    }
+    this.updateMotherCells(gameServer);
 
     // Mother Cell Spawning
     if (this.tickMotherS >= this.motherSpawnInterval) {
