@@ -272,7 +272,7 @@ GameServer.prototype.start = function() {
                     if (c.remoteAddress == ws._socket.remoteAddress) {
 
                         //this.socket.close();
-                        // c.close(); // Kick out
+                         c.close(); // Kick out
                     }
                 }
             }
