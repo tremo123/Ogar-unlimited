@@ -76,9 +76,9 @@ function GameServer() {
         randomEjectMassColor: 0, // 0 = off 1 = on
         ffaTimeLimit: 60, // TFFA time
         ffaMaxLB: 10, // Max leaderboard slots
-        showtopscore: 0,
-        anounceDelay: 70,
-        anounceDuration: 8,
+        showtopscore: 0, // Shows top score (1 to enable)
+        anounceDelay: 70, // Announce delay
+        anounceDuration: 8, // How long the announce lasts
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
         SpikedCells: 0, // Amount of spiked cells
@@ -106,14 +106,14 @@ function GameServer() {
         borderRight: 6000, // Right border of map (Vanilla value: 11180.3398875)
         borderTop: 0, // Top border of map (Vanilla value: 0)
         borderBottom: 6000, // Bottom border of map (Vanilla value: 11180.3398875)
-        liveConsole: 0,
-        anounceHighScore: 0,
+        liveConsole: 0, // Easiest way to get stats (1 to enable)
+        anounceHighScore: 0, // Announces highscore (1 to enable)
         spawnInterval: 20, // The interval between each food cell spawn in ticks (1 tick = 50 ms)
         foodSpawnAmount: 10, // The amount of food to spawn per interval
         foodStartAmount: 100, // The starting amount of food in the map
         foodMaxAmount: 500, // Maximum food cells on the map
         foodMass: 1, // Starting food size (In mass)
-        teaming: 1, // teaming
+        teaming: 1, // teaming or anti teaming
         foodMassGrow: 0, // Enable food mass grow ?
         foodMassGrowPossiblity: 50, // Chance for a food to has the ability to be self growing
         foodMassLimit: 5, // Maximum mass for a food can grow
@@ -122,10 +122,8 @@ function GameServer() {
         virusMaxAmount: 50, // Maximum amount of viruses on the map. If this amount is reached, then ejected cells will pass through viruses.
         virusStartMass: 100, // Starting virus size (In mass)
         virusFeedAmount: 7, // Amount of times you need to feed a virus to shoot it
-        mCellMaxMass: 10000, // Maximum size of a mothercell
-        mCellStartMass: 200, // MotherCell Starting mass
-        bMCFoodMass: 100, // If mothercell is bigger than mCellMaxMass, it will spawn this food (Mass)
-        gMCMass: 10000, // If the food cap is reached, the mothercell will become this mass
+        motherCellMassProtection: 1, // Stopping mothercells from being too big (0 to disable)
+        motherCellMaxMass: 10000, // Max mass of a mothercell
         ejectMass: 12, // Mass of ejected cells
         ejectMassCooldown: 200, // Time until a player can eject mass again
         ejectMassLoss: 16, // Mass lost when ejecting cells
