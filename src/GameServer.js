@@ -128,6 +128,7 @@ function GameServer() {
         ejectMassCooldown: 200, // Time until a player can eject mass again
         ejectMassLoss: 16, // Mass lost when ejecting cells
         ejectSpeed: 160, // Base speed of ejected cells
+        massAbsorbedPercent: 100, // Fraction of player cell's mass gained upon eating
         ejectSpawnPlayer: 50, // Chance for a player to spawn from ejected mass
         playerStartMass: 10, // Starting mass of the player cell.
         playerMaxMass: 22500, // Maximum mass a player can have
