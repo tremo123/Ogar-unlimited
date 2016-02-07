@@ -22,6 +22,7 @@ function GameServer() {
     this.topscore = 50;
     this.topusername = "None";
     this.red = false;
+    this.nospawn = [];
     this.green = false;
     this.blue = false;
     this.bold = false;
@@ -221,7 +222,7 @@ GameServer.prototype.start = function() {
 
     function connectionEstablished(ws) {
         if (this.clients.length >= this.config.serverMaxConnections) { // Server full
-            ws.close();
+            // ws.close();
             return;
         }
 
@@ -240,7 +241,7 @@ GameServer.prototype.start = function() {
             origin != 'https://localhost' &&
             origin != 'http://127.0.0.1' &&
             origin != 'https://127.0.0.1') {
-            ws.close();
+            // ws.close();
             return;
         }
         // -----/Client authenticity check code -----
@@ -249,13 +250,13 @@ GameServer.prototype.start = function() {
             if (this.config.showbmessage == 1) {
                 console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
             }
-            ws.close();
+            this.nospawn[ws._socket.remoteAddress] = true;
             return;
         }
 
         if ((ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
 
-            ws.close();
+            this.nospawn[ws._socket.remoteAddress] = true;
 
             if (this.config.autoban == 1) {
                 if (this.config.showbmessage == 1) {
@@ -273,12 +274,14 @@ GameServer.prototype.start = function() {
                     if (c.remoteAddress == ws._socket.remoteAddress) {
 
                         //this.socket.close();
-                        c.close(); // Kick out
+                        // c.close(); // Kick out
                     }
                 }
             }
 
-            return;
+            
+        } else {
+            this.nospawn[ws._socket.remoteAddress] = false;
         }
         if (ipcounts[ws._socket.remoteAddress]) {
             ipcounts[ws._socket.remoteAddress]++;
@@ -729,8 +732,8 @@ GameServer.prototype.updateClients = function() {
             continue;
         }
         if (typeof this.clients[i].playerTracker == "undefined") continue;
-        this.clients[i].playerTracker.update();
         this.clients[i].playerTracker.antiTeamTick();
+        this.clients[i].playerTracker.update();
     }
 };
 
@@ -757,6 +760,7 @@ GameServer.prototype.spawnFood = function() {
 };
 
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
+    if (this.nospawn[player.socket.remoteAddress] != true) {
     if (pos == null) { // Get random pos
         pos = this.getRandomSpawn();
     }
@@ -773,6 +777,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
         x: pos.x,
         y: pos.y
     };
+    }
 };
 
 GameServer.prototype.virusCheck = function() {
