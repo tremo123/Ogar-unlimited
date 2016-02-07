@@ -112,6 +112,7 @@ function GameServer() {
         foodStartAmount: 100, // The starting amount of food in the map
         foodMaxAmount: 500, // Maximum food cells on the map
         foodMass: 1, // Starting food size (In mass)
+        teaming: 1, // teaming
         foodMassGrow: 0, // Enable food mass grow ?
         foodMassGrowPossiblity: 50, // Chance for a food to has the ability to be self growing
         foodMassLimit: 5, // Maximum mass for a food can grow
@@ -727,8 +728,9 @@ GameServer.prototype.updateClients = function() {
         if (typeof this.clients[i] == "undefined") {
             continue;
         }
-
+        if (typeof this.clients[i].playerTracker == "undefined") continue;
         this.clients[i].playerTracker.update();
+        this.clients[i].playerTracker.antiTeamTick();
     }
 };
 
@@ -905,6 +907,7 @@ GameServer.prototype.setAsMovingNode = function(node) {
 
 GameServer.prototype.splitCells = function(client) {
     var len = client.cells.length;
+    var splitCells = 0; // How many cells have been split
     for (var i = 0; i < len; i++) {
         if (client.cells.length >= this.config.playerMaxCells) {
             // Player cell limit
@@ -950,7 +953,9 @@ GameServer.prototype.splitCells = function(client) {
         // Add to moving cells list
         this.setAsMovingNode(split);
         this.addNode(split);
+        splitCells++;
     }
+    if (splitCells > 0) client.actionMult += 0.5; // Account anti-teaming
 };
 
 GameServer.prototype.canEjectMass = function(client) {
@@ -1020,6 +1025,7 @@ GameServer.prototype.anounce = function() {
 GameServer.prototype.ejectMass = function(client) {
     if (!this.canEjectMass(client))
         return;
+    var ejectedCells = 0; // How many cells have been ejected
     for (var i = 0; i < client.cells.length; i++) {
         var cell = client.cells[i];
 
@@ -1060,6 +1066,12 @@ GameServer.prototype.ejectMass = function(client) {
 
         this.addNode(ejected);
         this.setAsMovingNode(ejected);
+        ejectedCells++;
+    }
+   if (ejectedCells > 0) {
+        client.actionMult += 0.065;
+        // Using W to give to a teamer is very frequent, so make sure their mult will be lost slower
+      client.actionDecayMult *= 0.99999;
     }
 };
 
@@ -1277,7 +1289,15 @@ GameServer.prototype.updateCells = function() {
 
         // Mass decay
         if (cell.mass >= this.config.playerMinMassDecay) {
-            cell.mass *= massDecay;
+             var client = cell.owner;
+            if (this.config.teaming == 0) {
+                 var teamMult = (client.massDecayMult - 1) / 160 + 1; // Calculate anti-teaming multiplier for decay
+                var thisDecay = 1 - massDecay * (1 / teamMult); // Reverse mass decay and apply anti-teaming multiplier
+                cell.mass *= (1 - thisDecay);
+            } else {
+                // No anti-team
+  cell.mass *= massDecay;
+              }
         }
     }
 };
