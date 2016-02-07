@@ -144,7 +144,9 @@ PlayerCell.prototype.getEatingRange = function() {
 };
 
 PlayerCell.prototype.onConsume = function(consumer, gameServer) {
-    consumer.addMass(this.mass);
+    // Add an inefficiency for eating other players' cells
+   var factor = ( consumer.owner === this.owner ? 1 : gameServer.config.massAbsorbedPercent/100 );
+     consumer.addMass(factor * this.mass);
 };
 
 PlayerCell.prototype.onAdd = function(gameServer) {
