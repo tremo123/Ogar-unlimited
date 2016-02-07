@@ -14,7 +14,7 @@ This Modified copy was created to help those who want to open their server to th
  4. Max IP Connections
  5. Troll command ;)
  6. More GameModes
- 7. Ban, Unban, Banlist
+ 7. Ban, Unban, Ban List (with revolutionary ban technique, no lag, no DDoS attacks)
  8. Autoban option (see gameserver.ini)
  9. More control (gameserver.ini)
  10. and other features such as merge or nojoin or kick/killrange
