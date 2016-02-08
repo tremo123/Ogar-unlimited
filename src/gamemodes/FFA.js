@@ -35,6 +35,7 @@ FFA.prototype.leaderboardAddSort = function(player, leaderboard) {
 
 FFA.prototype.onPlayerSpawn = function(gameServer,player) {
     // Random color
+     if (this.nospawn[player.socket.remoteAddress] != true) {
     player.color = gameServer.getRandomColor();
 
     // Set up variables
@@ -68,6 +69,7 @@ FFA.prototype.onPlayerSpawn = function(gameServer,player) {
 
     // Spawn player
     gameServer.spawnPlayer(player,pos,startMass);
+     }
 };
 FFA.prototype.onServerInit = function(gameServer) {
     gameServer.lleaderboard = true
