@@ -181,6 +181,7 @@ SFFA.prototype.onServerInit = function(gameServer) {
 };
 
 SFFA.prototype.onPlayerSpawn = function(gameServer, player) {
+     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
     // Only spawn players if the game hasnt started yet
     
         player.color = gameServer.getRandomColor(); // Random color
@@ -191,7 +192,7 @@ SFFA.prototype.onPlayerSpawn = function(gameServer, player) {
             // Start the game once there is enough players
             this.startGamePrep(gameServer);
         }
-    
+    }
 };
 
 SFFA.prototype.onCellRemove = function(cell) {
