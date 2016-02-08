@@ -58,6 +58,7 @@ function GameServer() {
     this.movingNodes = []; // For move engine
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
+    this.largestClient;
 
     this.bots = new BotLoader(this);
     this.log = new Logger();
@@ -686,6 +687,20 @@ GameServer.prototype.mainLoop = function() {
             this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.gameMode.packetLB);
 
             this.tickMain = 0; // Reset
+            if (!this.gameMode.specByLeaderboard) {
+            // Get client with largest score if gamemode doesn't have a leaderboard
+                 var lC;
+                var lCScore = 0;
+                for (var i = 0; i < this.clients.length; i++) {
+                     // if (typeof this.clients[i].getScore == 'undefined') continue;
+                     if (this.clients[i].playerTracker.getScore(true) > lCScore) {
+                         lC = this.clients[i];
+                         lCScore = this.clients[i].playerTracker.getScore(true);
+                     }
+                 }
+                 this.largestClient = lC;
+             } else this.largestClient = this.leaderboard[0];
+  
         }
 
         // Debug
