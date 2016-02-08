@@ -90,6 +90,7 @@ Commands.list = {
         console.log("[Console] Colortext  : changes text style");
         console.log("[Console] Shrink     : Shrinks the game");
         console.log("[Console] Enlarge    : Enlargens the game");
+        console.log("[Console] Resetateam : Resets the anti team effect for a player");
         console.log("[Console] ====================================================");
     },
     enlarge: function(gameServer, split) {
@@ -266,6 +267,24 @@ Commands.list = {
         } else {
             console.log("That IP is not whitelisted");
         }
+    },
+     resetateam: function(gameServer, split) {
+        // Validation checks
+        var id = parseInt(split[1]);
+         if (isNaN(id)) {
+             console.log("[Console] Please specify a valid player ID!");
+             return;
+        }
+ 
+         if (!gameServer.clients[id]) {
+             console.log("[Console] Client is nonexistent!");
+             return;
+         }
+ 
+         gameServer.clients[id].playerTracker.massDecayMult = 1;
+       gameServer.clients[id].playerTracker.actionMult = 0;
+        gameServer.clients[id].playerTracker.actionDecayMult = 1;
+        console.log("[Console] Successfully reset client's anti-team effect");
     },
     unban: function(gameServer, split) {
         var ip = split[1]; // Get ip
