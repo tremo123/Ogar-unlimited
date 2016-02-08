@@ -38,6 +38,7 @@ unlimitffa.prototype.leaderboardAddSort = function(player, leaderboard) {
 // Override
 
 unlimitffa.prototype.onPlayerSpawn = function(gameServer, player) {
+     if (this.nospawn[player.socket.remoteAddress] != true) {
     // Random color
     gameServer.config.playerMaxCells = 100;
     gameServer.config.playerRecombineTime = -1000;
@@ -75,6 +76,7 @@ unlimitffa.prototype.onPlayerSpawn = function(gameServer, player) {
 
     // Spawn player
     gameServer.spawnPlayer(player, pos, startMass);
+     }
 }
 
 unlimitffa.prototype.updateLB = function(gameServer) {
