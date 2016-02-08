@@ -58,6 +58,7 @@ Zombie.prototype.makeZombie = function(player) {
 // Override
 
 Zombie.prototype.onPlayerSpawn = function(gameServer, player) {
+     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
     // make player a zombie if there are none
     if (this.zombies.length == 0) {
         player.team = 0;
@@ -70,6 +71,7 @@ Zombie.prototype.onPlayerSpawn = function(gameServer, player) {
 
     // Spawn player
     gameServer.spawnPlayer(player);
+}
 };
 
 Zombie.prototype.onCellAdd = function(cell) {
