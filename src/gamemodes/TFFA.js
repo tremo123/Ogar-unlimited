@@ -89,7 +89,7 @@ TFFA.prototype.formatTime = function(time) {
     // Format
     var min = Math.floor(this.timeLimit / 60);
     var sec = this.timeLimit % 60;
-    sec = (sec > 9) ? sec : "0" + sec.toString() ; 
+    sec = (sec > 9) ? sec : "0" + sec.toString();
     return min + ":" + sec;
 };
 
@@ -100,47 +100,50 @@ TFFA.prototype.onServerInit = function(gameServer) {
     this.prepare(gameServer);
 };
 
-TFFA.prototype.onPlayerSpawn = function(gameServer,player) {
-     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-    // Random color
-    player.color = gameServer.getRandomColor();
-    
-    // Set up variables
-    var pos, startMass;
-    
-    // Check if there are ejected mass in the world.
-    if (gameServer.nodesEjected.length > 0) {
-        var index = Math.floor(Math.random() * 100) + 1;
-        if (index <= gameServer.config.ejectSpawnPlayer) {
-            // Get ejected cell
-            var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
-            var e = gameServer.nodesEjected[index];
+TFFA.prototype.onPlayerSpawn = function(gameServer, player) {
+    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+        // Random color
+        player.color = gameServer.getRandomColor();
 
-            // Remove ejected mass
-            gameServer.removeNode(e);
+        // Set up variables
+        var pos, startMass;
 
-            // Inherit
-            pos = {x: e.position.x, y: e.position.y};
-            startMass = e.mass;
+        // Check if there are ejected mass in the world.
+        if (gameServer.nodesEjected.length > 0) {
+            var index = Math.floor(Math.random() * 100) + 1;
+            if (index <= gameServer.config.ejectSpawnPlayer) {
+                // Get ejected cell
+                var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
+                var e = gameServer.nodesEjected[index];
 
-            var color = e.getColor();
-            player.setColor({
-                'r': color.r,
-                'g': color.g,
-                'b': color.b
-            });
+                // Remove ejected mass
+                gameServer.removeNode(e);
+
+                // Inherit
+                pos = {
+                    x: e.position.x,
+                    y: e.position.y
+                };
+                startMass = e.mass;
+
+                var color = e.getColor();
+                player.setColor({
+                    'r': color.r,
+                    'g': color.g,
+                    'b': color.b
+                });
+            }
+        }
+        //Add player to Contender list
+        this.contenders.push(player);
+        // Spawn player
+        gameServer.spawnPlayer(player, pos, startMass);
+
+        if (this.contenders.length > 0) {
+            // Start the game once there is at least 1 player
+            this.startGame(gameServer);
         }
     }
-    //Add player to Contender list
-    this.contenders.push(player);
-    // Spawn player
-    gameServer.spawnPlayer(player,pos,startMass);
-    
-    if (this.contenders.length > 0) {
-        // Start the game once there is at least 1 player
-        this.startGame(gameServer);
-    }
-}
 };
 
 TFFA.prototype.onCellRemove = function(cell) {
@@ -154,7 +157,7 @@ TFFA.prototype.onCellRemove = function(cell) {
             if ('_socket' in this.contenders[index].socket) {
                 human_just_died = true;
             }
-            this.contenders.splice(index,1);
+            this.contenders.splice(index, 1);
         }
         this.onPlayerDeath(cell.owner.gameServer);
     }
@@ -162,7 +165,7 @@ TFFA.prototype.onCellRemove = function(cell) {
 
 TFFA.prototype.updateLB = function(gameServer) {
     var lb = gameServer.leaderboard;
-    
+
     switch (this.gamePhase) {
         case 0:
             lb[0] = "Waiting for";
@@ -170,10 +173,10 @@ TFFA.prototype.updateLB = function(gameServer) {
             break;
         case 1:
             if (this.timer <= 0) {
-            // Reset the game
-            this.onServerInit(gameServer);
-            // Respawn starting food
-            gameServer.startingFood();
+                // Reset the game
+                this.onServerInit(gameServer);
+                // Respawn starting food
+                gameServer.startingFood();
             } else {
                 lb[2] = "Game restarting in: ";
                 lb[3] = this.timer.toString();
@@ -194,7 +197,7 @@ TFFA.prototype.updateLB = function(gameServer) {
             }
             break;
         case 3:
-            lb[0] = "Time Limit"; 
+            lb[0] = "Time Limit";
             lb[1] = "Has Been Reached!";
             if (this.timer <= 0) {
                 // Reset the game

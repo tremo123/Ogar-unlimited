@@ -33,11 +33,11 @@ Mode.prototype.onPlayerInit = function(player) {
 };
 
 Mode.prototype.onPlayerSpawn = function(gameServer, player) {
-     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-    // Called when a player is spawned
-    player.color = gameServer.getRandomColor(); // Random color
-    gameServer.spawnPlayer(player);
-}
+    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+        // Called when a player is spawned
+        player.color = gameServer.getRandomColor(); // Random color
+        gameServer.spawnPlayer(player);
+    }
 };
 
 Mode.prototype.pressQ = function(gameServer, player) {

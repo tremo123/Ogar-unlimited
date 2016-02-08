@@ -25,11 +25,11 @@ VO.prototype.onServerInit = function(gameServer) {
 };
 
 VO.prototype.onPlayerSpawn = function(gameServer, player) {
-     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-    // Called when a player is spawned
-    player.color = gameServer.getRandomColor(); // Random color
-    gameServer.spawnPlayer(player);
-}
+    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+        // Called when a player is spawned
+        player.color = gameServer.getRandomColor(); // Random color
+        gameServer.spawnPlayer(player);
+    }
 };
 
 VO.prototype.pressQ = function(gameServer, player) {

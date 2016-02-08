@@ -167,14 +167,14 @@ Cell.prototype.calcMovePhys = function(config) {
                 if (this.nodeId == cell.nodeId) {
                     continue;
                 }
-                if (!this.simpleCollide(x1,y1,cell,collisionDist)) {
+                if (!this.simpleCollide(x1, y1, cell, collisionDist)) {
                     continue;
                 }
-                var dist = this.getDist(x1,y1,cell.position.x,cell.position.y);
+                var dist = this.getDist(x1, y1, cell.position.x, cell.position.y);
                 if (dist < collisionDist) { // Collided
                     var newDeltaY = cell.position.y - y1;
                     var newDeltaX = cell.position.x - x1;
-                    var newAngle = Math.atan2(newDeltaX,newDeltaY);
+                    var newAngle = Math.atan2(newDeltaX, newDeltaY);
                     var move = (collisionDist - dist + 5) / 2; //move cells each halfway until they touch
                     xmove = move * Math.sin(newAngle);
                     ymove = move * Math.cos(newAngle);
@@ -257,12 +257,12 @@ Cell.prototype.onAutoMove = function(gameServer) {
 Cell.prototype.moveDone = function(gameServer) {
     // Called when this cell finished moving with the auto move engine
 };
-Cell.prototype.simpleCollide = function(x1,y1,check,d) {
+Cell.prototype.simpleCollide = function(x1, y1, check, d) {
     // Simple collision check
     var len = d >> 0; // Width of cell + width of the box (Int)
 
     return (this.abs(x1 - check.position.x) < len) &&
-           (this.abs(y1 - check.position.y) < len);
+        (this.abs(y1 - check.position.y) < len);
 };
 
 Cell.prototype.abs = function(x) {

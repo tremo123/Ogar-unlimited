@@ -33,47 +33,50 @@ FFA.prototype.leaderboardAddSort = function(player, leaderboard) {
 
 // Override
 
-FFA.prototype.onPlayerSpawn = function(gameServer,player) {
+FFA.prototype.onPlayerSpawn = function(gameServer, player) {
     // Random color
-     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-    player.color = gameServer.getRandomColor();
+    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+        player.color = gameServer.getRandomColor();
 
-    // Set up variables
-    var pos, startMass;
+        // Set up variables
+        var pos, startMass;
 
-    // Check if there are ejected mass in the world.
-    if (gameServer.nodesEjected.length > 0) {
-        var index = Math.floor(Math.random() * 100) + 1;
-        if (index <= gameServer.config.ejectSpawnPlayer) {
-            // Get ejected cell
-            var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
-            var e = gameServer.nodesEjected[index];
+        // Check if there are ejected mass in the world.
+        if (gameServer.nodesEjected.length > 0) {
+            var index = Math.floor(Math.random() * 100) + 1;
+            if (index <= gameServer.config.ejectSpawnPlayer) {
+                // Get ejected cell
+                var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
+                var e = gameServer.nodesEjected[index];
 
-            if (e.moveEngineTicks == 0) {
-                // Remove ejected mass
-                gameServer.removeNode(e);
+                if (e.moveEngineTicks == 0) {
+                    // Remove ejected mass
+                    gameServer.removeNode(e);
 
-                // Inherit
-                pos = {x: e.position.x, y: e.position.y};
-                startMass = e.mass;
+                    // Inherit
+                    pos = {
+                        x: e.position.x,
+                        y: e.position.y
+                    };
+                    startMass = e.mass;
 
-                var color = e.getColor();
-                player.setColor({
-                    'r': color.r,
-                    'g': color.g,
-                    'b': color.b
-                });
+                    var color = e.getColor();
+                    player.setColor({
+                        'r': color.r,
+                        'g': color.g,
+                        'b': color.b
+                    });
+                }
             }
         }
-    }
 
-    // Spawn player
-    gameServer.spawnPlayer(player,pos,startMass);
-     }
+        // Spawn player
+        gameServer.spawnPlayer(player, pos, startMass);
+    }
 };
 FFA.prototype.onServerInit = function(gameServer) {
     gameServer.lleaderboard = true
-    
+
 }
 
 FFA.prototype.updateLB = function(gameServer) {
