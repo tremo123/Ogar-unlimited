@@ -93,7 +93,7 @@ PlayerCell.prototype.calcMove = function(x2, y2, gameServer) {
             continue;
         }
 
-        if ((cell.recombineTicks > 0) || (this.recombineTicks > 0)) {
+        if ((!cell.shouldRecombine) || (!this.shouldRecombine)) {
             // Cannot recombine - Collision with your own cells
             var collisionDist = cell.getSize() + r; // Minimum distance between the 2 cells
             dist = this.getDist(x1, y1, cell.position.x, cell.position.y); // Distance between these two cells
