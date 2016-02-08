@@ -101,6 +101,7 @@ TFFA.prototype.onServerInit = function(gameServer) {
 };
 
 TFFA.prototype.onPlayerSpawn = function(gameServer,player) {
+     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
     // Random color
     player.color = gameServer.getRandomColor();
     
@@ -139,6 +140,7 @@ TFFA.prototype.onPlayerSpawn = function(gameServer,player) {
         // Start the game once there is at least 1 player
         this.startGame(gameServer);
     }
+}
 };
 
 TFFA.prototype.onCellRemove = function(cell) {
