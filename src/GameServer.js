@@ -674,12 +674,12 @@ GameServer.prototype.mainLoop = function() {
         }
         // Update the client's maps
         this.updateClients();
-        setTimeout(this.cellUpdateTick(), 0);
 
         // Update cells/leaderboard loop
         this.tickMain++;
         if (this.tickMain >= 20) { // 1 Second
              
+            setTimeout(this.cellUpdateTick(), 0);
 
             // Update leaderboard with the gamemode's method
             this.leaderboard = [];
@@ -1207,7 +1207,7 @@ GameServer.prototype.getCellsInRange = function(cell) {
             case 0: // Players
                 // Can't eat self if it's not time to recombine yet
                 if (check.owner == cell.owner) {
-                    if (!cell.shouldRecombine || !check.shouldRecombine) {
+                    if ((cell.recombineTicks > 0) || (check.recombineTicks > 0)) {
                         continue;
                     }
 
@@ -1292,7 +1292,7 @@ GameServer.prototype.updateCells = function() {
     }
 
     // Loop through all player cells
-    var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+    var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod);
     for (var i = 0; i < this.nodesPlayer.length; i++) {
         var cell = this.nodesPlayer[i];
 
@@ -1300,13 +1300,9 @@ GameServer.prototype.updateCells = function() {
             continue;
         }
 
-        // Recombining
-        if (cell.owner.cells.length > 1) {
-            cell.recombineTicks += 0.05;
-            cell.calcMergeTime(this.config.playerRecombineTime);
-        } else if (cell.owner.cells.length == 1 && cell.recombineTicks > 0) {
-            cell.recombineTicks = 0;
-            cell.shouldRecombine = false;
+        if (cell.recombineTicks > 0) {
+            // Recombining
+            cell.recombineTicks--;
         }
 
         // Mass decay
