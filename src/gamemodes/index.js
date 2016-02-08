@@ -44,7 +44,7 @@ var get = function(id) {
         case 6: // unlimitFFA
             mode = new module.exports.UnlimitFFA();
             break;
-        case 7:
+        case 7: // Shrinking ffa
             mode = new module.exports.SFFA();
             break;
         case 10: // Tournament
