@@ -33,7 +33,7 @@ VirusOff.prototype.leaderboardAddSort = function(player, leaderboard) {
 
 // Override
 
-VirusOff.prototype.onPlayerSpawn = function(gameServer,player) {
+VirusOff.prototype.onPlayerSpawn = function(gameServer, player) {
     // Random color
     player.color = gameServer.getRandomColor();
 
@@ -53,7 +53,10 @@ VirusOff.prototype.onPlayerSpawn = function(gameServer,player) {
                 gameServer.removeNode(e);
 
                 // Inherit
-                pos = {x: e.position.x, y: e.position.y};
+                pos = {
+                    x: e.position.x,
+                    y: e.position.y
+                };
                 startMass = e.mass;
 
                 var color = e.getColor();
@@ -67,7 +70,7 @@ VirusOff.prototype.onPlayerSpawn = function(gameServer,player) {
     }
 
     // Spawn player
-    gameServer.spawnPlayer(player,pos,startMass);
+    gameServer.spawnPlayer(player, pos, startMass);
 };
 
 VirusOff.prototype.updateLB = function(gameServer) {
@@ -104,5 +107,5 @@ VirusOff.prototype.updateLB = function(gameServer) {
 VirusOff.prototype.onServerInit = function(gameServer) {
     gameServer.lleaderboard = true;
     gameServer.spawnv = 0;
-    
+
 }

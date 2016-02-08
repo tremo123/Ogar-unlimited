@@ -4,14 +4,15 @@ var Food = require('./Food');
 
 function MotherCell() {
     Cell.apply(this, Array.prototype.slice.call(arguments));
-    
+
     this.cellType = 2; // Copies virus cell
-    this.color = {r: 205,
-                  g: 85,
-                  b: 100
+    this.color = {
+        r: 205,
+        g: 85,
+        b: 100
     };
     this.spiked = 1;
-	this.isMotherCell = true;
+    this.isMotherCell = true;
 }
 
 module.exports = MotherCell;
@@ -25,7 +26,7 @@ MotherCell.prototype.update = function(gameServer) {
     if (Math.random() * 100 > 97) {
         var maxFood = Math.random() * 2; // Max food spawned per tick
         var i = 0; // Food spawn counter
-        while (i < maxFood)  {
+        while (i < maxFood) {
             // Only spawn if food cap hasn't been reached
             if (gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
                 this.spawnFood(gameServer);
@@ -63,12 +64,12 @@ MotherCell.prototype.checkEat = function(gameServer) {
         }
 
         // Calculations
-        var len = r - (check.getSize() / 2) >> 0; 
+        var len = r - (check.getSize() / 2) >> 0;
         if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {
             // A second, more precise check
             var xs = Math.pow(check.position.x - this.position.x, 2);
             var ys = Math.pow(check.position.y - this.position.y, 2);
-            var dist = Math.sqrt( xs + ys );
+            var dist = Math.sqrt(xs + ys);
 
             if (r > dist) {
                 // Eats the cell
@@ -86,27 +87,27 @@ MotherCell.prototype.checkEat = function(gameServer) {
         }
 
         // Calculations
-        var len = r >> 0; 
+        var len = r >> 0;
         if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {
             // A second, more precise check
             var xs = Math.pow(check.position.x - this.position.x, 2);
             var ys = Math.pow(check.position.y - this.position.y, 2);
-            var dist = Math.sqrt( xs + ys );
+            var dist = Math.sqrt(xs + ys);
             if (r > dist) {
                 // Eat the cell
                 gameServer.removeNode(check);
                 this.mass += check.mass;
-            
+
                 if (gameServer.config.motherCellMassProtection == 1) {
-            	    this.mass = Math.min(this.mass, gameServer.config.motherCellMaxMass)
-                }	
+                    this.mass = Math.min(this.mass, gameServer.config.motherCellMaxMass)
+                }
             }
         }
     }
 }
 MotherCell.prototype.abs = function(n) {
     // Because Math.abs is slow
-    return (n < 0) ? -n: n;
+    return (n < 0) ? -n : n;
 }
 
 MotherCell.prototype.spawnFood = function(gameServer) {
@@ -114,8 +115,8 @@ MotherCell.prototype.spawnFood = function(gameServer) {
     var angle = Math.random() * 6.28; // (Math.PI * 2) ??? Precision is not our greatest concern here
     var r = this.getSize();
     var pos = {
-        x: this.position.x + ( r * Math.sin(angle) ),
-        y: this.position.y + ( r * Math.cos(angle) )
+        x: this.position.x + (r * Math.sin(angle)),
+        y: this.position.y + (r * Math.cos(angle))
     };
 
     // Spawn food
@@ -128,7 +129,7 @@ MotherCell.prototype.spawnFood = function(gameServer) {
     // Move engine
     f.angle = angle;
     var dist = (Math.random() * 10) + 22; // Random distance
-    f.setMoveEngineData(dist,15);
+    f.setMoveEngineData(dist, 15);
 
     gameServer.setAsMovingNode(f);
 };
@@ -142,11 +143,11 @@ MotherCell.prototype.onAdd = function(gameServer) {
 MotherCell.prototype.onRemove = function(gameServer) {
     var index = gameServer.gameMode.nodesMother.indexOf(this);
     if (index != -1) {
-        gameServer.gameMode.nodesMother.splice(index,1);
+        gameServer.gameMode.nodesMother.splice(index, 1);
     }
 };
 
-MotherCell.prototype.visibleCheck = function(box,centerPos) {
+MotherCell.prototype.visibleCheck = function(box, centerPos) {
     // Checks if this cell is visible to the player
     var cellSize = this.getSize();
     var lenX = cellSize + box.width >> 0; // Width of cell + width of the box (Int)

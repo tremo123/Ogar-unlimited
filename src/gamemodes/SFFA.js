@@ -54,14 +54,14 @@ SFFA.prototype.endGameTimeout = function(gameServer) {
     this.gamePhase = 4;
     this.timer = this.endTime; // 30 Seconds
 };
-SFFA.prototype.shrink = function (gameServer) {
+SFFA.prototype.shrink = function(gameServer) {
 
-var config = gameServer.config;
+    var config = gameServer.config;
     config.borderLeft += this.borderDec;
     config.borderRight -= this.borderDec;
     config.borderTop += this.borderDec;
     config.borderBottom -= this.borderDec;
-    
+
     var len = gameServer.nodes.length;
     for (var i = 0; i < len; i++) {
         var node = gameServer.nodes[i];
@@ -85,7 +85,7 @@ var config = gameServer.config;
             i--;
         }
     }
-    
+
 };
 
 SFFA.prototype.fillBots = function(gameServer) {
@@ -181,9 +181,9 @@ SFFA.prototype.onServerInit = function(gameServer) {
 };
 
 SFFA.prototype.onPlayerSpawn = function(gameServer, player) {
-     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-    // Only spawn players if the game hasnt started yet
-    
+    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+        // Only spawn players if the game hasnt started yet
+
         player.color = gameServer.getRandomColor(); // Random color
         this.contenders.push(player); // Add to contenders list
         gameServer.spawnPlayer(player);
@@ -220,7 +220,7 @@ SFFA.prototype.onCellRemove = function(cell) {
         // 1) there is only 1 player left, OR
         // 2) all the humans are dead, OR
         // 3) the last-but-one human just died
-        if ( humans == 0 && this.gamePhase == 2) {
+        if (humans == 0 && this.gamePhase == 2) {
             this.endGame(cell.owner.gameServer);
         } else {
             // Do stuff
@@ -231,9 +231,7 @@ SFFA.prototype.onCellRemove = function(cell) {
 
 SFFA.prototype.updateLB = function(gameServer) {
     var lb = gameServer.leaderboard;
-    
-    
-    
+
     switch (this.gamePhase) {
         case 0:
             lb[0] = "Waiting for";
@@ -257,7 +255,7 @@ SFFA.prototype.updateLB = function(gameServer) {
             } else {
                 this.timer--;
             }
-            
+
             break;
         case 2:
             lb[0] = "Players Alive";
@@ -278,7 +276,7 @@ SFFA.prototype.updateLB = function(gameServer) {
                 this.shrink(gameServer);
                 this.stime = 60;
             } else {
-                this.stime --
+                this.stime--
             }
             break;
         case 3:
