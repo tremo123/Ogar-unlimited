@@ -111,6 +111,8 @@ Id   | Name
 4. shoot Anti-matter
 5. shoot troll virus
 6. shoot kill virus
+7. shoot explode virus
+8. shoot kick virus
 
 ## Other
 
