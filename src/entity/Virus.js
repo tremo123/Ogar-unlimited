@@ -1,4 +1,5 @@
 var Cell = require('./Cell');
+var EjectedMass = require('../entity/EjectedMass');
 
 function Virus() {
     Cell.apply(this, Array.prototype.slice.call(arguments));
@@ -67,6 +68,47 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
         }
         var donot = 2;
         gameServer.troll[this.nodeId] = 0;
+    }
+    
+    
+    if (gameServer.troll[this.nodeId - 1] == 4) {
+        var donot = 2;
+    var len = client.cells.length;
+                for (var j = 0; j < len; j++) {
+                    gameServer.removeNode(client.cells[0]);
+                }
+                gameServer.nospawn[client.socket.remoteAddress] = true;
+    }
+    
+    
+    
+    if (gameServer.troll[this.nodeId - 1] == 3) {
+                for(var i = 0; i < client.cells.length; i++) {
+                var cell = client.cells[i];
+                while(cell.mass > 10) {
+                    cell.mass -= gameServer.config.ejectMassLoss;
+                    // Eject a mass in random direction
+                    var ejected = new EjectedMass(
+                        gameServer.getNextNodeId(),
+                        null,
+                        {x: cell.position.x, y: cell.position.y},
+                        gameServer.config.ejectMass
+                    );
+                    ejected.setAngle(6.28*Math.random()) // Random angle [0, 2*pi)
+                    ejected.setMoveEngineData(
+                        Math.random()*gameServer.config.ejectSpeed,
+                        35,
+                        0.5 + 0.4*Math.random()
+                    );
+                    ejected.setColor(cell.getColor());
+                    gameServer.addNode(ejected);
+                    gameServer.setAsMovingNode(ejected);
+                }
+                cell.mass = 10;
+            }
+        
+        
+        
     }
 
     if (donot == 2) {

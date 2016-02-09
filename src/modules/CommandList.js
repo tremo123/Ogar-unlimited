@@ -2,6 +2,7 @@
 var Teams = require('../gamemodes/Teams.js');
 var GameMode = require('../gamemodes');
 var Entity = require('../entity');
+var EjectedMass = require('../entity/EjectedMass');
 
 function Commands() {
     this.list = {}; // Empty
@@ -27,7 +28,7 @@ var fillChar = function(data, char, fieldLength, rTL) {
 Commands.list = {
     ophelp: function(gameServer, split) {
         console.log("[Console] ======================= OP HELP =====================");
-        console.log("You use OP by first setting who has op by doing op [id] in console. Then, that player can use the op features in game by pressing q. Then a c will appear next to your name. If you press w in this state, it gives you 100 more mass. If you press space in this state, you will be able to rejoin instantly. You will find out that if you press q again, two c's will appear next to your name. if you press w in this state, you shoot viruses. If you press space in this state, you shoot tiny things (almost invisible) that if someone eats, their mass is reduced by 100. Then, if you press q again,3 c's will appear.press w with 3c's, you shoot a virus, but whoever who eats it will be trolled :). If you press space with 3 c's the person who eats the virus will be killed. You can then exit op by pressing q again after doing an action or by pressing Q until the three c's will dissappear (so that you can normally split and shoot mass).");
+        console.log("You use OP by first setting who has op by doing op [id] in console. Then, that player can use the op features in game by pressing q. Then a c will appear next to your name. If you press w in this state, it gives you 100 more mass. If you press space in this state, you will be able to rejoin instantly. You will find out that if you press q again, two c's will appear next to your name. if you press w in this state, you shoot viruses. If you press space in this state, you shoot tiny things (almost invisible) that if someone eats, their mass is reduced by 100. Then, if you press q again,3 c's will appear.press w with 3c's, you shoot a virus, but whoever who eats it will be trolled :). If you press space with 3 c's the person who eats the virus will be killed.If you  press q again, 4 cs will appear and if you press w, you will shoot a virus tha explodes people and space, it shoots a kick virus. You can then exit op by pressing q again after doing an action or by pressing Q until the three c's will dissappear (so that you can normally split and shoot mass).");
         console.log("[Console] ===================== OP Usage Map ===================");
         console.log("One C:");
         console.log("W = Addmass 100+");
@@ -40,6 +41,9 @@ Commands.list = {
         console.log("Three C's:");
         console.log("W = Troll virus");
         console.log("Space = Death virus");
+        console.log("Four C's:");
+        console.log("W = Explode virus");
+        console.log("Space = Kick Virus")
         console.log("[Console] ====================================================");
     },
     help: function(gameServer, split) {
@@ -90,9 +94,43 @@ Commands.list = {
         console.log("[Console] Colortext  : changes text style");
         console.log("[Console] Shrink     : Shrinks the game");
         console.log("[Console] Enlarge    : Enlargens the game");
+        console.log("[Console] Explode    : Explodes a player");
+        console.log("[Console] Resetateam : Resets anti team effect for a player");
         console.log("[Console] ====================================================");
     },
+ explode: function(gameServer,split) {
+     var id = parseInt(split[1]);
+     for (var i in gameServer.clients) {
+            if (gameServer.clients[i].playerTracker.pID == id) {
+                var client = gameServer.clients[i].playerTracker; // Set color
+                for(var i = 0; i < client.cells.length; i++) {
+                var cell = client.cells[i];
+                while(cell.mass > 10) {
+                    cell.mass -= gameServer.config.ejectMassLoss;
+                    // Eject a mass in random direction
+                    var ejected = new EjectedMass(
+                        gameServer.getNextNodeId(),
+                        null,
+                        {x: cell.position.x, y: cell.position.y},
+                        gameServer.config.ejectMass
+                    );
+                    ejected.setAngle(6.28*Math.random()) // Random angle [0, 2*pi)
+                    ejected.setMoveEngineData(
+                        Math.random()*gameServer.config.ejectSpeed,
+                        35,
+                        0.5 + 0.4*Math.random()
+                    );
+                    ejected.setColor(cell.getColor());
+                    gameServer.addNode(ejected);
+                    gameServer.setAsMovingNode(ejected);
+                }
+                cell.mass = 10;
+            }
 
+            }
+        }
+     
+ },
 
 
       resetateam: function(gameServer, split) {
@@ -998,7 +1036,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 for (var j = 0; j < len; j++) {
                     gameServer.removeNode(client.cells[0]);
                 }
-                client.socket.close();
+                gameServer.nospawn[client.socket.remoteAddress] = true;
                 console.log("[Console] Kicked " + client.name);
                 break;
             }

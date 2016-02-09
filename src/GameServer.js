@@ -250,7 +250,7 @@ GameServer.prototype.start = function() {
             if (this.config.showbmessage == 1) {
                 console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
             }
-            this.nospawn[ws._socket.remoteAddress] = true;
+            ws.close;
         }
 
         if ((ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
