@@ -11,7 +11,7 @@ function Beacon() {
     this.spiked = 1;
 
     this.stage = 0; // When it reaches 1000, kill largest player
-    this.maxStage = 180;
+    this.maxStage = 190;
     this.minMass = this.mass;
 
     this.color = {
@@ -27,7 +27,10 @@ Beacon.prototype = new Cell();
 Beacon.prototype.feed = function(feeder, gameServer) {
     // Increase the stage ('voltage' if you will)
    if (Math.floor(Math.random * 100) > 50) {
-       this.stage++
+       this.stage++;
+   }
+    if (Math.floor(Math.random * 100) > 50) {
+       this.stage++;
    }
     this.stage++;
     this.mass = this.minMass + this.stage;
