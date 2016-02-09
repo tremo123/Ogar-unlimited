@@ -7,7 +7,7 @@ function Beacon() {
     Cell.apply(this, Array.prototype.slice.call(arguments));
 
     this.cellType = 5; // Another new cell type
-    this.agitated = 1; // Drawing purposes
+    this.wobbly = true; // Drawing purposes
     this.spiked = 1;
 
     this.stage = 0; // When it reaches 1000, kill largest player
