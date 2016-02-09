@@ -260,7 +260,7 @@ GameServer.prototype.start = function() {
              if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1) ) {
                 if (this.config.showbmessage == 1) {
                     console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
-                }
+                } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
 
                 this.banned.push(ws._socket.remoteAddress);
 
