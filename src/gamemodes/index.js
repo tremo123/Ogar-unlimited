@@ -87,7 +87,7 @@ var get = function(id) {
         case 22: // BlackHole
             mode = new module.exports.BlackHole();
             break;
-        case 23: // Experimental v2 
+        case 8: // Experimental v2 
             mode = new module.exports.Experimental2();
             break;
         default: // FFA is default
