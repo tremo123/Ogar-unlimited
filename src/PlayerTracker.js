@@ -344,7 +344,7 @@ PlayerTracker.prototype.calcViewBox = function() {
 PlayerTracker.prototype.getSpectateNodes = function() {
     var specPlayer;
 
-    if (!this.freeRoam) {
+    if (!this.freeRoam && this.gameServer.largestClient) {
         // TODO: Sort out switch between playerTracker.playerTracker.x and playerTracker.x problem.
         specPlayer = this.gameServer.largestClient;
         // Detect specByLeaderboard as player trackers are complicated
