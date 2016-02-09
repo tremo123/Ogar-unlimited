@@ -162,6 +162,7 @@ Cell.prototype.calcMovePhys = function(config) {
             totTravel = Math.min(totTravel + maxTravel, speed);
             var x1 = this.position.x + (totTravel * sin) + xd;
             var y1 = this.position.y + (totTravel * cos) + yd;
+            if (typeof this.gameServer != "undefined") {
             for (var i = 0; i < this.gameServer.nodesEjected.length; i++) {
                 var cell = this.gameServer.nodesEjected[i];
                 if (this.nodeId == cell.nodeId) {
@@ -193,10 +194,12 @@ Cell.prototype.calcMovePhys = function(config) {
                     }
                 }
             }
+            }
         }
         while (totTravel < speed);
         x1 = this.position.x + (speed * sin) + xd;
         y1 = this.position.y + (speed * cos) + yd;
+        
     } else {
         //movement for other than ejected mass cells (player split, virus shoot, ...)
         var x1 = this.position.x + (speed * sin);
