@@ -200,6 +200,6 @@ The current available console commands are listed here. Command names are not ca
 ## Contributing
 Just make a pull request or make your own copy
 
-## Things that I dont want you to plagerise into your copy
+## Things that I dont want you to copy (like to normal ogar)
 1. No-Lag antibot measures
 2. OP
