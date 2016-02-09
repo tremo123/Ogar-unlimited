@@ -11,7 +11,7 @@ var Beacon = require('../entity/Beacon');
 function Experimental2() {
     FFA.apply(this, Array.prototype.slice.call(arguments));
 
-    this.ID = 3;
+    this.ID = 8;
     this.name = "Experimental 2";
     this.specByLeaderboard = true;
     
