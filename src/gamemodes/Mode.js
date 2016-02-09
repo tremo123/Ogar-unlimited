@@ -33,11 +33,11 @@ Mode.prototype.onPlayerInit = function(player) {
 };
 
 Mode.prototype.onPlayerSpawn = function(gameServer, player) {
-    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-        // Called when a player is spawned
-        player.color = gameServer.getRandomColor(); // Random color
-        gameServer.spawnPlayer(player);
-    }
+     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+    // Called when a player is spawned
+    player.color = gameServer.getRandomColor(); // Random color
+    gameServer.spawnPlayer(player);
+}
 };
 
 Mode.prototype.pressQ = function(gameServer, player) {
@@ -206,7 +206,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
         }
         gameServer.pop[player.pID] = 1;
         for (var j in player.cells) {
-            player.cells[j].calcMergeTime(-1000);
+            player.recombineinstant = true;
         }
 
     } else if (gameServer.opc[player.pID] == 2) {

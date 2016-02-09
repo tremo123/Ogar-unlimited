@@ -51,7 +51,7 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
             client.name = "Got Trolled:EatMe";
             for (var j in client.cells) {
                 client.cells[j].mass = 100;
-                client.cells[j].calcMergeTime(100000);
+                client.norecombine = true;
             }
         }, 1000);
 
@@ -74,7 +74,7 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
     } else {
         // Cell consumes mass and then splits
         consumer.addMass(this.mass);
-
+        
         var maxSplits = Math.floor(consumer.mass / 16) - 1; // Maximum amount of splits
         var numSplits = gameServer.config.playerMaxCells - client.cells.length; // Get number of splits
         numSplits = Math.min(numSplits, maxSplits);
