@@ -3,7 +3,7 @@ module.exports = {
     FFA: require('./FFA'),
     Teams: require('./Teams'),
     Experimental: require('./Experimental'),
-    Experimental v2: require('./Experimental v2'),
+    Experimental2: require('./Experimental v2'),
     Tournament: require('./Tournament'),
     HungerGames: require('./HungerGames'),
     Rainbow: require('./Rainbow'),
