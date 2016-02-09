@@ -209,6 +209,7 @@ Experimental2.prototype.spawnStickyCell = function(gameServer) {
 Experimental2.prototype.onServerInit = function(gameServer) {
     // Called when the server starts
     gameServer.run = true;
+    gameServer.lleaderboard = true;
 
     // Override this
     gameServer.getRandomSpawn = gameServer.getRandomPosition;
