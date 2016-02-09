@@ -75,8 +75,8 @@ Commands.list = {
         console.log("[Console] Kickrange  : kicks in a ID range");
         console.log("[Console] Killrange  : kills in a ID range");
         console.log("[Console] Merge      : Forces that player to merge");
-        console.log("[Console] Nojoin     : Prevents the player from merging")
-        console.log("[Console] Msg        : Sends a message")
+        console.log("[Console] Nojoin     : Prevents the player from merging");
+        console.log("[Console] Msg        : Sends a message");
         console.log("[Console] Fmsg       : Sends a Force Message");
         console.log("[Console] Pmsg       : Periodically sends a message");
         console.log("[Console] Spmsg      : Stops any Pmsg proccess");
@@ -468,7 +468,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             }
         } else {
 
-            console.log("[Console] That IP is whitelisted")
+            console.log("[Console] That IP is whitelisted");
         }
     },
     banlist: function(gameServer, split) {
@@ -785,7 +785,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
 
             }
         }
-        console.log("[Console] Player " + id + " Was Trolled")
+        console.log("[Console] Player " + id + " Was Trolled");
 
     },
     nojoin: function(gameServer, split) {
