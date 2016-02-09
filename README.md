@@ -68,6 +68,7 @@ Id   | Name
 0    | Free For All
 1    | Teams
 2    | Experimental (As of 6/13/15)
+8    | Experimental v2
 3    | Timed FFA
 4    | Virus Off (no virus's)
 7    | Shrinking FFA, Shrinks the game as time passes
