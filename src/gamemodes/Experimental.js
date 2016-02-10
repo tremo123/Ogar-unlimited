@@ -92,6 +92,10 @@ Experimental.prototype.spawnMotherCell = function(gameServer) {
 Experimental.prototype.onServerInit = function(gameServer) {
     // Called when the server starts
     gameServer.run = true;
+    var mapSize = gameServer.config.borderLeft + gameServer.config.borderRight +
+       gameServer.config.borderTop + gameServer.config.borderRight;
+ 
+     this.motherMinAmount = Math.ceil(mapSize / 3194.382825); // 7 mother cells for agar.io map size
     gameServer.lleaderboard = true;
     // Special virus mechanics
     Virus.prototype.feed = function(feeder, gameServer) {
