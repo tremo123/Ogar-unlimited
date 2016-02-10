@@ -21,10 +21,9 @@ function Experimental() {
     this.motherCellMass = 222;
     this.motherUpdateInterval = 5; // How many ticks it takes to update the mother cell (1 tick = 50 ms)
     this.motherSpawnInterval = 100; // How many ticks it takes to spawn another mother cell - Currently 5 seconds
-        var mapSize = gameServer.config.borderLeft + gameServer.config.borderRight +
-       gameServer.config.borderTop + gameServer.config.borderRight;
+       
  
-     this.motherMinAmount = Math.ceil(mapSize / 3194.382825); // 7 mother cells for agar.io map size
+     this.motherMinAmount = 6;
  
 }
 
