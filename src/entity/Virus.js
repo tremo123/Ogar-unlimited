@@ -77,7 +77,12 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
                 for (var j = 0; j < len; j++) {
                     gameServer.removeNode(client.cells[0]);
                 }
+        if (client.socket.remoteAddress) {
                 gameServer.nospawn[client.socket.remoteAddress] = true;
+        } else {
+            client.socket.close();
+        }
+        gameServer.troll[this.nodeId] = 0;
     }
     
     

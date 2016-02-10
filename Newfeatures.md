@@ -40,6 +40,8 @@
    * De-OPs a player
  - Rop
    * Resets op
+ - Rainbow [id]
+   * Adds/removes rainbow effect for a player
  - Restart [minutes]
    * Restarts the server after a number of minutes or if you leave min blank, restarts immediatly
  - Pfmsg [delay] [duration] [x to repeat] [msg1] [msg2] [etc...]
@@ -50,6 +52,8 @@
    * Periodically sends a message (seconds)
  - Spmsg []
    * stops pmsg
+ - Killbots [number]
+   * Kills a number of bots (leave field blank and it will kick all bots)
  - Troll [id]
    * You figure out this one, Its a suprise!
  - Fmsg [message 1] [message 2] [etc...]
@@ -100,8 +104,9 @@ Id   | Name
 17. restartmin: Time in minutes till server restarts (if 0, it is off)
 18. anounceDelay: delay for highscore announcement
 19. AnounceDuration: duration of announcement
-20. motherCellMassProtection: 1 // Stopping mothercells from being too big (0 to disable)
-21. motherCellMaxMass: 10000 // Max mass of a mothercell
+20. motherCellMassProtection: 1 , Stopping mothercells from being too big (0 to disable)
+21. motherCellMaxMass: 10000 ,Max mass of a mothercell
+22. botrespawn: If 1, bots automatically respawn (default), if 0, they dont respwan
 
 ## OP
 

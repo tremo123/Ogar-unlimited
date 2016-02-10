@@ -77,6 +77,7 @@ Commands.list = {
         console.log("[Console] Merge      : Forces that player to merge");
         console.log("[Console] Nojoin     : Prevents the player from merging");
         console.log("[Console] Msg        : Sends a message");
+        console.log("[Console] Killbots   : Kills bots");
         console.log("[Console] Fmsg       : Sends a Force Message");
         console.log("[Console] Pmsg       : Periodically sends a message");
         console.log("[Console] Spmsg      : Stops any Pmsg proccess");
@@ -866,6 +867,33 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         else
             console.log("[Console] Only " + removed + " bots could be kicked");
     },
+    killbots: function(gameServer, split) {
+        var toRemove = parseInt(split[1]);
+        if (isNaN(toRemove)) {
+            toRemove = -1; // Kick all bots if user doesnt specify a number
+        }
+
+        var removed = 0;
+        var i = 0;
+        while (i < gameServer.clients.length && removed != toRemove) {
+            if (typeof gameServer.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+                var client = gameServer.clients[i].playerTracker;
+                var len = client.cells.length;
+                for (var j = 0; j < len; j++) {
+                    gameServer.removeNode(client.cells[0]);
+                }
+                removed++;
+                i++;
+            } else 
+                i++;
+        }
+        if (toRemove == -1)
+            console.log("[Console] Killed all bots (" + removed + ")");
+        else if (toRemove == removed)
+            console.log("[Console] Killed " + toRemove + " bots");
+        else
+            console.log("[Console] Only " + removed + " bots could be killed");
+    },
     board: function(gameServer, split) {
         var newLB = [];
         for (var i = 1; i < split.length; i++) {
@@ -1037,7 +1065,11 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 for (var j = 0; j < len; j++) {
                     gameServer.removeNode(client.cells[0]);
                 }
+                if (client.socket.remoteAddress) {
                 gameServer.nospawn[client.socket.remoteAddress] = true;
+                } else {
+                    client.socket.close();
+                }
                 console.log("[Console] Kicked " + client.name);
                 break;
             }

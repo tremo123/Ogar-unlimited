@@ -217,6 +217,7 @@ function GameServer() {
         serverMaxConnectionsPerIp: 5, // Maximum amount of IPs per player connection
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
+        botrespawn: 1,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
         serverViewBaseX: 1024, // Base view distance of players. Warning: high values may cause lag

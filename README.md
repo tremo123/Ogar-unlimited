@@ -126,6 +126,8 @@ The current available console commands are listed here. Command names are not ca
    * gives player rainbow effect
  - Kickbots [number]
    * Kicks a number of bots (leave field blank and it will kick all bots)
+ - Killbots [number]
+   * Kills a number of bots (leave field blank and it will kick all bots)
  - Restart [minutes]
    * Restarts the server after a number of minutes or if you leave min blank, restarts immediatly
  - Banlist

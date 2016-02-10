@@ -71,12 +71,16 @@ BotPlayer.prototype.update = function() { // Overrides the update function from 
     }
 
     // Respawn if bot is dead
-    if (this.cells.length <= 0) {
+    if (this.cells.length <= 0 ) {
+        if (this.gameServer.config.botrespawn == 1) {
         this.gameServer.gameMode.onPlayerSpawn(this.gameServer, this);
         if (this.cells.length == 0) {
             // If the bot cannot spawn any cells, then disconnect it
             this.socket.close();
             return;
+        }
+        } else {
+            this.socket.close();
         }
     }
 
