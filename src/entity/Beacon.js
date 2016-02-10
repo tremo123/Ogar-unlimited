@@ -11,7 +11,7 @@ function Beacon() {
     this.spiked = 1;
 
     this.stage = 0; // When it reaches 1000, kill largest player
-    this.maxStage = 190;
+    this.maxStage = 250;
     this.minMass = this.mass;
 
     this.color = {
