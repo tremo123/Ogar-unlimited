@@ -7,6 +7,7 @@ function PlayerTracker(gameServer, socket) {
     this.name = "";
     this.gameServer = gameServer;
     this.socket = socket;
+    this.rainbowon = false;
      this.recombineinstant = false;
     this.norecombine = false;
     this.nodeAdditionQueue = [];

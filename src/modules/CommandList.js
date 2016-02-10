@@ -96,6 +96,7 @@ Commands.list = {
         console.log("[Console] Enlarge    : Enlargens the game");
         console.log("[Console] Explode    : Explodes a player");
         console.log("[Console] Resetateam : Resets anti team effect for a player");
+        console.log("[Console] Rainbow    : Gives rainbow effect to a player");
         console.log("[Console] ====================================================");
     },
  explode: function(gameServer,split) {
@@ -1236,6 +1237,39 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
 
         var s = gameServer.run ? "Unpaused" : "Paused";
         console.log("[Console] " + s + " the game.");
+    },
+    rainbow: function(gameServer, split) {
+        var id = parseInt(split[1]);
+        if (isNaN(id)) {
+            console.log("[Console] Please specify a player!");
+              return;
+        }
+        if (!gameServer.clients[id-1]) {
+            console.log("[Console] Client is nonexistent!");
+              return;
+        }
+        for (var i in gameServer.clients) {
+            if (gameServer.clients[i].playerTracker.pID == id) {
+                var client = gameServer.clients[i].playerTracker;
+                if (client.rainbowon) {
+                    client.rainbowon = false;
+                 for (var j in client.cells) {
+                    gameServer.rnodes[client.cells[j].nodeId] = [];
+                     client.cells[j].color = client.color;
+                }  
+                    console.log("[Console] Removed rainbow effect for " + client.name);
+                } else {
+                client.rainbowon = true;
+                for (var j in client.cells) {
+                    gameServer.rnodes[client.cells[j].nodeId] = client.cells[j];
+                }
+                     console.log("[Console] Removed rainbow effect for " + client.name);
+                }
+                break;
+            }
+        }
+        
+        
     },
     reload: function(gameServer) {
         gameServer.loadConfig();

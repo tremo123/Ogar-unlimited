@@ -18,6 +18,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     // Startup
     this.ipCounts = [];
+    this.rnodes = [];
     this.lleaderboard = false;
     this.topscore = 50;
     this.topusername = "None";
@@ -59,6 +60,127 @@ function GameServer() {
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.largestClient;
+     this.colors = [{
+            'r': 255,
+            'g': 0,
+            'b': 0
+        }, // Red
+        {
+            'r': 255,
+            'g': 32,
+            'b': 0
+        }, {
+            'r': 255,
+            'g': 64,
+            'b': 0
+        }, {
+            'r': 255,
+            'g': 96,
+            'b': 0
+        }, {
+            'r': 255,
+            'g': 128,
+            'b': 0
+        }, // Orange
+        {
+            'r': 255,
+            'g': 160,
+            'b': 0
+        }, {
+            'r': 255,
+            'g': 192,
+            'b': 0
+        }, {
+            'r': 255,
+            'g': 224,
+            'b': 0
+        }, {
+            'r': 255,
+            'g': 255,
+            'b': 0
+        }, // Yellow
+        {
+            'r': 192,
+            'g': 255,
+            'b': 0
+        }, {
+            'r': 128,
+            'g': 255,
+            'b': 0
+        }, {
+            'r': 64,
+            'g': 255,
+            'b': 0
+        }, {
+            'r': 0,
+            'g': 255,
+            'b': 0
+        }, // Green
+        {
+            'r': 0,
+            'g': 192,
+            'b': 64
+        }, {
+            'r': 0,
+            'g': 128,
+            'b': 128
+        }, {
+            'r': 0,
+            'g': 64,
+            'b': 192
+        }, {
+            'r': 0,
+            'g': 0,
+            'b': 255
+        }, // Blue
+        {
+            'r': 18,
+            'g': 0,
+            'b': 192
+        }, {
+            'r': 37,
+            'g': 0,
+            'b': 128
+        }, {
+            'r': 56,
+            'g': 0,
+            'b': 64
+        }, {
+            'r': 75,
+            'g': 0,
+            'b': 130
+        }, // Indigo
+        {
+            'r': 92,
+            'g': 0,
+            'b': 161
+        }, {
+            'r': 109,
+            'g': 0,
+            'b': 192
+        }, {
+            'r': 126,
+            'g': 0,
+            'b': 223
+        }, {
+            'r': 143,
+            'g': 0,
+            'b': 255
+        }, // Purple
+        {
+            'r': 171,
+            'g': 0,
+            'b': 192
+        }, {
+            'r': 199,
+            'g': 0,
+            'b': 128
+        }, {
+            'r': 227,
+            'g': 0,
+            'b': 64
+        },
+    ];
 
     this.bots = new BotLoader(this);
     this.log = new Logger();
@@ -678,9 +800,37 @@ GameServer.prototype.mainLoop = function() {
 
         // Update cells/leaderboard loop
         this.tickMain++;
-        if (this.tickMain >= 20) { // 1 Second
-             
+        for (var i in this.rnodes) {
+        node = this.rnodes[i];
 
+        if (!node) {
+            continue;
+        }
+
+        
+            
+             
+if (typeof node.rainbow == 'undefined') {
+        node.rainbow = Math.floor(Math.random() * this.colors.length);
+    }
+
+    if (node.rainbow >= this.colors.length) {
+        node.rainbow = 0;
+    }
+
+    node.color = this.colors[node.rainbow];
+    node.rainbow += 1;
+    }
+        if (this.tickMain >= 20) { // 1 Second
+            for (var i in this.clients) {
+                if (typeof this.clients[i] != "undefined") {
+             if (this.clients[i].playerTracker.rainbowon) {
+                 var client = this.clients[i].playerTracker;
+                 for (var j in client.cells) {
+                      this.rnodes[client.cells[j].nodeId] = client.cells[j];
+                 }
+             }   
+            }}
             // Update leaderboard with the gamemode's method
             this.leaderboard = [];
             this.gameMode.updateLB(this);
