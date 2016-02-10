@@ -110,6 +110,7 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
                     gameServer.setAsMovingNode(ejected);
                 }
                 cell.mass = 10;
+                    var donot = 2;
             }
         
         
