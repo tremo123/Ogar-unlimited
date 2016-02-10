@@ -22,7 +22,7 @@ function GameServer() {
     this.topscore = 50;
     this.topusername = "None";
     this.red = false;
-    this.nospawn = false;
+    this.nospawn = [];
     this.green = false;
     this.blue = false;
     this.bold = false;
