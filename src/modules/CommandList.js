@@ -1263,7 +1263,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 for (var j in client.cells) {
                     gameServer.rnodes[client.cells[j].nodeId] = client.cells[j];
                 }
-                     console.log("[Console] Removed rainbow effect for " + client.name);
+                     console.log("[Console] Added rainbow effect for " + client.name);
                 }
                 break;
             }
