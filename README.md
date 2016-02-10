@@ -122,6 +122,8 @@ The current available console commands are listed here. Command names are not ca
    * Bans an IP and sends a MSG
  - Unban [IP]
    * Unbans an IP
+ - Rainbow [id]
+   * gives player rainbow effect
  - Kickbots [number]
    * Kicks a number of bots (leave field blank and it will kick all bots)
  - Restart [minutes]
