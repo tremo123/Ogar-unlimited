@@ -204,6 +204,7 @@ function GameServer() {
         anounceDuration: 8, // How long the announce lasts
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
+        skins: 1
         SpikedCells: 0, // Amount of spiked cells
         autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
         smartbthome: 1, // Automatically sends you back to normal mode after pressing Q proceding an action (default) 2 = off (you need to press Q a lot)
@@ -925,6 +926,7 @@ GameServer.prototype.spawnFood = function() {
 
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     if (this.nospawn[player.socket.remoteAddress] != true) {
+if (this.config.skins == 1) {
         
             if (player.name.substr(0, 1) == "<") {
                 // Premium Skin
@@ -935,7 +937,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                     player.name = player.name.substr(n + 1);
                 }
             }
-        
+        }
         
     if (pos == null) { // Get random pos
         pos = this.getRandomSpawn();
