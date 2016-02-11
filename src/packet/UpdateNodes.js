@@ -70,7 +70,7 @@ UpdateNodes.prototype.build = function() {
         offset += 18;
 
 /////
-        var skin = node.skin;
+        var skin = node.getPremium();
         if (skin) {
             for (var j = 0; j < skin.length; j++) {
                 var c = skin.charCodeAt(j);
@@ -86,16 +86,7 @@ UpdateNodes.prototype.build = function() {
 
         var name = node.getName();
         
-        if (name) {
-            if (name.substr(0, 1) == "<") {
-                // Premium Skin
-                var n = name.indexOf(">");
-                if (n != -1) {
-                    
-                    node.skin = '%' + name.substr(1, n - 1);
-                    name = name.substr(n + 1);
-                }
-            }}
+        
         if (name) {
             for (var j = 0; j < name.length; j++) {
                 var c = name.charCodeAt(j);
