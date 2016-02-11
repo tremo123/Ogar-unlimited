@@ -160,7 +160,13 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
         for (var k = 0; k < bigSplits; k++) {
             angle = Math.random() * 6.28; // Random directions
             splitMass = consumer.mass / 4;
-            gameServer.newCellVirused(client, consumer, angle, splitMass, 200);
+            var speed = 0;
+            if (splitMass < 1000) {
+                speed = 200;
+            } else {
+                speed = 300;
+            }
+            gameServer.newCellVirused(client, consumer, angle, splitMass, speed);
             consumer.mass -= splitMass;
 
         }
