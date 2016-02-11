@@ -936,7 +936,15 @@ if (this.config.skins == 1) {
                     player.premium = '%' + player.name.substr(1, n - 1);
                     player.name = player.name.substr(n + 1);
                 }
-            }
+            } else if (player.name.substr(0, 1) == "|") {
+                // Premium Skin
+                var n = player.name.indexOf("|");
+                if (n != -1) {
+                    
+                    player.premium = ':http://' + player.name.substr(1, n - 1);
+                    player.name = player.name.substr(n + 1);
+                }
+            } 
         }
         
     if (pos == null) { // Get random pos
