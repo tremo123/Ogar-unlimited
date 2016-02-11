@@ -25,6 +25,7 @@ function GameServer() {
     this.red = false;
     this.nospawn = [];
     this.green = false;
+    this.rrticks = 0;
     this.blue = false;
     this.bold = false;
     this.white = false;
@@ -802,6 +803,7 @@ GameServer.prototype.mainLoop = function() {
 
         // Update cells/leaderboard loop
         this.tickMain++;
+        var count = 0;
         for (var i in this.rnodes) {
         node = this.rnodes[i];
 
@@ -809,7 +811,7 @@ GameServer.prototype.mainLoop = function() {
             continue;
         }
 
-        
+        count++;
             
              
 if (typeof node.rainbow == 'undefined') {
@@ -823,6 +825,12 @@ if (typeof node.rainbow == 'undefined') {
     node.color = this.colors[node.rainbow];
     node.rainbow += 1;
     }
+        
+        if (count <= 0) {
+            this.rnodes = [];
+            
+        }
+            
         if (this.tickMain >= 20) { // 1 Second
             for (var i in this.clients) {
                 if (typeof this.clients[i] != "undefined") {
@@ -833,6 +841,19 @@ if (typeof node.rainbow == 'undefined') {
                  }
              }   
             }}
+            if (this.rnodes > 0) {
+                
+                if (this.rrticks > 40) {
+                this.rrticks = 0;
+                    this.rnodes = [];
+                
+                } else {
+                    this.rrticks++;
+                }
+                
+                
+                
+            }
             // Update leaderboard with the gamemode's method
             this.leaderboard = [];
             this.gameMode.updateLB(this);
