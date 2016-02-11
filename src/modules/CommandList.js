@@ -1187,12 +1187,34 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             console.log("[Console] Please type a valid name");
             return;
         }
+        var premium = "";
+        if (name(0, 1) == "<") {
+                // Premium Skin
+                var n = name.indexOf(">");
+                if (n != -1) {
+                    
+                    premium = '%' + name.substr(1, n - 1);
+                    name = name.substr(n + 1);
+                }
+            } else if (name.substr(0, 1) == "[") {
+                // Premium Skin
+                var n = name.indexOf("]");
+                if (n != -1) {
+                    
+                    premium = ':http://' + name.substr(1, n - 1);
+                    name = name.substr(n + 1);
+                }
+            } 
 
         // Change name
         for (var i = 0; i < gameServer.clients.length; i++) {
             var client = gameServer.clients[i].playerTracker;
 
             if (client.pID == id) {
+                if (premium) {
+                    client.premium = premium;
+                    console.log("[Console] Changeing their skin to " + premium);
+                }
                 console.log("[Console] Changing " + client.name + " to " + name);
                 client.name = name;
                 return;
