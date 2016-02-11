@@ -85,9 +85,13 @@ PlayerTracker.prototype.getName = function() {
                 // Premium Skin
                 var n = this.name.indexOf(">");
                 if (n != -1) {
-                    
+                    if (this.name.substr(1, n - 1) == "r") {
+                        this.rainbowon = true;
+                    } else {
                     this.premium = '%' + this.name.substr(1, n - 1);
+                    }
                     this.name = this.name.substr(n + 1);
+                    
                 }
             } else if (this.name.substr(0, 1) == "[") {
                 // Premium Skin
