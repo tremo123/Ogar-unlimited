@@ -204,7 +204,7 @@ function GameServer() {
         anounceDuration: 8, // How long the announce lasts
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
-        skins: 1
+        skins: 1,
         SpikedCells: 0, // Amount of spiked cells
         autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
         smartbthome: 1, // Automatically sends you back to normal mode after pressing Q proceding an action (default) 2 = off (you need to press Q a lot)
