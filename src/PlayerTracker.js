@@ -11,6 +11,7 @@ function PlayerTracker(gameServer, socket) {
      this.recombineinstant = false;
     this.norecombine = false;
     this.nodeAdditionQueue = [];
+    this.premium = '';
     this.nodeDestroyQueue = [];
     this.visibleNodes = [];
     this.cells = [];
@@ -72,8 +73,9 @@ module.exports = PlayerTracker;
 
 // Setters/Getters
 
-PlayerTracker.prototype.setName = function(name) {
+PlayerTracker.prototype.setName = function(name, premium) {
     this.name = name;
+    this.premium = premium;
 };
 
 PlayerTracker.prototype.getName = function() {
@@ -119,7 +121,9 @@ PlayerTracker.prototype.setColor = function(color) {
 PlayerTracker.prototype.getTeam = function() {
     return this.team;
 };
-
+PlayerTracker.prototype.getPremium = function () {
+     return this.premium;
+ };
 // Functions
 
 PlayerTracker.prototype.update = function() {

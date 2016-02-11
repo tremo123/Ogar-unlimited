@@ -34,6 +34,13 @@ Cell.prototype.getName = function() {
         return "";
     }
 };
+Cell.prototype.getPremium = function () {
+     if (this.owner) {
+         return this.owner.premium;
+    } else {
+        return "";
+    }
+ };
 
 Cell.prototype.setColor = function(color) {
     this.color.r = color.r;
