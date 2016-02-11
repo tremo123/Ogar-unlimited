@@ -1297,7 +1297,9 @@ GameServer.prototype.newCellVirused = function(client, parent, angle, mass, spee
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
+   
     newCell.ignoreCollision = true; // Remove collision checks
+    
 
     // Add to moving cells list
     this.addNode(newCell);
