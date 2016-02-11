@@ -95,7 +95,11 @@ BotPlayer.prototype.update = function() { // Overrides the update function from 
 
     // Calc predators/prey
     var cell = this.getLowestCell();
+    if (cell) {
     var r = cell.getSize();
+    } else {
+        var r = 0;
+    }
     this.clearLists();
 
     // Ignores targeting cells below this mass
