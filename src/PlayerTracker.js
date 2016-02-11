@@ -79,6 +79,26 @@ PlayerTracker.prototype.setName = function(name) {
 };
 
 PlayerTracker.prototype.getName = function() {
+    if (this.gameServer.config.skins == 1) {
+        
+            if (this.name.substr(0, 1) == "<") {
+                // Premium Skin
+                var n = this.name.indexOf(">");
+                if (n != -1) {
+                    
+                    this.premium = '%' + this.name.substr(1, n - 1);
+                    this.name = this.name.substr(n + 1);
+                }
+            } else if (this.name.substr(0, 1) == "[") {
+                // Premium Skin
+                var n = this.name.indexOf("]");
+                if (n != -1) {
+                    
+                    this.premium = ':http://' + this.name.substr(1, n - 1);
+                    this.name = this.name.substr(n + 1);
+                }
+            } 
+        }
     return this.name;
 };
 

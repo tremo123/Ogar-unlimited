@@ -86,16 +86,7 @@ UpdateNodes.prototype.build = function() {
 
         var name = node.getName();
         
-        if (name) {
-             if (name.substr(0, 1) == "<") {
-                 // Premium Skin
-                 var n = name.indexOf(">");
-                 if (n != -1) {
-                     
-                     
-                     name = name.substr(n + 1);
-                 }
-             }}
+        
         if (name) {
             for (var j = 0; j < name.length; j++) {
                 var c = name.charCodeAt(j);
