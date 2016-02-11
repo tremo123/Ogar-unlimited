@@ -20,7 +20,7 @@ UpdateNodes.prototype.build = function() {
 
 /////        nodesLength = nodesLength + 20 + (node.getName().length * 2);
 /////
-        nodesLength = nodesLength + 20 + (node.getName().length * 2) + 8;
+        nodesLength = nodesLength + 20 + (node.getName().length * 2) + node.getPremium().length;
 /////
     }
 
