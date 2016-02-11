@@ -4,6 +4,7 @@ function PlayerCell() {
     Cell.apply(this, Array.prototype.slice.call(arguments));
 
     this.cellType = 0;
+    this.skin;
     this.recombineTicks = 0; // Ticks passed after the cell has split
     this.shouldRecombine = false; // Should the cell combine. If true, collision with own cells happens
     

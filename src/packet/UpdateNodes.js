@@ -18,7 +18,10 @@ UpdateNodes.prototype.build = function() {
             continue;
         }
 
-        nodesLength = nodesLength + 20 + (node.getName().length * 2);
+/////        nodesLength = nodesLength + 20 + (node.getName().length * 2);
+/////
+        nodesLength = nodesLength + 20 + (node.getName().length * 2) + 8;
+/////
     }
 
     var buf = new ArrayBuffer(3 + (this.destroyQueue.length * 12) + (this.nonVisibleNodes.length * 4) + nodesLength + 8);
@@ -57,25 +60,52 @@ UpdateNodes.prototype.build = function() {
         view.setInt32(offset + 4, node.position.x + this.scrambleX, true); // X position
         view.setInt32(offset + 8, node.position.y + this.scrambleY, true); // Y position
         view.setUint16(offset + 12, node.getSize(), true); // Mass formula: Radius (size) = (mass * mass) / 100
-        
         view.setUint8(offset + 14, node.color.r, true); // Color (R)
         view.setUint8(offset + 15, node.color.g, true); // Color (G)
         view.setUint8(offset + 16, node.color.b, true); // Color (B)
-        
-        view.setUint8(offset + 17, node.spiked | (node.wobbly << 4), true); // Flags
+        /////view.setUint8(offset + 17, node.spiked, true); // Flags
+/////
+        view.setUint8(offset + 17, (node.spiked | 4), true); // Flags
+/////
         offset += 18;
 
+/////
+        var skin = node.skin;
+        if (skin) {
+            for (var j = 0; j < skin.length; j++) {
+                var c = skin.charCodeAt(j);
+                if (c){
+                    view.setUint8(offset, c, true);
+                }
+                offset++;
+            }
+        }
+        view.setUint8(offset, 0, true); // End of string
+        offset++;
+/////
+
         var name = node.getName();
+        
+        if (name) {
+            if (name.substr(0, 1) == "<") {
+                // Premium Skin
+                var n = name.indexOf(">");
+                if (n != -1) {
+                    
+                    node.skin = '%' + name.substr(1, n - 1);
+                    name = name.substr(n + 1);
+                }
+            }}
         if (name) {
             for (var j = 0; j < name.length; j++) {
                 var c = name.charCodeAt(j);
-                if (c) {
+                if (c){
                     view.setUint16(offset, c, true);
                 }
                 offset += 2;
             }
         }
-
+        
         view.setUint16(offset, 0, true); // End of string
         offset += 2;
     }
