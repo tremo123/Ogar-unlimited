@@ -925,6 +925,16 @@ GameServer.prototype.spawnFood = function() {
 
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     if (this.nospawn[player.socket.remoteAddress] != true) {
+        if (player.name) {
+            if (player.name.substr(0, 1) == "<") {
+                // Premium Skin
+                var n = player.name.indexOf(">");
+                if (n != -1) {
+                    
+                    
+                    player.name = player.name.substr(n + 1);
+                }
+            }}
     if (pos == null) { // Get random pos
         pos = this.getRandomSpawn();
     }
