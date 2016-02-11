@@ -65,7 +65,7 @@ UpdateNodes.prototype.build = function() {
         view.setUint8(offset + 16, node.color.b, true); // Color (B)
         /////view.setUint8(offset + 17, node.spiked, true); // Flags
 /////
-       view.setUint8(offset + 13, node.spiked | (skin << 2) | (node.wobbly << 4), true);  // Flags
+        view.setUint8(offset + 17, (node.spiked | 4), true); // Flags
 /////
         offset += 18;
 
