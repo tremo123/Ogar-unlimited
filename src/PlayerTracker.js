@@ -73,9 +73,9 @@ module.exports = PlayerTracker;
 
 // Setters/Getters
 
-PlayerTracker.prototype.setName = function(name, premium) {
+PlayerTracker.prototype.setName = function(name) {
     this.name = name;
-    this.premium = premium;
+    
 };
 
 PlayerTracker.prototype.getName = function() {
