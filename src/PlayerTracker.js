@@ -89,6 +89,7 @@ PlayerTracker.prototype.getName = function() {
                         this.rainbowon = true;
                     } else {
                     this.premium = '%' + this.name.substr(1, n - 1);
+                        this.rainbowon = false;
                     }
                     this.name = this.name.substr(n + 1);
                     
