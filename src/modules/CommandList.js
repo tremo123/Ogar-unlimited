@@ -1188,7 +1188,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             return;
         }
         var premium = "";
-        if (name(0, 1) == "<") {
+        if (name.substr(0, 1) == "<") {
                 // Premium Skin
                 var n = name.indexOf(">");
                 if (n != -1) {
