@@ -112,7 +112,7 @@ UpdateNodes.prototype.build = function() {
 
     var len = this.nonVisibleNodes.length + this.destroyQueue.length;
     view.setUint32(offset, 0, true); // End
-    view.setUint32(offset + 2, len, true); // # of non-visible nodes to destroy
+    view.setUint32(offset + 4, len, true); // # of non-visible nodes to destroy
 
     offset += 8;
 
@@ -124,7 +124,7 @@ UpdateNodes.prototype.build = function() {
             continue;
         }
 
-        view.setUint32(offset - 2, node.nodeId, true);
+        view.setUint32(offset, node.nodeId, true);
         offset += 4;
     }
     for (var i = 0; i < this.nonVisibleNodes.length; i++) {
@@ -134,7 +134,7 @@ UpdateNodes.prototype.build = function() {
             continue;
         }
 
-        view.setUint32(offset - 2, node.nodeId, true);
+        view.setUint32(offset, node.nodeId, true);
         offset += 4;
     }
 
