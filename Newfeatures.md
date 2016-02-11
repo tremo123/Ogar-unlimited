@@ -126,4 +126,5 @@ Id   | Name
 3. Revolutionary no-lag,no-DDoS, Anti-bot system (ban)
 4. Clean up some code and add mothercell.js on another file
 5. add liveconsole
-6. more features I forgot to mention
+6. SKINS `<skiname>yourname`
+7. more features I forgot to mention
