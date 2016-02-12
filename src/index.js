@@ -21,9 +21,9 @@ request('http://raw.githubusercontent.com/AJS-development/verse/master/update', 
   if (!error && response.statusCode == 200) {
     
       // Show the HTML for the Google homepage. 
-      if (body.replace('\n','') != "3.1.4") {
+      if (body.replace('\n','') != "3.1.5") {
           
-      console.log("[Console] We have detected a update, Current version: 3.1.4 ,Available: "+ body.replace('\n',''));
+      console.log("[Console] We have detected a update, Current version: 3.1.5 ,Available: "+ body.replace('\n',''));
       }
   }
 })
