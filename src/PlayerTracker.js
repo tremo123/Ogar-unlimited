@@ -171,7 +171,7 @@ PlayerTracker.prototype.update = function() {
 
     var updateNodes = []; // Nodes that need to be updated via packet
     
-if (this.mergeOverrideDuration < 300 && this.recombineinstant) {
+if (this.mergeOverrideDuration < 200 && this.recombineinstant) {
         this.mergeOverrideDuration++;
      } else if (this.recombineinstant)  {
          this.recombineinstant = false;
