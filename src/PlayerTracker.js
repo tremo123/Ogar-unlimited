@@ -170,7 +170,15 @@ PlayerTracker.prototype.update = function() {
     }
 
     var updateNodes = []; // Nodes that need to be updated via packet
-
+    
+if (this.mergeOverrideDuration < 300 && this.recombineinstant) {
+        this.mergeOverrideDuration++;
+     } else if (this.recombineinstant)  {
+         this.recombineinstant = false;
+         this.mergeOverrideDuration = 0;
+     } else {
+         this.mergeOverrideDuration = 0;
+     }
     // Remove nodes from visible nodes if possible
     var d = 0;
     while (d < this.nodeDestroyQueue.length) {
