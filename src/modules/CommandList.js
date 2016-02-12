@@ -1215,8 +1215,10 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                     client.premium = premium;
                     console.log("[Console] Changeing their skin to " + premium);
                 }
+                if (name) {
                 console.log("[Console] Changing " + client.name + " to " + name);
                 client.name = name;
+                }
                 return;
             }
         }
