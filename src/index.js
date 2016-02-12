@@ -26,6 +26,16 @@ request('http://raw.githubusercontent.com/AJS-development/verse/master/update', 
       console.log("[Console] We have detected a update, Current version: 3.1.5 ,Available: "+ body.replace('\n',''));
       }
   }
+});
+request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    
+      // Show the HTML for the Google homepage. 
+      if (body.replace('\n','') != "") {
+          
+      console.log("[Console] We recieved a world-wide message!: "+ body.replace('\n',''));
+      }
+  }
 })
 // Handle arguments
 process.argv.forEach(function(val) {
