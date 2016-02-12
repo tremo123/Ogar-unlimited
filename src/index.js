@@ -23,7 +23,7 @@ request('http://raw.githubusercontent.com/AJS-development/verse/master/update', 
       // Show the HTML for the Google homepage. 
       if (body.replace('\n','') != "3.1.5") {
           
-      console.log("[Console] We have detected a update, Current version: 3.1.5 ,Available: "+ body.replace('\n',''));
+      console.log("\x1b[31m[Console] We have detected a update, Current version: 3.1.5 ,Available: "+ body.replace('\n','') + "\x1b[0m");
       }
   }
 });
@@ -33,7 +33,7 @@ request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', fu
       // Show the HTML for the Google homepage. 
       if (body.replace('\n','') != "") {
           
-      console.log("[Console] We recieved a world-wide message!: "+ body.replace('\n',''));
+      console.log("\x1b[32m[Console] We recieved a world-wide message!: "+ body.replace('\n','') + "\x1b[0m");
       }
   }
 })
