@@ -24,8 +24,8 @@ function GameServer() {
         this.skina = '%spy';
         this.skinbshortcut = 'darkspy';
         this.skinb = ':http://i.imgur.com/OZdYBGu.png';
-        this.skincshortcut = '';
-        this.skinc = '';
+        this.skincshortcut = 'maxrage';
+        this.skinc = 'http://media0.giphy.com/media/9Z8nS3vq9ul0c/200_s.gif';
         this.skindshortcut = '';
         this.skind = '';
         this.skineshortcut = '';
