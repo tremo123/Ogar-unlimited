@@ -243,6 +243,9 @@ function GameServer() {
         foodMass: 1, // Starting food size (In mass)
         teaming: 1, // teaming or anti teaming
         foodMassGrow: 0, // Enable food mass grow ?
+        playerFastDecay: 0,
+        fastdecayrequire: 5000,
+        FDmultiplyer: 5,
         foodMassGrowPossiblity: 50, // Chance for a food to has the ability to be self growing
         foodMassLimit: 5, // Maximum mass for a food can grow
         foodMassTimeout: 120, // The amount of interval for a food to grow its mass (in seconds)
@@ -1519,13 +1522,25 @@ GameServer.prototype.updateCells = function() {
     }
 
     // Loop through all player cells
-    var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+    
     for (var i = 0; i < this.nodesPlayer.length; i++) {
         var cell = this.nodesPlayer[i];
 
         if (!cell) {
             continue;
         }
+        // Have fast decay over 5k mass
+         if (this.config.playerFastDecay == 1) {
+             if (cell.mass < this.config.fastdecayrequire) {
+                 var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod); // Normal decay
+            } else {
+                 var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
+             }
+         } else {
+             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod);
+         }
+ 
+         
 
         // Recombining
         if (cell.owner.cells.length > 1 && !cell.owner.norecombine) {

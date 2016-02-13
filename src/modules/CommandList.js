@@ -117,15 +117,7 @@ Commands.list = {
       
   }
 });     
-        console.log("[Update] Updated Gameserver.js");
-        request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-     fs.writeFileSync('./GameServer.js', body);
-      
-  }
-});
-        console.log("[Update] Updated Playertracker.js");
+        
         request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PlayerTracker.js', function (error, response, body) {
   if (!error && response.statusCode == 200) {
     
@@ -134,6 +126,7 @@ Commands.list = {
       
   }
 });
+        console.log("[Update] Downloading Playertracker.js");
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PacketHandler.js';
         
         request(dbase, function (error, response, body) {
@@ -144,7 +137,7 @@ Commands.list = {
   }
 });
          var filename = "PacketHandler.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
         
        
@@ -156,7 +149,7 @@ Commands.list = {
   }
 });
          var filename = "botnames.txt";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gameserver.ini';
         
         
@@ -167,7 +160,7 @@ Commands.list = {
   }
 });
         var filename = "gameserver.ini";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/index.js';
     
         request(dbase, function (error, response, body) {
@@ -178,7 +171,7 @@ Commands.list = {
   }
 });
         var filename = "index.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         console.log("[Update] Moving on to the folder Packet...")
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/AddNode.js';
        
@@ -192,7 +185,7 @@ Commands.list = {
   }
 });
         var filename = "AddNode.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/ClearNodes.js';
         
        
@@ -204,7 +197,7 @@ Commands.list = {
   }
 });
          var filename = "ClearNodes.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/DrawLine.js';
         
         
@@ -216,7 +209,7 @@ Commands.list = {
   }
 });
         var filename = "DrawLine.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/SetBorder.js';
        
         
@@ -228,7 +221,7 @@ Commands.list = {
   }
 });
         var filename = "SetBorder.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateLeaderboard.js';
         
         
@@ -240,7 +233,7 @@ Commands.list = {
   }
 });
         var filename = "UpdateLeaderboard.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateNodes.js';
         
         
@@ -253,7 +246,7 @@ Commands.list = {
   }
 });
         var filename = "UpdateNodes.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdatePosition.js';
         
@@ -266,7 +259,7 @@ Commands.list = {
   }
 });
         var filename = "UpdatePosition.js";
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/index.js'; // needed
         request(dbase, function (error, response, body) {
@@ -276,7 +269,7 @@ Commands.list = {
   }
 });
         var filename = "index.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         console.log("[Update] Moving to folder AI...");
         
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
@@ -287,7 +280,7 @@ Commands.list = {
   }
 });
         var filename = "BotLoader.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotPlayer.js'; // needed
         request(dbase, function (error, response, body) {
@@ -297,7 +290,7 @@ Commands.list = {
   }
 });
         var filename = "BotPlayer.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/FakeSocket.js'; // needed
         request(dbase, function (error, response, body) {
@@ -307,7 +300,7 @@ Commands.list = {
   }
 });
         var filename = "FakeSocket.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/Readme.txt'; // needed
         request(dbase, function (error, response, body) {
@@ -317,7 +310,7 @@ Commands.list = {
   }
 });
         var filename = "Readme.txt"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         console.log("[Update] Moving to folder Entities...");
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Beacon.js'; // needed
@@ -328,7 +321,7 @@ Commands.list = {
   }
 });
         var filename = "Beacon.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Cell.js'; // needed
         request(dbase, function (error, response, body) {
@@ -338,7 +331,7 @@ Commands.list = {
   }
 });
         var filename = "Cell.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
          
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/EjectedMass.js'; // needed
@@ -349,7 +342,7 @@ Commands.list = {
   }
 });
         var filename = "EjectedMass.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Food.js'; // needed
@@ -360,7 +353,7 @@ Commands.list = {
   }
 });
         var filename = "Food.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MotherCell.js'; // needed
@@ -371,7 +364,7 @@ Commands.list = {
   }
 });
         var filename = "MotherCell.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MovingVirus.js'; // needed
@@ -382,7 +375,7 @@ Commands.list = {
   }
 });
         var filename = "MovingVirus.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/PlayerCell.js'; // needed
@@ -393,7 +386,7 @@ Commands.list = {
   }
 });
         var filename = "PlayerCell.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/StickyCell.js'; // needed
         request(dbase, function (error, response, body) {
@@ -403,7 +396,7 @@ Commands.list = {
   }
 });
         var filename = "StickyCell.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Virus.js'; // needed
         request(dbase, function (error, response, body) {
@@ -413,7 +406,7 @@ Commands.list = {
   }
 });
         var filename = "Virus.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/index.js'; // needed
         request(dbase, function (error, response, body) {
@@ -423,7 +416,7 @@ Commands.list = {
   }
 });
         var filename = "index.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        console.log("[Update] Moving to the Gamemodes folder...");
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/BlackHole.js'; // needed
         request(dbase, function (error, response, body) {
@@ -433,7 +426,7 @@ Commands.list = {
   }
 });
         var filename = "BlackHole.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Debug.js'; // needed
         request(dbase, function (error, response, body) {
@@ -443,7 +436,7 @@ Commands.list = {
   }
 });
         var filename = "Debug.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental%20v2.js'; // needed
@@ -454,7 +447,7 @@ Commands.list = {
   }
 });
         var filename = "Experimental v2.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental.js'; // needed
@@ -465,7 +458,7 @@ Commands.list = {
   }
 });
         var filename = "Experimental.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/FFA.js'; // needed
@@ -476,7 +469,7 @@ Commands.list = {
   }
 });
         var filename = "FFA.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/HungerGames.js'; // needed
@@ -487,7 +480,7 @@ Commands.list = {
   }
 });
         var filename = "HungerGames.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Leap.js'; // needed
@@ -498,7 +491,7 @@ Commands.list = {
   }
 });
         var filename = "Leap.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Mode.js'; // needed
@@ -509,7 +502,7 @@ Commands.list = {
   }
 });
         var filename = "Mode.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamX.js'; // needed
@@ -520,7 +513,7 @@ Commands.list = {
   }
 });
         var filename = "NCteamsx.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamZ.js'; // needed
@@ -531,7 +524,7 @@ Commands.list = {
   }
 });
         var filename = "NCTeamZ.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeams.js'; // needed
@@ -542,7 +535,7 @@ Commands.list = {
   }
 });
         var filename = "NCTeams.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Rainbow.js'; // needed
         request(dbase, function (error, response, body) {
@@ -552,7 +545,7 @@ Commands.list = {
   }
 });
         var filename = "Rainbow.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/SFFA.js'; // needed
         request(dbase, function (error, response, body) {
@@ -562,7 +555,7 @@ Commands.list = {
   }
 });
         var filename = "SFFA.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TFFA.js'; // needed
         request(dbase, function (error, response, body) {
@@ -572,7 +565,7 @@ Commands.list = {
   }
 });
         var filename = "TFFA.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamZ.js'; // needed
         request(dbase, function (error, response, body) {
@@ -582,7 +575,7 @@ Commands.list = {
   }
 });
         var filename = "Teamz"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamX.js'; // needed
         request(dbase, function (error, response, body) {
@@ -592,7 +585,7 @@ Commands.list = {
   }
 });
         var filename = "Teamx.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Teams.js'; // needed
         request(dbase, function (error, response, body) {
@@ -602,7 +595,7 @@ Commands.list = {
   }
 });
         var filename = "Teams.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Tournament.js'; // needed
         request(dbase, function (error, response, body) {
@@ -612,7 +605,7 @@ Commands.list = {
   }
 });
         var filename = "Tournament.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitffa.js'; // needed
         request(dbase, function (error, response, body) {
@@ -622,7 +615,7 @@ Commands.list = {
   }
 });
         var filename = "Unlimited FFA.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitpvp.js'; // needed
         request(dbase, function (error, response, body) {
@@ -632,7 +625,7 @@ Commands.list = {
   }
 });
         var filename = "Unlimitpvp.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Virus.js'; // needed
         request(dbase, function (error, response, body) {
@@ -642,7 +635,7 @@ Commands.list = {
   }
 });
         var filename = "Virus.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/VirusOff.js'; // needed
         request(dbase, function (error, response, body) {
@@ -652,7 +645,7 @@ Commands.list = {
   }
 });
         var filename = "VirusOff.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Zombie.js'; // needed
         request(dbase, function (error, response, body) {
@@ -662,7 +655,7 @@ Commands.list = {
   }
 });
         var filename = "Zombie.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         console.log("[Update] Moving to Modules folder");
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/CommandList.js'; // needed
@@ -673,7 +666,7 @@ Commands.list = {
   }
 });
         var filename = "CommandList.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
        
          var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/ini.js'; // needed
         request(dbase, function (error, response, body) {
@@ -683,7 +676,7 @@ Commands.list = {
   }
 });
         var filename = "ini.js"; // needed
-        console.log("[Update] Updated "+ filename);
+        console.log("[Update] Downloading "+ filename);
         
        
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/log.js'; // needed
@@ -694,8 +687,8 @@ Commands.list = {
   }
 });
         var filename = "log.js"; // needed
-        console.log("[Update] Updated "+ filename);
-       console.log("[Update] Updating readme and newfeatures.md...");
+        console.log("[Update] Downloading "+ filename);
+       console.log("[Update] Downloading readme and newfeatures.md...");
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/README.md'; // needed
         request(dbase, function (error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -708,14 +701,16 @@ Commands.list = {
         request(dbase, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     var filepath = '../Newfeatures.md'; // needed    
-    fs.writeFileSync(filepath, body);    
+    fs.writeFileSync(filepath, body);   
+      console.log("[Update] Done downloading all files");
+      console.log("[Update] Applying update...");
   }
 });
 setTimeout(function() {
         console.log("[Update] Done! Now restarting/closing...");
        gameServer.socketServer.close();
                     process.exit(3);
-},7000);
+},8000);
     },
     
  explode: function(gameServer, split) {
