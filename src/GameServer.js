@@ -979,10 +979,10 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                 // Premium Skin
                 var n = player.name.indexOf(">");
                 if (n != -1) {
-                    if (this.name.substr(1, n - 1) == "r") {
-                         this.rainbowon = true;
+                    if (player.name.substr(1, n - 1) == "r") {
+                         player.rainbowon = true;
                    } else {
-                      this.premium = '%' + this.name.substr(1, n - 1);
+                      player.premium = '%' + player.name.substr(1, n - 1);
                     }
                     player.name = player.name.substr(n + 1);
                 }
