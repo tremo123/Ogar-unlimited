@@ -281,7 +281,7 @@ function GameServer() {
         playerMinMassSplit: 36, // Mass required to split
         playerMaxCells: 16, // Max cells the player is allowed to have
         playerRecombineTime: 30, // Base amount of seconds before a cell is allowed to recombine
-        playerMassDecayRate: .002, // Amount of mass lost per second
+        playerMassDecayRate: .001, // Amount of mass lost per second
         playerMinMassDecay: 9, // Minimum mass for decay to occur
         playerMaxNickLength: 15, // Maximum nick length
         playerSpeed: 30, // Player base speed
@@ -1552,14 +1552,14 @@ GameServer.prototype.updateCells = function() {
             continue;
         }
         // Have fast decay over 5k mass
-         if (1 == 1000) {
-             if (q < this.config.fastdecayrequire) {
+         if (this.config.playerFastDecay == 1) {
+             if (cell.mass < this.config.fastdecayrequire) {
                  var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
             } else {
                  var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
              }
          } else {
-             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod);
          }
  
          
