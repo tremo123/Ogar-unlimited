@@ -128,11 +128,9 @@ Commands.list = {
                 }
                 cell.mass = 10;
             }
-
         }
     }
 },
-
     resetateam: function(gameServer, split) {
         // Validation checks
         var id = parseInt(split[1]);
@@ -155,14 +153,13 @@ Commands.list = {
     borderDec = split[1];
     if (isNaN(borderDec)) {
         borderDec = 200;
-    }
+   }
     gameServer.config.borderLeft -= borderDec;
     gameServer.config.borderRight += borderDec;
     gameServer.config.borderTop -= borderDec;
     gameServer.config.borderBottom += borderDec;
     
-        console.log("[Console] Successivly Enlarged game. Size: " + (gameServer.config.borderRight - gameServer.config.borderLeft) + "," + (gameServer.config.borderBottom - gameServer.config.borderTop));
-        
+    console.log("[Console] Successivly Enlarged game. Size: " + (gameServer.config.borderRight - gameServer.config.borderLeft) + "," + (gameServer.config.borderBottom - gameServer.config.borderTop));
 },
     shrink: function(gameServer,split) {
     borderDec = split[1];
@@ -253,21 +250,20 @@ Commands.list = {
         } else {
             console.log("Please specify a valid style or do Colortext help for a list");
         }
-
 },
     announce: function(gameServer,split) {
         console.log("High Score announce system started");
         setInterval(function() {
-           var lol = Math.floor(gameServer.topscore) + " ";
-            var lol2 = Math.floor(gameServer.oldtopscores.score) + " ";
-          var newLB = [];
+            var topScore = Math.floor(gameServer.topscore) + " ";
+            var oldTopScores = Math.floor(gameServer.oldtopscores.score) + " ";
+            var newLB = [];
             newLB[0] = "Highscore:";
             newLB[1] = gameServer.topusername;
             newLB[2] = "Withscore:";
-            newLB[3] = "lol";
+            newLB[3] = topScore;
             newLB[4] = "------------";
-            newLB[6] = "Prev Top Score";
-            newLB[7] = lol2;
+            newLB[6] = "Previous Top Score";
+            newLB[7] = oldTopScores;
             newLB[8] = "By:";
             newLB[9] = gameServer.oldtopscores.name;
         gameServer.lleaderboard = false;
@@ -275,7 +271,7 @@ Commands.list = {
         gameServer.gameMode.specByLeaderboard = false;
         gameServer.gameMode.updateLB = function(gameServer) {
         gameServer.leaderboard = newLB;
-        };
+    };
             console.log("[Console] Successfully set leaderboard");
             setTimeout(function () {
                 var gm = GameMode.get(gameServer.gameMode.ID);
