@@ -336,9 +336,9 @@ GameServer.prototype.start = function() {
   if (!error && response.statusCode == 200) {
     
       // Show the HTML for the Google homepage. 
-      if (body.replace('\n','') != "3.7.5") {
+      if (body.replace('\n','') != "7.8.4") {
           
-      console.log("\x1b[31m[Console] We have detected a update, Current version: 3.7.5 ,Available: "+ body.replace('\n',''));
+      console.log("\x1b[31m[Console] We have detected a update, Current version: 7.8.4 ,Available: "+ body.replace('\n',''));
           
           if (game.config.autoupdate == 1){
               console.log("[Console] Initiating Autoupdate\x1b[0m");
