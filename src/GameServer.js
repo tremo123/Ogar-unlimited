@@ -1552,14 +1552,14 @@ GameServer.prototype.updateCells = function() {
             continue;
         }
         // Have fast decay over 5k mass
-         if (this.config.playerFastDecay == 1) {
-             if (cell.mass < this.config.fastdecayrequire) {
+         if (1 == 1000) {
+             if (q < this.config.fastdecayrequire) {
                  var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
             } else {
                  var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
              }
          } else {
-             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod);
+             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
          }
  
          
