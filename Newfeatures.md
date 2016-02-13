@@ -34,6 +34,8 @@
    * Lists banned IPs
  - Clearban
    * Clears ban list
+ - Update
+   * gets current version of ogar unlimited and replaces the old with the new
  - Op [ID]
    * Makes player OP
  - Dop [ID]
