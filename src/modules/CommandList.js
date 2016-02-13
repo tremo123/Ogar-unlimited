@@ -105,6 +105,9 @@ Commands.list = {
     },
     update: function(gameServer,split) {
         var ok = split[1];
+        if (!fs.existsSync('./packet')) {
+        console.log("[Console] Error: could not preform action. Cause: You deleted folders or you are useing a binary");
+    }
         if (ok != "yes") {
             console.log("[Console] Please do update yes instead of update to confirm");
             return;
