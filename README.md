@@ -97,6 +97,8 @@ The current available console commands are listed here. Command names are not ca
    * Shows how to use OP
  - Announce
    * Starts the high score announce feature
+ - Update
+   * gets current version of ogar unlimited and replaces the old with the new
  - Explode [id]
    * explodes player
  - Split [ID] [Count]
