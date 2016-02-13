@@ -220,6 +220,8 @@ function GameServer() {
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
         botrespawn: 1,
+        notifyupdate: 1,
+        autoupdate: 0,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
         serverViewBaseX: 1024, // Base view distance of players. Warning: high values may cause lag
@@ -324,7 +326,30 @@ GameServer.prototype.start = function() {
                 
 
         }
-
+        if (this.config.notifyupdate == 1) {
+        var request = require('request');
+        request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    
+      // Show the HTML for the Google homepage. 
+      if (body.replace('\n','') != "3.7.5") {
+          
+      console.log("\x1b[31m[Console] We have detected a update, Current version: 3.1.5 ,Available: "+ body.replace('\n',''));
+          
+          if (this.config.autoupdate == 1){
+              console.log("[Console] Initiating Autoupdate");
+               var split = [];
+             split[1] = "yes"
+                   var execute = this.commands["update"];
+                   execute(this, split);
+              
+          } else {
+          
+          console.log("[Console] To update quickly, use the update command!\x1b[0m");
+      }}
+  }
+});
+        }
     }.bind(this));
 
     this.socketServer.on('connection', connectionEstablished.bind(this));
