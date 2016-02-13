@@ -711,10 +711,11 @@ Commands.list = {
     fs.writeFileSync(filepath, body);    
   }
 });
-
+setTimeout(function() {
         console.log("[Update] Done! Now restarting/closing...");
        gameServer.socketServer.close();
                     process.exit(3);
+},7000);
     },
     
  explode: function(gameServer, split) {
