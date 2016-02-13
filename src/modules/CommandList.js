@@ -155,7 +155,9 @@ Commands.list = {
         console.log("[Update] Downloading "+ filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gameserver.ini';
         
-        
+        fs.rename('./gameserver.ini', './oldconfig.ini', function(err) {
+    if ( err ) console.log('ERROR: ' + err);
+});
         request(dbase, function (error, response, body) {
   if (!error && response.statusCode == 200) {
     var filepath = './gameserver.ini';
