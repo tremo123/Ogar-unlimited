@@ -328,20 +328,21 @@ GameServer.prototype.start = function() {
         }
         if (this.config.notifyupdate == 1) {
         var request = require('request');
+            var game = this;
         request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
   if (!error && response.statusCode == 200) {
     
       // Show the HTML for the Google homepage. 
       if (body.replace('\n','') != "3.7.5") {
           
-      console.log("\x1b[31m[Console] We have detected a update, Current version: 3.1.5 ,Available: "+ body.replace('\n',''));
+      console.log("\x1b[31m[Console] We have detected a update, Current version: 3.7.5 ,Available: "+ body.replace('\n',''));
           
-          if (this.config.autoupdate == 1){
+          if (game.config.autoupdate == 1){
               console.log("[Console] Initiating Autoupdate");
                var split = [];
              split[1] = "yes"
-                   var execute = this.commands["update"];
-                   execute(this, split);
+                   var execute = game.commands["update"];
+                   execute(game, split);
               
           } else {
           
