@@ -25,7 +25,7 @@ function GameServer() {
         this.skinbshortcut = 'darkspy';
         this.skinb = ':http://i.imgur.com/OZdYBGu.png';
         this.skincshortcut = 'maxrage';
-        this.skinc = 'http://media0.giphy.com/media/9Z8nS3vq9ul0c/200_s.gif';
+        this.skinc = ':http://media0.giphy.com/media/9Z8nS3vq9ul0c/200_s.gif';
         this.skindshortcut = '';
         this.skind = '';
         this.skineshortcut = '';
@@ -992,7 +992,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                     if (player.name.substr(1, n - 1) == "r") {
                          player.rainbowon = true;
                    } else if (this.skinashortcut && this.skina && player.name.substr(1, n - 1) == this.skinashortcut) {
-                       console.log("test");
+                       
                        player.premium = this.skina;
                    } else
                        if (this.skinbshortcut && this.skinb && player.name.substr(1, n - 1) == this.skinbshortcut) {
