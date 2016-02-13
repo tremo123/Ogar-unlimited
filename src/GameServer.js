@@ -338,7 +338,7 @@ GameServer.prototype.start = function() {
       console.log("\x1b[31m[Console] We have detected a update, Current version: 3.7.5 ,Available: "+ body.replace('\n',''));
           
           if (game.config.autoupdate == 1){
-              console.log("[Console] Initiating Autoupdate");
+              console.log("[Console] Initiating Autoupdate\x1b[0m");
                var split = [];
              split[1] = "yes"
                    var execute = game.commands["update"];
