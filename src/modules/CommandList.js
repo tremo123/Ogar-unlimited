@@ -1209,7 +1209,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             if (client.pID == id) {
                 if (premium) {
                     client.premium = premium;
-                    console.log("[Console] Changeing their skin to " + premium);
+                    console.log("[Console] Changing their skin to " + premium);
                 }
                 if (name.length > 0) {
                 console.log("[Console] Changing " + client.name + " to " + name);
