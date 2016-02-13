@@ -88,7 +88,21 @@ PlayerTracker.prototype.getName = function() {
                 if (n != -1) {
                     if (this.name.substr(1, n - 1) == "r") {
                         this.rainbowon = true;
-                    } else {
+                    } else if (this.gameServer.skinashortcut && this.gameServer.skina && player.name.substr(1, n - 1) == this.gameServer.skinashortcut) {
+                       player.premium = this.gameServer.skina;
+                   } else
+                       if (this.gameServer.skinbshortcut && this.gameServer.skinb && player.name.substr(1, n - 1) == this.gameServer.skinbshortcut) {
+                       player.premium = this.gameServer.skinb;
+                   } else
+                       if (this.gameServer.skincshortcut && this.gameServer.skinc && player.name.substr(1, n - 1) == this.gameServer.skincshortcut) {
+                       player.premium = this.gameServer.skinc;
+                   } else
+                       if (this.gameServer.skindshortcut && this.gameServer.skind && player.name.substr(1, n - 1) == this.gameServer.skindshortcut) {
+                       player.premium = this.gameServer.skind;
+                   } else
+                       if (this.gameServer.skineshortcut && this.gameServer.skine && player.name.substr(1, n - 1) == this.gameServer.skineshortcut) {
+                       player.premium = this.gameServer.skine;
+                   } else{
                     this.premium = '%' + this.name.substr(1, n - 1);
                         this.rainbowon = false;
                     }

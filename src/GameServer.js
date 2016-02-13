@@ -16,7 +16,21 @@ var Logger = require('./modules/log');
 
 // GameServer implementation
 function GameServer() {
-    // Startup
+    // Skins
+    
+    // remember, it is %skin for ingame skins and : for external skins.
+    // For external skins, you must not have https://, if you do, delete the s 
+        this.skinashortcut = 'example';
+        this.skina = '%spy';
+        this.skinbshortcut = 'darkspy';
+        this.skinb = ':http://i.imgur.com/OZdYBGu.png';
+        this.skincshortcut = '';
+        this.skinc = '';
+        this.skindshortcut = '';
+        this.skind = '';
+        this.skineshortcut = '';
+        this.skine = '';
+            
     this.ipCounts = [];
     this.rnodes = [];
     this.lleaderboard = false;
@@ -307,6 +321,7 @@ GameServer.prototype.start = function() {
         setInterval(this.mainLoop.bind(this), 1);
 
         // Done
+       
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
         Cell.spi = this.config.SpikedCells
@@ -977,13 +992,29 @@ GameServer.prototype.spawnFood = function() {
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     if (this.nospawn[player.socket.remoteAddress] != true) {
         if (this.config.skins == 1) {
-        
+            
             if (player.name.substr(0, 1) == "<") {
                 // Premium Skin
                 var n = player.name.indexOf(">");
                 if (n != -1) {
+                    
                     if (player.name.substr(1, n - 1) == "r") {
                          player.rainbowon = true;
+                   } else if (this.skinashortcut && this.skina && player.name.substr(1, n - 1) == this.skinashortcut) {
+                       console.log("test");
+                       player.premium = this.skina;
+                   } else
+                       if (this.skinbshortcut && this.skinb && player.name.substr(1, n - 1) == this.skinbshortcut) {
+                       player.premium = this.skinb;
+                   } else
+                       if (this.skincshortcut && this.skinc && player.name.substr(1, n - 1) == this.skincshortcut) {
+                       player.premium = this.skinc;
+                   } else
+                       if (this.skindshortcut && this.skind && player.name.substr(1, n - 1) == this.skindshortcut) {
+                       player.premium = this.skind;
+                   } else
+                       if (this.skineshortcut && this.skine && player.name.substr(1, n - 1) == this.skineshortcut) {
+                       player.premium = this.skine;
                    } else {
                       player.premium = '%' + player.name.substr(1, n - 1);
                     }
@@ -1583,6 +1614,7 @@ GameServer.prototype.loadConfig = function() {
         // Create a new config
         fs.writeFileSync('./gameserver.ini', ini.stringify(this.config));
     }
+    gameservern = this;
 };
 
 GameServer.prototype.switchSpectator = function(player) {
