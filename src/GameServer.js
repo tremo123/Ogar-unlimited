@@ -1559,7 +1559,7 @@ GameServer.prototype.updateCells = function() {
                  var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
              }
          } else {
-             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod);
+             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
          }
  
          
