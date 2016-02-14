@@ -310,7 +310,7 @@ GameServer.prototype.start = function() {
         // Done
       
         var fs = require("fs"); // Import the util library
-
+try {
         // Read and parse the names - filter out whitespace-only names
         var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty names
@@ -321,6 +321,9 @@ GameServer.prototype.start = function() {
             var custom = loadskins[i].split(" "); 
                this.skinshortcut[i] = custom[0];
                this.skin[i] = custom[1];
+         }}
+         catch (e) {
+             
          }
    
         console.log("[Game] Listening on port " + this.config.serverPort);
