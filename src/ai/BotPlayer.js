@@ -81,6 +81,7 @@ BotPlayer.prototype.update = function() { // Overrides the update function from 
         }
         } else {
             this.socket.close();
+            return;
         }
     }
 
