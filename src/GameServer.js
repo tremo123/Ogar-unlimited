@@ -998,7 +998,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                    } else {
                       player.premium = '%' + player.name.substr(1, n - 1);
                     }
-                    console.log(this.skinshortcut);
+                    
                     for (var i in this.skinshortcut) {
                      if (!this.skinshortcut[i] || !this.skin[i]) {
                       continue;   
