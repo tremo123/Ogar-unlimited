@@ -718,8 +718,12 @@ setTimeout(function() {
 },8000);
     },
     
- explode: function(gameServer, split) {
+  explode: function(gameServer, split) {
     var id = parseInt(split[1]);
+        if (isNaN(id)) {
+            console.log("[Console] Please specify a valid player ID!");
+            return;
+        }
     for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker; // Set color
@@ -746,6 +750,7 @@ setTimeout(function() {
                 }
                 cell.mass = 10;
             }
+			
         }
     }
 },
