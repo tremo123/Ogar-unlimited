@@ -1806,25 +1806,26 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 // Premium Skin
                 var n = name.indexOf(">");
                 if (n != -1) {
-                if (gameServer.skinashortcut && gameServer.skina && player.name.substr(1, n - 1) == gameServer.skinashortcut) {
+                if (gameServer.skinashortcut && gameServer.skina && name.substr(1, n - 1) == gameServer.skinashortcut) {
                         console.log("test");
                         premium = gameServer.skina;
                     } else
-                        if (gameServer.skinbshortcut && gameServer.skinb && player.name.substr(1, n - 1) == gameServer.skinbshortcut) {
+                        if (gameServer.skinbshortcut && gameServer.skinb && name.substr(1, n - 1) == gameServer.skinbshortcut) {
                         premium = gameServer.skinb;
                     } else
-                        if (gameServer.skincshortcut && gameServer.skinc && player.name.substr(1, n - 1) == gameServer.skincshortcut) {
+                        if (gameServer.skincshortcut && gameServer.skinc && name.substr(1, n - 1) == gameServer.skincshortcut) {
                         premium = gameServer.skinc;
                     } else
-                        if (gameServer.skindshortcut && gameServer.skind && player.name.substr(1, n - 1) == gameServer.skindshortcut) {
+                        if (gameServer.skindshortcut && gameServer.skind && name.substr(1, n - 1) == gameServer.skindshortcut) {
                         premium = gameServer.skind;
                     } else
-                        if (gameServer.skineshortcut && gameServer.skine && player.name.substr(1, n - 1) == gameServer.skineshortcut) {
+                        if (gameServer.skineshortcut && gameServer.skine && name.substr(1, n - 1) == gameServer.skineshortcut) {
                        premium = gameServer.skine;
  } else {
                     premium = '%' + name.substr(1, n - 1);
+}
                     name = name.substr(n + 1);
- }
+ 
                 }
             } else if (name.substr(0, 1) == "[") {
                 // Premium Skin
