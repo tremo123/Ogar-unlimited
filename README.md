@@ -1,5 +1,5 @@
 # Ogar unlimited - SKINS ARE HERE - More features such as GameModes, OP, Commands, Anti-Bot Measures,Live Console and more!
-A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots,merge (edited by me),killrange(edited by me),kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
+A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features like remote control similar to pocket dock console in pocketmine (maybe) im also probably going to add more commands and I will also add more things in OP. I am currently working on better Agar.io Physics. I will try to make the physics very much like the Official Agar.io physics
 
@@ -46,7 +46,7 @@ You use OP by first setting who has op by doing op [id] in console. Then, that p
 
 As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws" module installed to use it (unless you are using the Windows binary). You can usually download Node using your distribution's package manager (for *nix-like systems), or from [the Node website](http://nodejs.org). To install the "ws" module that is required, open up your system command line (cmd for windows, terminal for mac) and type "npm install ws". If you are on Linux, you can use the install script which would also automatically install node.js and ws. To see a detailed guide go to the [Installation guide] (https://github.com/AJS-development/Ogar-unlimited/wiki/Installation) in the wiki
 
-(You can install and use Ogar unlimited on windows very quickly. First click `InstallWS.bat` in src. Then wait (it takes a while), then click `ClickToStart.bat` and you're off! The next time you start the server, you only have to click `ClickToStart.bat`)
+(You can install and use Ogar unlimited on windows very quickly. First click `InstallWebSocket.bat` in src. Then wait (it takes a while), then click `Start.bat` and you're off! The next time you start the server, you only have to click `Start.bat`)
 
 (Binarys are also available in Releases)
 
@@ -207,6 +207,6 @@ The current available console commands are listed here. Command names are not ca
 ## Contributing
 Just make a pull request or make your own copy
 
-## Things that I dont want you to copy (like to normal ogar)
+## Things that I dont want you to copy (copying it to your own file or fork)
 1. No-Lag antibot measures
 2. OP
