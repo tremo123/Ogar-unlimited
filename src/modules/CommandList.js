@@ -1811,24 +1811,20 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 // Premium Skin
                 var n = name.indexOf(">");
                 if (n != -1) {
-                if (gameServer.skinashortcut && gameServer.skina && name.substr(1, n - 1) == gameServer.skinashortcut) {
-                        console.log("test");
-                        premium = gameServer.skina;
-                    } else
-                        if (gameServer.skinbshortcut && gameServer.skinb && name.substr(1, n - 1) == gameServer.skinbshortcut) {
-                        premium = gameServer.skinb;
-                    } else
-                        if (gameServer.skincshortcut && gameServer.skinc && name.substr(1, n - 1) == gameServer.skincshortcut) {
-                        premium = gameServer.skinc;
-                    } else
-                        if (gameServer.skindshortcut && gameServer.skind && name.substr(1, n - 1) == gameServer.skindshortcut) {
-                        premium = gameServer.skind;
-                    } else
-                        if (gameServer.skineshortcut && gameServer.skine && name.substr(1, n - 1) == gameServer.skineshortcut) {
-                       premium = gameServer.skine;
- } else {
+                
+ 
                     premium = '%' + name.substr(1, n - 1);
-}
+                    for (var i in gameServer.skinshortcut) {
+                     if (!gameServer.skinshortcut[i] || !gameServer.skin[i]) {
+                      continue;   
+                     }
+                        if (name.substr(1, n - 1) == gameServer.skinshortcut[i]) {
+                         premium = gameServer.skin[i]; 
+                            break;
+                        }
+                        
+                        
+                    }
                     name = name.substr(n + 1);
  
                 }
