@@ -16,21 +16,8 @@ var Logger = require('./modules/log');
 
 // GameServer implementation
 function GameServer() {
-    // Skins
-    
-    // remember, it is %skin for ingame skins and : for external skins.
-    // For external skins, you must not have https://, if you do, delete the s 
-        this.skinashortcut = 'example';
-        this.skina = '%spy';
-        this.skinbshortcut = 'darkspy';
-        this.skinb = ':http://i.imgur.com/OZdYBGu.png';
-        this.skincshortcut = 'maxrage';
-        this.skinc = ':http://media0.giphy.com/media/9Z8nS3vq9ul0c/200_s.gif';
-        this.skindshortcut = '';
-        this.skind = '';
-        this.skineshortcut = '';
-        this.skine = '';
-            
+    this.skinshortcut = [];
+    this.skin = [];
     this.ipCounts = [];
     this.rnodes = [];
     this.lleaderboard = false;
@@ -321,7 +308,21 @@ GameServer.prototype.start = function() {
         setInterval(this.mainLoop.bind(this), 1);
 
         // Done
-       
+      
+        var fs = require("fs"); // Import the util library
+
+        // Read and parse the names - filter out whitespace-only names
+        var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty names
+           
+           
+        });
+         for (var i in loadskins) {
+            var custom = loadskins[i].split(" "); 
+               this.skinshortcut[i] = custom[0];
+               this.skin[i] = custom[1];
+         }
+   
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
         Cell.spi = this.config.SpikedCells
@@ -989,25 +990,25 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                 var n = player.name.indexOf(">");
                 if (n != -1) {
                     
+                    
+                    
+                    
                     if (player.name.substr(1, n - 1) == "r") {
                          player.rainbowon = true;
-                   } else if (this.skinashortcut && this.skina && player.name.substr(1, n - 1) == this.skinashortcut) {
-                       
-                       player.premium = this.skina;
-                   } else
-                       if (this.skinbshortcut && this.skinb && player.name.substr(1, n - 1) == this.skinbshortcut) {
-                       player.premium = this.skinb;
-                   } else
-                       if (this.skincshortcut && this.skinc && player.name.substr(1, n - 1) == this.skincshortcut) {
-                       player.premium = this.skinc;
-                   } else
-                       if (this.skindshortcut && this.skind && player.name.substr(1, n - 1) == this.skindshortcut) {
-                       player.premium = this.skind;
-                   } else
-                       if (this.skineshortcut && this.skine && player.name.substr(1, n - 1) == this.skineshortcut) {
-                       player.premium = this.skine;
                    } else {
                       player.premium = '%' + player.name.substr(1, n - 1);
+                    }
+                    console.log(this.skinshortcut);
+                    for (var i in this.skinshortcut) {
+                     if (!this.skinshortcut[i] || !this.skin[i]) {
+                      continue;   
+                     }
+                        if (player.name.substr(1, n - 1) == this.skinshortcut[i]) {
+                         player.premium = this.skin[i]; 
+                            break;
+                        }
+                        
+                        
                     }
                     player.name = player.name.substr(n + 1);
                 }
