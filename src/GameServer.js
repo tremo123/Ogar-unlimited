@@ -51,7 +51,9 @@ function GameServer() {
     this.lastNodeId = 1;
     this.lastPlayerId = 1;
     this.clients = [];
-    this.oldtopscores = {score: 100,name:"none"};
+    this.oldtopscores = {
+        score: 100,name:"none"
+    };
     this.nodes = [];
     this.nodesVirus = []; // Virus nodes
     this.nodesEjected = []; // Ejected mass nodes
@@ -62,7 +64,7 @@ function GameServer() {
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.largestClient;
-     this.colors = [{
+    this.colors = [{
             'r': 255,
             'g': 0,
             'b': 0
@@ -308,23 +310,19 @@ GameServer.prototype.start = function() {
         setInterval(this.mainLoop.bind(this), 1);
 
         // Done
-      
         var fs = require("fs"); // Import the util library
-try {
+
         // Read and parse the names - filter out whitespace-only names
         var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty names
-           
-           
         });
-         for (var i in loadskins) {
+
+    try {        
+        for (var i in loadskins) {
             var custom = loadskins[i].split(" "); 
-               this.skinshortcut[i] = custom[0];
-               this.skin[i] = custom[1];
-         }}
-         catch (e) {
-             
-         }
+            this.skinshortcut[i] = custom[0];
+            this.skin[i] = custom[1];
+        }
    
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
@@ -333,23 +331,22 @@ try {
         var execute = this.commands["announce"];
         execute(this, "");
         }
-            // Player bots (Experimental)
+        
+        // Player bots (Experimental)
         if (this.config.serverBots > 0) {
             for (var i = 0; i < this.config.serverBots; i++) {
                 this.bots.addBot();
             }
             console.log("[Game] Loaded " + this.config.serverBots + " player bots");
         }
-         if (this.config.restartmin != 0) {
-                 var split = [];
-             split[1] = this.config.restartmin;
-                   var execute = this.commands["restart"];
-                   execute(this, split);
-                
-
+        if (this.config.restartmin != 0) {
+            var split = [];
+            split[1] = this.config.restartmin;
+            var execute = this.commands["restart"];
+            execute(this, split);
         }
         if (this.config.notifyupdate == 1) {
-        var request = require('request');
+            var request = require('request');
             var game = this;
         request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -360,14 +357,12 @@ try {
       console.log("\x1b[31m[Console] We have detected a update, Current version: 7.9.4 ,Available: "+ body.replace('\n',''));
           
           if (game.config.autoupdate == 1){
-              console.log("[Console] Initiating Autoupdate\x1b[0m");
-               var split = [];
-             split[1] = "yes"
-                   var execute = game.commands["update"];
-                   execute(game, split);
-              
+            console.log("[Console] Initiating Autoupdate\x1b[0m");
+            var split = [];
+            split[1] = "yes"
+            var execute = game.commands["update"];
+            execute(game, split);
           } else {
-          
           console.log("[Console] To update quickly, use the update command!\x1b[0m");
       }}
   }
@@ -444,8 +439,6 @@ try {
                     }
                 }
             }
-
-            
         } else {
             this.nospawn[ws._socket.remoteAddress] = false;
         }
@@ -517,7 +510,6 @@ try {
 GameServer.prototype.getMode = function() {
     return this.gameMode;
 };
-
 
 GameServer.prototype.getNextNodeId = function() {
     // Resets integer
@@ -792,7 +784,7 @@ GameServer.prototype.removeNode = function(node) {
 GameServer.prototype.cellTick = function() {
     // Move cells
     this.updateMoveEngine();
-}
+};
 
 GameServer.prototype.spawnTick = function() {
     // Spawn food
@@ -803,28 +795,24 @@ GameServer.prototype.spawnTick = function() {
 
         this.tickSpawn = 0; // Reset
     }
-}
+};
 
 GameServer.prototype.gamemodeTick = function() {
     // Gamemode tick
     this.gameMode.onTick(this);
-}
+};
 
 GameServer.prototype.cellUpdateTick = function() {
     // Update cells
     this.updateCells();
-}
+};
 
 GameServer.prototype.mainLoop = function() {
     // Timer
     var local = new Date();
     this.tick += (local - this.time);
     this.time = local;
-   
     
-    
-    
-
     if (this.tick >= 50) {
         // Loop main functions
         if (this.run) {
@@ -851,10 +839,9 @@ GameServer.prototype.mainLoop = function() {
         }
 
         count++;
-            
-             
-if (typeof node.rainbow == 'undefined') {
-        node.rainbow = Math.floor(Math.random() * this.colors.length);
+
+    if (typeof node.rainbow == 'undefined') {
+            node.rainbow = Math.floor(Math.random() * this.colors.length);
     }
 
     if (node.rainbow >= this.colors.length) {
@@ -867,18 +854,17 @@ if (typeof node.rainbow == 'undefined') {
         
         if (count <= 0) {
             this.rnodes = [];
-            
         }
             
         if (this.tickMain >= 20) { // 1 Second
             for (var i in this.clients) {
                 if (typeof this.clients[i] != "undefined") {
-             if (this.clients[i].playerTracker.rainbowon) {
-                 var client = this.clients[i].playerTracker;
-                 for (var j in client.cells) {
-                      this.rnodes[client.cells[j].nodeId] = client.cells[j];
-                 }
-             }   
+            if (this.clients[i].playerTracker.rainbowon) {
+                var client = this.clients[i].playerTracker;
+                for (var j in client.cells) {
+                    this.rnodes[client.cells[j].nodeId] = client.cells[j];
+                }
+            }   
             }}
             if (this.rnodes > 0) {
                 
@@ -889,9 +875,6 @@ if (typeof node.rainbow == 'undefined') {
                 } else {
                     this.rrticks++;
                 }
-                
-                
-                
             }
             // Update leaderboard with the gamemode's method
             this.leaderboard = [];
@@ -912,7 +895,6 @@ if (typeof node.rainbow == 'undefined') {
                  }
                  this.largestClient = lC;
              } else this.largestClient = this.leaderboard[0];
-  
         }
 
         // Debug
@@ -921,7 +903,6 @@ if (typeof node.rainbow == 'undefined') {
         // Reset
         this.tick = 0;
         if (this.config.autopause == 1) {
-
             var humans = 0,
                 bots = 0;
             for (var i = 0; i < this.clients.length; i++) {
@@ -934,7 +915,6 @@ if (typeof node.rainbow == 'undefined') {
             if ((!this.run) && (humans != 0) && (!this.overideauto)) {
                 console.log("[Autopause] Game Resumed!");
                 this.run = true;
-
             } else if (this.run && humans == 0) {
                 console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
                 this.run = false;
@@ -944,11 +924,12 @@ if (typeof node.rainbow == 'undefined') {
         }
     }
 };
+
 GameServer.prototype.resetlb = function() {
-     // Replace functions
+    // Replace functions
     var gm = Gamemode.get(this.gameMode.ID);
-            this.gameMode.packetLB = gm.packetLB;
-            this.gameMode.updateLB = gm.updateLB;
+        this.gameMode.packetLB = gm.packetLB;
+        this.gameMode.updateLB = gm.updateLB;
 };
 
 GameServer.prototype.updateClients = function() {
@@ -992,20 +973,17 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                 // Premium Skin
                 var n = player.name.indexOf(">");
                 if (n != -1) {
-                    
-                    
-                    
-                    
+
                     if (player.name.substr(1, n - 1) == "r") {
                          player.rainbowon = true;
-                   } else {
+                    } else {
                       player.premium = '%' + player.name.substr(1, n - 1);
                     }
                     
                     for (var i in this.skinshortcut) {
                      if (!this.skinshortcut[i] || !this.skin[i]) {
                       continue;   
-                     }
+                    }
                         if (player.name.substr(1, n - 1) == this.skinshortcut[i]) {
                          player.premium = this.skin[i]; 
                             break;
@@ -1267,28 +1245,23 @@ GameServer.prototype.ejecttMass = function(client) {
         this.setAsMovingNode(ejected);
     }
 };
+
 GameServer.prototype.customLB = function(newLB,gameServer) {
-gameServer.gameMode.packetLB = 48;
-        gameServer.gameMode.specByLeaderboard = false;
-        gameServer.gameMode.updateLB = function(gameServer) {
-            gameServer.leaderboard = newLB
-        };
-               
+    gameServer.gameMode.packetLB = 48;
+    gameServer.gameMode.specByLeaderboard = false;
+    gameServer.gameMode.updateLB = function(gameServer) {
+    gameServer.leaderboard = newLB
+    };
 };
 
 GameServer.prototype.anounce = function() {
-    
-               var newLB = [];
-               newLB[0] = "Highscore:";
-               newLB[1] = this.topscore;
-               newLB[2] = "  By  ";
-               newLB[3] = this.topusername;
-              
+   var newLB = [];
+   newLB[0] = "Highscore:";
+   newLB[1] = this.topscore;
+   newLB[2] = "  By  ";
+   newLB[3] = this.topusername;
 
-               this.customLB(this.config.anounceDuration * 1000, newLB, this);
-               
-               
-           
+   this.customLB(this.config.anounceDuration * 1000, newLB, this);
 };
 
 GameServer.prototype.ejectMass = function(client) {
@@ -1350,6 +1323,7 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
         x: parent.position.x,
         y: parent.position.y
     };
+    
     // Create cell
     newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
@@ -1369,15 +1343,14 @@ GameServer.prototype.newCellVirused = function(client, parent, angle, mass, spee
         x: parent.position.x,
         y: parent.position.y
     };
+    
     // Create cell
     newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
-   
     newCell.ignoreCollision = true; // Remove collision checks
     
-
     // Add to moving cells list
     this.addNode(newCell);
     this.setAsMovingNode(newCell);
@@ -1457,7 +1430,7 @@ GameServer.prototype.getCellsInRange = function(cell) {
             case 2: // Virus
                 multiplier = 1.33;
                 break;
-           case 5: // Beacon
+            case 5: // Beacon
                 // This cell cannot be destroyed
                  continue;
             case 0: // Players
@@ -1556,17 +1529,15 @@ GameServer.prototype.updateCells = function() {
             continue;
         }
         // Have fast decay over 5k mass
-         if (this.config.playerFastDecay == 1) {
-             if (cell.mass < this.config.fastdecayrequire) {
-                 var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
+        if (this.config.playerFastDecay == 1) {
+            if (cell.mass < this.config.fastdecayrequire) {
+                var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
             } else {
-                 var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
-             }
-         } else {
-             var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
-         }
- 
-         
+                var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
+            }
+        } else {
+            var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+        }
 
         // Recombining
         if (cell.owner.cells.length > 1 && !cell.owner.norecombine) {
@@ -1582,13 +1553,13 @@ GameServer.prototype.updateCells = function() {
         if (cell.mass >= this.config.playerMinMassDecay) {
              var client = cell.owner;
             if (this.config.teaming == 0) {
-                 var teamMult = (client.massDecayMult - 1) / 160 + 1; // Calculate anti-teaming multiplier for decay
+                var teamMult = (client.massDecayMult - 1) / 160 + 1; // Calculate anti-teaming multiplier for decay
                 var thisDecay = 1 - massDecay * (1 / teamMult); // Reverse mass decay and apply anti-teaming multiplier
                 cell.mass *= (1 - thisDecay);
             } else {
-                // No anti-team
-  cell.mass *= massDecay;
-              }
+            // No anti-team
+    cell.mass *= massDecay;
+            }
         }
     }
 };
