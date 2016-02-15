@@ -321,7 +321,7 @@ try {
       
   } else {
   	console.log("[Update] Could not fetch data from servers... will generate empty file");
-  	fs.writeFileSync('./customskins.txt', "");
+  	fs.writeFileSync('customskins.txt', "");
   }
 }); 
         
