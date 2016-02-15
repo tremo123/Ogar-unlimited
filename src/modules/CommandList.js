@@ -117,7 +117,7 @@ Commands.list = {
             return x != ''; // filter empty
         });
         if (page > Math.ceil(newb.length/7)) page = Math.ceil(newb.length/7);
-     console.log("[Console] Update log - Page " + body "/" + Math.ceil(newb.length/7));
+     console.log("[Console] Update log - Page " + body + "/" + Math.ceil(newb.length/7));
   for (var i in newb) {
   	if (i > limit) {
   	break;	
