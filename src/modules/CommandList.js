@@ -109,15 +109,15 @@ Commands.list = {
     	if (isNaN(page) || page < 1) {
     		page = 1
     	}
-    	var limit = page * 7;
+    	var limit = page * 10;
     	console.log("[Console] Sending a request to the servers...");
     request('https://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function (error, response, body) {
   if (!error && response.statusCode == 200) {
    var newb = body.split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty
         });
-        if (page > Math.ceil(newb.length/7)) page = Math.ceil(newb.length/7);
-     console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length/7));
+        if (page > Math.ceil(newb.length/7)) page = Math.ceil(newb.length/10);
+     console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length/10));
   for (var i in newb) {
   	if (i > limit) {
   	break;	
