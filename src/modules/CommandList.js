@@ -2018,6 +2018,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             console.log("[Console] Invalid coordinates");
             return;
         }
+		// If the virus mass was not specified, spawn it with the default mass value.
         if (isNaN(mass)) {
             mass = gameServer.config.virusStartMass;
         }
@@ -2025,6 +2026,6 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         // Spawn
         var v = new Entity.Virus(gameServer.getNextNodeId(), null, pos, mass);
         gameServer.addNode(v);
-        console.log("[Console] Spawned 1 virus at (" + pos.x + " , " + pos.y + ")");
+        console.log("[Console] Spawned 1 virus at coordinates (" + pos.x + " , " + pos.y + ") with a mass of " + mass + " ");
     },
 };
