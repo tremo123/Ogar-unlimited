@@ -268,7 +268,7 @@ function GameServer() {
         playerMinMassSplit: 36, // Mass required to split
         playerMaxCells: 16, // Max cells the player is allowed to have
         playerRecombineTime: 30, // Base amount of seconds before a cell is allowed to recombine
-        playerMassDecayRate: .001, // Amount of mass lost per second
+        playerMassDecayRate: .002, // Amount of mass lost per second
         playerMinMassDecay: 9, // Minimum mass for decay to occur
         playerMaxNickLength: 15, // Maximum nick length
         playerSpeed: 30, // Player base speed
