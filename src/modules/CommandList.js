@@ -101,7 +101,22 @@ Commands.list = {
         console.log("[Console] Resetateam : Resets anti team effect for a player");
         console.log("[Console] Rainbow    : Gives rainbow effect to a player");
         console.log("[Console] Update     : Updates server to the latest version");
+        console.log("[Console] changelog  : Shows a changelog");
         console.log("[Console] ====================================================");
+    },
+    changelog: function(gameServer,split) {
+    	console.log("[Console] Sending a request to the servers...");
+    request('https://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    
+     console.log("[Console] -------------- Update log --------------");
+  console.log(body);
+      
+  } else {
+  	console.log("[Console] Could not connect to servers. Aborting...");
+  	return;
+  }
+});
     },
     update: function(gameServer,split) {
         var ok = split[1];
