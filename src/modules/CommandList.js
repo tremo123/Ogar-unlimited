@@ -136,6 +136,9 @@ Commands.list = {
     
      fs.writeFileSync('./GameServer.js', body);
       
+  } else {
+  	console.log("[Update] ERROR: Could not connect to servers. Will abort update");
+  	return;
   }
 });     
         
