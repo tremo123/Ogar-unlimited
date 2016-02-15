@@ -104,709 +104,686 @@ Commands.list = {
         console.log("[Console] changelog  : Shows a changelog");
         console.log("[Console] ====================================================");
     },
-    changelog: function(gameServer,split) {
-    	var page = parseInt(split[1]);
-    	if (isNaN(page) || page < 1) {
-    		page = 1
-    	}
-    	var limit = page * 10;
-    	console.log("[Console] Sending a request to the servers...");
-    request('https://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-   var newb = body.split(/[\r\n]+/).filter(function(x) {
-            return x != ''; // filter empty
+    changelog: function(gameServer, split) {
+        var page = parseInt(split[1]);
+        if (isNaN(page) || page < 1) {
+            page = 1
+        }
+        var limit = page * 10;
+        console.log("[Console] Sending a request to the servers...");
+        request('https://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var newb = body.split(/[\r\n]+/).filter(function(x) {
+                    return x != ''; // filter empty
+                });
+                if (page > Math.ceil(newb.length / 10)) page = Math.ceil(newb.length / 10);
+                console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length / 10));
+                for (var i in newb) {
+                    if (i < limit && i >= limit - 10) {
+
+                        console.log("[Console] " + newb[i]);
+                    }
+                }
+
+            } else {
+                console.log("[Console] Could not connect to servers. Aborting...");
+                return;
+            }
         });
-        if (page > Math.ceil(newb.length/10)) page = Math.ceil(newb.length/10);
-     console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length/10));
-  for (var i in newb) {
-if (i < limit && i >= limit - 10) {
-  	
-  	console.log("[Console] " + newb[i]);
-}
-  }
-      
-  } else {
-  	console.log("[Console] Could not connect to servers. Aborting...");
-  	return;
-  }
-});
     },
-    update: function(gameServer,split) {
+    update: function(gameServer, split) {
         var ok = split[1];
         var abort = false;
         if (!fs.existsSync('./packet')) {
-        console.log("[Console] Error: could not preform action. Cause: You deleted folders or you are useing a binary");
-        return;
-    }
+            console.log("[Console] Error: could not preform action. Cause: You deleted folders or you are useing a binary");
+            return;
+        }
         if (ok != "yes") {
             console.log("[Console] Please do update yes instead of update to confirm");
             return;
         }
         console.log("[Console] Fetching data from the servers..."); // Gameserver.js
         if (!fs.existsSync('./customskins.txt')) {
-        console.log("[Console] Generating customskin.txt...");
-        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-     fs.writeFileSync('./customskins.txt', body);
-      
-  } else {
-  	console.log("[Update] Could not fetch data from servers... will generate empty file");
-  	fs.writeFileSync('./customskins.txt', "");
-  }
-}); 
-        
-    }
-        
-        
-        
-        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-     fs.writeFileSync('./GameServer.js', body);
-      
-  } else {
-  	console.log("[Update] ERROR: Could not connect to servers. Will abort update");
-  	abort = true;
-  	return;
-  }
-});     
-        
-        request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PlayerTracker.js', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-     fs.writeFileSync('./PlayerTracker.js', body);
-  
-      
-  }
-});
+            console.log("[Console] Generating customskin.txt...");
+            request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+
+                    fs.writeFileSync('./customskins.txt', body);
+
+                } else {
+                    console.log("[Update] Could not fetch data from servers... will generate empty file");
+                    fs.writeFileSync('./customskins.txt', "");
+                }
+            });
+
+        }
+
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+
+                fs.writeFileSync('./GameServer.js', body);
+
+            } else {
+                console.log("[Update] ERROR: Could not connect to servers. Will abort update");
+                abort = true;
+                return;
+            }
+        });
+
+        request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PlayerTracker.js', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+
+                fs.writeFileSync('./PlayerTracker.js', body);
+
+            }
+        });
         console.log("[Update] Downloading Playertracker.js");
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PacketHandler.js';
-        
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './PacketHandler.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
-         var filename = "PacketHandler.js";
-        console.log("[Update] Downloading "+ filename);
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './PacketHandler.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
+        var filename = "PacketHandler.js";
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
-        
-       
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './botnames.txt';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
-         var filename = "botnames.txt";
-        console.log("[Update] Downloading "+ filename);
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './botnames.txt';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
+        var filename = "botnames.txt";
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gameserver.ini';
-        
+
         fs.rename('./gameserver.ini', './oldconfig.ini', function(err) {
-    if ( err ) console.log('ERROR: ' + err);
-});
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gameserver.ini';
-     fs.writeFileSync(filepath, body);
-  }
-});
+            if (err) console.log('ERROR: ' + err);
+        });
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gameserver.ini';
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "gameserver.ini";
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/index.js';
-    
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-     var filepath = './index.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './index.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "index.js";
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         console.log("[Update] Moving on to the folder Packet...")
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/AddNode.js';
-       
-        
-        request(dbase, function (error, response, body) {
-             var filepath = './packet/AddNode.js';
-  if (!error && response.statusCode == 200) {
-    
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            var filepath = './packet/AddNode.js';
+            if (!error && response.statusCode == 200) {
+
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "AddNode.js";
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/ClearNodes.js';
-        
-       
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './packet/ClearNodes.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
-         var filename = "ClearNodes.js";
-        console.log("[Update] Downloading "+ filename);
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './packet/ClearNodes.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
+        var filename = "ClearNodes.js";
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/DrawLine.js';
-        
-        
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './packet/DrawLine.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './packet/DrawLine.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "DrawLine.js";
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/SetBorder.js';
-       
-        
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-     var filepath = './packet/SetBorder.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './packet/SetBorder.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "SetBorder.js";
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateLeaderboard.js';
-        
-        
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './packet/UpdateLeaderboard.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './packet/UpdateLeaderboard.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "UpdateLeaderboard.js";
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateNodes.js';
-        
-        
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-      var filepath = './packet/UpdateNodes.js';
-     fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+
+                var filepath = './packet/UpdateNodes.js';
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "UpdateNodes.js";
-        console.log("[Update] Downloading "+ filename);
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdatePosition.js';
-        
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './packet/UpdatePosition.js';
-        
-    fs.writeFileSync(filepath, body);
-      
-  }
-});
+
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './packet/UpdatePosition.js';
+
+                fs.writeFileSync(filepath, body);
+
+            }
+        });
         var filename = "UpdatePosition.js";
-        console.log("[Update] Downloading "+ filename);
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/index.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './packet/index.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './packet/index.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "index.js"; // needed
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         console.log("[Update] Moving to folder AI...");
-        
+
         var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './ai/BotLoader.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/BotLoader.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "BotLoader.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotPlayer.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './ai/BotPlayer.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/BotPlayer.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "BotPlayer.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/FakeSocket.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './ai/FakeSocket.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/FakeSocket.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "FakeSocket.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/Readme.txt'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './ai/Readme.txt'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/Readme.txt'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Readme.txt"; // needed
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         console.log("[Update] Moving to folder Entities...");
-        
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Beacon.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/Beacon.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/Beacon.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Beacon.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Cell.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/Cell.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/Cell.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Cell.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-        
-         
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/EjectedMass.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/EjectedMass.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/EjectedMass.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "EjectedMass.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Food.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/Food.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/Food.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Food.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MotherCell.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/MotherCell.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/MotherCell.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "MotherCell.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MovingVirus.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/MovingVirus.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/MovingVirus.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "MovingVirus.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/PlayerCell.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/PlayerCell.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/PlayerCell.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "PlayerCell.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/StickyCell.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/StickyCell.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/StickyCell.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "StickyCell.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Virus.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/Virus.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Virus.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/Virus.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Virus.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/index.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './entity/index.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/index.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './entity/index.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "index.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       console.log("[Update] Moving to the Gamemodes folder...");
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/BlackHole.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/BlackHole.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+        console.log("[Update] Moving to the Gamemodes folder...");
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/BlackHole.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/BlackHole.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "BlackHole.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Debug.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Debug.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Debug.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Debug.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental%20v2.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Experimental v2.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Experimental v2.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Experimental v2.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Experimental.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Experimental.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Experimental.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/FFA.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/FFA.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/FFA.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "FFA.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/HungerGames.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/HungerGames.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/HungerGames.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "HungerGames.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Leap.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Leap.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Leap.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Leap.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Mode.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Mode.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Mode.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Mode.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamX.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/NoCollisionTeamX.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/NoCollisionTeamX.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "NCteamsx.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamZ.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/NoCollisionTeamZ.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/NoCollisionTeamZ.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "NCTeamZ.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-        
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeams.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/NoCollisionTeams.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/NoCollisionTeams.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "NCTeams.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Rainbow.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Rainbow.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Rainbow.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Rainbow.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/SFFA.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/SFFA.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/SFFA.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "SFFA.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TFFA.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/TFFA.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/TFFA.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "TFFA.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamZ.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/TeamZ.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/TeamZ.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Teamz"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamX.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/TeamX.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/TeamX.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Teamx.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Teams.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Teams.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Teams.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Teams.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Tournament.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Tournament.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Tournament.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Tournament.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitffa.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Unlimitffa.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Unlimitffa.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Unlimited FFA.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitpvp.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Unlimitpvp.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Unlimitpvp.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Unlimitpvp.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Virus.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Virus.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Virus.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Virus.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Virus.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/VirusOff.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/VirusOff.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/VirusOff.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/VirusOff.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "VirusOff.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Zombie.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './gamemodes/Zombie.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Zombie.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './gamemodes/Zombie.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "Zombie.js"; // needed
-        console.log("[Update] Downloading "+ filename);
+        console.log("[Update] Downloading " + filename);
         console.log("[Update] Moving to Modules folder");
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/CommandList.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './modules/CommandList.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/CommandList.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './modules/CommandList.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "CommandList.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       
-         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/ini.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './modules/ini.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        console.log("[Update] Downloading " + filename);
+
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/ini.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './modules/ini.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "ini.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-        
-       
+        console.log("[Update] Downloading " + filename);
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/log.js'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = './modules/log.js'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './modules/log.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
         var filename = "log.js"; // needed
-        console.log("[Update] Downloading "+ filename);
-       console.log("[Update] Downloading readme and newfeatures.md...");
+        console.log("[Update] Downloading " + filename);
+        console.log("[Update] Downloading readme and newfeatures.md...");
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/README.md'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = '../README.md'; // needed    
-    fs.writeFileSync(filepath, body);    
-  }
-});
-       
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = '../README.md'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+
         var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/Newfeatures.md'; // needed
-        request(dbase, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    var filepath = '../Newfeatures.md'; // needed    
-    fs.writeFileSync(filepath, body);   
-      console.log("[Update] Done downloading all files");
-      console.log("[Update] Applying update...");
-  }
-});
-setTimeout(function() {
-	if (!abort) {
-        console.log("[Update] Done! Now restarting/closing...");
-       gameServer.socketServer.close();
-                    process.exit(3);
-	}
-},8000);
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = '../Newfeatures.md'; // needed
+                fs.writeFileSync(filepath, body);
+                console.log("[Update] Done downloading all files");
+                console.log("[Update] Applying update...");
+            }
+        });
+        setTimeout(function() {
+            if (!abort) {
+                console.log("[Update] Done! Now restarting/closing...");
+                gameServer.socketServer.close();
+                process.exit(3);
+            }
+        }, 8000);
     },
-    
-  explode: function(gameServer, split) {
-    var id = parseInt(split[1]);
+
+    explode: function(gameServer, split) {
+        var id = parseInt(split[1]);
         if (isNaN(id)) {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-    for (var i in gameServer.clients) {
+        for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker; // Set color
-                for(var i = 0; i < client.cells.length; i++) {
-                var cell = client.cells[i];
-                while(cell.mass > 10) {
-                    cell.mass -= gameServer.config.ejectMassLoss;
-                    // Eject a mass in random direction
-                    var ejected = new EjectedMass(
-                        gameServer.getNextNodeId(),
-                        null,
-                        {x: cell.position.x, y: cell.position.y},
-                        gameServer.config.ejectMass
-                    );
-                    ejected.setAngle(6.28 * Math.random()) // Random angle [0, 2 * pi)
-                    ejected.setMoveEngineData(
-                        Math.random() * gameServer.config.ejectSpeed,
-                        35,
-                        0.5 + 0.4 * Math.random()
-                    );
-                    ejected.setColor(cell.getColor());
-                    gameServer.addNode(ejected);
-                    gameServer.setAsMovingNode(ejected);
+                for (var i = 0; i < client.cells.length; i++) {
+                    var cell = client.cells[i];
+                    while (cell.mass > 10) {
+                        cell.mass -= gameServer.config.ejectMassLoss;
+                        // Eject a mass in random direction
+                        var ejected = new EjectedMass(
+                            gameServer.getNextNodeId(),
+                            null, {
+                                x: cell.position.x,
+                                y: cell.position.y
+                            },
+                            gameServer.config.ejectMass
+                        );
+                        ejected.setAngle(6.28 * Math.random()) // Random angle [0, 2 * pi)
+                        ejected.setMoveEngineData(
+                            Math.random() * gameServer.config.ejectSpeed,
+                            35,
+                            0.5 + 0.4 * Math.random()
+                        );
+                        ejected.setColor(cell.getColor());
+                        gameServer.addNode(ejected);
+                        gameServer.setAsMovingNode(ejected);
+                    }
+                    cell.mass = 10;
                 }
-                cell.mass = 10;
+
             }
-			
         }
-    }
-},
+    },
     resetateam: function(gameServer, split) {
         // Validation checks
         var id = parseInt(split[1]);
@@ -814,65 +791,65 @@ setTimeout(function() {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
- 
+
         if (!gameServer.clients[id]) {
             console.log("[Console] Client is nonexistent!");
             return;
         }
- 
+
         gameServer.clients[id].playerTracker.massDecayMult = 1;
         gameServer.clients[id].playerTracker.actionMult = 0;
         gameServer.clients[id].playerTracker.actionDecayMult = 1;
         console.log("[Console] Successfully reset client's anti-team effect");
-},
-    enlarge: function(gameServer,split) {
-    borderDec = split[1];
-    if (isNaN(borderDec)) {
-        borderDec = 200;
-   }
-    gameServer.config.borderLeft -= borderDec;
-    gameServer.config.borderRight += borderDec;
-    gameServer.config.borderTop -= borderDec;
-    gameServer.config.borderBottom += borderDec;
-    
-    console.log("[Console] Successivly Enlarged game. Size: " + (gameServer.config.borderRight - gameServer.config.borderLeft) + "," + (gameServer.config.borderBottom - gameServer.config.borderTop));
-},
-    shrink: function(gameServer,split) {
-    borderDec = split[1];
-    if (isNaN(borderDec)) {
-        borderDec = 200;
-    }
-    gameServer.config.borderLeft += borderDec;
-    gameServer.config.borderRight -= borderDec;
-    gameServer.config.borderTop += borderDec;
-    gameServer.config.borderBottom -= borderDec;
-    
-    var len = gameServer.nodes.length;
-    for (var i = 0; i < len; i++) {
-        var node = gameServer.nodes[i];
-
-        if ((!node) || (node.getType() == 0)) {
-            continue;
+    },
+    enlarge: function(gameServer, split) {
+        borderDec = split[1];
+        if (isNaN(borderDec)) {
+            borderDec = 200;
         }
+        gameServer.config.borderLeft -= borderDec;
+        gameServer.config.borderRight += borderDec;
+        gameServer.config.borderTop -= borderDec;
+        gameServer.config.borderBottom += borderDec;
 
-        // Move
-        if (node.position.x < gameServer.config.borderLeft) {
-            gameServer.removeNode(node);
-            i--;
-        } else if (node.position.x > gameServer.config.borderRight) {
-            gameServer.removeNode(node);
-            i--;
-        } else if (node.position.y < gameServer.config.borderTop) {
-            gameServer.removeNode(node);
-            i--;
-        } else if (node.position.y > gameServer.config.borderBottom) {
-            gameServer.removeNode(node);
-            i--;
+        console.log("[Console] Successivly Enlarged game. Size: " + (gameServer.config.borderRight - gameServer.config.borderLeft) + "," + (gameServer.config.borderBottom - gameServer.config.borderTop));
+    },
+    shrink: function(gameServer, split) {
+        borderDec = split[1];
+        if (isNaN(borderDec)) {
+            borderDec = 200;
         }
-    }
+        gameServer.config.borderLeft += borderDec;
+        gameServer.config.borderRight -= borderDec;
+        gameServer.config.borderTop += borderDec;
+        gameServer.config.borderBottom -= borderDec;
+
+        var len = gameServer.nodes.length;
+        for (var i = 0; i < len; i++) {
+            var node = gameServer.nodes[i];
+
+            if ((!node) || (node.getType() == 0)) {
+                continue;
+            }
+
+            // Move
+            if (node.position.x < gameServer.config.borderLeft) {
+                gameServer.removeNode(node);
+                i--;
+            } else if (node.position.x > gameServer.config.borderRight) {
+                gameServer.removeNode(node);
+                i--;
+            } else if (node.position.y < gameServer.config.borderTop) {
+                gameServer.removeNode(node);
+                i--;
+            } else if (node.position.y > gameServer.config.borderBottom) {
+                gameServer.removeNode(node);
+                i--;
+            }
+        }
         console.log("[Console] Successivly shrinked game. Size: " + (gameServer.config.borderRight - gameServer.config.borderLeft) + "," + (gameServer.config.borderBottom - gameServer.config.borderTop));
-        
-},
+
+    },
     colortext: function(gameServer, split) {
         var c = split[1].toLowerCase();
         if (c == "red") {
@@ -926,8 +903,8 @@ setTimeout(function() {
         } else {
             console.log("Please specify a valid style or do Colortext help for a list");
         }
-},
-    announce: function(gameServer,split) {
+    },
+    announce: function(gameServer, split) {
         console.log("High Score announce system started");
         setInterval(function() {
             var topScore = Math.floor(gameServer.topscore) + " ";
@@ -942,26 +919,28 @@ setTimeout(function() {
             newLB[7] = oldTopScores;
             newLB[8] = "By:";
             newLB[9] = gameServer.oldtopscores.name;
-        gameServer.lleaderboard = false;
-        gameServer.gameMode.packetLB = 48;
-        gameServer.gameMode.specByLeaderboard = false;
-        gameServer.gameMode.updateLB = function(gameServer) {
-        gameServer.leaderboard = newLB;
-    };
+            gameServer.lleaderboard = false;
+            gameServer.gameMode.packetLB = 48;
+            gameServer.gameMode.specByLeaderboard = false;
+            gameServer.gameMode.updateLB = function(gameServer) {
+                gameServer.leaderboard = newLB;
+            };
             console.log("[Console] Successfully set leaderboard");
-            setTimeout(function () {
+            setTimeout(function() {
                 var gm = GameMode.get(gameServer.gameMode.ID);
 
-        // Replace functions
-        gameServer.gameMode.packetLB = gm.packetLB;
-        gameServer.gameMode.updateLB = gm.updateLB;
-        
-        setTimeout(function () {gameServer.lleaderboard = true;},2000);
-        console.log("[Console] Successfully reset leaderboard");
-                
-            },gameServer.config.anounceDuration * 1000);
-            
-        },gameServer.config.anounceDelay*1000);
+                // Replace functions
+                gameServer.gameMode.packetLB = gm.packetLB;
+                gameServer.gameMode.updateLB = gm.updateLB;
+
+                setTimeout(function() {
+                    gameServer.lleaderboard = true;
+                }, 2000);
+                console.log("[Console] Successfully reset leaderboard");
+
+            }, gameServer.config.anounceDuration * 1000);
+
+        }, gameServer.config.anounceDelay * 1000);
     },
     whitelist: function(gameServer, split) {
         console.log("[Console] Current whitelisted IPs (" + gameServer.whlist.length + ")");
@@ -1118,7 +1097,9 @@ setTimeout(function() {
                     // Replace functions
                     gameServer.gameMode.packetLB = gm.packetLB;
                     gameServer.gameMode.updateLB = gm.updateLB;
-setTimeout(function () {gameServer.lleaderboard = true;},2000);
+                    setTimeout(function() {
+                        gameServer.lleaderboard = true;
+                    }, 2000);
                 }, 14000);
                 for (var i in gameServer.clients) {
                     var c = gameServer.clients[i];
@@ -1218,7 +1199,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 // Replace functions
                 gameServer.gameMode.packetLB = gm.packetLB;
                 gameServer.gameMode.updateLB = gm.updateLB;
-                setTimeout(function () {gameServer.lleaderboard = true;},2000);
+                setTimeout(function() {
+                    gameServer.lleaderboard = true;
+                }, 2000);
                 console.log("[PMSG] The board has been reset");
                 r++;
                 if (r > re) {
@@ -1301,7 +1284,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 gameServer.overideauto = false;
                 gameServer.run = true;
                 console.log("[PFMSG] The game has been reset");
-                setTimeout(function () {gameServer.lleaderboard = true;},2000);
+                setTimeout(function() {
+                    gameServer.lleaderboard = true;
+                }, 2000);
                 r++;
                 if (r > re) {
                     console.log("[PFMSG] Done");
@@ -1356,7 +1341,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             gameServer.overideauto = false;
             gameServer.run = true;
             console.log("[ForceMSG] The game has been reset");
-            setTimeout(function () {gameServer.lleaderboard = true;},2000);
+            setTimeout(function() {
+                gameServer.lleaderboard = true;
+            }, 2000);
         }, 6500);
     },
     msg: function(gameServer, split) {
@@ -1380,7 +1367,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             gameServer.gameMode.packetLB = gm.packetLB;
             gameServer.gameMode.updateLB = gm.updateLB;
             console.log("[MSG] The board has been reset");
-            setTimeout(function () {gameServer.lleaderboard = true;},2000);
+            setTimeout(function() {
+                gameServer.lleaderboard = true;
+            }, 2000);
 
         }, 14000);
     },
@@ -1444,10 +1433,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                         client.cells[j].mass = 70;
                     }
 
-                    
-                        client.norecombine = true;
-
-                    
+                    client.norecombine = true;
 
                 }, 1000);
 
@@ -1466,9 +1452,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
-                
-                    client.norecombine = true;
-                
+
+                client.norecombine = true;
+
             }
         }
         console.log("That player cannot recombine now");
@@ -1485,9 +1471,8 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
-                
-                    client.recombineinstant = true;
-                
+
+                client.recombineinstant = true;
 
                 console.log("[Console] Forced " + client.name + " to merge cells");
                 break;
@@ -1499,7 +1484,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         if (isNaN(add)) {
             add = 1; // Adds 1 bot if user doesnt specify a number
         }
-       gameServer.livestage = 2;
+        gameServer.livestage = 2;
         gameServer.liveticks = 0;
         for (var i = 0; i < add; i++) {
             gameServer.bots.addBot();
@@ -1550,7 +1535,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                 }
                 removed++;
                 i++;
-            } else 
+            } else
                 i++;
         }
         if (toRemove == -1)
@@ -1583,7 +1568,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         gameServer.gameMode.packetLB = gm.packetLB;
         gameServer.gameMode.updateLB = gm.updateLB;
         console.log("[Console] Successfully reset leaderboard");
-        setTimeout(function () {gameServer.lleaderboard = true;},2000);
+        setTimeout(function() {
+            gameServer.lleaderboard = true;
+        }, 2000);
     },
     change: function(gameServer, split) {
         var key = split[1];
@@ -1669,7 +1656,9 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                     // Replace functions
                     gameServer.gameMode.packetLB = gm.packetLB;
                     gameServer.gameMode.updateLB = gm.updateLB;
-                    setTimeout(function () {gameServer.lleaderboard = true;},2000);
+                    setTimeout(function() {
+                        gameServer.lleaderboard = true;
+                    }, 2000);
                 }, 14000);
 
                 setTimeout(function() {
@@ -1732,7 +1721,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                     gameServer.removeNode(client.cells[0]);
                 }
                 if (client.socket.remoteAddress) {
-                gameServer.nospawn[client.socket.remoteAddress] = true;
+                    gameServer.nospawn[client.socket.remoteAddress] = true;
                 } else {
                     client.socket.close();
                 }
@@ -1808,7 +1797,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         }
     },
     highscore: function(gameServer, split) {
-        console.log("High score: "+ gameServer.topscore+ " By " + gameServer.topusername);
+        console.log("High score: " + gameServer.topscore + " By " + gameServer.topusername);
     },
     killall: function(gameServer, split) {
         var count = 0;
@@ -1861,35 +1850,33 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         }
         var premium = "";
         if (name.substr(0, 1) == "<") {
-                // Premium Skin
-                var n = name.indexOf(">");
-                if (n != -1) {
-                
- 
-                    premium = '%' + name.substr(1, n - 1);
-                    for (var i in gameServer.skinshortcut) {
-                     if (!gameServer.skinshortcut[i] || !gameServer.skin[i]) {
-                      continue;   
-                     }
-                        if (name.substr(1, n - 1) == gameServer.skinshortcut[i]) {
-                         premium = gameServer.skin[i]; 
-                            break;
-                        }
-                        
-                        
+            // Premium Skin
+            var n = name.indexOf(">");
+            if (n != -1) {
+
+                premium = '%' + name.substr(1, n - 1);
+                for (var i in gameServer.skinshortcut) {
+                    if (!gameServer.skinshortcut[i] || !gameServer.skin[i]) {
+                        continue;
                     }
-                    name = name.substr(n + 1);
- 
+                    if (name.substr(1, n - 1) == gameServer.skinshortcut[i]) {
+                        premium = gameServer.skin[i];
+                        break;
+                    }
+
                 }
-            } else if (name.substr(0, 1) == "[") {
-                // Premium Skin
-                var n = name.indexOf("]");
-                if (n != -1) {
-                    
-                    premium = ':http://' + name.substr(1, n - 1);
-                    name = name.substr(n + 1);
-                }
-            } 
+                name = name.substr(n + 1);
+
+            }
+        } else if (name.substr(0, 1) == "[") {
+            // Premium Skin
+            var n = name.indexOf("]");
+            if (n != -1) {
+
+                premium = ':http://' + name.substr(1, n - 1);
+                name = name.substr(n + 1);
+            }
+        }
 
         // Change name
         for (var i = 0; i < gameServer.clients.length; i++) {
@@ -1901,8 +1888,8 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
                     console.log("[Console] Changing their skin to " + premium);
                 }
                 if (name.length > 0) {
-                console.log("[Console] Changing " + client.name + " to " + name);
-                client.name = name;
+                    console.log("[Console] Changing " + client.name + " to " + name);
+                    client.name = name;
                 }
                 return;
             }
@@ -1977,45 +1964,43 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
         var id = parseInt(split[1]);
         if (isNaN(id)) {
             console.log("[Console] Please specify a player!");
-              return;
+            return;
         }
-        if (!gameServer.clients[id-1]) {
+        if (!gameServer.clients[id - 1]) {
             console.log("[Console] Client is nonexistent!");
-              return;
+            return;
         }
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
                 if (client.rainbowon) {
                     client.rainbowon = false;
-                 for (var j in client.cells) {
-                    gameServer.rnodes[client.cells[j].nodeId] = [];
-                     client.cells[j].color = client.color;
-                }  
+                    for (var j in client.cells) {
+                        gameServer.rnodes[client.cells[j].nodeId] = [];
+                        client.cells[j].color = client.color;
+                    }
                     console.log("[Console] Removed rainbow effect for " + client.name);
                 } else {
-                client.rainbowon = true;
-                for (var j in client.cells) {
-                    gameServer.rnodes[client.cells[j].nodeId] = client.cells[j];
-                }
-                     console.log("[Console] Added rainbow effect for " + client.name);
+                    client.rainbowon = true;
+                    for (var j in client.cells) {
+                        gameServer.rnodes[client.cells[j].nodeId] = client.cells[j];
+                    }
+                    console.log("[Console] Added rainbow effect for " + client.name);
                 }
                 break;
             }
         }
-        
-        
+
     },
     reload: function(gameServer) {
         gameServer.loadConfig();
-        
+
         var loadskins = fs.readFileSync("./customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty names
         });
 
-           
         for (var i in loadskins) {
-            var custom = loadskins[i].split(" "); 
+            var custom = loadskins[i].split(" ");
             gameServer.skinshortcut[i] = custom[0];
             gameServer.skin[i] = custom[1];
         }
@@ -2082,7 +2067,7 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
             console.log("[Console] Invalid coordinates");
             return;
         }
-		// If the virus mass was not specified, spawn it with the default mass value.
+        // If the virus mass was not specified, spawn it with the default mass value.
         if (isNaN(mass)) {
             mass = gameServer.config.virusStartMass;
         }
