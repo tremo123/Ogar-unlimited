@@ -105,12 +105,25 @@ Commands.list = {
         console.log("[Console] ====================================================");
     },
     changelog: function(gameServer,split) {
+    	var page = parseInt(split[1]);
+    	if (isNaN(page) || page < 1) {
+    		page = 1
+    	}
+    	var limit = page * 7;
     	console.log("[Console] Sending a request to the servers...");
     request('https://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function (error, response, body) {
   if (!error && response.statusCode == 200) {
-    
-     console.log("[Console] -------------- Update log --------------");
-  console.log(body);
+   var newb = body.split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty
+        });
+        if (page > Math.ceil(newb.length/7)) page = Math.ceil(newb.length/7);
+     console.log("[Console] Update log - Page " + body "/" + Math.ceil(newb.length/7));
+  for (var i in newb) {
+  	if (i > limit) {
+  	break;	
+  	}
+  	console.log("[Console] " + newb[i]);
+  }
       
   } else {
   	console.log("[Console] Could not connect to servers. Aborting...");
