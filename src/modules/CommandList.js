@@ -119,12 +119,13 @@ Commands.list = {
         if (page > Math.ceil(newb.length/10)) page = Math.ceil(newb.length/10);
      console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length/10));
   for (var i in newb) {
-  	if (i <= limit - 10) {
-  	continue;
-  	}
-  	if (i + 1 > limit) {
+if (i + 1 > limit) {
   	break;	
   	}
+  	if (i + 1 < limit - 10) {
+  	continue;
+  	}
+  	
   	console.log("[Console] " + newb[i]);
   }
       
