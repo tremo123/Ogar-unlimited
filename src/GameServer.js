@@ -311,19 +311,21 @@ GameServer.prototype.start = function() {
 
         // Done
         var fs = require("fs"); // Import the util library
-
-        // Read and parse the names - filter out whitespace-only names
+try { 
+      
         var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty names
         });
 
-    try {        
+           
         for (var i in loadskins) {
             var custom = loadskins[i].split(" "); 
             this.skinshortcut[i] = custom[0];
             this.skin[i] = custom[1];
         }
-   
+} catch (e) {
+    
+}
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
         Cell.spi = this.config.SpikedCells
@@ -351,7 +353,7 @@ GameServer.prototype.start = function() {
         request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
   if (!error && response.statusCode == 200) {
     
-      // Show the HTML for the Google homepage. 
+      
       if (body.replace('\n','') != "7.9.4") {
           
       console.log("\x1b[31m[Console] We have detected a update, Current version: 7.9.4 ,Available: "+ body.replace('\n',''));
