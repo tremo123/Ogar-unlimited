@@ -312,7 +312,20 @@ GameServer.prototype.start = function() {
         // Done
         var fs = require("fs"); // Import the util library
 try { 
+      if (!fs.existsSync('customskins.txt')) {
+        console.log("[Console] Generating customskin.txt...");
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    
+     fs.writeFileSync('customskins.txt', body);
       
+  } else {
+  	console.log("[Update] Could not fetch data from servers... will generate empty file");
+  	fs.writeFileSync('./customskins.txt', "");
+  }
+}); 
+        
+    }
         var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty names
         });
