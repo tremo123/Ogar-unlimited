@@ -116,10 +116,10 @@ Commands.list = {
    var newb = body.split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty
         });
-        if (page > Math.ceil(newb.length/7)) page = Math.ceil(newb.length/10);
+        if (page > Math.ceil(newb.length/10)) page = Math.ceil(newb.length/10);
      console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length/10));
   for (var i in newb) {
-  	if (i + 1 <= limit - 10) {
+  	if (i + 1 >= limit - 10) {
   	continue;
   	}
   	if (i + 1 > limit) {
