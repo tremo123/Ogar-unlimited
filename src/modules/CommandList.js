@@ -122,7 +122,7 @@ Commands.list = {
 if (i + 1 > limit) {
   	break;	
   	}
-  	if (i + 1 < limit - 10) {
+  	if (i < limit - 10) {
   	continue;
   	}
   	
