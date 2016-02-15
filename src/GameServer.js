@@ -64,7 +64,7 @@ function GameServer() {
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.largestClient;
-     this.colors = [{
+    this.colors = [{
             'r': 255,
             'g': 0,
             'b': 0
@@ -316,7 +316,8 @@ GameServer.prototype.start = function() {
         var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
             return x != ''; // filter empty names
         });
-        
+
+    try {        
         for (var i in loadskins) {
             var custom = loadskins[i].split(" "); 
             this.skinshortcut[i] = custom[0];
