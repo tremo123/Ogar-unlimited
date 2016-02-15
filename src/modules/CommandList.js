@@ -105,6 +105,7 @@ Commands.list = {
     },
     update: function(gameServer,split) {
         var ok = split[1];
+        var abort = false;
         if (!fs.existsSync('./packet')) {
         console.log("[Console] Error: could not preform action. Cause: You deleted folders or you are useing a binary");
         return;
@@ -138,6 +139,7 @@ Commands.list = {
       
   } else {
   	console.log("[Update] ERROR: Could not connect to servers. Will abort update");
+  	abort = true;
   	return;
   }
 });     
@@ -733,9 +735,11 @@ Commands.list = {
   }
 });
 setTimeout(function() {
+	if (!abort) {
         console.log("[Update] Done! Now restarting/closing...");
        gameServer.socketServer.close();
                     process.exit(3);
+	}
 },8000);
     },
     
