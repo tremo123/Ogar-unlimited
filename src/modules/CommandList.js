@@ -107,12 +107,30 @@ Commands.list = {
         var ok = split[1];
         if (!fs.existsSync('./packet')) {
         console.log("[Console] Error: could not preform action. Cause: You deleted folders or you are useing a binary");
+        return;
     }
         if (ok != "yes") {
             console.log("[Console] Please do update yes instead of update to confirm");
             return;
         }
         console.log("[Console] Fetching data from the servers..."); // Gameserver.js
+        if (!fs.existsSync('./customskins.txt')) {
+        console.log("[Console] Generating customskin.txt...");
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    
+     fs.writeFileSync('./customskins.txt', body);
+      
+  } else {
+  	console.log("[Update] Could not fetch data from servers... will generate empty file");
+  	fs.writeFileSync('./customskins.txt', "");
+  }
+}); 
+        
+    }
+        
+        
+        
         request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
   if (!error && response.statusCode == 200) {
     
@@ -1955,6 +1973,17 @@ setTimeout(function () {gameServer.lleaderboard = true;},2000);
     },
     reload: function(gameServer) {
         gameServer.loadConfig();
+        
+        var loadskins = fs.readFileSync("./customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty names
+        });
+
+           
+        for (var i in loadskins) {
+            var custom = loadskins[i].split(" "); 
+            gameServer.skinshortcut[i] = custom[0];
+            gameServer.skin[i] = custom[1];
+        }
         console.log("[Console] Reloaded the config file successfully");
     },
     status: function(gameServer, split) {
