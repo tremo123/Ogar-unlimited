@@ -18,17 +18,17 @@ console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server imple
 console.log("[Game] By The AJS development team\x1b[0m");
 console.log("[Game] Server version is 8.1.0");
 var request = require('request');
-request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-      if (body.replace('\n','') != "") {
-          
-      console.log("\x1b[32m[Console] We recieved a world-wide message!: "+ body.replace('\n','') + "\x1b[0m");
-      }
-  } else{
-    console.log("[Console] Could not connect to servers. Aborted checking for updates and messages");
-  }
-})
-// Handle arguments
+request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            if (body.replace('\n', '') != "") {
+
+                console.log("\x1b[32m[Console] We recieved a world-wide message!: " + body.replace('\n', '') + "\x1b[0m");
+            }
+        } else {
+            console.log("[Console] Could not connect to servers. Aborted checking for updates and messages");
+        }
+    })
+    // Handle arguments
 process.argv.forEach(function(val) {
     if (val == "--noconsole") {
         showConsole = false;
