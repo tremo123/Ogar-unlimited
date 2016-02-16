@@ -250,6 +250,7 @@ function GameServer() {
         fastdecayrequire: 5000,
         FDmultiplyer: 5,
         antimatter: 1,
+        merge: 1,
         virus: 1,
         mass: 1,
         killvirus: 1,
