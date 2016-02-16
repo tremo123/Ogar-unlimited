@@ -2,14 +2,22 @@
 
 
 ## Commands
- - Help
-   * Shows List Of Commands
  - Ophelp
    * Shows how to use OP
+ - Announce
+   * Starts the high score announce feature
+ - Update
+   * gets current version of ogar unlimited and replaces the old with the new
+ - Changelog [page]
+   * Gets changelog from the servers
+ - Explode [id]
+   * explodes player
  - Split [ID] [Count]
    * Splits a player
- - Announce
-   * Starts up the announcement server (highscores)
+ - Shrink [amount]
+   * Shrinks the game (amount is optional)
+ - Enlarge [amount]
+   * Enlarges the game (amount is optional)
  - Colortext [color]
    * Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)
  - Team [id] [team (r,g,b)]
@@ -19,33 +27,33 @@
  - whitelist [IP]
    * whitelists an IP
  - Unwhitelist [IP]
-   * Unwhitelists a IP
+   * Unwhitelists an IP
  - whitelist
    * Lists whitelist
  - Clearban
    * Clears ban list
  - Ban [IP]
-   * Bans a IP and sends a MSG
+   * Bans an IP and sends a MSG
  - Unban [IP]
-   * Unbans a IP
+   * Unbans an IP
+ - Rainbow [id]
+   * gives player rainbow effect
  - Kickbots [number]
    * Kicks a number of bots (leave field blank and it will kick all bots)
+ - Killbots [number]
+   * Kills a number of bots (leave field blank and it will kick all bots)
+ - Restart [minutes]
+   * Restarts the server after a number of minutes or if you leave min blank, restarts immediatly
  - Banlist
    * Lists banned IPs
  - Clearban
    * Clears ban list
- - Update
-   * gets current version of ogar unlimited and replaces the old with the new
  - Op [ID]
    * Makes player OP
  - Dop [ID]
    * De-OPs a player
  - Rop
    * Resets op
- - Rainbow [id]
-   * Adds/removes rainbow effect for a player
- - Restart [minutes]
-   * Restarts the server after a number of minutes or if you leave min blank, restarts immediatly
  - Pfmsg [delay] [duration] [x to repeat] [msg1] [msg2] [etc...]
    * Periodically sends a force message (seconds)
  - Spfmsg []
@@ -54,8 +62,6 @@
    * Periodically sends a message (seconds)
  - Spmsg []
    * stops pmsg
- - Killbots [number]
-   * Kills a number of bots (leave field blank and it will kick all bots)
  - Troll [id]
    * You figure out this one, Its a suprise!
  - Fmsg [message 1] [message 2] [etc...]
@@ -66,8 +72,6 @@
    * Kicks/kills in a range (eg: killrange 1 10 will kill players whos ids are between them)
  - Nojoin [id]
    * Makes person unable to join
- - Merge [id]
-   * forces user to merge
   
 ## Gamemodes
 
