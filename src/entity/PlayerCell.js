@@ -7,7 +7,7 @@ function PlayerCell() {
     this.skin;
     this.recombineTicks = 0; // Ticks passed after the cell has split
     this.shouldRecombine = false; // Should the cell combine. If true, collision with own cells happens
-    
+
     this.ignoreCollision = false; // This is used by player cells so that they dont cause any problems when splitting
     this.restoreCollisionTicks = 0; // Ticks after which collision is restored on a moving cell
 }
@@ -158,8 +158,8 @@ PlayerCell.prototype.getEatingRange = function() {
 
 PlayerCell.prototype.onConsume = function(consumer, gameServer) {
     // Add an inefficiency for eating other players' cells
-   var factor = ( consumer.owner === this.owner ? 1 : gameServer.config.massAbsorbedPercent/100 );
-     consumer.addMass(factor * this.mass);
+    var factor = (consumer.owner === this.owner ? 1 : gameServer.config.massAbsorbedPercent / 100);
+    consumer.addMass(factor * this.mass);
 };
 
 PlayerCell.prototype.onAdd = function(gameServer) {
