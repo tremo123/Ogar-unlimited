@@ -373,11 +373,16 @@ GameServer.prototype.start = function() {
             var game = this;
             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
                 if (!error && response.statusCode == 200) {
+                    var split = body.split(" ");
+                    if (split[0].replace('\n', '') != "7.9.4") {
 
-                    if (body.replace('\n', '') != "7.9.4") {
-
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 7.9.4 ,Available: " + body.replace('\n', ''));
-
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 8.1.0 ,Available: " + split[0].replace('\n', ''));
+if (split[1].replace('\n', '')) {
+    console.log("\x1b[31m[Console] Update Details: " + split[1].replace('\n', ''));
+    
+} else {
+    console.log("\x1b[31m[Console] Update Details: No Description Provided");
+}
                         if (game.config.autoupdate == 1) {
                             console.log("[Console] Initiating Autoupdate\x1b[0m");
                             var split = [];
