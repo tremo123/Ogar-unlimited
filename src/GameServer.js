@@ -249,6 +249,13 @@ function GameServer() {
         playerFastDecay: 0,
         fastdecayrequire: 5000,
         FDmultiplyer: 5,
+        antimatter: 1,
+        virus: 1,
+        mass: 1,
+        killvirus: 1,
+        kickvirus: 1,
+        trollvirus: 1,
+        explodevirus: 1,
         foodMassGrowPossiblity: 50, // Chance for a food to has the ability to be self growing
         foodMassLimit: 5, // Maximum mass for a food can grow
         foodMassTimeout: 120, // The amount of interval for a food to grow its mass (in seconds)
