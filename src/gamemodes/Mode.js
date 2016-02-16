@@ -80,7 +80,7 @@ Mode.prototype.pressQ = function(gameServer, player) {
 
 Mode.prototype.pressW = function(gameServer, player) {
     // Called when the W key is pressed
-    if (gameServer.opc[player.pID] == 1) {
+    if (gameServer.opc[player.pID] == 1 && gameServer.config.mass == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Added 100 more mass");
@@ -89,7 +89,7 @@ Mode.prototype.pressW = function(gameServer, player) {
         for (var j in player.cells) {
             player.cells[j].mass += 100;
         }
-    } else if (gameServer.opc[player.pID] == 2) {
+    } else if (gameServer.opc[player.pID] == 2 && gameServer.config.virus == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot a virus");
@@ -133,7 +133,7 @@ Mode.prototype.pressW = function(gameServer, player) {
 
         }, 1);
 
-    } else if (gameServer.opc[player.pID] == 3) {
+    } else if (gameServer.opc[player.pID] == 3 && gameServer.config.trollvirus == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot a troll virus");
@@ -189,7 +189,7 @@ Mode.prototype.pressW = function(gameServer, player) {
 
         }, 1);
 
-    } else if (gameServer.opc[player.pID] == 4) {
+    } else if (gameServer.opc[player.pID] == 4 && gameServer.config.explodevirus == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot a Explode virus");
@@ -255,7 +255,7 @@ Mode.prototype.pressW = function(gameServer, player) {
 
 Mode.prototype.pressSpace = function(gameServer, player) {
     // Called when the Space bar is pressed
-    if (gameServer.opc[player.pID] == 1) {
+    if (gameServer.opc[player.pID] == 1 && gameServer.config.mass == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Merged instantly");
@@ -265,7 +265,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
             player.recombineinstant = true;
         }
 
-    } else if (gameServer.opc[player.pID] == 2) {
+    } else if (gameServer.opc[player.pID] == 2 && gameServer.config.antimatter == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot Anti-Matter food");
@@ -273,7 +273,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
         gameServer.pop[player.pID] = 1;
         gameServer.ejecttMass(player);
 
-    } else if (gameServer.opc[player.pID] == 3) {
+    } else if (gameServer.opc[player.pID] == 3 && gameServer.config.killvirus == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot a kill virus");
@@ -327,7 +327,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
                 }
             }
         }, 1);
-    } else  if (gameServer.opc[player.pID] == 4) {
+    } else  if (gameServer.opc[player.pID] == 4 && gameServer.config.kickvirus == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot a Kick virus");
