@@ -167,8 +167,10 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
                 speed = 250;
             } else if (splitMass < 3000) {
                 speed = 310;
-            } else {
-                speed = 370;
+            } else if (splitMass < 4000) {
+                speed = 380
+                } else {
+                speed = 450;
             }
             gameServer.newCellVirused(client, consumer, angle, splitMass, speed);
             consumer.mass -= splitMass;
