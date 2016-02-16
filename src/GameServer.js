@@ -52,7 +52,8 @@ function GameServer() {
     this.lastPlayerId = 1;
     this.clients = [];
     this.oldtopscores = {
-        score: 100,name:"none"
+        score: 100,
+        name: "none"
     };
     this.nodes = [];
     this.nodesVirus = []; // Virus nodes
@@ -319,42 +320,41 @@ GameServer.prototype.start = function() {
 
         // Done
         var fs = require("fs"); // Import the util library
-try { 
-      if (!fs.existsSync('customskins.txt')) {
-        console.log("[Console] Generating customskin.txt...");
-        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-     fs.writeFileSync('customskins.txt', body);
-      
-  } else {
-  	console.log("[Update] Could not fetch data from servers... will generate empty file");
-  	fs.writeFileSync('customskins.txt', "");
-  }
-}); 
-        
-    }
-        var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
-            return x != ''; // filter empty names
-        });
+        try {
+            if (!fs.existsSync('customskins.txt')) {
+                console.log("[Console] Generating customskin.txt...");
+                request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function(error, response, body) {
+                    if (!error && response.statusCode == 200) {
 
-           
-        for (var i in loadskins) {
-            var custom = loadskins[i].split(" "); 
-            this.skinshortcut[i] = custom[0];
-            this.skin[i] = custom[1];
+                        fs.writeFileSync('customskins.txt', body);
+
+                    } else {
+                        console.log("[Update] Could not fetch data from servers... will generate empty file");
+                        fs.writeFileSync('customskins.txt', "");
+                    }
+                });
+
+            }
+            var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+                return x != ''; // filter empty names
+            });
+
+            for (var i in loadskins) {
+                var custom = loadskins[i].split(" ");
+                this.skinshortcut[i] = custom[0];
+                this.skin[i] = custom[1];
+            }
+        } catch (e) {
+
         }
-} catch (e) {
-    
-}
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
         Cell.spi = this.config.SpikedCells
         if (this.config.anounceHighScore == 1) {
-        var execute = this.commands["announce"];
-        execute(this, "");
+            var execute = this.commands["announce"];
+            execute(this, "");
         }
-        
+
         // Player bots (Experimental)
         if (this.config.serverBots > 0) {
             for (var i = 0; i < this.config.serverBots; i++) {
@@ -371,25 +371,25 @@ try {
         if (this.config.notifyupdate == 1) {
             var request = require('request');
             var game = this;
-        request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    
-      
-      if (body.replace('\n','') != "7.9.4") {
-          
-      console.log("\x1b[31m[Console] We have detected a update, Current version: 7.9.4 ,Available: "+ body.replace('\n',''));
-          
-          if (game.config.autoupdate == 1){
-            console.log("[Console] Initiating Autoupdate\x1b[0m");
-            var split = [];
-            split[1] = "yes"
-            var execute = game.commands["update"];
-            execute(game, split);
-          } else {
-          console.log("[Console] To update quickly, use the update command!\x1b[0m");
-      }}
-  }
-});
+            request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+
+                    if (body.replace('\n', '') != "7.9.4") {
+
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 7.9.4 ,Available: " + body.replace('\n', ''));
+
+                        if (game.config.autoupdate == 1) {
+                            console.log("[Console] Initiating Autoupdate\x1b[0m");
+                            var split = [];
+                            split[1] = "yes"
+                            var execute = game.commands["update"];
+                            execute(game, split);
+                        } else {
+                            console.log("[Console] To update quickly, use the update command!\x1b[0m");
+                        }
+                    }
+                }
+            });
         }
     }.bind(this));
 
@@ -413,7 +413,7 @@ try {
 
     function connectionEstablished(ws) {
         if (this.clients.length >= this.config.serverMaxConnections) { // Server full
-             ws.close();
+            ws.close();
             return;
         }
 
@@ -442,7 +442,7 @@ try {
 
             this.nospawn[ws._socket.remoteAddress] = true;
 
-             if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1) ) {
+            if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1)) {
                 if (this.config.showbmessage == 1) {
                     console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
                 } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
@@ -458,7 +458,7 @@ try {
                     if (c.remoteAddress == ws._socket.remoteAddress) {
 
                         //this.socket.close();
-                         c.close(); // Kick out
+                        c.close(); // Kick out
                     }
                 }
             }
@@ -638,7 +638,7 @@ GameServer.prototype.liveconsole = function() {
         var line2 = "       Uptime:      " + process.uptime() + "                    ";
         var line3 = "       Memory:      " + process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
         var line4 = "       Banned:      " + this.banned.length + "        ";
-        var line5 = "       Highscore:   "+this.topscore+ " By " + this.topusername + "      ";
+        var line5 = "       Highscore:   " + this.topscore + " By " + this.topusername + "      ";
         var line6 = "                                                ";
     }
     if (this.firstl) {
@@ -668,7 +668,7 @@ GameServer.prototype.liveconsole = function() {
     process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
     process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
     process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
-    
+
     if (this.red) {
         process.stdout.write("\x1b[31m\r");
     }
@@ -735,9 +735,9 @@ GameServer.prototype.getRandomSpawn = function() {
     return pos;
 };
 
-GameServer.prototype.getRandomColor = function () {
+GameServer.prototype.getRandomColor = function() {
     var colorRGB = [0xFF, 0x07, ((Math.random() * (256 - 7)) >> 0) + 7];
-    colorRGB.sort(function () {
+    colorRGB.sort(function() {
         return 0.5 - Math.random()
     });
 
@@ -835,7 +835,7 @@ GameServer.prototype.mainLoop = function() {
     var local = new Date();
     this.tick += (local - this.time);
     this.time = local;
-    
+
     if (this.tick >= 50) {
         // Loop main functions
         if (this.run) {
@@ -855,46 +855,47 @@ GameServer.prototype.mainLoop = function() {
         this.tickMain++;
         var count = 0;
         for (var i in this.rnodes) {
-        node = this.rnodes[i];
+            node = this.rnodes[i];
 
-        if (!node) {
-            continue;
+            if (!node) {
+                continue;
+            }
+
+            count++;
+
+            if (typeof node.rainbow == 'undefined') {
+                node.rainbow = Math.floor(Math.random() * this.colors.length);
+            }
+
+            if (node.rainbow >= this.colors.length) {
+                node.rainbow = 0;
+            }
+
+            node.color = this.colors[node.rainbow];
+            node.rainbow += 1;
         }
 
-        count++;
-
-    if (typeof node.rainbow == 'undefined') {
-            node.rainbow = Math.floor(Math.random() * this.colors.length);
-    }
-
-    if (node.rainbow >= this.colors.length) {
-        node.rainbow = 0;
-    }
-
-    node.color = this.colors[node.rainbow];
-    node.rainbow += 1;
-    }
-        
         if (count <= 0) {
             this.rnodes = [];
         }
-            
+
         if (this.tickMain >= 20) { // 1 Second
             for (var i in this.clients) {
                 if (typeof this.clients[i] != "undefined") {
-            if (this.clients[i].playerTracker.rainbowon) {
-                var client = this.clients[i].playerTracker;
-                for (var j in client.cells) {
-                    this.rnodes[client.cells[j].nodeId] = client.cells[j];
+                    if (this.clients[i].playerTracker.rainbowon) {
+                        var client = this.clients[i].playerTracker;
+                        for (var j in client.cells) {
+                            this.rnodes[client.cells[j].nodeId] = client.cells[j];
+                        }
+                    }
                 }
-            }   
-            }}
+            }
             if (this.rnodes > 0) {
-                
+
                 if (this.rrticks > 40) {
-                this.rrticks = 0;
+                    this.rrticks = 0;
                     this.rnodes = [];
-                
+
                 } else {
                     this.rrticks++;
                 }
@@ -906,18 +907,18 @@ GameServer.prototype.mainLoop = function() {
 
             this.tickMain = 0; // Reset
             if (!this.gameMode.specByLeaderboard) {
-            // Get client with largest score if gamemode doesn't have a leaderboard
-                 var lC;
+                // Get client with largest score if gamemode doesn't have a leaderboard
+                var lC;
                 var lCScore = 0;
                 for (var i = 0; i < this.clients.length; i++) {
-                     // if (typeof this.clients[i].getScore == 'undefined') continue;
-                     if (this.clients[i].playerTracker.getScore(true) > lCScore) {
-                         lC = this.clients[i];
-                         lCScore = this.clients[i].playerTracker.getScore(true);
-                     }
-                 }
-                 this.largestClient = lC;
-             } else this.largestClient = this.leaderboard[0];
+                    // if (typeof this.clients[i].getScore == 'undefined') continue;
+                    if (this.clients[i].playerTracker.getScore(true) > lCScore) {
+                        lC = this.clients[i];
+                        lCScore = this.clients[i].playerTracker.getScore(true);
+                    }
+                }
+                this.largestClient = lC;
+            } else this.largestClient = this.leaderboard[0];
         }
 
         // Debug
@@ -951,8 +952,8 @@ GameServer.prototype.mainLoop = function() {
 GameServer.prototype.resetlb = function() {
     // Replace functions
     var gm = Gamemode.get(this.gameMode.ID);
-        this.gameMode.packetLB = gm.packetLB;
-        this.gameMode.updateLB = gm.updateLB;
+    this.gameMode.packetLB = gm.packetLB;
+    this.gameMode.updateLB = gm.updateLB;
 };
 
 GameServer.prototype.updateClients = function() {
@@ -991,28 +992,27 @@ GameServer.prototype.spawnFood = function() {
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     if (this.nospawn[player.socket.remoteAddress] != true) {
         if (this.config.skins == 1) {
-            
+
             if (player.name.substr(0, 1) == "<") {
                 // Premium Skin
                 var n = player.name.indexOf(">");
                 if (n != -1) {
 
                     if (player.name.substr(1, n - 1) == "r") {
-                         player.rainbowon = true;
+                        player.rainbowon = true;
                     } else {
-                      player.premium = '%' + player.name.substr(1, n - 1);
+                        player.premium = '%' + player.name.substr(1, n - 1);
                     }
-                    
+
                     for (var i in this.skinshortcut) {
-                     if (!this.skinshortcut[i] || !this.skin[i]) {
-                      continue;   
-                    }
+                        if (!this.skinshortcut[i] || !this.skin[i]) {
+                            continue;
+                        }
                         if (player.name.substr(1, n - 1) == this.skinshortcut[i]) {
-                         player.premium = this.skin[i]; 
+                            player.premium = this.skin[i];
                             break;
                         }
-                        
-                        
+
                     }
                     player.name = player.name.substr(n + 1);
                 }
@@ -1020,28 +1020,28 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                 // Premium Skin
                 var n = player.name.indexOf("]");
                 if (n != -1) {
-                    
+
                     player.premium = ':http://' + player.name.substr(1, n - 1);
                     player.name = player.name.substr(n + 1);
                 }
-            } 
+            }
         }
-    if (pos == null) { // Get random pos
-        pos = this.getRandomSpawn();
-    }
-    if (mass == null) { // Get starting mass
-        mass = this.config.playerStartMass;
-    }
+        if (pos == null) { // Get random pos
+            pos = this.getRandomSpawn();
+        }
+        if (mass == null) { // Get starting mass
+            mass = this.config.playerStartMass;
+        }
 
-    // Spawn player and add to world
-    var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
-    this.addNode(cell);
+        // Spawn player and add to world
+        var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
+        this.addNode(cell);
 
-    // Set initial mouse coords
-    player.mouse = {
-        x: pos.x,
-        y: pos.y
-    };
+        // Set initial mouse coords
+        player.mouse = {
+            x: pos.x,
+            y: pos.y
+        };
     }
 };
 
@@ -1212,7 +1212,7 @@ GameServer.prototype.splitCells = function(client) {
         split.setAngle(angle);
         // Polyfill for log10
         Math.log10 = Math.log10 || function(x) {
-          return Math.log(x) / Math.LN10;
+            return Math.log(x) / Math.LN10;
         };
         var splitSpeed = this.config.splitSpeed * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
         split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
@@ -1269,22 +1269,22 @@ GameServer.prototype.ejecttMass = function(client) {
     }
 };
 
-GameServer.prototype.customLB = function(newLB,gameServer) {
+GameServer.prototype.customLB = function(newLB, gameServer) {
     gameServer.gameMode.packetLB = 48;
     gameServer.gameMode.specByLeaderboard = false;
     gameServer.gameMode.updateLB = function(gameServer) {
-    gameServer.leaderboard = newLB
+        gameServer.leaderboard = newLB
     };
 };
 
 GameServer.prototype.anounce = function() {
-   var newLB = [];
-   newLB[0] = "Highscore:";
-   newLB[1] = this.topscore;
-   newLB[2] = "  By  ";
-   newLB[3] = this.topusername;
+    var newLB = [];
+    newLB[0] = "Highscore:";
+    newLB[1] = this.topscore;
+    newLB[2] = "  By  ";
+    newLB[3] = this.topusername;
 
-   this.customLB(this.config.anounceDuration * 1000, newLB, this);
+    this.customLB(this.config.anounceDuration * 1000, newLB, this);
 };
 
 GameServer.prototype.ejectMass = function(client) {
@@ -1333,10 +1333,10 @@ GameServer.prototype.ejectMass = function(client) {
         this.setAsMovingNode(ejected);
         ejectedCells++;
     }
-   if (ejectedCells > 0) {
+    if (ejectedCells > 0) {
         client.actionMult += 0.065;
         // Using W to give to a teamer is very frequent, so make sure their mult will be lost slower
-      client.actionDecayMult *= 0.99999;
+        client.actionDecayMult *= 0.99999;
     }
 };
 
@@ -1346,7 +1346,7 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
         x: parent.position.x,
         y: parent.position.y
     };
-    
+
     // Create cell
     newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
@@ -1366,14 +1366,14 @@ GameServer.prototype.newCellVirused = function(client, parent, angle, mass, spee
         x: parent.position.x,
         y: parent.position.y
     };
-    
+
     // Create cell
     newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
     newCell.ignoreCollision = true; // Remove collision checks
-    
+
     // Add to moving cells list
     this.addNode(newCell);
     this.setAsMovingNode(newCell);
@@ -1455,7 +1455,7 @@ GameServer.prototype.getCellsInRange = function(cell) {
                 break;
             case 5: // Beacon
                 // This cell cannot be destroyed
-                 continue;
+                continue;
             case 0: // Players
                 // Can't eat self if it's not time to recombine yet
                 if (check.owner == cell.owner) {
@@ -1544,7 +1544,7 @@ GameServer.prototype.updateCells = function() {
     }
 
     // Loop through all player cells
-    
+
     for (var i = 0; i < this.nodesPlayer.length; i++) {
         var cell = this.nodesPlayer[i];
 
@@ -1574,14 +1574,14 @@ GameServer.prototype.updateCells = function() {
 
         // Mass decay
         if (cell.mass >= this.config.playerMinMassDecay) {
-             var client = cell.owner;
+            var client = cell.owner;
             if (this.config.teaming == 0) {
                 var teamMult = (client.massDecayMult - 1) / 160 + 1; // Calculate anti-teaming multiplier for decay
                 var thisDecay = 1 - massDecay * (1 / teamMult); // Reverse mass decay and apply anti-teaming multiplier
                 cell.mass *= (1 - thisDecay);
             } else {
-            // No anti-team
-    cell.mass *= massDecay;
+                // No anti-team
+                cell.mass *= massDecay;
             }
         }
     }
