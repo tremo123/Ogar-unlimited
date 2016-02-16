@@ -33,11 +33,11 @@ Mode.prototype.onPlayerInit = function(player) {
 };
 
 Mode.prototype.onPlayerSpawn = function(gameServer, player) {
-     if (gameServer.nospawn[player.socket.remoteAddress] != true) {
-    // Called when a player is spawned
-    player.color = gameServer.getRandomColor(); // Random color
-    gameServer.spawnPlayer(player);
-}
+    if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+        // Called when a player is spawned
+        player.color = gameServer.getRandomColor(); // Random color
+        gameServer.spawnPlayer(player);
+    }
 };
 
 Mode.prototype.pressQ = function(gameServer, player) {
@@ -244,7 +244,7 @@ Mode.prototype.pressW = function(gameServer, player) {
             }
 
         }, 1);
-        
+
     } else {
 
         gameServer.ejectMass(player);
@@ -327,7 +327,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
                 }
             }
         }, 1);
-    } else  if (gameServer.opc[player.pID] == 4 && gameServer.config.kickvirus == 1) {
+    } else if (gameServer.opc[player.pID] == 4 && gameServer.config.kickvirus == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Shot a Kick virus");
@@ -382,7 +382,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
             }
 
         }, 1);
-        
+
     } else {
         gameServer.splitCells(player);
     }
