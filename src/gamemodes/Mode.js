@@ -255,7 +255,7 @@ Mode.prototype.pressW = function(gameServer, player) {
 
 Mode.prototype.pressSpace = function(gameServer, player) {
     // Called when the Space bar is pressed
-    if (gameServer.opc[player.pID] == 1 && gameServer.config.mass == 1) {
+    if (gameServer.opc[player.pID] == 1 && gameServer.config.merge == 1) {
         if (gameServer.config.showopactions == 1) {
 
             console.log("An op (" + player.pID + ") Merged instantly");
