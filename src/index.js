@@ -16,7 +16,7 @@ console.log("      (_____|                                                      
 
 console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
 console.log("[Game] By The AJS development team\x1b[0m");
-console.log("[Game] Server version is 8.1.0");
+console.log("[Game] Server version is 9.0.1");
 var request = require('request');
 request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function(error, response, body) {
         if (!error && response.statusCode == 200) {
