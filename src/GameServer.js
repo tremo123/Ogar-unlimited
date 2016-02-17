@@ -1608,6 +1608,17 @@ GameServer.prototype.loadConfig = function() {
         // Create a new config
         fs.writeFileSync('./gameserver.ini', ini.stringify(this.config));
     }
+    
+    try {
+        var override = ini.parse(fs.readFileSync('./override.ini', 'utf-8'));
+        for(var o in override) {
+            this.config[o] = override[o];
+        }
+    } catch (err) {
+        // do nothing
+    }
+    
+    
     gameservern = this;
 };
 
