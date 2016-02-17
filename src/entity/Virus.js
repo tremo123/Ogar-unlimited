@@ -120,7 +120,10 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
         // Cell consumes mass and then splits
         consumer.addMass(this.mass);
 
-        var maxSplits = Math.floor(consumer.mass / 16) - 1; // Maximum amount of splits
+        var maxSplits = Math.round((0.00010271719068483477) * consumer.mass * consumer.mass - 0.03018601441250582 * consumer.mass + 10.188261351052049); // Maximum amount of splits
+       if (maxSplits > gameServer.config.playerMaxCells) {
+maxSplits = gameServer.config.playerMaxCells;
+}
         var numSplits = gameServer.config.playerMaxCells - client.cells.length; // Get number of splits
         numSplits = Math.min(numSplits, maxSplits);
         var splitMass = Math.min(consumer.mass / (numSplits + 1), 36); // Maximum size of new splits
