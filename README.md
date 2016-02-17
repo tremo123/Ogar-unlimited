@@ -18,7 +18,7 @@ This Modified copy was created to help those who want to open their server to th
  8. Autoban option (see gameserver.ini)
  9. More control (gameserver.ini)
  10. and other features such as merge or nojoin or kick/killrange
- 11. Better physics (ejected mass and split)
+ 11. Better physics (ejected mass and split and virus)
  12. Colortext command (Changes console output color and style)
  13. Live Console (see gameserver.ini, where a live console appears) NOTE: this is way different that Ogarserv's Console
  14. Restart. Make it restart automatically or restart manually, Only works if use windows start script
