@@ -1615,6 +1615,7 @@ GameServer.prototype.loadConfig = function() {
             this.config[o] = override[o];
         }
     } catch (err) {
+        console.log("[Game] Override not found... Generating new override");
         fs.writeFileSync('./override.ini',"// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
        
     }
