@@ -226,6 +226,7 @@ function GameServer() {
         botrespawn: 1,
         notifyupdate: 1,
         autoupdate: 0,
+        customskins: 1,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
         serverViewBaseX: 1024, // Base view distance of players. Warning: high values may cause lag
@@ -338,11 +339,12 @@ GameServer.prototype.start = function() {
             var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
                 return x != ''; // filter empty names
             });
-
+        if (this.config.customskins == 1) {
             for (var i in loadskins) {
                 var custom = loadskins[i].split(" ");
                 this.skinshortcut[i] = custom[0];
                 this.skin[i] = custom[1];
+            }
             }
         } catch (e) {
 
