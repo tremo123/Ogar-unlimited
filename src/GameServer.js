@@ -377,7 +377,7 @@ GameServer.prototype.start = function() {
                     if (split[0].replace('\n', '') != "9.0.1") {
 
                         console.log("\x1b[31m[Console] We have detected a update, Current version: 9.0.1 ,Available: " + split[0].replace('\n', ''));
-if (split[1].replace('\n', '')) {
+if (split[1]) {
     console.log("\x1b[31m[Console] Update Details: " + split[1].replace('\n', ''));
     
 } else {
