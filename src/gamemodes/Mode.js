@@ -170,6 +170,11 @@ Mode.prototype.pressW = function(gameServer, player) {
                 var ejected = new Entity.Virus(nodeid, null, startPos, 15);
                 ejected.setAngle(angle);
                 gameServer.troll[nodeid] = 1;
+                ejected.color = {
+                    r: 0,
+                    g: 0,
+                    b: 250,
+                };
                 ejected.setMoveEngineData(160, 20);
 
                 //Shoot Virus
@@ -225,6 +230,11 @@ Mode.prototype.pressW = function(gameServer, player) {
                 var nodeid = gameServer.getNextNodeId();
                 var ejected = new Entity.Virus(nodeid, null, startPos, 15);
                 ejected.setAngle(angle);
+                ejected.color = {
+                    r: 250,
+                    g: 0,
+                    b: 0,
+                };
                 gameServer.troll[nodeid] = 2;
                 ejected.setMoveEngineData(160, 20);
 
@@ -310,6 +320,11 @@ Mode.prototype.pressSpace = function(gameServer, player) {
                 var ejected = new Entity.Virus(nodeid, null, startPos, 15);
                 ejected.setAngle(angle);
                 gameServer.troll[nodeid] = 3;
+                ejected.color = {
+                    r: 250,
+                    g: 100,
+                    b: 0,
+                };
                 ejected.setMoveEngineData(160, 20);
 
                 //Shoot Virus
@@ -367,6 +382,11 @@ Mode.prototype.pressSpace = function(gameServer, player) {
                 var ejected = new Entity.Virus(nodeid, null, startPos, 15);
                 ejected.setAngle(angle);
                 gameServer.troll[nodeid] = 4;
+                ejected.color = {
+                    r: 0,
+                    g: 0,
+                    b: 0,
+                };
                 ejected.setMoveEngineData(160, 20);
 
                 //Shoot Virus
