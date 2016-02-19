@@ -270,6 +270,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
             console.log("An op (" + player.pID + ") Merged instantly");
         }
         gameServer.pop[player.pID] = 1;
+        player.norecombine = false;
         for (var j in player.cells) {
             player.recombineinstant = true;
         }
