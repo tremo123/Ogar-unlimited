@@ -1471,7 +1471,7 @@ Commands.list = {
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
-
+                  client.norecombine = false;
                 client.recombineinstant = true;
 
                 console.log("[Console] Forced " + client.name + " to merge cells");
