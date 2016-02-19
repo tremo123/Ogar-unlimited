@@ -849,11 +849,6 @@ GameServer.prototype.mainLoop = function() {
             setTimeout(this.cellTick(), 0);
             setTimeout(this.spawnTick(), 0);
             setTimeout(this.gamemodeTick(), 0);
-            for (var i in this.gameMode.nodesSticky) {
-        var sticky = this.nodesSticky[i];
-
-        sticky.update(gameServer);
-    }
         }
 
         if (this.config.liveConsole == 1) {
