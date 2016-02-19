@@ -998,6 +998,7 @@ GameServer.prototype.spawnFood = function() {
 
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     if (this.nospawn[player.socket.remoteAddress] != true) {
+        player.norecombine = false;
         if (this.config.skins == 1) {
 
             if (player.name.substr(0, 1) == "<") {
