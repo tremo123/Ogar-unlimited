@@ -115,7 +115,7 @@ Commands.list = {
             return;
         }
         
-        if (isNaN(id))
+        if (isNaN(id)) {
             console.log("[Console] Please specify a valid id!");
             return;
             }
