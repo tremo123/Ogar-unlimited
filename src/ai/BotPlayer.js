@@ -85,10 +85,10 @@ BotPlayer.prototype.update = function() { // Overrides the update function from 
         }
     }
 
-    // Update randomly
+    // Update
     if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
         this.visibleNodes = this.calcViewBox();
-        this.tickViewBox = (Math.random() * 12) >> 0;
+        this.tickViewBox = this.gameServer.config.botupdate
     } else {
         this.tickViewBox--;
         return;
