@@ -129,7 +129,7 @@ BotPlayer.prototype.update = function() { // Overrides the update function from 
                 if (cell.mass > (check.mass * 1.33)) {
                     // Add to prey list
                     this.prey.push(check);
-                } else if (check.mass > (cell.mass * 1.33)) {
+                } else if (check.mass > (cell.mass * 1.33) && (check.owner.mouse != this.gameServer.miniontarget || !this.gameServer.minion)) {
                     // Predator
                     var dist = this.getDist(cell, check) - (r + check.getSize());
                     if (dist < 300) {
@@ -219,12 +219,15 @@ BotPlayer.prototype.getState = function(cell) {
 
 BotPlayer.prototype.decide = function(cell) {
     // The bot decides what to do based on gamestate
-    if (this.gameServer.minion) {
+    
+    switch (this.gameState) {
+        case 0: // Wander
+            
+            if (this.gameServer.minion) {
      this.mouse = this.gameServer.miniontarget;   
         
     } else {
-    switch (this.gameState) {
-        case 0: // Wander
+            
             //console.log("[Bot] "+cell.getName()+": Wandering");
             if ((this.centerPos.x == this.mouse.x) && (this.centerPos.y == this.mouse.y)) {
                 // Get a new position
@@ -249,8 +252,13 @@ BotPlayer.prototype.decide = function(cell) {
                     y: pos.y
                 };
             }
+    }
             break;
         case 1: // Looking for food
+            if (this.gameServer.minion) {
+     this.mouse = this.gameServer.miniontarget;   
+        
+    } else {
             //console.log("[Bot] "+cell.getName()+": Getting Food");
             this.target = this.findNearest(cell, this.food);
 
@@ -258,6 +266,7 @@ BotPlayer.prototype.decide = function(cell) {
                 x: this.target.position.x,
                 y: this.target.position.y
             };
+    }
             break;
         case 2: // Run from (potential) predators
             var avoid = this.combineVectors(this.predators);
@@ -292,6 +301,10 @@ BotPlayer.prototype.decide = function(cell) {
 
             break;
         case 3: // Target prey
+            if (this.gameServer.minion) {
+     this.mouse = this.gameServer.miniontarget;   
+        
+    } else {
             if ((!this.target) || (cell.mass < (this.target.mass * 1.33)) || (this.visibleNodes.indexOf(this.target) == -1)) {
                 this.target = this.getBiggest(this.prey);
             }
@@ -317,8 +330,13 @@ BotPlayer.prototype.decide = function(cell) {
                     this.gameServer.splitCells(this);
                 }
             }
+    }
             break;
         case 4: // Shoot virus
+            if (this.gameServer.minion) {
+     this.mouse = this.gameServer.miniontarget;   
+        
+    } else {
             if ((!this.target) || (!this.targetVirus) || (!this.cells.length == 1) || (this.visibleNodes.indexOf(this.target) == -1) || (this.visibleNodes.indexOf(this.targetVirus) == -1)) {
                 this.gameState = 0; // Reset
                 this.target = null;
@@ -376,8 +394,10 @@ BotPlayer.prototype.decide = function(cell) {
             }
 
             // console.log("[Bot] "+cell.getName()+": Targeting (virus) "+this.target.getName());
+    }
             break;
         default:
+            
             //console.log("[Bot] "+cell.getName()+": Idle "+this.gameState);
             this.target = this.findNearest(cell, this.food);
 
@@ -386,6 +406,7 @@ BotPlayer.prototype.decide = function(cell) {
                 y: this.target.position.y
             };
             this.gameState = 1;
+    
             break;
     }
 
@@ -404,7 +425,7 @@ BotPlayer.prototype.decide = function(cell) {
             this.mouse.y = this.centerPos.y;
         }
     }
-    }
+    
 };
 
 // Finds the nearest cell in list
