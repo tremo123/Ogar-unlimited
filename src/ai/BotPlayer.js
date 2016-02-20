@@ -219,6 +219,10 @@ BotPlayer.prototype.getState = function(cell) {
 
 BotPlayer.prototype.decide = function(cell) {
     // The bot decides what to do based on gamestate
+    if (this.gameServer.minion) {
+     this.mouse = this.gameServer.miniontarget;   
+        
+    } else {
     switch (this.gameState) {
         case 0: // Wander
             //console.log("[Bot] "+cell.getName()+": Wandering");
@@ -399,6 +403,7 @@ BotPlayer.prototype.decide = function(cell) {
             this.mouse.x = this.centerPos.x;
             this.mouse.y = this.centerPos.y;
         }
+    }
     }
 };
 
