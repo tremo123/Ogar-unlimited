@@ -393,7 +393,7 @@ PlayerTracker.prototype.getSpectateNodes = function() {
         // TODO: Sort out switch between playerTracker.playerTracker.x and playerTracker.x problem.
         specPlayer = this.gameServer.largestClient;
         // Detect specByLeaderboard as player trackers are complicated
-        if (!this.gameServer.gameMode.specByLeaderboard && specPlayer) {
+        if (!this.gameServer.gameMode.specByLeaderboard && specPlayer && specPlayer.playerTracker) {
             // Get spectated player's location and calculate zoom amount
             var specZoom = Math.sqrt(100 * specPlayer.playerTracker.score);
             specZoom = Math.pow(Math.min(40.5 / specZoom, 1.0), 0.4) * 0.6;
