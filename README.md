@@ -24,6 +24,7 @@ This Modified copy was created to help those who want to open their server to th
  14. Restart. Make it restart automatically or restart manually, Only works if use windows start script
  15. skins, to use custom skins, do <skinname> and then your name. for example `<spy> lol` will give you spy skin with name of lol use `[website]` to use a custom skin from a website (you need to use a url shortener though)
  16. customskins (see custom skins)
+ 17. Minions: you can turn your server bots into minions
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
@@ -104,6 +105,8 @@ The current available console commands are listed here. Command names are not ca
    * Shows how to use OP
  - Announce
    * Starts the high score announce feature
+ - Minion [id]
+   * Turns your server bots into your minions. to turn off, leave id empty
  - Update
    * gets current version of ogar unlimited and replaces the old with the new
  - Changelog [page]
