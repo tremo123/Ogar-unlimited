@@ -224,6 +224,7 @@ function GameServer() {
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
         botrespawn: 1,
+        botupdate: 10,
         notifyupdate: 1,
         autoupdate: 0,
         customskins: 1,
