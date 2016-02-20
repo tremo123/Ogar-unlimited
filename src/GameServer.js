@@ -27,6 +27,8 @@ function GameServer() {
     this.nospawn = [];
     this.green = false;
     this.rrticks = 0;
+    this.minion = false;
+    this.miniontarget = {x: 0,y: 0};
     this.blue = false;
     this.bold = false;
     this.white = false;
