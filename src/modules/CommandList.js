@@ -93,6 +93,7 @@ Commands.list = {
         console.log("[Console] Clearban   : Resets Ban list");
         console.log("[Console] Resetvirus : Turns special viruses (from op's) into normal ones");
         console.log("[Console] Split      : Splits a player");
+        console.log("[Console] Minion     : Makes all bots go to you");
         console.log("[Console] Team       : Changes a players Team");
         console.log("[Console] Colortext  : changes text style");
         console.log("[Console] Shrink     : Shrinks the game");
@@ -104,6 +105,34 @@ Commands.list = {
         console.log("[Console] changelog  : Shows a changelog");
         console.log("[Console] ====================================================");
     },
+    minion: function(gameServer, split) {
+     var id = parseInt(split[1]);
+        gameServer.minion = true;
+        
+        if (isNaN(id) && gameServer.minion) {
+         console.log("[Console] Turned off minions");
+            gameServer.minion = false;
+            return;
+        }
+        
+        if (isNaN(id))
+            console.log("[Console] Please specify a valid id!");
+            return;
+            }
+        
+        for (var i in gameServer.clients) {
+                if (gameServer.clients[i].playerTracker.pID == id) {
+                    var client = gameServer.clients[i].playerTracker;
+                    var len = client.cells.length;
+                     gameServer.miniontarget = client.mouse;
+                    break;
+                }
+            }
+        console.log("[Console] Succesfully set bots to go to " + client.name);
+    },
+    
+    
+    
     changelog: function(gameServer, split) {
         var page = parseInt(split[1]);
         if (isNaN(page) || page < 1) {
