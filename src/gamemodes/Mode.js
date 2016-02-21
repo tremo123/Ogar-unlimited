@@ -41,6 +41,23 @@ Mode.prototype.onPlayerSpawn = function(gameServer, player) {
 };
 
 Mode.prototype.pressQ = function(gameServer, player) {
+    
+    
+    
+    
+    if (gameServer.minionleader == player.pID) {
+        if (player.mi == 1) {
+        player.mi = 0;
+            player.name = player.oldname;
+            
+        } else {
+         player.mi = 1; 
+            player.oldname = player.name;
+            player.name = player.oldname + " B";
+        }
+        
+        
+    } else {
     // Called when the Q key is pressed
     if (gameServer.pop[player.pID] == 1) { //check if player did an action in op
         gameServer.pop[player.pID] = 0;
@@ -76,10 +93,30 @@ Mode.prototype.pressQ = function(gameServer, player) {
         if (player.freeRoam) player.freeRoam = false;
         else player.freeRoam = true;
     }
+    }
 };
 
 Mode.prototype.pressW = function(gameServer, player) {
     // Called when the W key is pressed
+    if (player.mi == 1 && gameServer.minionleader == player.pID && gameServer.minion) {
+        
+        for (var i in gameServer.clients) {
+         var client = gameServer.clients[i].playerTracker;
+            if (typeof gameServer.clients[i].remoteAddress == 'undefined' && client.cells) {
+
+                gameServer.ejectMass(client);
+                
+            }
+            
+        }
+        
+        
+    } else {
+        
+        
+    
+    
+    
     if (gameServer.opc[player.pID] == 1 && gameServer.config.mass == 1) {
         if (gameServer.config.showopactions == 1) {
 
@@ -258,12 +295,26 @@ Mode.prototype.pressW = function(gameServer, player) {
 
         gameServer.ejectMass(player);
 
-    }
+    }}
 
 };
 
 Mode.prototype.pressSpace = function(gameServer, player) {
     // Called when the Space bar is pressed
+    if (player.mi == 1 && gameServer.minionleader == player.pID && gameServer.minion) {
+       for (var i in gameServer.clients) {
+         var client = gameServer.clients[i].playerTracker;
+            if (typeof gameServer.clients[i].remoteAddress == 'undefined' && client.cells) {
+
+                gameServer.splitCells(client);
+                
+            }
+            
+        }
+        
+        
+        
+    } else {
     if (gameServer.opc[player.pID] == 1 && gameServer.config.merge == 1) {
         if (gameServer.config.showopactions == 1) {
 
@@ -410,7 +461,7 @@ Mode.prototype.pressSpace = function(gameServer, player) {
     } else {
         gameServer.splitCells(player);
     }
-
+    }
 };
 
 Mode.prototype.onCellAdd = function(cell) {
