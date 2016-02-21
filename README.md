@@ -1,4 +1,4 @@
-# Ogar unlimited - More features such as Skins,Skinshortcuts,GameModes, OP, Commands, Anti-Bot Measures,Live Console and more!
+# Ogar unlimited - More features such as Skins,Skinshortcuts,GameModes, OP, Commands, Anti-Bot Measures,minions,Live Console and more!
 A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features like remote control similar to pocket dock console in pocketmine (maybe) im also probably going to add more commands and I will also add more things in OP. I am currently working on better Agar.io Physics. I will try to make the physics very much like the Official Agar.io physics
