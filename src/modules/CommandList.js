@@ -112,6 +112,7 @@ Commands.list = {
         if (isNaN(id) && gameServer.minion) {
          console.log("[Console] Turned off minions");
             gameServer.minion = false;
+            gameServer.minionleader = 0;
             return;
         }
         
@@ -125,6 +126,7 @@ Commands.list = {
                     var client = gameServer.clients[i].playerTracker;
                     var len = client.cells.length;
                      gameServer.miniontarget = client.mouse;
+                    gameServer.minionleader = client.pID;
                     break;
                 }
             }
