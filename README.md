@@ -24,7 +24,7 @@ This Modified copy was created to help those who want to open their server to th
  14. Restart. Make it restart automatically or restart manually, Only works if use windows start script
  15. skins, to use custom skins, do <skinname> and then your name. for example `<spy> lol` will give you spy skin with name of lol use `[website]` to use a custom skin from a website (you need to use a url shortener though)
  16. customskins (see custom skins)
- 17. Minions: you can turn your server bots into minions
+ 17. Minions: you can turn your server bots into minions. press q to enter minion control mode (a b will appear next to your name). w = eject, space = split. press q again to exit
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
