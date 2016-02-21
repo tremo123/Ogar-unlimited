@@ -6,6 +6,8 @@
    * Shows how to use OP
  - Announce
    * Starts the high score announce feature
+ - Minion [id]
+   * Turns your server bots into your minions. to turn off, leave id empty
  - Update
    * gets current version of ogar unlimited and replaces the old with the new
  - Changelog [page]
@@ -112,7 +114,7 @@ Id   | Name
 19. AnounceDuration: duration of announcement
 20. motherCellMassProtection: 1 , Stopping mothercells from being too big (0 to disable)
 21. motherCellMaxMass: 10000 ,Max mass of a mothercell
-22. botrespawn: If 1, bots automatically respawn (default), if 0, they dont respwan
+22. botrespawn: If 1, bots automatically respawn (default), if 0, they dont respawn
 
 ## OP
 
