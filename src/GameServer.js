@@ -19,6 +19,7 @@ function GameServer() {
     this.skinshortcut = [];
     this.skin = [];
     this.ipCounts = [];
+    this.minionleader;
     this.rnodes = [];
     this.lleaderboard = false;
     this.topscore = 50;
