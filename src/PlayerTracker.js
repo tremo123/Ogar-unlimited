@@ -10,6 +10,8 @@ function PlayerTracker(gameServer, socket) {
     this.rainbowon = false;
     this.mergeOverrideDuration = 0;
     this.recombineinstant = false;
+    this.mi = 0
+    this.oldname = "";
     this.norecombine = false;
     this.nodeAdditionQueue = [];
     this.premium = '';
