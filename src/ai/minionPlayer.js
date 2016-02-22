@@ -1,13 +1,12 @@
 var PlayerTracker = require('../PlayerTracker');
 
-function minionPlayer(owner) {
+function minionPlayer() {
     PlayerTracker.apply(this, Array.prototype.slice.call(arguments));
     //this.color = gameServer.getRandomColor();
 
     // AI only
     this.gameState = 0;
     this.path = [];
-    this.owner = owner;
 
     this.predators = []; // List of cells that can eat this bot
     this.threats = []; // List of cells that can eat this bot but are too far away
