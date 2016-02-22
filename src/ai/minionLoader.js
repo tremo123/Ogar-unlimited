@@ -34,9 +34,9 @@ minionLoader.prototype.loadNames = function() {
     this.nameIndex = 0;
 };
 
-minionLoader.prototype.addBot = function() {
+minionLoader.prototype.addBot = function(owner) {
     var s = new FakeSocket(this.gameServer);
-    s.playerTracker = new BotPlayer(this.gameServer, s);
+    s.playerTracker = new BotPlayer(this.gameServer, s,owner);
     s.packetHandler = new PacketHandler(this.gameServer, s);
 
     // Add to client list
