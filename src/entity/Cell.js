@@ -1,11 +1,12 @@
 Cell.spi = 0;
+Cell.virusi = 255;
 
 function Cell(nodeId, owner, position, mass, gameServer) {
     this.nodeId = nodeId;
     this.owner = owner; // playerTracker that owns this cell
     this.color = {
         r: 0,
-        g: 255,
+        g: Cell.virusi,
         b: 0
     };
     this.position = position;
