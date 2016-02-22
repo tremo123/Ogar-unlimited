@@ -1997,10 +1997,6 @@ Commands.list = {
             console.log("[Console] Please specify a player!");
             return;
         }
-        if (!gameServer.clients[id - 1]) {
-            console.log("[Console] Client is nonexistent!");
-            return;
-        }
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
