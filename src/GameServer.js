@@ -261,6 +261,7 @@ function GameServer() {
         antimatter: 1,
         merge: 1,
         virus: 1,
+        clientclone: 0,
         mass: 1,
         killvirus: 1,
         kickvirus: 1,
@@ -431,7 +432,7 @@ if (split[1]) {
             ws.close();
             return;
         }
-
+     if (this.config.clientclone != 1) {
         // ----- Client authenticity check code -----
         // !!!!! WARNING !!!!!
         // THE BELOW SECTION OF CODE CHECKS TO ENSURE THAT CONNECTIONS ARE COMING
@@ -450,6 +451,7 @@ if (split[1]) {
             ws.close();
             return;
         }
+     }
         // -----/Client authenticity check code -----
         showlmsg = this.config.showjlinfo;
 
