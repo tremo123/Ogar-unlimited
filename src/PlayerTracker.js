@@ -1,7 +1,7 @@
 var Packet = require('./packet');
 var GameServer = require('./GameServer.js');
 
-function PlayerTracker(gameServer, socket) {
+function PlayerTracker(gameServer, socket, owner) {
     this.pID = -1;
     this.disconnect = -1; // Disconnection
     this.name = "";
@@ -11,6 +11,7 @@ function PlayerTracker(gameServer, socket) {
     this.mergeOverrideDuration = 0;
     this.recombineinstant = false;
     this.mi = 0
+    this.owner = owner
     this.oldname = "";
     this.norecombine = false;
     this.nodeAdditionQueue = [];
