@@ -228,6 +228,8 @@ function GameServer() {
         serverMaxConnections: 64, // Maximum amount of connections to the server.
         serverPort: 443, // Server port
         botrespawn: 1,
+        rainbow: 1,
+        rainbowspeed: 1,
         botupdate: 10,
         notifyupdate: 1,
         autoupdate: 0,
@@ -885,7 +887,7 @@ GameServer.prototype.mainLoop = function() {
             }
 
             node.color = this.colors[node.rainbow];
-            node.rainbow += 1;
+            node.rainbow += this.config.rainbowspeed;
         }
 
         if (count <= 0) {
@@ -1012,7 +1014,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                 var n = player.name.indexOf(">");
                 if (n != -1) {
 
-                    if (player.name.substr(1, n - 1) == "r") {
+                    if (player.name.substr(1, n - 1) == "r" && this.config.rainbow == 1) {
                         player.rainbowon = true;
                     } else {
                         player.premium = '%' + player.name.substr(1, n - 1);
