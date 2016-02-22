@@ -356,7 +356,8 @@ GameServer.prototype.start = function() {
         }
         console.log("[Game] Listening on port " + this.config.serverPort);
         console.log("[Game] Current game mode is " + this.gameMode.name);
-        Cell.spi = this.config.SpikedCells
+        Cell.spi = this.config.SpikedCells;
+        Cell.virusi = this.config.viruscolorintense;
         if (this.config.anounceHighScore == 1) {
             var execute = this.commands["announce"];
             execute(this, "");
