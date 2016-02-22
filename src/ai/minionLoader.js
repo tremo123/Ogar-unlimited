@@ -1,6 +1,6 @@
 // Project imports
 var BotPlayer = require('./minionPlayer');
-var FakeSocket = require('./FakeSocket');
+var FakeSocket = require('./minionSocket');
 var PacketHandler = require('../PacketHandler');
 
 function minionLoader(gameServer) {
