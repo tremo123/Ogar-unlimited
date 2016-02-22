@@ -1,5 +1,5 @@
 // Project imports
-var BotPlayer = require('./BotPlayer');
+var BotPlayer = require('./minionPlayer');
 var FakeSocket = require('./FakeSocket');
 var PacketHandler = require('../PacketHandler');
 
@@ -11,16 +11,7 @@ function minionLoader(gameServer) {
 module.exports = minionLoader;
 
 minionLoader.prototype.getName = function() {
-    var name = "";
-
-    // Picks a random name for the bot
-    if (this.randomNames.length > 0) {
-        var index = Math.floor(Math.random() * this.randomNames.length);
-        name = this.randomNames[index];
-        this.randomNames.splice(index, 1);
-    } else {
-        name = "bot" + ++this.nameIndex;
-    }
+    var name = this.gameServer.minionname;
 
     return name;
 };
