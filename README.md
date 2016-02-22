@@ -1,3 +1,5 @@
+# NOTE: PLEASE UPDATE YOUR FORKS AND YOUR SERVERS BECAUSE THE LICENSE CHANGED TO CONFORM WITH THE LAW
+
 # Ogar unlimited - More features such as Skins,Skinshortcuts,GameModes, OP, Commands, Anti-Bot Measures,minions,Live Console and more!
 A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
