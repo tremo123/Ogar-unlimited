@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node src/index.js"
+    "test": "sudo\node src/index.js"
   },
   "repository": {
     "type": "git",
