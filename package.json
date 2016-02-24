@@ -9,7 +9,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node src/build.js"
+    "test": "node src/build.js",
+    "start" : "sudo node src/index.js"
   },
   "repository": {
     "type": "git",
