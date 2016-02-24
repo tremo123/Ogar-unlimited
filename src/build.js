@@ -5,6 +5,6 @@ var gameServer = new GameServer();
 
 setTimeout(function() {
 	process.exit(0);
-}, 30000);
+}, 60000);
 
 process.exit(0);
