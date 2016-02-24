@@ -1,4 +1,4 @@
-script: sudo node src/index.js
+script: sudo -s | node src/index.js
 sudo: required
 language: node_js
 node_js:
