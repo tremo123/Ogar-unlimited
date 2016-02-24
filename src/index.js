@@ -83,6 +83,6 @@ function parseCommands(str) {
     if (typeof execute != 'undefined') {
         execute(gameServer, split);
     } else {
-        console.log("[Console] Invalid Command , try \u001B[33mhelp\u001B[0m for a list of commands.");
+        console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
     }
 };
