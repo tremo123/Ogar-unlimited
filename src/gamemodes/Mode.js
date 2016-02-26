@@ -45,7 +45,7 @@ Mode.prototype.pressQ = function(gameServer, player) {
     
     
     
-    if (gameServer.minionleader == player.pID) {
+    if (player.minioncontrol) {
         if (player.mi == 1) {
         player.mi = 0;
             player.name = player.oldname;
@@ -98,11 +98,11 @@ Mode.prototype.pressQ = function(gameServer, player) {
 
 Mode.prototype.pressW = function(gameServer, player) {
     // Called when the W key is pressed
-    if (player.mi == 1 && gameServer.minionleader == player.pID && gameServer.minion) {
+    if (player.mi == 1 && player.minioncontrol) {
         
         for (var i in gameServer.clients) {
          var client = gameServer.clients[i].playerTracker;
-            if (typeof gameServer.clients[i].remoteAddress == 'undefined' && client.cells) {
+            if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
 
                 gameServer.ejectMass(client);
                 
@@ -301,10 +301,10 @@ Mode.prototype.pressW = function(gameServer, player) {
 
 Mode.prototype.pressSpace = function(gameServer, player) {
     // Called when the Space bar is pressed
-    if (player.mi == 1 && gameServer.minionleader == player.pID && gameServer.minion) {
+    if (player.mi == 1 && player.minioncontrol) {
        for (var i in gameServer.clients) {
          var client = gameServer.clients[i].playerTracker;
-            if (typeof gameServer.clients[i].remoteAddress == 'undefined' && client.cells) {
+            if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
 
                 gameServer.splitCells(client);
                 
