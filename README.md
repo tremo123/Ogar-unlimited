@@ -109,7 +109,7 @@ The current available console commands are listed here. Command names are not ca
  - Announce
    * Starts the high score announce feature
  - Minion [id] [minionnames] [number]
-   * creates minions. to turn off, leave minionnames and number empty
+   * creates minions. to turn off, for a player do minion [id]. to destroy all minions do minion destroy
  - Update
    * gets current version of ogar unlimited and replaces the old with the new
  - Changelog [page]
