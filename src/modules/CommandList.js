@@ -106,6 +106,11 @@ Commands.list = {
         console.log("[Console] ====================================================");
     },
     minion: function(gameServer, split) {
+        if (split[1] == "destroy") {
+        gameServer.destroym = true;
+        console.log("[Console] Succesfully destroyed all minions");
+        return;
+        }
      var id = parseInt(split[1]);
         var name = split[2];
         var add = parseInt(split[3]);
@@ -121,7 +126,7 @@ Commands.list = {
         for (var i in gameServer.clients) {
                 if (gameServer.clients[i].playerTracker.pID == id) {
                     var client = gameServer.clients[i].playerTracker;
-                    if (client.minioncontrol == true) {
+                    if (client.minioncontrol == true && isNaN(add)) {
                         client.minioncontrol = false;
                         client.mi = 0;
                          if (client.oldname) client.name = client.oldname
@@ -132,6 +137,7 @@ Commands.list = {
                     if (isNaN(add)) {
             add = 1; // Adds 1 bot if user doesnt specify a number
         }
+        gameServer.destroym = false;
         gameServer.livestage = 2;
         gameServer.liveticks = 0;
                     client.minioncontrol = true;
