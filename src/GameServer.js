@@ -12,6 +12,7 @@ var Entity = require('./entity');
 var Cell = require('./entity/Cell.js');
 var Gamemode = require('./gamemodes');
 var BotLoader = require('./ai/BotLoader');
+var minionLoader = require('./ai/minionLoader');
 var Logger = require('./modules/log');
 
 // GameServer implementation
@@ -192,6 +193,7 @@ function GameServer() {
 
     this.bots = new BotLoader(this);
     this.log = new Logger();
+    this.minions = new minionLoader(this);
     this.commands; // Command handler
 
     // Main loop tick
