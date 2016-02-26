@@ -107,30 +107,41 @@ Commands.list = {
     },
     minion: function(gameServer, split) {
      var id = parseInt(split[1]);
+        var name = split[2];
+        var add = parseInt(split[3]);
         gameServer.minion = true;
-        
-        if (isNaN(id) && gameServer.minion) {
-         console.log("[Console] Turned off minions");
-            gameServer.minion = false;
-            gameServer.minionleader = 0;
-            return;
-        }
         
         if (isNaN(id)) {
             console.log("[Console] Please specify a valid id!");
             return;
             }
+        if (!name) {name = "";}
+        
         
         for (var i in gameServer.clients) {
                 if (gameServer.clients[i].playerTracker.pID == id) {
                     var client = gameServer.clients[i].playerTracker;
-                    var len = client.cells.length;
-                     gameServer.miniontarget = client.mouse;
-                    gameServer.minionleader = client.pID;
+                    if (client.minioncontrol == true) {
+                        client.minioncontrol = false;
+                        client.mi = 0;
+                         if (client.oldname) client.name = client.oldname
+                    } else {
+                    
+                    
+                    if (isNaN(add)) {
+            add = 1; // Adds 1 bot if user doesnt specify a number
+        }
+        gameServer.livestage = 2;
+        gameServer.liveticks = 0;
+                    client.minioncontrol = true;
+        for (var i = 0; i < add; i++) {
+            gameServer.minions.addBot(client,name);
+        }
+                    console.log("[Console] Succesfully added " + add + " minions for " + client.name);
+                    }
                     break;
                 }
             }
-        console.log("[Console] Succesfully set bots to go to " + client.name);
     },
     
     
