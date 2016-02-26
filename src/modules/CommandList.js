@@ -93,7 +93,7 @@ Commands.list = {
         console.log("[Console] Clearban   : Resets Ban list");
         console.log("[Console] Resetvirus : Turns special viruses (from op's) into normal ones");
         console.log("[Console] Split      : Splits a player");
-        console.log("[Console] Minion     : Makes all bots go to you");
+        console.log("[Console] Minion     : Creates minions that suicide into you");
         console.log("[Console] Team       : Changes a players Team");
         console.log("[Console] Colortext  : changes text style");
         console.log("[Console] Shrink     : Shrinks the game");
