@@ -125,6 +125,7 @@ Commands.list = {
                         client.minioncontrol = false;
                         client.mi = 0;
                          if (client.oldname) client.name = client.oldname
+                         console.log("[Console] Succesfully removed minions for " + client.name);
                     } else {
                     
                     
