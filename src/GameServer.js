@@ -22,6 +22,7 @@ function GameServer() {
     this.ipCounts = [];
     this.minionleader;
     this.rnodes = [];
+    this.destroym = false;
     this.lleaderboard = false;
     this.topscore = 50;
     this.topusername = "None";
