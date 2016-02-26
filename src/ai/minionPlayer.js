@@ -77,8 +77,12 @@ minionPlayer.prototype.update = function() { // Overrides the update function fr
                 // If the bot cannot spawn any cells, then disconnect it
                 this.socket.close();
                 return;
-            }
+         }
     }
+    if (typeof this.owner == "undefined" || this.owner.minioncontrol == false) {
+     this.socket.close();   
+    }
+    
 
     // Update
     if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
