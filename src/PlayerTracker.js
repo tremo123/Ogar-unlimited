@@ -15,6 +15,7 @@ function PlayerTracker(gameServer, socket, owner) {
     this.oldname = "";
     this.norecombine = false;
     this.nodeAdditionQueue = [];
+    this.minioncontrol = false;
     this.premium = '';
     this.nodeDestroyQueue = [];
     this.visibleNodes = [];
