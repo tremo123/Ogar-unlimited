@@ -79,7 +79,7 @@ minionPlayer.prototype.update = function() { // Overrides the update function fr
                 return;
          }
     }
-    if (typeof this.owner == "undefined" || this.owner.minioncontrol == false) {
+    if (typeof this.owner == "undefined" || this.owner.minioncontrol == false || this.gameServer.destroym) {
      this.socket.close();   
     }
     
