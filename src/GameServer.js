@@ -763,7 +763,7 @@ var test = fs.readFileSync('./' + filed);
 } catch (err) {
     
 
-                fs.writeFileSync('/' + filed, body);
+                fs.writeFileSync('./' + filed, body);
 console.log("[Update] Downloaded " + filed);
 }
             }
