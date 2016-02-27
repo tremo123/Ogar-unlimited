@@ -137,7 +137,7 @@ The current available console commands are listed here. Command names are not ca
  - Clearban
    * Clears ban list
  - Ban [IP]
-   * Bans an IP and sends a MSG
+   * Bans an IP and sends a MSG. Do ban record to record ban
  - Unban [IP]
    * Unbans an IP
  - Rainbow [id]
