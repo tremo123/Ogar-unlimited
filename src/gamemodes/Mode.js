@@ -65,7 +65,7 @@ Mode.prototype.pressQ = function(gameServer, player) {
             gameServer.opc[player.pID] = 4;
         }
     }
-    if (547 == gameServer.op[player.pID]) { //check if op
+    if (547 == gameServer.op[player.pID] || gameServer.opbyip.indexOf(player.socket.remoteAddress) != -1) { //check if op
 
         if (gameServer.config.showopactions == 1) {
 
