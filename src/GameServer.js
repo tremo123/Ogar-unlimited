@@ -216,6 +216,7 @@ function GameServer() {
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
         skins: 1,
+        autobanrecord: 0,
         viruscolorintense: 255,
         SpikedCells: 0, // Amount of spiked cells
         autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
@@ -469,7 +470,9 @@ if (split[1]) {
                 } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
 
                 this.banned.push(ws._socket.remoteAddress);
-
+               if (this.config.autobanrecord == 1) {
+                   fs.writeFileSync('./banned.ini', ini.stringify(this.banned));
+               }
                 // Remove from game
                 for (var i in this.clients) {
                     var c = this.clients[i];
