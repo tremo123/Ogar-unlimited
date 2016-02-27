@@ -390,8 +390,8 @@ GameServer.prototype.start = function() {
                 if (!error && response.statusCode == 200) {
                     var split = body.split(" ");
                     if (split[0].replace('\n', '') != "9.0.2") {
-
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 9.0.2 ,Available: " + split[0].replace('\n', ''));
+var des = split.slice(2, split.length).join(' ');
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 9.0.2 ,Available: " + des.replace('\n', ''));
 if (split[1]) {
     console.log("\x1b[31m[Console] Update Details: " + split[1].replace('\n', ''));
     
