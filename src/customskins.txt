@@ -4,4 +4,4 @@ darkspy :http://i.imgur.com/OZdYBGu.png
 maxrage :http://i.imgur.com/oAOUyY0.gif
 troll :http://openclipart.org/image/2400px/svg_to_png/130795/Trollface.png
 pfudr :http://goo.gl/7KV7Ry
-transparent :http://d1v8u1ev1s9e4n.cloudfront.net/53fa6d12ddcb212b87b445a5
+transparent :http://www.transparenttextures.com/patterns/asfalt-light.png
