@@ -238,6 +238,8 @@ function GameServer() {
         notifyupdate: 1,
         autoupdate: 0,
         minionavoid: 1,
+        borderDec: 200,
+        porportional: 0,
         customskins: 1,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
@@ -504,12 +506,50 @@ if (split[1]) {
         if (this.config.showjlinfo == 1) {
             console.log("A player with an IP of " + ws._socket.remoteAddress + " joined the game");
         }
+        if (this.config.porportional == 1) {
+            this.config.borderLeft -= this.config.borderDec;
+        this.config.borderRight += this.config.borderDec;
+        this.config.borderTop -= this.config.borderDec;
+        this.config.borderBottom += this.config.borderDec;
+            
+            
+        }
 
         function close(error) {
             ipcounts[this.socket.remoteAddress]--;
             // Log disconnections
             if (showlmsg == 1) {
                 console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
+            }
+            if (gameServern.config.porportional == 1) {
+            gameServern.config.borderLeft += gameServern.config.borderDec;
+        gameServern.config.borderRight -= gameServern.config.borderDec;
+        gameServern.config.borderTop += gameServern.config.borderDec;
+        gameServenr.config.borderBottom -= gameServern.config.borderDec;
+
+        var len = gameServern.nodes.length;
+        for (var i = 0; i < len; i++) {
+            var node = gameServern.nodes[i];
+
+            if ((!node) || (node.getType() == 0)) {
+                continue;
+            }
+
+            // Move
+            if (node.position.x < gameServern.config.borderLeft) {
+                gameServern.removeNode(node);
+                i--;
+            } else if (node.position.x > gameServern.config.borderRight) {
+                gameServern.removeNode(node);
+                i--;
+            } else if (node.position.y < gameServern.config.borderTop) {
+                gameServern.removeNode(node);
+                i--;
+            } else if (node.position.y > gameServern.config.borderBottom) {
+                gameServern.removeNode(node);
+                i--;
+            }
+        }
             }
             this.server.log.onDisconnect(this.socket.remoteAddress);
 
@@ -1666,7 +1706,7 @@ GameServer.prototype.loadConfig = function() {
         fs.writeFileSync('./banned.ini', '');
     }
     
-    gameservern = this;
+    gameServern = this;
 };
 
 GameServer.prototype.switchSpectator = function(player) {
