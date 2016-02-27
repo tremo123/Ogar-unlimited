@@ -6,10 +6,12 @@
    * Shows how to use OP
  - Announce
    * Starts the high score announce feature
- - Minion [id]
-   * Turns your server bots into your minions. to turn off, leave id empty
+ - Minion [id] [minionnames] [number]
+   * creates minions. to turn off, for a player do minion [id]. to destroy all minions do minion destroy
  - Update
    * gets current version of ogar unlimited and replaces the old with the new
+ - Opbyip [command] [ip]
+   * Allows you to use the opbyip feature. the commands are add, remove, list, clear. This allows you to be automatically op based on your ip
  - Changelog [page]
    * Gets changelog from the servers
  - Explode [id]
@@ -35,7 +37,7 @@
  - Clearban
    * Clears ban list
  - Ban [IP]
-   * Bans an IP and sends a MSG
+   * Bans an IP and sends a MSG. Do ban record to record ban
  - Unban [IP]
    * Unbans an IP
  - Rainbow [id]
@@ -115,6 +117,8 @@ Id   | Name
 20. motherCellMassProtection: 1 , Stopping mothercells from being too big (0 to disable)
 21. motherCellMaxMass: 10000 ,Max mass of a mothercell
 22. botrespawn: If 1, bots automatically respawn (default), if 0, they dont respawn
+23. porportional: if 1, the game size will adjust to the amount of player. Can cause problems with veiwing borders
+24. other things i am too lazy
 
 ## OP
 
