@@ -754,7 +754,22 @@ GameServer.prototype.getRandomSpawn = function() {
 
     return pos;
 };
+GameServer.prototype.upextra = function(filed) {
+  request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                try {
+var test = fs.readFileSync('/' + filed);
+} catch (err) {
+    
 
+                fs.writeFileSync('/' + filed, body);
+console.log("[Update] Downloaded " + filed);
+}
+            }
+        });  
+    
+    
+};
 GameServer.prototype.getRandomColor = function() {
     var colorRGB = [0xFF, 0x07, ((Math.random() * (256 - 7)) >> 0) + 7];
     colorRGB.sort(function() {
