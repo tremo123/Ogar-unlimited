@@ -12,15 +12,18 @@ var Entity = require('./entity');
 var Cell = require('./entity/Cell.js');
 var Gamemode = require('./gamemodes');
 var BotLoader = require('./ai/BotLoader');
+var minionLoader = require('./ai/minionLoader');
 var Logger = require('./modules/log');
 
 // GameServer implementation
 function GameServer() {
     this.skinshortcut = [];
     this.skin = [];
+    this.opbyip = [];
     this.ipCounts = [];
     this.minionleader;
     this.rnodes = [];
+    this.destroym = false;
     this.lleaderboard = false;
     this.topscore = 50;
     this.topusername = "None";
@@ -192,6 +195,7 @@ function GameServer() {
 
     this.bots = new BotLoader(this);
     this.log = new Logger();
+    this.minions = new minionLoader(this);
     this.commands; // Command handler
 
     // Main loop tick
@@ -213,6 +217,7 @@ function GameServer() {
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
         skins: 1,
+        autobanrecord: 0,
         viruscolorintense: 255,
         SpikedCells: 0, // Amount of spiked cells
         autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
@@ -233,6 +238,9 @@ function GameServer() {
         botupdate: 10,
         notifyupdate: 1,
         autoupdate: 0,
+        minionavoid: 1,
+        borderDec: 200,
+        porportional: 0,
         customskins: 1,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
@@ -385,9 +393,9 @@ GameServer.prototype.start = function() {
             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var split = body.split(" ");
-                    if (split[0].replace('\n', '') != "9.0.2") {
-
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 9.0.2 ,Available: " + split[0].replace('\n', ''));
+                    if (split[0].replace('\n', '') != "10.0.0") {
+var des = split.slice(2, split.length).join(' ');
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.0.0 ,Available: " + des.replace('\n', ''));
 if (split[1]) {
     console.log("\x1b[31m[Console] Update Details: " + split[1].replace('\n', ''));
     
@@ -465,7 +473,9 @@ if (split[1]) {
                 } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
 
                 this.banned.push(ws._socket.remoteAddress);
-
+               if (this.config.autobanrecord == 1) {
+                   fs.writeFileSync('./banned.ini', ini.stringify(this.banned));
+               }
                 // Remove from game
                 for (var i in this.clients) {
                     var c = this.clients[i];
@@ -497,12 +507,50 @@ if (split[1]) {
         if (this.config.showjlinfo == 1) {
             console.log("A player with an IP of " + ws._socket.remoteAddress + " joined the game");
         }
+        if (this.config.porportional == 1) {
+            this.config.borderLeft -= this.config.borderDec;
+        this.config.borderRight += this.config.borderDec;
+        this.config.borderTop -= this.config.borderDec;
+        this.config.borderBottom += this.config.borderDec;
+            
+            
+        }
 
         function close(error) {
             ipcounts[this.socket.remoteAddress]--;
             // Log disconnections
             if (showlmsg == 1) {
                 console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
+            }
+            if (gameServern.config.porportional == 1) {
+            gameServern.config.borderLeft += gameServern.config.borderDec;
+        gameServern.config.borderRight -= gameServern.config.borderDec;
+        gameServern.config.borderTop += gameServern.config.borderDec;
+        gameServern.config.borderBottom -= gameServern.config.borderDec;
+
+        var len = gameServern.nodes.length;
+        for (var i = 0; i < len; i++) {
+            var node = gameServern.nodes[i];
+
+            if ((!node) || (node.getType() == 0)) {
+                continue;
+            }
+
+            // Move
+            if (node.position.x < gameServern.config.borderLeft) {
+                gameServern.removeNode(node);
+                i--;
+            } else if (node.position.x > gameServern.config.borderRight) {
+                gameServern.removeNode(node);
+                i--;
+            } else if (node.position.y < gameServern.config.borderTop) {
+                gameServern.removeNode(node);
+                i--;
+            } else if (node.position.y > gameServern.config.borderBottom) {
+                gameServern.removeNode(node);
+                i--;
+            }
+        }
             }
             this.server.log.onDisconnect(this.socket.remoteAddress);
 
@@ -751,7 +799,22 @@ GameServer.prototype.getRandomSpawn = function() {
 
     return pos;
 };
+GameServer.prototype.upextra = function(filed) {
+  request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                try {
+var test = fs.readFileSync('./' + filed);
+} catch (err) {
+    
 
+                fs.writeFileSync('./' + filed, body);
+console.log("[Update] Downloaded " + filed);
+}
+            }
+        });  
+    
+    
+};
 GameServer.prototype.getRandomColor = function() {
     var colorRGB = [0xFF, 0x07, ((Math.random() * (256 - 7)) >> 0) + 7];
     colorRGB.sort(function() {
@@ -1609,7 +1672,6 @@ GameServer.prototype.loadConfig = function() {
     try {
         // Load the contents of the config file
         var load = ini.parse(fs.readFileSync('./gameserver.ini', 'utf-8'));
-
         // Replace all the default config's values with the loaded config's values
         for (var obj in load) {
             this.config[obj] = load[obj];
@@ -1632,9 +1694,31 @@ GameServer.prototype.loadConfig = function() {
         fs.writeFileSync('./override.ini',"// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
        
     }
-    
-    
-    gameservern = this;
+    try {
+        var load = ini.parse(fs.readFileSync('./banned.ini', 'utf-8'));
+
+        for (var obj in load) {
+            if (obj.substr(0, 2) != "//") {
+                this.banned.push(load[obj]);
+            }
+        }
+    } catch (err) {
+        console.log("[Game] Banned.ini not found... Generating new banned.ini");
+        fs.writeFileSync('./banned.ini', '');
+    }
+     try {
+        var load = ini.parse(fs.readFileSync('./opbyip.ini', 'utf-8'));
+
+        for (var obj in load) {
+            if (obj.substr(0, 2) != "//") {
+                this.opbyip.push(load[obj]);
+            }
+        }
+    } catch (err) {
+        console.log("[Game] opbyip.ini not found... Generating new opbyip.ini");
+        fs.writeFileSync('./opbyip.ini', '');
+    }
+    gameServern = this;
 };
 
 GameServer.prototype.switchSpectator = function(player) {

@@ -88,12 +88,13 @@ Commands.list = {
         console.log("[Console] Rop        : Resets op");
         console.log("[Console] Op         : Makes that player OP");
         console.log("[Console] Dop        : De-Ops a player");
+        console.log("[Console] Opbyip     : Allows ypu to control the opbyip feature");
         console.log("[Console] Ban        : Bans an IP and senda a msg saying that person was banned");
         console.log("[Console] Banlist    : Lists banned IPs");
         console.log("[Console] Clearban   : Resets Ban list");
         console.log("[Console] Resetvirus : Turns special viruses (from op's) into normal ones");
         console.log("[Console] Split      : Splits a player");
-        console.log("[Console] Minion     : Makes all bots go to you");
+        console.log("[Console] Minion     : Creates minions that suicide into you");
         console.log("[Console] Team       : Changes a players Team");
         console.log("[Console] Colortext  : changes text style");
         console.log("[Console] Shrink     : Shrinks the game");
@@ -106,31 +107,55 @@ Commands.list = {
         console.log("[Console] ====================================================");
     },
     minion: function(gameServer, split) {
-     var id = parseInt(split[1]);
-        gameServer.minion = true;
-        
-        if (isNaN(id) && gameServer.minion) {
-         console.log("[Console] Turned off minions");
-            gameServer.minion = false;
-            gameServer.minionleader = 0;
-            return;
+        if (split[1] == "destroy") {
+        gameServer.destroym = true;
+        for (var i in gameServer.clients) {
+        if (gameServer.clients[i]) {
+gameServer.clients[i].playerTracker.minioncontrol = false;
+
+}
         }
+        console.log("[Console] Succesfully destroyed all minions");
+        return;
+        }
+     var id = parseInt(split[1]);
+        var name = split[2];
+        var add = parseInt(split[3]);
+        gameServer.minion = true;
         
         if (isNaN(id)) {
             console.log("[Console] Please specify a valid id!");
             return;
             }
+        if (!name) {name = "";}
+        
         
         for (var i in gameServer.clients) {
                 if (gameServer.clients[i].playerTracker.pID == id) {
                     var client = gameServer.clients[i].playerTracker;
-                    var len = client.cells.length;
-                     gameServer.miniontarget = client.mouse;
-                    gameServer.minionleader = client.pID;
+                    if (client.minioncontrol == true && isNaN(add)) {
+                        client.minioncontrol = false;
+                        client.mi = 0;
+                         if (client.oldname) client.name = client.oldname
+                         console.log("[Console] Succesfully removed minions for " + client.name);
+                    } else {
+                    
+                    
+                    if (isNaN(add)) {
+            add = 1; // Adds 1 bot if user doesnt specify a number
+        }
+        gameServer.destroym = false;
+        gameServer.livestage = 2;
+        gameServer.liveticks = 0;
+                    client.minioncontrol = true;
+        for (var i = 0; i < add; i++) {
+            gameServer.minions.addBot(client,name);
+        }
+                    console.log("[Console] Succesfully added " + add + " minions for " + client.name);
+                    }
                     break;
                 }
             }
-        console.log("[Console] Succesfully set bots to go to " + client.name);
     },
     
     
@@ -358,14 +383,40 @@ Commands.list = {
         });
         var filename = "BotLoader.js"; // needed
         console.log("[Update] Downloading " + filename);
-
-        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotPlayer.js'; // needed
+var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
         request(dbase, function(error, response, body) {
             if (!error && response.statusCode == 200) {
-                var filepath = './ai/BotPlayer.js'; // needed
+                var filepath = './ai/BotLoader.js'; // needed
                 fs.writeFileSync(filepath, body);
             }
         });
+        var filename = "minionLoader.js"; // needed
+        console.log("[Update] Downloading " + filename);
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionLoader.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/minionLoader.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+        var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionPlayer.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/minionPlayer.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+        var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionSocket.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/minionSocket.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+        var filename = "BotLoader.js"; // needed
+        console.log("[Update] Downloading " + filename);
+        var filename = "BotLoader.js"; // needed
+        console.log("[Update] Downloading " + filename);
         var filename = "BotPlayer.js"; // needed
         console.log("[Update] Downloading " + filename);
 
@@ -768,6 +819,25 @@ Commands.list = {
                 console.log("[Update] Applying update...");
             }
         });
+        
+       
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/files.txt', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+               extraf = body.split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty
+        });
+        for (var i in extraf){
+            gameServer.upextra(extraf[i]);
+            
+            
+        }
+        
+        
+            }
+        });
+        
+        
+        
         setTimeout(function() {
             if (!abort) {
                 console.log("[Update] Done! Now restarting/closing...");
@@ -1011,6 +1081,10 @@ Commands.list = {
         if (index > -1) {
             gameServer.banned.splice(index, 1);
             console.log("Unbanned " + ip);
+            if (gameServer.config.autobanrecord == 1) {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+}
         } else {
             console.log("That IP is not banned");
         }
@@ -1103,7 +1177,12 @@ Commands.list = {
     ban: function(gameServer, split) {
         // Get ip
         var ip = split[1];
-
+if (split[1] == "record") {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+    console.log("[Console] Successfully recorded banlist");
+    return;
+}
         if (gameServer.whlist.indexOf(ip) == -1) {
             if (gameServer.banned.indexOf(ip) == -1) {
                 gameServer.banned.push(ip);
@@ -1143,6 +1222,10 @@ Commands.list = {
                         c.close(); // Kick out
                     }
                 }
+                if (gameServer.config.autobanrecord == 1) {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+}
             } else {
                 console.log("[Console] That IP is already banned");
             }
@@ -1160,7 +1243,10 @@ Commands.list = {
     clearban: function(gameServer, split) {
         console.log("[Console] Cleared " + gameServer.banned.length + " IP's");
         gameServer.banned = [];
-
+if (gameServer.config.autobanrecord == 1) {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+}
     },
     rop: function(gameServer, split) {
         gameServer.op = [];
@@ -1169,6 +1255,43 @@ Commands.list = {
         gameServer.opname = [];
         console.log("Reset OP");
     },
+    opbyip: function(gameServer,split) {
+        var c = split[1].toLowerCase();
+        var ip = split[2];
+        if (c == "add") {
+        if (gameServer.opbyip.indexOf(ip) == -1) {
+                gameServer.opbyip.push(ip);
+                fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
+                console.log("[Console] Added " + ip + " to the opbyip list");
+        } else {
+            console.log("[Console] That ip is already listed");
+        }
+        } else
+        if (c == "remove") {
+        var index = gameServer.opbyip.indexOf(ip);
+        if (index > -1) {
+            gameServer.opbyip.splice(index, 1);
+            console.log("[Console] Removed " + ip + " from the opbyi list");
+        } else {
+            console.log("[Console] That ip is already not in the list");
+            
+        }
+        } else
+        if (c == "list") {
+        for (var i in gameServer.opbyip) {
+            console.log(gameServer.opbyip[i]);
+            
+        }
+        } else
+        if (c == "clear") {
+        gameServer.opbyip = [];
+        fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
+        console.log("[Console] Cleared opbyip list");
+        } else {
+            console.log("[Console] Please type in a valid command, add, remove, list, clear");
+        }
+    },
+    
     op: function(gameServer, split) {
         var ops = parseInt(split[1]);
         if (isNaN(ops)) {

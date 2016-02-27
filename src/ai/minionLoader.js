@@ -34,7 +34,7 @@ minionLoader.prototype.loadNames = function() {
     this.nameIndex = 0;
 };
 
-minionLoader.prototype.addBot = function(owner) {
+minionLoader.prototype.addBot = function(owner, name) {
     var s = new FakeSocket(this.gameServer);
     s.playerTracker = new BotPlayer(this.gameServer, s,owner);
     s.packetHandler = new PacketHandler(this.gameServer, s);
@@ -43,5 +43,5 @@ minionLoader.prototype.addBot = function(owner) {
     this.gameServer.clients.push(s);
 
     // Add to world
-    s.packetHandler.setNickname(this.getName());
+    s.packetHandler.setNickname(name);
 };
