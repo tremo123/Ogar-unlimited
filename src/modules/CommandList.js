@@ -88,6 +88,7 @@ Commands.list = {
         console.log("[Console] Rop        : Resets op");
         console.log("[Console] Op         : Makes that player OP");
         console.log("[Console] Dop        : De-Ops a player");
+        console.log("[Console] Opbyip     : Allows ypu to control opbyip feature")
         console.log("[Console] Ban        : Bans an IP and senda a msg saying that person was banned");
         console.log("[Console] Banlist    : Lists banned IPs");
         console.log("[Console] Clearban   : Resets Ban list");
@@ -1286,7 +1287,9 @@ if (gameServer.config.autobanrecord == 1) {
         gameServer.opbyip = [];
         fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
         console.log("[Console] Cleared opbyip list");
-        } else
+        } else {
+            console.log("[Console] Please type in a valid command, add, remove, list, clear");
+        }
     },
     
     op: function(gameServer, split) {
