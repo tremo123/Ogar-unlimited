@@ -61,6 +61,17 @@ PacketHandler.prototype.handleMessage = function(message) {
                 // Make sure client has no cells
                 this.gameServer.switchSpectator(this.socket.playerTracker);
                 this.socket.playerTracker.spectate = true;
+                 if (view.byteLength == 5) {
+                this.protocol = view.getUint32(1, true);
+                // Send SetBorder packet first
+                var c = this.gameServer.config;
+                this.socket.sendPacket(new Packet.SetBorder(
+                    c.borderLeft + this.socket.playerTracker.scrambleX,
+                    c.borderRight + this.socket.playerTracker.scrambleX,
+                    c.borderTop + this.socket.playerTracker.scrambleY,
+                    c.borderBottom + this.socket.playerTracker.scrambleY
+                ));
+            }
             }
             break;
         case 16:
@@ -69,6 +80,17 @@ PacketHandler.prototype.handleMessage = function(message) {
                 var client = this.socket.playerTracker;
                 client.mouse.x = view.getInt32(1, true) - client.scrambleX;
                 client.mouse.y = view.getInt32(5, true) - client.scrambleY;
+            }
+             if (view.byteLength == 5) {
+                this.protocol = view.getUint32(1, true);
+                // Send SetBorder packet first
+                var c = this.gameServer.config;
+                this.socket.sendPacket(new Packet.SetBorder(
+                    c.borderLeft + this.socket.playerTracker.scrambleX,
+                    c.borderRight + this.socket.playerTracker.scrambleX,
+                    c.borderTop + this.socket.playerTracker.scrambleY,
+                    c.borderBottom + this.socket.playerTracker.scrambleY
+                ));
             }
             break;
         case 17:
