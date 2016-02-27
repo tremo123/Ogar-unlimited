@@ -1270,7 +1270,7 @@ if (gameServer.config.autobanrecord == 1) {
         if (c == "remove") {
         var index = gameServer.opbyip.indexOf(ip);
         if (index > -1) {
-            gameServer.opbyip.splice(index, 1
+            gameServer.opbyip.splice(index, 1);
             console.log("[Console] Removed " + ip + " from the opbyi list");
         } else {
             console.log("[Console] That ip is already not in the list");
