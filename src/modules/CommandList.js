@@ -1080,6 +1080,10 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         if (index > -1) {
             gameServer.banned.splice(index, 1);
             console.log("Unbanned " + ip);
+            if (gameServer.config.autobanrecord == 1) {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+}
         } else {
             console.log("That IP is not banned");
         }
@@ -1175,9 +1179,9 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
 if (split[1] == "record") {
     
     fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
-    console.log("[Console] Successfully recorded banlist")
+    console.log("[Console] Successfully recorded banlist");
+    return;
 }
-
         if (gameServer.whlist.indexOf(ip) == -1) {
             if (gameServer.banned.indexOf(ip) == -1) {
                 gameServer.banned.push(ip);
@@ -1217,6 +1221,10 @@ if (split[1] == "record") {
                         c.close(); // Kick out
                     }
                 }
+                if (gameServer.config.autobanrecord == 1) {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+}
             } else {
                 console.log("[Console] That IP is already banned");
             }
@@ -1234,7 +1242,10 @@ if (split[1] == "record") {
     clearban: function(gameServer, split) {
         console.log("[Console] Cleared " + gameServer.banned.length + " IP's");
         gameServer.banned = [];
-
+if (gameServer.config.autobanrecord == 1) {
+    
+    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+}
     },
     rop: function(gameServer, split) {
         gameServer.op = [];
