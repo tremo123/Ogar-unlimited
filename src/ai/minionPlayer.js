@@ -233,6 +233,7 @@ minionPlayer.prototype.decide = function(cell) {
     
             break;
         case 2: // Run from (potential) predators
+        if (this.gameServer.config.minionavoid == 1) {
             var avoid = this.combineVectors(this.predators);
             //console.log("[Bot] "+cell.getName()+": Fleeing from "+avoid.getName());
 
@@ -262,7 +263,7 @@ minionPlayer.prototype.decide = function(cell) {
                 // Juking
                 this.gameServer.splitCells(this);
             }
-
+}
             break;
         case 3: // Target prey
      this.mouse = this.owner.mouse;   
