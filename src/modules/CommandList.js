@@ -127,7 +127,7 @@ gameServer.clients[i].playerTracker.minioncontrol = false;
             console.log("[Console] Please specify a valid id!");
             return;
             }
-        if (!name) {name = "";}
+        if (!name) {name = "minion";}
         
         
         for (var i in gameServer.clients) {
