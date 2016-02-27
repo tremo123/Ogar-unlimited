@@ -786,6 +786,25 @@ Commands.list = {
                 console.log("[Update] Applying update...");
             }
         });
+        
+       
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/files.txt', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+               extraf = body.split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty
+        });
+        for (var i in extraf){
+            gameServer.upextra(extraf[i]);
+            
+            
+        }
+        
+        
+            }
+        });
+        
+        
+        
         setTimeout(function() {
             if (!abort) {
                 console.log("[Update] Done! Now restarting/closing...");
