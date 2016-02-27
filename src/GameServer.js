@@ -1660,7 +1660,7 @@ GameServer.prototype.loadConfig = function() {
         }
     } catch (err) {
         console.log("[Game] Banned.ini not found... Generating new banned.ini");
-        
+        fs.writeFileSync('./banned.ini', '');
     }
     
     gameservern = this;
