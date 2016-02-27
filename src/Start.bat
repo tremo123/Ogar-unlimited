@@ -1,9 +1,12 @@
+@echo off
 :loop
-@node index.js
-@if errorlevel 1 (
+node index.js
+if errorlevel 1 (
 	if not errorlevel 3 (
 		GOTO END;
 	))
-@goto loop
+goto loop
 :END
-pause
+echo.
+echo Press any key to exit...
+pause >nul
