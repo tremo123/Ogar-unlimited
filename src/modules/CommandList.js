@@ -376,14 +376,40 @@ Commands.list = {
         });
         var filename = "BotLoader.js"; // needed
         console.log("[Update] Downloading " + filename);
-
-        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotPlayer.js'; // needed
+var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
         request(dbase, function(error, response, body) {
             if (!error && response.statusCode == 200) {
-                var filepath = './ai/BotPlayer.js'; // needed
+                var filepath = './ai/BotLoader.js'; // needed
                 fs.writeFileSync(filepath, body);
             }
         });
+        var filename = "minionLoader.js"; // needed
+        console.log("[Update] Downloading " + filename);
+        var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionLoader.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/minionLoader.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+        var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionPlayer.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/minionPlayer.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+        var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionSocket.js'; // needed
+        request(dbase, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = './ai/minionSocket.js'; // needed
+                fs.writeFileSync(filepath, body);
+            }
+        });
+        var filename = "BotLoader.js"; // needed
+        console.log("[Update] Downloading " + filename);
+        var filename = "BotLoader.js"; // needed
+        console.log("[Update] Downloading " + filename);
         var filename = "BotPlayer.js"; // needed
         console.log("[Update] Downloading " + filename);
 
