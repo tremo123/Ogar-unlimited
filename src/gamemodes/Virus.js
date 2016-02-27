@@ -41,6 +41,7 @@ VO.prototype.pressQ = function(gameServer, player) {
 
 VO.prototype.pressW = function(gameServer, player) {
     // Called when the W key is pressed
+    if (!gameServer.canEjectMass(player)) return;
     var client = player;
     for (var i = 0; i < client.cells.length; i++) {
         var cell = client.cells[i];
