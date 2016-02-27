@@ -393,9 +393,9 @@ GameServer.prototype.start = function() {
             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var split = body.split(" ");
-                    if (split[0].replace('\n', '') != "9.0.2") {
+                    if (split[0].replace('\n', '') != "10.0.0") {
 var des = split.slice(2, split.length).join(' ');
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 9.0.2 ,Available: " + des.replace('\n', ''));
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.0.0 ,Available: " + des.replace('\n', ''));
 if (split[1]) {
     console.log("\x1b[31m[Console] Update Details: " + split[1].replace('\n', ''));
     
