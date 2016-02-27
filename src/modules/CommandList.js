@@ -1254,6 +1254,41 @@ if (gameServer.config.autobanrecord == 1) {
         gameServer.opname = [];
         console.log("Reset OP");
     },
+    opbyip: function(gameServer,split) {
+        var c = split[1].toLowerCase();
+        var ip = split[2];
+        if (c == "add") {
+        if (gameServer.opbyip.indexOf(ip) == -1) {
+                gameServer.opbyip.push(ip);
+                fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
+                console.log("[Console] Added " + ip + " to the opbyip list");
+        } else {
+            console.log("[Console] That ip is already listed");
+        }
+        } else
+        if (c == "remove") {
+        var index = gameServer.opbyip.indexOf(ip);
+        if (index > -1) {
+            gameServer.opbyip.splice(index, 1
+            console.log("[Console] Removed " + ip + " from the opbyi list");
+        } else {
+            console.log("[Console] That ip is already not in the list");
+            
+        }
+        } else
+        if (c == "list") {
+        for (var i in gameServer.opbyip) {
+            console.log(gameServer.opbyip[i]);
+            
+        }
+        } else
+        if (c == "clear") {
+        gameServer.opbyip = [];
+        fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
+        console.log("[Console] Cleared opbyip list");
+        } else
+    },
+    
     op: function(gameServer, split) {
         var ops = parseInt(split[1]);
         if (isNaN(ops)) {
