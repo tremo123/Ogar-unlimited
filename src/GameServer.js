@@ -525,7 +525,7 @@ if (split[1]) {
             gameServern.config.borderLeft += gameServern.config.borderDec;
         gameServern.config.borderRight -= gameServern.config.borderDec;
         gameServern.config.borderTop += gameServern.config.borderDec;
-        gameServenr.config.borderBottom -= gameServern.config.borderDec;
+        gameServern.config.borderBottom -= gameServern.config.borderDec;
 
         var len = gameServern.nodes.length;
         for (var i = 0; i < len; i++) {
