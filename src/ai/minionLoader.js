@@ -41,7 +41,7 @@ minionLoader.prototype.addBot = function(owner, name) {
 
     // Add to client list
     this.gameServer.clients.push(s);
-
+if (!name || typeof name == "undefined") name = "minion";
     // Add to world
     s.packetHandler.setNickname(name);
 };
