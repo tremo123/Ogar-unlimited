@@ -759,7 +759,7 @@ GameServer.prototype.upextra = function(filed) {
   request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 try {
-var test = fs.readFileSync('/' + filed);
+var test = fs.readFileSync('./' + filed);
 } catch (err) {
     
 
