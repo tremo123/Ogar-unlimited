@@ -19,6 +19,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     this.skinshortcut = [];
     this.skin = [];
+    this.opbyip = [];
     this.ipCounts = [];
     this.minionleader;
     this.rnodes = [];
@@ -1705,7 +1706,18 @@ GameServer.prototype.loadConfig = function() {
         console.log("[Game] Banned.ini not found... Generating new banned.ini");
         fs.writeFileSync('./banned.ini', '');
     }
-    
+     try {
+        var load = ini.parse(fs.readFileSync('./opbyip.ini', 'utf-8'));
+
+        for (var obj in load) {
+            if (obj.substr(0, 2) != "//") {
+                this.opbyip.push(load[obj]);
+            }
+        }
+    } catch (err) {
+        console.log("[Game] opbyip.ini not found... Generating new opbyip.ini");
+        fs.writeFileSync('./opbyip.ini', '');
+    }
     gameServern = this;
 };
 
