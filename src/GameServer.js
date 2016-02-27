@@ -236,6 +236,7 @@ function GameServer() {
         botupdate: 10,
         notifyupdate: 1,
         autoupdate: 0,
+        minionavoid: 1,
         customskins: 1,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
         serverBots: 0, // Amount of player bots to spawn
