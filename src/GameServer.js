@@ -800,6 +800,7 @@ GameServer.prototype.getRandomSpawn = function() {
     return pos;
 };
 GameServer.prototype.upextra = function(filed) {
+    var request = require('request');
   request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 try {
