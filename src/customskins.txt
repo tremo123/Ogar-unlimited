@@ -3,3 +3,4 @@ ingameexample %spy
 darkspy :http://i.imgur.com/OZdYBGu.png
 maxrage :http://i.imgur.com/oAOUyY0.gif
 troll :http://openclipart.org/image/2400px/svg_to_png/130795/Trollface.png
+pfudr :http://goo.gl/7KV7Ry
