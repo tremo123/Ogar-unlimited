@@ -108,6 +108,12 @@ Commands.list = {
     minion: function(gameServer, split) {
         if (split[1] == "destroy") {
         gameServer.destroym = true;
+        for (var i in gameServer.clients) {
+        if (gameServer.clients[i]) {
+gameServer.clients[i].playerTracker.minioncontrol = false;
+
+}
+        }
         console.log("[Console] Succesfully destroyed all minions");
         return;
         }
