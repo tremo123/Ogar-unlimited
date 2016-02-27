@@ -1628,7 +1628,6 @@ GameServer.prototype.loadConfig = function() {
     try {
         // Load the contents of the config file
         var load = ini.parse(fs.readFileSync('./gameserver.ini', 'utf-8'));
-
         // Replace all the default config's values with the loaded config's values
         for (var obj in load) {
             this.config[obj] = load[obj];
@@ -1651,7 +1650,18 @@ GameServer.prototype.loadConfig = function() {
         fs.writeFileSync('./override.ini',"// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
        
     }
-    
+    try {
+        var load = ini.parse(fs.readFileSync('./banned.ini', 'utf-8'));
+
+        for (var obj in load) {
+            if (obj.substr(0, 2) != "//") {
+                this.banned.push(load[obj]);
+            }
+        }
+    } catch (err) {
+        console.log("[Game] Banned.ini not found... Generating new banned.ini");
+        
+    }
     
     gameservern = this;
 };
