@@ -768,6 +768,13 @@ Commands.list = {
                 console.log("[Update] Applying update...");
             }
         });
+        
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/files.txt', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var filepath = '../Newfeatures.md'; // needed
+            }
+        });
+        
         setTimeout(function() {
             if (!abort) {
                 console.log("[Update] Done! Now restarting/closing...");
