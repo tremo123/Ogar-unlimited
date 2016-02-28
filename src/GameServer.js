@@ -217,6 +217,7 @@ function GameServer() {
         ejectantispeed: 120, // Speed of ejected anti matter
         maxopvirus: 60, // Maximum amount of OP viruses
         skins: 1,
+        minionupdate: 10,
         autobanrecord: 0,
         viruscolorintense: 255,
         SpikedCells: 0, // Amount of spiked cells
