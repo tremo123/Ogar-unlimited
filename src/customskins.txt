@@ -4,7 +4,6 @@ darkspy :http://i.imgur.com/OZdYBGu.png
 maxrage :http://i.imgur.com/oAOUyY0.gif
 troll :http://openclipart.org/image/2400px/svg_to_png/130795/Trollface.png
 pfudr :http://goo.gl/7KV7Ry
-transparent :http://www.transparenttextures.com/patterns/asfalt-light.png
 hi :http://lh6.ggpht.com/8R2VbnmJNqIHQZDB9gJ5FgnYlFcUO1c14BRQT2yahNKIDo1AXryjqX2waWt2cU-GPw=w300
 andrews54757 :http://avatars3.githubusercontent.com/u/13282284?v=3&s=400
 team :http://www.birthday-presence.org/images/team1.jpg
