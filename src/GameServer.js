@@ -18,6 +18,7 @@ var Logger = require('./modules/log');
 // GameServer implementation
 function GameServer() {
     this.skinshortcut = [];
+    this.randomNames = [];
     this.skin = [];
     this.opbyip = [];
     this.ipCounts = [];
@@ -275,6 +276,7 @@ function GameServer() {
         mass: 1,
         killvirus: 1,
         kickvirus: 1,
+        randomnames: 0,
         trollvirus: 1,
         explodevirus: 1,
         foodMassGrowPossiblity: 50, // Chance for a food to has the ability to be self growing
@@ -1076,6 +1078,17 @@ GameServer.prototype.spawnFood = function() {
 GameServer.prototype.spawnPlayer = function(player, pos, mass) {
     if (this.nospawn[player.socket.remoteAddress] != true) {
         player.norecombine = false;
+        if (this.config.randomnames == 1) {
+            if (this.randomNames.length > 0) {
+        var index = Math.floor(Math.random() * this.randomNames.length);
+        name = this.randomNames[index];
+        this.randomNames.splice(index, 1);
+    } else {
+        name = "player";
+    }
+        player.name = name;    
+        } else {
+        
         if (this.config.skins == 1) {
 
             if (player.name.substr(0, 1) == "<") {
@@ -1110,6 +1123,7 @@ GameServer.prototype.spawnPlayer = function(player, pos, mass) {
                     player.name = player.name.substr(n + 1);
                 }
             }
+        }
         }
         if (pos == null) { // Get random pos
             pos = this.getRandomSpawn();
@@ -1762,6 +1776,16 @@ GameServer.prototype.loadConfig = function() {
     } catch (err) {
         console.log("[Game] opbyip.ini not found... Generating new opbyip.ini");
         fs.writeFileSync('./opbyip.ini', '');
+    }
+    try {
+        var fs = require("fs"); // Import the util library
+
+        // Read and parse the names - filter out whitespace-only names
+        this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty names
+        });
+    } catch (e) {
+        // Nothing, use the default names
     }
     gameServern = this;
 };
