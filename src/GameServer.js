@@ -307,6 +307,7 @@ function GameServer() {
         tourneyTimeLimit: 20, // Time limit of the game, in minutes.
         tourneyAutoFill: 0, // If set to a value higher than 0, the tournament match will automatically fill up with bots after this amount of seconds
         tourneyAutoFillPlayers: 1, // The timer for filling the server with bots will not count down unless there is this amount of real players
+        playerBotGrowEnabled: 1, // If 0, eating a cell with less than 17 mass while cell has over 625 wont gain any mass
     };
     // Parse config
     this.loadConfig();
