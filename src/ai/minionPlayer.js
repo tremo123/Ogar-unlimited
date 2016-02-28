@@ -88,7 +88,7 @@ return;
     // Update
     if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
         this.visibleNodes = this.calcViewBox();
-        this.tickViewBox = this.gameServer.config.botupdate
+        this.tickViewBox = this.gameServer.config.minionupdate
     } else {
         this.tickViewBox--;
         return;
