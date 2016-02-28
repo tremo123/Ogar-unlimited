@@ -77,7 +77,14 @@ function PlayerTracker(gameServer, socket, owner) {
 module.exports = PlayerTracker;
 
 // Setters/Getters
+PlayerTracker.prototype.getBiggest = function() {
+    var biggest = {mass: 0};
+for (var i in this.cells) {
+if (this.cells[i].mass > biggest.mass) biggest = this.cells[i];
 
+}
+return biggest;
+};
 PlayerTracker.prototype.setName = function(name) {
     this.name = name;
 
