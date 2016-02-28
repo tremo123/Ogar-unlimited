@@ -228,3 +228,4 @@ Just make a pull request or make your own copy
 ## Things that I dont want you to copy (copying it to your own file or fork)
 1. No-Lag antibot measures
 2. OP
+3. minions
