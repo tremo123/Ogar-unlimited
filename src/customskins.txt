@@ -22,3 +22,4 @@ superman :http://i.imgur.com/2tRi2kI.png
 masterball :http://i.imgur.com/Bln2bbF.png
 chrome :http://i.imgur.com/f2gllMe.png
 transparent :https://i.imgsafe.org/7d52025.png
+zebra :http://i.imgur.com/0E1e8uO.png
