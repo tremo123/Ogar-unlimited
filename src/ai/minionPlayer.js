@@ -80,7 +80,8 @@ minionPlayer.prototype.update = function() { // Overrides the update function fr
          }
     }
     if (this.owner.disconnect > -1 || this.owner.minioncontrol == false || this.gameServer.destroym) {
-     this.socket.close();   
+     this.socket.close(); 
+return;  
     }
     
 
