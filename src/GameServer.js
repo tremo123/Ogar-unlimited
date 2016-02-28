@@ -241,6 +241,7 @@ function GameServer() {
         autoupdate: 0,
         minionavoid: 1,
         borderDec: 200,
+        ejectbiggest: 0,
         porportional: 0,
         customskins: 1,
         serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
@@ -1375,6 +1376,47 @@ GameServer.prototype.ejectMass = function(client) {
     if (!this.canEjectMass(client))
         return;
     var ejectedCells = 0; // How many cells have been ejected
+    if (this.config.ejectbiggest == 1) {
+        var cell = client.getBiggest();
+        if (!cell) {
+            return;
+        }
+
+        if (cell.mass < this.config.playerMinMassEject) {
+            return;
+        }
+
+        var deltaY = client.mouse.y - cell.position.y;
+        var deltaX = client.mouse.x - cell.position.x;
+        var angle = Math.atan2(deltaX, deltaY);
+
+        // Get starting position
+        var size = cell.getSize() + 5;
+        var startPos = {
+            x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
+            y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
+        };
+
+        // Remove mass from parent cell
+        cell.mass -= this.config.ejectMassLoss;
+
+        // Randomize angle
+        angle += (Math.random() * .4) - .2;
+
+        // Create cell
+        var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        ejected.setAngle(angle);
+        ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+        if (this.config.randomEjectMassColor == 1) {
+            ejected.setColor(this.getRandomColor());
+        } else {
+            ejected.setColor(cell.getColor());
+        }
+
+        this.addNode(ejected);
+        this.setAsMovingNode(ejected);
+        ejectedCells++;
+    } else {
     for (var i = 0; i < client.cells.length; i++) {
         var cell = client.cells[i];
 
@@ -1416,7 +1458,7 @@ GameServer.prototype.ejectMass = function(client) {
         this.addNode(ejected);
         this.setAsMovingNode(ejected);
         ejectedCells++;
-    }
+    }}
     if (ejectedCells > 0) {
         client.actionMult += 0.065;
         // Using W to give to a teamer is very frequent, so make sure their mult will be lost slower
