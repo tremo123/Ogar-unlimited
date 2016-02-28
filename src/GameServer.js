@@ -1778,7 +1778,6 @@ GameServer.prototype.loadConfig = function() {
         fs.writeFileSync('./opbyip.ini', '');
     }
     try {
-        var fs = require("fs"); // Import the util library
 
         // Read and parse the names - filter out whitespace-only names
         this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
