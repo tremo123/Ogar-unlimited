@@ -479,11 +479,15 @@ if (des) {
 
                 this.banned.push(ws._socket.remoteAddress);
                if (this.config.autobanrecord == 1) {
-                 var oldstring = fs.readFileSync("./banned.txt", "utf8")
+                  var oldstring = "";
                 var string = "";
-    for (var i in this.banned) {
-        var banned = this.banned[i];
-        if (banned != "") string = oldstring + "\n" + banned;
+    for (var i in gameServer.banned) {
+        var banned = gameServer.banned[i];
+        if (banned != "") {
+            
+            string = oldstring + "\n" + banned;
+            oldstring = string;
+        }
     }
     
     fs.writeFileSync('./banned.txt', string);
