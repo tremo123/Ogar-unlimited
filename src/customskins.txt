@@ -23,3 +23,7 @@ masterball :http://i.imgur.com/Bln2bbF.png
 chrome :http://i.imgur.com/f2gllMe.png
 transparent :https://i.imgsafe.org/7d52025.png
 zebra :http://i.imgur.com/0E1e8uO.png
+lenny :http://i.imgur.com/iD8GbLp.png
+creeper :http://i.imgur.com/29sSXCX.png
+agartheme :http://lh3.googleusercontent.com/P-7CZ6UljBidkrQnoCe8I4V_p3g7-GqrnwvqLyDa25aeojHSm7NRMLoNcAfnGdk0wV8=w300
+leopard :http://agarioskins.com/submitted/approved/leopard.png
