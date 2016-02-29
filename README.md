@@ -113,6 +113,8 @@ The current available console commands are listed here. Command names are not ca
    * creates minions. to turn off, for a player do minion [id]. to destroy all minions do minion destroy
  - Update
    * gets current version of ogar unlimited and replaces the old with the new
+ - Reset
+   * Destroys everything and starts from scratch.
  - Opbyip [command] [ip]
    * Allows you to use the opbyip feature. the commands are add, remove, list, clear. This allows you to be automatically op based on your ip
  - Changelog [page]
