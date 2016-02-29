@@ -15,19 +15,17 @@ minionSocket.prototype.sendPacket = function (packet) {
 
 minionSocket.prototype.close = function (error) {
   // Removes the bot
-  var len = this.playerTracker.cells.length;
-  for (var i = 0; i < len; i++) {
-    var cell = this.playerTracker.cells[0];
-
-    if (!cell) {
-      continue;
+  var self = this;
+  this.playerTracker.cells.forEach(function (cell){
+    // todo why are we null checking cell? seems like unneeded defensive programming
+    if (cell){
+      self.server.removeNode(cell);
     }
-
-    this.server.removeNode(cell);
-  }
+  });
 
   var index = this.server.clients.indexOf(this);
   if (index != -1) {
+    // todo splice is slow, can we do this better?
     this.server.clients.splice(index, 1);
   }
 };
