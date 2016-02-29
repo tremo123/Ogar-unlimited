@@ -1,4 +1,5 @@
 @echo off
+title Ogar Unlimited
 :loop
 node index.js
 if errorlevel 1 (

@@ -192,7 +192,7 @@ gameServer.clients[i].playerTracker.minioncontrol = false;
         var ok = split[1];
         var abort = false;
         if (!fs.existsSync('./packet')) {
-            console.log("[Console] Error: could not preform action. Cause: You deleted folders or you are useing a binary");
+            console.log("[Console] Error: could not perform action. Cause: You deleted folders or you are using a binary");
             return;
         }
         if (ok != "yes") {
