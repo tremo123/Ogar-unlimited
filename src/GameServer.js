@@ -400,9 +400,9 @@ GameServer.prototype.start = function() {
                     var split = body.split(" ");
                     if (split[0].replace('\n', '') != "10.2.1") {
 var des = split.slice(2, split.length).join(' ');
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.2.1 ,Available: " + des.replace('\n', ''));
-if (split[1]) {
-    console.log("\x1b[31m[Console] Update Details: " + split[1].replace('\n', ''));
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.2.1 ,Available: " + split[0].replace('\n', ''));
+if (des) {
+    console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
     
 } else {
     console.log("\x1b[31m[Console] Update Details: No Description Provided");
