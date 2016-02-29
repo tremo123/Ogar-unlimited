@@ -1092,13 +1092,17 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
             gameServer.banned.splice(index, 1);
             console.log("Unbanned " + ip);
             if (gameServer.config.autobanrecord == 1) {
-                var oldstring = fs.readFileSync("./banned.txt", "utf8");
-                
+                var oldstring = "";
                 var string = "";
     for (var i in gameServer.banned) {
         var banned = gameServer.banned[i];
-        if (banned != "") string = oldstring + "\n" + banned;
+        if (banned != "") {
+            
+            string = oldstring + "\n" + banned;
+            oldstring = string;
+        }
     }
+    
     
     fs.writeFileSync('./banned.txt', string);
 }
@@ -1195,11 +1199,15 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         // Get ip
         var ip = split[1];
 if (split[1] == "record") {
-   var oldstring = fs.readFileSync("./banned.txt", "utf8");
+    var oldstring = "";
                 var string = "";
     for (var i in gameServer.banned) {
         var banned = gameServer.banned[i];
-        if (banned != "") string = oldstring + "\n" + banned;
+        if (banned != "") {
+            
+            string = oldstring + "\n" + banned;
+            oldstring = string;
+        }
     }
     
     fs.writeFileSync('./banned.txt', string);
@@ -1292,11 +1300,15 @@ if (gameServer.config.autobanrecord == 1) {
         if (c == "add") {
         if (gameServer.opbyip.indexOf(ip) == -1) {
                 gameServer.opbyip.push(ip);
-                 var oldstring = fs.readFileSync("./opbyip.txt", "utf8");
+                  var oldstring = "";
                 var string = "";
     for (var i in gameServer.opbyip) {
         var opbyip = gameServer.opbyip[i];
-        if (opbyip != "") string = oldstring + "\n" + opbyip;
+        if (opbyip != "") {
+            
+            string = oldstring + "\n" + opbyip;
+            oldstring = string;
+        }
     }
     
     fs.writeFileSync('./opbyip.txt', string);
@@ -1309,15 +1321,19 @@ if (gameServer.config.autobanrecord == 1) {
         var index = gameServer.opbyip.indexOf(ip);
         if (index > -1) {
             gameServer.opbyip.splice(index, 1);
-            var oldstring = fs.readFileSync("./opbyip.txt", "utf8");
+            var oldstring = "";
                 var string = "";
     for (var i in gameServer.opbyip) {
         var opbyip = gameServer.opbyip[i];
-        if (opbyip != "") string = oldstring + "\n" + opbyip;
+        if (opbyip != "") {
+            
+            string = oldstring + "\n" + opbyip;
+            oldstring = string;
+        }
     }
     
     fs.writeFileSync('./opbyip.txt', string);
-            console.log("[Console] Removed " + ip + " from the opbyi list");
+            console.log("[Console] Removed " + ip + " from the opbyip list");
         } else {
             console.log("[Console] That ip is already not in the list");
             
