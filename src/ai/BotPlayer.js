@@ -486,6 +486,7 @@ BotPlayer.prototype.checkPath = function (cell, check) {
   var v2 = this.getAngle(check, cell);
   v2 = this.reverseAngle(v2);
 
+  // todo simplify - test before commit
   if ((v1 <= (v2 + .25)) && (v1 >= (v2 - .25))) {
     return true;
   } else {
