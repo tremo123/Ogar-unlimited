@@ -490,7 +490,8 @@ GameServer.prototype.start = function () {
               oldstring = string;
             }
           }
-
+          // todo CRITICAL why are we using writeFileSync? it is blocking and that is BAD on a server
+          // todo if this is only ran on start or stop then we need to put comment here stating that
           fs.writeFileSync('./banned.txt', string);
         }
         // Remove from game
@@ -1190,7 +1191,7 @@ GameServer.prototype.getDist = function (x1, y1, x2, y2) { // Use Pythagoras the
   var deltaX = Math.abs(x1 - x2);
   var deltaY = Math.abs(y1 - y2);
   return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-}
+};
 
 GameServer.prototype.updateMoveEngine = function () {
   // Move player cells
@@ -1548,7 +1549,7 @@ GameServer.prototype.shootVirus = function (parent) {
 GameServer.prototype.ejectVirus = function (parent) {
   var parentPos = {
     x: parent.position.x,
-    y: parent.position.y,
+    y: parent.position.y
   };
 
   var newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.ejectMass);
@@ -1703,14 +1704,15 @@ GameServer.prototype.updateCells = function () {
       continue;
     }
     // Have fast decay over 5k mass
+    var massDecay;
     if (this.config.playerFastDecay == 1) {
       if (cell.mass < this.config.fastdecayrequire) {
-        var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
+        massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
       } else {
-        var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
+        massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
       }
     } else {
-      var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+      massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
     }
 
     // Recombining
@@ -1856,7 +1858,7 @@ GameServer.prototype.startStatsServer = function (port) {
     console.log("[Game] Loaded stats server on port " + port);
     setInterval(this.getStats.bind(this), this.config.serverStatsUpdate * 1000);
   }.bind(this));
-}
+};
 
 GameServer.prototype.getStats = function () {
   var players = 0;
