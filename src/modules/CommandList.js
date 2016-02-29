@@ -953,7 +953,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
 
     },
     colortext: function(gameServer, split) {
-        var c = split[1].toLowerCase();
+      if (split[1]) var c = split[1].toLowerCase(); else var c = "";
         if (c == "red") {
             console.log("\x1b[31mText is now Red");
             gameServer.red = true;
@@ -1257,7 +1257,7 @@ if (gameServer.config.autobanrecord == 1) {
         console.log("Reset OP");
     },
     opbyip: function(gameServer,split) {
-        var c = split[1].toLowerCase();
+        if (split[1]) var c = split[1].toLowerCase(); else var c = "";
         var ip = split[2];
         if (c == "add") {
         if (gameServer.opbyip.indexOf(ip) == -1) {
