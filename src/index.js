@@ -29,7 +29,7 @@ request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', fu
   } else {
     console.log("[Console] Could not connect to servers. Aborted checking for updates and messages");
   }
-})
+});
 // Handle arguments
 process.argv.forEach(function (val) {
   if (val == "--noconsole") {
@@ -64,7 +64,7 @@ function prompt() {
     parseCommands(str);
     return prompt(); // Too lazy to learn async
   });
-};
+}
 
 function parseCommands(str) {
   // Log the string
@@ -87,4 +87,4 @@ function parseCommands(str) {
   } else {
     console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
   }
-};
+}
