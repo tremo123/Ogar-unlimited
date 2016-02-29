@@ -66,6 +66,7 @@ Commands.list = {
         console.log("[Console] gamemode   : change server gamemode");
         console.log("[Console] kick       : kick player or bot by client ID");
         console.log("[Console] kill       : kill cell(s) by client ID");
+        console.log("[Console] Reset      : Destroys everything and starts from scratch")
         console.log("[Console] killall    : kill everyone");
         console.log("[Console] mass       : set cell(s) mass by client ID");
         console.log("[Console] name       : change cell(s) name by client ID");
@@ -107,6 +108,15 @@ Commands.list = {
         console.log("[Console] changelog  : Shows a changelog");
         console.log("[Console] ====================================================");
     },
+    reset: function(gameServer, split) {
+      for (var i in gameServer.nodes) {  
+       gameServer.removeNode(gameServer.nodes[i]);
+      }
+      console.log("[Console] Reseted game");
+    },
+    
+    
+    
     minion: function(gameServer, split) {
         if (split[1] == "destroy") {
         gameServer.destroym = true;
