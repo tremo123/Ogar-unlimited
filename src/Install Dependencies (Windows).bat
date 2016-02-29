@@ -1,4 +1,5 @@
 @echo off
+title Install Dependencies
 cd /d %~dp0
 cls
 echo.
