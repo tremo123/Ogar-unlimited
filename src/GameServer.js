@@ -479,7 +479,14 @@ if (split[1]) {
 
                 this.banned.push(ws._socket.remoteAddress);
                if (this.config.autobanrecord == 1) {
-                   fs.writeFileSync('./banned.ini', ini.stringify(this.banned));
+                    var oldstring = "";
+                var string = "";
+    for (var i in this.banned) {
+        var banned = this.banned[i];
+        if (banned != "") string = oldstring + "\n" + banned;
+    }
+    
+    fs.writeFileSync('./banned.txt', string);
                }
                 // Remove from game
                 for (var i in this.clients) {
