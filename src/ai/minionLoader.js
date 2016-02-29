@@ -10,10 +10,9 @@ function minionLoader(gameServer) {
 
 module.exports = minionLoader;
 
+// todo bad constructor name?
 minionLoader.prototype.getName = function () {
-  var name = this.gameServer.minionname;
-
-  return name;
+  return this.gameServer.minionname;
 };
 
 minionLoader.prototype.loadNames = function () {
