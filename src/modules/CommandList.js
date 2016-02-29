@@ -5,7 +5,7 @@ var Entity = require('../entity');
 var EjectedMass = require('../entity/EjectedMass');
 var fs = require("fs");
 var request = require('request');
-var ini = require('./modules/ini.js');
+var ini = require('ini.js');
 
 function Commands() {
     this.list = {}; // Empty
