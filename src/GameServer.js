@@ -479,7 +479,9 @@ if (split[1]) {
 
                 this.banned.push(ws._socket.remoteAddress);
                if (this.config.autobanrecord == 1) {
-                    var oldstring = "";
+                 var oldstring = fs.readFileSync("./banned.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty names
+        });
                 var string = "";
     for (var i in this.banned) {
         var banned = this.banned[i];
