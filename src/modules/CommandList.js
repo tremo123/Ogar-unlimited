@@ -5,7 +5,6 @@ var Entity = require('../entity');
 var EjectedMass = require('../entity/EjectedMass');
 var fs = require("fs");
 var request = require('request');
-var ini = require('./ini.js');
 
 function Commands() {
     this.list = {}; // Empty
@@ -1093,8 +1092,14 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
             gameServer.banned.splice(index, 1);
             console.log("Unbanned " + ip);
             if (gameServer.config.autobanrecord == 1) {
+                var oldstring = "";
+                var string = "";
+    for (var i in gameServer.banned) {
+        var banned = gameServer.banned[i];
+        if (banned != "") string = oldstring + "\n" + banned;
+    }
     
-    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+    fs.writeFileSync('./banned.txt', string);
 }
         } else {
             console.log("That IP is not banned");
@@ -1189,8 +1194,14 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         // Get ip
         var ip = split[1];
 if (split[1] == "record") {
+     var oldstring = "";
+                var string = "";
+    for (var i in gameServer.banned) {
+        var banned = gameServer.banned[i];
+        if (banned != "") string = oldstring + "\n" + banned;
+    }
     
-    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+    fs.writeFileSync('./banned.txt', string);
     console.log("[Console] Successfully recorded banlist");
     return;
 }
@@ -1235,7 +1246,14 @@ if (split[1] == "record") {
                 }
                 if (gameServer.config.autobanrecord == 1) {
     
-    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+     var oldstring = "";
+                var string = "";
+    for (var i in gameServer.banned) {
+        var banned = gameServer.banned[i];
+        if (banned != "") string = oldstring + "\n" + banned;
+    }
+    
+    fs.writeFileSync('./banned.txt', string);
 }
             } else {
                 console.log("[Console] That IP is already banned");
@@ -1256,7 +1274,8 @@ if (split[1] == "record") {
         gameServer.banned = [];
 if (gameServer.config.autobanrecord == 1) {
     
-    fs.writeFileSync('./banned.ini', ini.stringify(gameServer.banned));
+    
+    fs.writeFileSync('./banned.txt', "");
 }
     },
     rop: function(gameServer, split) {
@@ -1272,7 +1291,14 @@ if (gameServer.config.autobanrecord == 1) {
         if (c == "add") {
         if (gameServer.opbyip.indexOf(ip) == -1) {
                 gameServer.opbyip.push(ip);
-                fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
+                 var oldstring = "";
+                var string = "";
+    for (var i in gameServer.opbyip) {
+        var opbyip = gameServer.opbyip[i];
+        if (opbyip != "") string = oldstring + "\n" + opbyip;
+    }
+    
+    fs.writeFileSync('./opbyip.txt', string);
                 console.log("[Console] Added " + ip + " to the opbyip list");
         } else {
             console.log("[Console] That ip is already listed");
@@ -1282,6 +1308,14 @@ if (gameServer.config.autobanrecord == 1) {
         var index = gameServer.opbyip.indexOf(ip);
         if (index > -1) {
             gameServer.opbyip.splice(index, 1);
+             var oldstring = "";
+                var string = "";
+    for (var i in gameServer.opbyip) {
+        var opbyip = gameServer.opbyip[i];
+        if (opbyip != "") string = oldstring + "\n" + opbyip;
+    }
+    
+    fs.writeFileSync('./opbyip.txt', string);
             console.log("[Console] Removed " + ip + " from the opbyi list");
         } else {
             console.log("[Console] That ip is already not in the list");
@@ -1296,7 +1330,7 @@ if (gameServer.config.autobanrecord == 1) {
         } else
         if (c == "clear") {
         gameServer.opbyip = [];
-        fs.writeFileSync('./opbyip.ini', ini.stringify(gameServer.opbyip));
+        fs.writeFileSync('./opbyip.txt', "");
         console.log("[Console] Cleared opbyip list");
         } else {
             console.log("[Console] Please type in a valid command, add, remove, list, clear");
