@@ -1,6 +1,6 @@
 @echo off
 :loop
-sudo node index.js
+node index.js
 if errorlevel 1 (
 if not errorlevel 3 (
 GOTO END;
