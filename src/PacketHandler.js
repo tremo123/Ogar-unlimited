@@ -3,7 +3,7 @@ var Packet = require('./packet');
 function PacketHandler(gameServer, socket) {
   this.gameServer = gameServer;
   this.socket = socket;
-  // Detect protocol version - we can do something about it later
+  // todo Detect protocol version - we can do something about it later
   this.protocol = 0;
 
   this.pressQ = false;
