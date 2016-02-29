@@ -1,5 +1,5 @@
 ai/minionLoader.js
 ai/minionPlayer.js
 ai/minionSocket.js
-banned.ini
-opbyip.ini
+banned.txt
+opbyip.txt
