@@ -1754,28 +1754,23 @@ GameServer.prototype.loadConfig = function() {
        
     }
     try {
-        var load = ini.parse(fs.readFileSync('./banned.ini', 'utf-8'));
-
-        for (var obj in load) {
-            if (obj.substr(0, 2) != "//") {
-                this.banned.push(load[obj]);
-            }
-        }
+        var load = ini.parse(fs.readFileSync('./banned.txt', 'utf-8'));
+this.banned = fs.readFileSync("./banned.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty names
+        });
+        
     } catch (err) {
-        console.log("[Game] Banned.ini not found... Generating new banned.ini");
-        fs.writeFileSync('./banned.ini', '');
+        console.log("[Game] Banned.txt not found... Generating new banned.txt");
+        fs.writeFileSync('./banned.txt', '');
     }
      try {
-        var load = ini.parse(fs.readFileSync('./opbyip.ini', 'utf-8'));
-
-        for (var obj in load) {
-            if (obj.substr(0, 2) != "//") {
-                this.opbyip.push(load[obj]);
-            }
-        }
+        var load = ini.parse(fs.readFileSync('./opbyip.txt', 'utf-8'));
+this.opbyip = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
+            return x != ''; // filter empty names
+        });
     } catch (err) {
-        console.log("[Game] opbyip.ini not found... Generating new opbyip.ini");
-        fs.writeFileSync('./opbyip.ini', '');
+        console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
+        fs.writeFileSync('./opbyip.txt', '');
     }
     try {
 
