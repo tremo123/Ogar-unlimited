@@ -1199,6 +1199,12 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         // Get ip
         var ip = split[1];
 if (split[1] == "record") {
+    if (split[2] = "clear") {
+        fs.writeFileSync('./banned.txt', "");
+        console.log("[Console] Cleared recorded banlist");
+        return;
+    }
+    
     var oldstring = "";
                 var string = "";
     for (var i in gameServer.banned) {
