@@ -367,6 +367,7 @@ minionPlayer.prototype.checkPath = function (cell, check) {
   var v2 = this.getAngle(check, cell);
   v2 = this.reverseAngle(v2);
 
+  // todo dry and simplify
   if ((v1 <= (v2 + .25)) && (v1 >= (v2 - .25))) {
     return true;
   } else {
@@ -447,10 +448,5 @@ minionPlayer.prototype.getAngle = function (c1, c2) {
 };
 
 minionPlayer.prototype.reverseAngle = function (angle) {
-  if (angle > Math.PI) {
-    angle -= Math.PI;
-  } else {
-    angle += Math.PI;
-  }
-  return angle;
+  return (angle > Math.PI) ? angle - Math.PI : angle + Math.PI;
 };
