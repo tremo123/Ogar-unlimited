@@ -16,9 +16,9 @@ minionSocket.prototype.sendPacket = function (packet) {
 minionSocket.prototype.close = function (error) {
   // Removes the bot
   var self = this;
-  this.playerTracker.cells.forEach(function (cell){
+  this.playerTracker.cells.forEach(function (cell) {
     // todo why are we null checking cell? seems like unneeded defensive programming
-    if (cell){
+    if (cell) {
       self.server.removeNode(cell);
     }
   });
