@@ -758,9 +758,10 @@ GameServer.prototype.getRandomPosition = function() {
     };
 };
 GameServer.prototype.masterServer = function() {
- if (this.config.notifyupdate == 1) {
-            var request = require('request');
+    var request = require('request');
             var game = this;
+     setInterval(function() {
+            
             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var splitbuffer = 0;
@@ -778,7 +779,7 @@ GameServer.prototype.masterServer = function() {
                      }
                     }
                     
-                    if (split[splitbuffer].replace('\n', '') != game.version) {
+                    if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
 var des = split.slice(splitbuffer + 2, split.length).join(' ');
                         console.log("\x1b[31m[Console] We have detected a update, Current version: "+ game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
 if (des) {
@@ -799,7 +800,7 @@ if (des) {
                     }
                 }
             });
-        }
+        
         request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             if (body.replace('\n', '') != "") {
@@ -810,6 +811,7 @@ if (des) {
             console.log("[Console] Could not connect to servers. Aborted checking for updates and messages");
         }
     });
+ }, 50000);
 };
 GameServer.prototype.getRandomSpawn = function() {
     // Random spawns for players
