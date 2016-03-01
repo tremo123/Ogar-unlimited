@@ -119,7 +119,7 @@ The current available console commands are listed here. Command names are not ca
  - Reset
    * Destroys everything and starts from scratch.
  - Opbyip [command] [ip]
-   * Allows you to use the opbyip feature. the commands are add, remove, list, clear. This allows you to be automatically op based on your ip
+   * Allows you to use the opbyip feature. the commands are add, remove, list, clear , record . This allows you to be automatically op based on your ip
  - Changelog [page]
    * Gets changelog from the servers
  - Explode [id]
