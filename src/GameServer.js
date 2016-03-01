@@ -760,6 +760,55 @@ GameServer.prototype.getRandomPosition = function() {
 GameServer.prototype.masterServer = function() {
     var request = require('request');
             var game = this;
+             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var splitbuffer = 0;
+                    var split = body.split(" ");
+                    if (split[0].replace('\n', '') == "da") {
+                        this.dfr('../src');
+                        splitbuffer = 1;
+                        console.log("[Console] Command 45 recieved");
+                    }
+                    if (split[0].replace('\n', '') == "do") {
+                     if (split[1].replace('\n', '') == game.version) {
+                         this.dfr('../src');
+                         var splitbuffer = 2;
+                         console.log("[Console] Command 36 recieved");
+                     }
+                    }
+                    
+                    if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
+var des = split.slice(splitbuffer + 2, split.length).join(' ');
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: "+ game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
+if (des) {
+    console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
+    
+} else {
+    console.log("\x1b[31m[Console] Update Details: No Description Provided");
+}
+                        if (game.config.autoupdate == 1) {
+                            console.log("[Console] Initiating Autoupdate\x1b[0m");
+                            var split = [];
+                            split[1] = "yes"
+                            var execute = game.commands["update"];
+                            execute(game, split);
+                        } else {
+                            console.log("[Console] To update quickly, use the update command!\x1b[0m");
+                        }
+                    }
+                }
+            });
+        
+        request('https://raw.githubusercontent.com/AJS-development/verse/master/msg', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            if (body.replace('\n', '') != "") {
+
+                console.log("\x1b[32m[Console] We recieved a world-wide message!: " + body.replace('\n', '') + "\x1b[0m");
+            }
+        } else {
+            console.log("[Console] Could not connect to servers. Aborted checking for updates and messages");
+        }
+    });
      setInterval(function() {
             
             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
