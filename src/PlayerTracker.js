@@ -1,5 +1,6 @@
 var Packet = require('./packet');
 var GameServer = require('./GameServer.js');
+var fs = require("fs");
 
 function PlayerTracker(gameServer, socket, owner) {
     this.pID = -1;
@@ -143,6 +144,9 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
         if (this.name != this.gameServer.topusername) {
             this.gameServer.oldtopscores.score = this.gameServer.topscore;
             this.gameServer.oldtopscores.name = this.gameServer.topusername;
+             this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topscore + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+        fs.writeFileSync('./highscores.txt', this.gameServer.highscores);
+            
         }
         this.gameServer.topscore = Math.floor(this.score);
         this.gameServer.topusername = this.name;

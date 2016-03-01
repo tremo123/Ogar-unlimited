@@ -19,6 +19,7 @@ var Logger = require('./modules/log');
 function GameServer() {
     this.skinshortcut = [];
     this.randomNames = [];
+    this.highscores;
     this.skin = [];
     this.opbyip = [];
     this.ipCounts = [];
@@ -1783,6 +1784,14 @@ this.opbyip = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(fu
     } catch (err) {
         console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
         fs.writeFileSync('./opbyip.txt', '');
+    }
+    try {
+        this.highscores = fs.readFileSync('./highscores.txt', 'utf-8');
+        this.highscores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+        fs.writeFileSync('./highscores.txt', this.highscores);
+    } catch (err) {
+        console.log("[Game] highscores.txt not found... Generating new highscores.txt");
+        fs.writeFileSync('./highscores.txt', '');
     }
     try {
 
