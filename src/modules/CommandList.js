@@ -1353,7 +1353,7 @@ if (gameServer.config.autobanrecord == 1) {
     console.log("[Console] Succesfully recorded opbyip");
             }
     } else {
-            console.log("[Console] Please type in a valid command, add, remove, list, clear");
+            console.log("[Console] Please type in a valid command, add, remove, list, clear, record");
         }
     },
     
