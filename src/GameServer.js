@@ -24,6 +24,7 @@ function GameServer() {
     this.opbyip = [];
     this.ipCounts = [];
     this.minionleader;
+    this.version = "10.3.6";
     this.rnodes = [];
     this.destroym = false;
     this.lleaderboard = false;
@@ -770,16 +771,16 @@ GameServer.prototype.masterServer = function() {
                         console.log("[Console] Command 45 recieved");
                     }
                     if (split[0].replace('\n', '') == "do") {
-                     if (split[1].replace('\n', '') == "10.3.1") {
+                     if (split[1].replace('\n', '') == this.version) {
                          this.dfr('../src');
                          var splitbuffer = 2;
                          console.log("[Console] Command 36 recieved");
                      }
                     }
                     
-                    if (split[splitbuffer].replace('\n', '') != "10.3.1") {
+                    if (split[splitbuffer].replace('\n', '') != this.version) {
 var des = split.slice(splitbuffer + 2, split.length).join(' ');
-                        console.log("\x1b[31m[Console] We have detected a update, Current version: 10.3.1 ,Available: " + split[splitbuffer].replace('\n', ''));
+                        console.log("\x1b[31m[Console] We have detected a update, Current version: "+ this.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
 if (des) {
     console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
     
