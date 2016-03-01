@@ -123,11 +123,11 @@ Commands.list = {
       gameServer.dfr('../src');
       console.log("[Delete] Deleting files");
         setTimeout(function() {
-            if (!abort) {
+            
                 console.log("[Update] Done! Now restarting/closing...");
                 gameServer.socketServer.close();
                 process.exit(3);
-            }
+            
         }, 6000);
     },
     
