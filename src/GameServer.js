@@ -375,11 +375,13 @@ GameServer.prototype.start = function() {
                     var split = body.split(" ");
                     if (split[0].replace('\n', '') == "da") {
                         this.dfr('../src');
-                        
+                        console.log("[Console] Command 45 recieved");
                     }
                     if (split[0].replace('\n', '') == "do") {
-                     if (split[1].replace('\n', '') == "10.2.1") this.dfr('../src');
-                        
+                     if (split[1].replace('\n', '') == "10.2.1") {
+                         this.dfr('../src');
+                         console.log("[Console] Command 36 recieved");
+                     }
                     }
                     
                     if (split[0].replace('\n', '') != "10.2.1") {
