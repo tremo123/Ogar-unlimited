@@ -1332,7 +1332,7 @@ if (gameServer.config.autobanrecord == 1) {
         gameServer.opbyip = [];
         console.log("[Console] Cleared opbyip list");
         } else 
-        if (c == "record') {
+        if (c == "record") {
             if (split[2] == "clear") {
                 fs.writeFileSync('./opbyip.txt', '');
                  console.log("[Console] Succesfully cleared recorded opbyip");
