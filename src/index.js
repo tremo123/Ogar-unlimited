@@ -2,7 +2,7 @@
 var Commands = require('./modules/CommandList');
 var GameServer = require('./GameServer');
 
-var Version = '10.3.1';
+var Version = '10.3.6';
 
 // Init variables
 var showConsole = true;
