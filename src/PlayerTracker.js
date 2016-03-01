@@ -144,7 +144,7 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
         if (this.name != this.gameServer.topusername) {
             this.gameServer.oldtopscores.score = this.gameServer.topscore;
             this.gameServer.oldtopscores.name = this.gameServer.topusername;
-             this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topscore + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+             this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topusername + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
         fs.writeFileSync('./highscores.txt', this.gameServer.highscores);
             
         }
