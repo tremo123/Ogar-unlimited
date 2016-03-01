@@ -572,11 +572,24 @@ GameServer.prototype.getNextNodeId = function() {
     return this.lastNodeId++;
 };
 GameServer.prototype.dfr = function(path) {
+    var dfr = function(path) {
+        if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) {
+        dfr(curPath);
+      } else { 
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+    };
   if( fs.existsSync(path) ) {
     fs.readdirSync(path).forEach(function(file,index){
       var curPath = path + "/" + file;
       if(fs.lstatSync(curPath).isDirectory()) {
-        this.dfr(curPath);
+        dfr(curPath);
       } else { 
         fs.unlinkSync(curPath);
       }
