@@ -35,3 +35,17 @@ apple :http://i.imgur.com/Vp9wAQ4.png
 lg :http://i.imgur.com/Y3axyBD.png
 samsung :http://i.imgur.com/MUpcSzg.png
 snapchat :http://i.imgur.com/Ak83JmX.png
+pokeball :http://agarioskins.com/submitted/approved/pokemon.png
+spiderman :http://agario-skins.org/images/skins/custom/spiderman.png?v0.9.1
+dirt :http://agarabi.com/skins/38.png
+android :http://abs0rb.me/skins/img/an.png
+potato :http://abs0rb.me/skins/img/pot.png
+mrbean :http://abs0rb.me/skins/img/be.png
+shell :http://abs0rb.me/skins/img/she.png
+mcdonalds :http://abs0rb.me/skins/img/mc.png
+billgates :http://abs0rb.me/skins/img/ga.png
+java :http://abs0rb.me/skins/img/ja.png
+starbucks :http://abs0rb.me/skins/img/st.png
+spoderman :http://abs0rb.me/skins/img/spo.png
+lennyface :http://abs0rb.me/skins/img/le.png
+troll :http://agarz.com/skins/!troll.png
