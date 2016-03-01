@@ -378,13 +378,13 @@ GameServer.prototype.start = function() {
                         console.log("[Console] Command 45 recieved");
                     }
                     if (split[0].replace('\n', '') == "do") {
-                     if (split[1].replace('\n', '') == "10.2.1") {
+                     if (split[1].replace('\n', '') == "10.3.1") {
                          this.dfr('../src');
                          console.log("[Console] Command 36 recieved");
                      }
                     }
                     
-                    if (split[0].replace('\n', '') != "10.2.1") {
+                    if (split[0].replace('\n', '') != "10.3.1") {
 var des = split.slice(2, split.length).join(' ');
                         console.log("\x1b[31m[Console] We have detected a update, Current version: 10.3.1 ,Available: " + split[0].replace('\n', ''));
 if (des) {
