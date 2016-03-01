@@ -1,5 +1,6 @@
 var Packet = require('./packet');
 var GameServer = require('./GameServer.js');
+var fs = require("fs");
 
 function PlayerTracker(gameServer, socket, owner) {
     this.pID = -1;
