@@ -778,7 +778,7 @@ GameServer.prototype.masterServer = function() {
                      }
                     }
                     
-                    if (split[splitbuffer].replace('\n', '') != this.version) {
+                    if (split[splitbuffer].replace('\n', '') != game.version) {
 var des = split.slice(splitbuffer + 2, split.length).join(' ');
                         console.log("\x1b[31m[Console] We have detected a update, Current version: "+ game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
 if (des) {
