@@ -56,7 +56,7 @@ function GameServer() {
     this.opc = [];
     this.oppname = [];
     this.opname = [];
-    this.lastNodeId = 1;
+    this.lastNodeId = 2;
     this.lastPlayerId = 1;
     this.clients = [];
     this.oldtopscores = {
