@@ -1,5 +1,3 @@
-ai/minionLoader.js
-ai/minionPlayer.js
-ai/minionSocket.js
 banned.txt
 opbyip.txt
+highscores.txt

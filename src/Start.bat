@@ -1,11 +1,10 @@
 @echo off
-title Ogar Unlimited
 :loop
 node index.js
 if errorlevel 1 (
-	if not errorlevel 3 (
-		GOTO END;
-	))
+if not errorlevel 3 (
+GOTO END;
+))
 goto loop
 :END
 echo.

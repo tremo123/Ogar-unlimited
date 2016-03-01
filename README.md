@@ -26,6 +26,9 @@ This Modified copy was created to help those who want to open their server to th
  15. skins, to use custom skins, do <skinname> and then your name. for example `<spy> lol` will give you spy skin with name of lol use `[website]` to use a custom skin from a website (you need to use a url shortener though)
  16. customskins (see custom skins)
  17. Minions: you can create minions like agario powerups. press q to enter minion control mode (a b will appear next to your name). w = eject, space = split. press q again to exit
+ 18. Banlist file
+ 19. Opbyip
+ 20. Database free high score keeper
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
@@ -116,7 +119,7 @@ The current available console commands are listed here. Command names are not ca
  - Reset
    * Destroys everything and starts from scratch.
  - Opbyip [command] [ip]
-   * Allows you to use the opbyip feature. the commands are add, remove, list, clear. This allows you to be automatically op based on your ip
+   * Allows you to use the opbyip feature. the commands are add, remove, list, clear , record . This allows you to be automatically op based on your ip
  - Changelog [page]
    * Gets changelog from the servers
  - Explode [id]
