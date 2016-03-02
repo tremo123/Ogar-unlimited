@@ -1,4 +1,4 @@
-var Virus = require('./Virus')
+var Virus = require('./Virus');
 
 function MovingVirus() {
   Virus.apply(this, Array.prototype.slice.call(arguments));
@@ -45,7 +45,7 @@ MovingVirus.prototype.onAdd = function (gameServer) {
 MovingVirus.prototype.onRemove = function (gameServer) {
   gameServer.gameMode.movingVirusCount--;
 
-  index = gameServer.nodesVirus.indexOf(this);
+  var index = gameServer.nodesVirus.indexOf(this);
   if (index != -1) {
     gameServer.nodesVirus.splice(index, 1);
   } else {
