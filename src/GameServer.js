@@ -22,6 +22,7 @@ function GameServer() {
   this.highscores;
   this.skin = [];
   this.opbyip = [];
+  this.sbo = 1;
   this.ipCounts = [];
   this.minionleader;
   this.version = "10.3.6";
@@ -1110,23 +1111,22 @@ GameServer.prototype.mainLoop = function () {
         }
       }
       if (this.config.smartbotspawn == 1) {
-        if (humans > 0) {
-          if (bots <=  this.config.smartbspawnbase - humans) {
+          if (bots <=  this.config.smartbspawnbase - humans + this.sbo) {
            this.livestage = 2;
     this.liveticks = 0;
     
       this.bots.addBot();
     
-          } else {
-            var toRemove =  bots - (this.config.smartbspawnbase - humans);
+          } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
+            var toRemove =  ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
              var removed = 0;
     var i = 0;
-    while (i < gameServer.clients.length && removed != toRemove) {
-      if (typeof gameServer.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
-        var client = gameServer.clients[i].playerTracker;
+    while (i < this.clients.length && removed != toRemove) {
+      if (typeof this.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+        var client = this.clients[i].playerTracker;
         var len = client.cells.length;
         for (var j = 0; j < len; j++) {
-          gameServer.removeNode(client.cells[0]);
+          this.removeNode(client.cells[0]);
         }
         client.socket.close();
         removed++;
@@ -1134,17 +1134,10 @@ GameServer.prototype.mainLoop = function () {
         i++;
     }
           }
-        } else {
-          for (var i in this.clients) {
-            if (typeof this.clients[i].remoteAddress == 'undefined') { 
-             var client = this.clients[i].playerTracker; 
-              var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          this.removeNode(client.cells[0]);
-        }
-        client.socket.close();
+        
+          
               
-            }
+            
             
           }
           
