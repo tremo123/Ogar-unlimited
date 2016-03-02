@@ -1,4 +1,4 @@
-var FFA = require('./FFA') //Base Gamemode
+var FFA = require('./FFA'); //Base Gamemode
 var Entity = require('../entity');
 
 function VO() {
@@ -66,7 +66,7 @@ VO.prototype.pressW = function (gameServer, player) {
     };
 
     // Remove mass from parent cell
-    cell.mass -= 30
+    cell.mass -= 30;
     // Randomize angle
     angle += (Math.random() * .4) - .2;
 
