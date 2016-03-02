@@ -12,6 +12,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.mergeOverrideDuration = 0;
   this.recombineinstant = false;
   this.mi = 0;
+  this.spawnmass = 0;
   this.owner = owner;
   this.oldname = "";
   this.norecombine = false;
