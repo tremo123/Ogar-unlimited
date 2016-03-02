@@ -855,11 +855,7 @@ Commands.list = {
         });
         for (var i in extraf) {
           gameServer.upextra(extraf[i]);
-
-
         }
-
-
       }
     });
 
@@ -1415,7 +1411,7 @@ Commands.list = {
       gameServer.gameMode.specByLeaderboard = false;
       gameServer.gameMode.updateLB = function (gameServer) {
         gameServer.leaderboard = newLB
-      }
+      };
       console.log("[PMSG] The message has been broadcast " + r + "/" + re);
       var gm = GameMode.get(gameServer.gameMode.ID);
       setTimeout(function () {
