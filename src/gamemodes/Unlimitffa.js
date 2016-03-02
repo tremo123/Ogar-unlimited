@@ -15,7 +15,7 @@ unlimitffa.prototype = new Mode();
 unlimitffa.prototype.onServerInit = function (gameServer) {
 
   gameServer.lleaderboard = true;
-}
+};
 
 unlimitffa.prototype.leaderboardAddSort = function (player, leaderboard) {
   // Adds the player and sorts the leaderboard
@@ -77,7 +77,7 @@ unlimitffa.prototype.onPlayerSpawn = function (gameServer, player) {
     // Spawn player
     gameServer.spawnPlayer(player, pos, startMass);
   }
-}
+};
 
 unlimitffa.prototype.updateLB = function (gameServer) {
   var lb = gameServer.leaderboard;
