@@ -75,6 +75,9 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
   if (isNaN(angle)) {
     return;
   }
+  if (this.owner.frozen) {
+    return;
+  }
 
   // Distance between mouse pointer and cell
   var dist = this.getDist(this.position.x, this.position.y, x2, y2);
