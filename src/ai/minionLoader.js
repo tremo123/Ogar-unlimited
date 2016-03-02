@@ -3,45 +3,44 @@ var BotPlayer = require('./minionPlayer');
 var FakeSocket = require('./minionSocket');
 var PacketHandler = require('../PacketHandler');
 
-function minionLoader(gameServer) {
-    this.gameServer = gameServer;
-    this.loadNames();
+function MinionLoader(gameServer) {
+  this.gameServer = gameServer;
+  this.loadNames();
 }
 
-module.exports = minionLoader;
+module.exports = MinionLoader;
 
-minionLoader.prototype.getName = function() {
-    var name = this.gameServer.minionname;
-
-    return name;
+// todo bad constructor name?
+MinionLoader.prototype.getName = function () {
+  return this.gameServer.minionname;
 };
 
-minionLoader.prototype.loadNames = function() {
-    this.randomNames = [];
+MinionLoader.prototype.loadNames = function () {
+  this.randomNames = [];
 
-    // Load names
-    try {
-        var fs = require("fs"); // Import the util library
+  // Load names
+  try {
+    var fs = require("fs"); // Import the util library
 
-        // Read and parse the names - filter out whitespace-only names
-        this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function(x) {
-            return x != ''; // filter empty names
-        });
-    } catch (e) {
-        // Nothing, use the default names
-    }
+    // Read and parse the names - filter out whitespace-only names
+    this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      return x != ''; // filter empty names
+    });
+  } catch (e) {
+    // Nothing, use the default names
+  }
 
-    this.nameIndex = 0;
+  this.nameIndex = 0;
 };
 
-minionLoader.prototype.addBot = function(owner, name) {
-    var s = new FakeSocket(this.gameServer);
-    s.playerTracker = new BotPlayer(this.gameServer, s,owner);
-    s.packetHandler = new PacketHandler(this.gameServer, s);
+MinionLoader.prototype.addBot = function (owner, name) {
+  var fakeSocket = new FakeSocket(this.gameServer);
+  fakeSocket.playerTracker = new BotPlayer(this.gameServer, fakeSocket, owner);
+  fakeSocket.packetHandler = new PacketHandler(this.gameServer, fakeSocket);
 
-    // Add to client list
-    this.gameServer.clients.push(s);
-if (!name || typeof name == "undefined") name = "minion";
-    // Add to world
-    s.packetHandler.setNickname(name);
+  // Add to client list
+  this.gameServer.clients.push(fakeSocket);
+  if (!name || typeof name == "undefined") name = "minion";
+  // Add to world
+  fakeSocket.packetHandler.setNickname(name);
 };
