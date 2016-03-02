@@ -80,7 +80,7 @@ TFFA.prototype.prepare = function (gameServer) {
 
 TFFA.prototype.onPlayerDeath = function (gameServer) {
   // Nothing
-}
+};
 
 TFFA.prototype.formatTime = function (time) {
   if (time < 0) {
