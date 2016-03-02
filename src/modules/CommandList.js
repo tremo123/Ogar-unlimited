@@ -1755,6 +1755,7 @@ Commands.list = {
     gameServer.liveticks = 0;
     for (var i = 0; i < add; i++) {
       gameServer.bots.addBot();
+      gameServer.sbo ++;
     }
     console.log("[Console] Added " + add + " player bots");
   },
@@ -1775,6 +1776,7 @@ Commands.list = {
         }
         client.socket.close();
         removed++;
+        gameServer.sbo --;
       } else
         i++;
     }
