@@ -5,7 +5,7 @@ var PacketHandler = require('../PacketHandler');
 
 function BotLoader(gameServer) {
   this.gameServer = gameServer;
-  this.loadNames();
+  this.loadNames(gameServer);
 }
 
 module.exports = BotLoader;
@@ -25,11 +25,11 @@ BotLoader.prototype.getName = function () {
   return name;
 };
 
-BotLoader.prototype.loadNames = function () {
+BotLoader.prototype.loadNames = function (gameServer) {
   this.randomNames = [];
 
   // Load names
-  if (this.gameServer.config.botrealnames == 1) {
+  if (gameServer.config.botrealnames == 1) {
     
     try {
     var fs = require("fs"); // Import the util library
