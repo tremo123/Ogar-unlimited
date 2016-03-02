@@ -1,8 +1,5 @@
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
-var Food = require('../entity/Food');
-var Virus = require('../entity/Virus');
-var VirusFeed = require('../entity/Virus').prototype.feed;
 var MotherCell = require('../entity/MotherCell');
 var MovingVirus = require('../entity/MovingVirus');
 var StickyCell = require('../entity/StickyCell');
