@@ -60,12 +60,12 @@ UpdateNodes.prototype.build = function () {
     view.setInt32(offset + 4, node.position.x + this.scrambleX, true); // X position
     view.setInt32(offset + 8, node.position.y + this.scrambleY, true); // Y position
     view.setUint16(offset + 12, node.getSize(), true); // Mass formula: Radius (size) = (mass * mass) / 100
-    view.setUint8(offset + 14, node.color.r, true); // Color (R)
-    view.setUint8(offset + 15, node.color.g, true); // Color (G)
-    view.setUint8(offset + 16, node.color.b, true); // Color (B)
+    view.setUint8(offset + 14, node.color.r); // Color (R)
+    view.setUint8(offset + 15, node.color.g); // Color (G)
+    view.setUint8(offset + 16, node.color.b); // Color (B)
     /////view.setUint8(offset + 17, node.spiked, true); // Flags
     /////
-    view.setUint8(offset + 17, (node.spiked | 4), true); // Flags
+    view.setUint8(offset + 17, (node.spiked | 4)); // Flags
     /////
     offset += 18;
 
@@ -75,12 +75,12 @@ UpdateNodes.prototype.build = function () {
       for (var j = 0; j < skin.length; j++) {
         var c = skin.charCodeAt(j);
         if (c) {
-          view.setUint8(offset, c, true);
+          view.setUint8(offset, c);
         }
         offset++;
       }
     }
-    view.setUint8(offset, 0, true); // End of string
+    view.setUint8(offset, 0); // End of string
     offset++;
     /////
 
