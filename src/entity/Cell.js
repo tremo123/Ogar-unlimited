@@ -73,7 +73,12 @@ Cell.prototype.addMass = function (n) {
     var randomAngle = Math.random() * 6.28 // Get random angle
     this.owner.gameServer.newCellVirused(this.owner, this, randomAngle, this.mass, 350);
   } else {
-    this.mass = Math.min(this.mass + n, this.owner.gameServer.config.playerMaxMass);
+    var th = this;
+    setTimeout(function () {
+      th.mass = Math.min(th.mass + n, th.owner.gameServer.config.playerMaxMass);
+      
+    }, 1000);
+    
   }
 };
 Cell.prototype.getSpeed = function () {
