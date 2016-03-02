@@ -1106,7 +1106,7 @@ GameServer.prototype.mainLoop = function () {
       for (var i = 0; i < this.clients.length; i++) {
         if ('_socket' in this.clients[i]) {
           humans++;
-        } else {
+        } else if (!this.clients[i].playerTracker.owner) {
           bots++;
         }
       }
@@ -1134,20 +1134,8 @@ GameServer.prototype.mainLoop = function () {
         i++;
     }
           }
-        
-          
-              
-            
-            
           }
           
-        }
-        
-        
-        
-      }
-      
-      
       if (this.config.autopause == 1) {
       if ((!this.run) && (humans != 0) && (!this.overideauto)) {
         console.log("[Autopause] Game Resumed!");
