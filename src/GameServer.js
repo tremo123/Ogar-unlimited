@@ -243,6 +243,8 @@ function GameServer() {
     botupdate: 10,
     notifyupdate: 1,
     botrealnames: 0,
+    smartbotspawn: 0,
+    smartbspawnbase: 20,
     autoupdate: 0,
     minionavoid: 1,
     borderDec: 200,
