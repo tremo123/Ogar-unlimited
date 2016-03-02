@@ -193,7 +193,7 @@ function GameServer() {
       'r': 227,
       'g': 0,
       'b': 64
-    },
+    }
   ];
 
   this.bots = new BotLoader(this);
@@ -1963,7 +1963,7 @@ GameServer.prototype.startStatsServer = function (port) {
     console.log("[Game] Loaded stats server on port " + port);
     setInterval(this.getStats.bind(this), this.config.serverStatsUpdate * 1000);
   }.bind(this));
-}
+};
 
 GameServer.prototype.getStats = function () {
   var players = 0;
