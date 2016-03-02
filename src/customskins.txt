@@ -49,3 +49,16 @@ starbucks :http://abs0rb.me/skins/img/st.png
 spoderman :http://abs0rb.me/skins/img/spo.png
 lennyface :http://abs0rb.me/skins/img/le.png
 troll :http://agarz.com/skins/!troll.png
+pewdiepie :http://agario-skins.org/images/skins/pewdiepie.png?v0.9.1
+420 :http://i.imgur.com/m7iCknY.png
+jake :http://i.imgur.com/b4dCqGx.png
+greenpeace :http://i.imgur.com/Ub0Wh3i.png
+felipesmith :http://i.imgur.com/DpsLOe0.jpg
+tardis :http://i.imgur.com/waYawcu.jpg
+avatario :http://i.imgur.com/gpWddsL.png
+chocolate :http://i.imgur.com/Oko7AkF.jpg
+biohazard :http://i.imgur.com/k4J6aiH.png?1
+rektm8 :http://i.imgur.com/FKd80zq.jpg
+fbi :http://i.imgur.com/IMFARZP.png
+atari :http://i.imgur.com/S89bzoM.png
+mortalcombat :http://i.imgur.com/iOtXDGS.png
