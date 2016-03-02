@@ -77,7 +77,7 @@ Cell.prototype.addMass = function (n) {
     var th = this;
     
     setTimeout(function () {
-      th.mass = Math.min(th.mass + n, th.owner.gameServer.config.playerMaxMass);
+      th.mass = Math.min(th.mass, th.owner.gameServer.config.playerMaxMass);
       
     }, 1000);
     
