@@ -29,6 +29,21 @@ BotLoader.prototype.loadNames = function () {
   this.randomNames = [];
 
   // Load names
+  if (this.gameServer.config.botrealnames == 1) {
+    
+    try {
+    var fs = require("fs"); // Import the util library
+
+    // Read and parse the names - filter out whitespace-only names
+    // todo should we use readFileSync? likely doesn't matter here as this looks to be call on sever start
+    this.randomNames = fs.readFileSync("./realisticnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      return x != ''; // filter empty names
+    });
+  } catch (e) {
+    // Nothing, use the default names
+  }
+  } else {
+  
   try {
     var fs = require("fs"); // Import the util library
 
@@ -40,7 +55,7 @@ BotLoader.prototype.loadNames = function () {
   } catch (e) {
     // Nothing, use the default names
   }
-
+}
   this.nameIndex = 0;
 };
 
