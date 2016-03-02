@@ -426,10 +426,10 @@ Commands.list = {
         fs.writeFileSync(filepath, body);
       }
     });
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionPlayer.js'; // needed
+    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionPlayer.js'; // needed
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        var filepath = './ai/minionPlayer.js'; // needed
+        var filepath = './ai/MinionPlayer.js'; // needed
         fs.writeFileSync(filepath, body);
       }
     });

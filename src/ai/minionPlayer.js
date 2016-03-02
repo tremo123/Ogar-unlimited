@@ -1,6 +1,6 @@
 var PlayerTracker = require('../PlayerTracker');
 
-function minionPlayer() {
+function MinionPlayer() {
   PlayerTracker.apply(this, Array.prototype.slice.call(arguments));
   //this.color = gameServer.getRandomColor();
 
@@ -27,12 +27,12 @@ function minionPlayer() {
   };
 }
 
-module.exports = minionPlayer;
-minionPlayer.prototype = new PlayerTracker();
+module.exports = MinionPlayer;
+MinionPlayer.prototype = new PlayerTracker();
 
 // Functions
 
-minionPlayer.prototype.getLowestCell = function () {
+MinionPlayer.prototype.getLowestCell = function () {
   // Gets the cell with the lowest mass
   if (this.cells.length <= 0) {
     return null; // Error!
@@ -50,7 +50,7 @@ minionPlayer.prototype.getLowestCell = function () {
 
 // Don't override, testing to use more accurate way.
 /*
- minionPlayer.prototype.updateSightRange = function() { // For view distance
+ MinionPlayer.prototype.updateSightRange = function() { // For view distance
  var range = 1000; // Base sight range
 
  if (this.cells[0]) {
@@ -61,7 +61,7 @@ minionPlayer.prototype.getLowestCell = function () {
  this.sightRangeY = range;
  }; */
 
-minionPlayer.prototype.update = function () { // Overrides the update function from player tracker
+MinionPlayer.prototype.update = function () { // Overrides the update function from player tracker
                                               // Remove nodes from visible nodes if possible
   for (var i = 0; i < this.nodeDestroyQueue.length; i++) {
     var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[i]);
@@ -176,7 +176,7 @@ minionPlayer.prototype.update = function () { // Overrides the update function f
 
 // Custom
 
-minionPlayer.prototype.clearLists = function () {
+MinionPlayer.prototype.clearLists = function () {
   this.predators = [];
   this.threats = [];
   this.prey = [];
@@ -185,7 +185,7 @@ minionPlayer.prototype.clearLists = function () {
   this.juke = false;
 };
 
-minionPlayer.prototype.getState = function (cell) {
+MinionPlayer.prototype.getState = function (cell) {
   // Continue to shoot viruses
   if (this.gameState == 4) {
     return 4;
@@ -217,7 +217,7 @@ minionPlayer.prototype.getState = function (cell) {
   return 0;
 };
 
-minionPlayer.prototype.decide = function (cell) {
+MinionPlayer.prototype.decide = function (cell) {
   // The bot decides what to do based on gamestate
 
   switch (this.gameState) {
@@ -310,7 +310,7 @@ minionPlayer.prototype.decide = function (cell) {
 };
 
 // Finds the nearest cell in list
-minionPlayer.prototype.findNearest = function (cell, list) {
+MinionPlayer.prototype.findNearest = function (cell, list) {
   if (this.currentTarget) {
     // Do not check for food if target already exists
     return null;
@@ -331,13 +331,13 @@ minionPlayer.prototype.findNearest = function (cell, list) {
   return shortest;
 };
 
-minionPlayer.prototype.getRandom = function (list) {
+MinionPlayer.prototype.getRandom = function (list) {
   // Gets a random cell from the array
   var n = Math.floor(Math.random() * list.length);
   return list[n];
 };
 
-minionPlayer.prototype.combineVectors = function (list) {
+MinionPlayer.prototype.combineVectors = function (list) {
   // Gets the angles of all enemies approaching the cell
   var pos = {
     x: 0,
@@ -357,7 +357,7 @@ minionPlayer.prototype.combineVectors = function (list) {
   return pos;
 };
 
-minionPlayer.prototype.checkPath = function (cell, check) {
+MinionPlayer.prototype.checkPath = function (cell, check) {
   // Checks if the cell is in the way
 
   // Get angle of vector (cell -> path)
@@ -375,7 +375,7 @@ minionPlayer.prototype.checkPath = function (cell, check) {
   }
 };
 
-minionPlayer.prototype.getBiggest = function (list) {
+MinionPlayer.prototype.getBiggest = function (list) {
   // Gets the biggest cell from the array
   var biggest = list[0];
   for (var i = 1; i < list.length; i++) {
@@ -388,7 +388,7 @@ minionPlayer.prototype.getBiggest = function (list) {
   return biggest;
 };
 
-minionPlayer.prototype.findNearbyVirus = function (cell, checkDist, list) {
+MinionPlayer.prototype.findNearbyVirus = function (cell, checkDist, list) {
   var r = cell.getSize() + 100; // Gets radius + virus radius
   for (var i = 0; i < list.length; i++) {
     var check = list[i];
@@ -400,7 +400,7 @@ minionPlayer.prototype.findNearbyVirus = function (cell, checkDist, list) {
   return false; // Returns a bool if no nearby viruses are found
 };
 
-minionPlayer.prototype.checkPath = function (cell, check) {
+MinionPlayer.prototype.checkPath = function (cell, check) {
   // Get angle of path
   var v1 = Math.atan2(cell.position.x - player.mouse.x, cell.position.y - player.mouse.y);
 
@@ -419,7 +419,7 @@ minionPlayer.prototype.checkPath = function (cell, check) {
   return false;
 };
 
-minionPlayer.prototype.getDist = function (cell, check) {
+MinionPlayer.prototype.getDist = function (cell, check) {
   // Fastest distance - I have a crappy computer to test with :(
   var xd = (check.position.x - cell.position.x);
   xd = xd < 0 ? xd * -1 : xd; // Math.abs is slow
@@ -430,7 +430,7 @@ minionPlayer.prototype.getDist = function (cell, check) {
   return (xd + yd);
 };
 
-minionPlayer.prototype.getAccDist = function (cell, check) {
+MinionPlayer.prototype.getAccDist = function (cell, check) {
   // Accurate Distance
   var xs = check.position.x - cell.position.x;
   xs = xs * xs;
@@ -441,12 +441,12 @@ minionPlayer.prototype.getAccDist = function (cell, check) {
   return Math.sqrt(xs + ys);
 };
 
-minionPlayer.prototype.getAngle = function (c1, c2) {
+MinionPlayer.prototype.getAngle = function (c1, c2) {
   var deltaY = c1.position.y - c2.position.y;
   var deltaX = c1.position.x - c2.position.x;
   return Math.atan2(deltaX, deltaY);
 };
 
-minionPlayer.prototype.reverseAngle = function (angle) {
+MinionPlayer.prototype.reverseAngle = function (angle) {
   return (angle > Math.PI) ? angle - Math.PI : angle + Math.PI;
 };
