@@ -62,6 +62,7 @@ Commands.list = {
     console.log("[Console] color      : set cell(s) color by client ID");
     console.log("[Console] exit       : stop the server");
     console.log("[Console] food       : spawn food at specified Location");
+    console.log("[Console] spawnmass  : sets players spawn mass");
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
     console.log("[Console] kill       : kill cell(s) by client ID");
@@ -1677,6 +1678,28 @@ Commands.list = {
       }
     }
     console.log("That player cannot recombine now");
+  },
+ spawnmass: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    var mass = parseInt(split[2]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+    if (isNaN(mass)) {
+      console.log("[Console] Please specify a valid mass!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.spawnmass = mass;
+
+      }
+    }
+    console.log("[Console] Player "+ id + " now spawns with " + mass + " Mass");
   },
   merge: function (gameServer, split) {
     // Validation checks
