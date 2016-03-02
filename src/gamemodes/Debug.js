@@ -31,7 +31,7 @@ Debug.prototype.testPath = function (gameServer, player) {
   if ((v1 <= (v2 + inRange)) && (v1 >= (v2 - inRange))) {
     console.log("Collided!");
   }
-}
+};
 
 Debug.prototype.getAngle = function (c1, c2) {
   var deltaY = c1.position.y - c2.position.y;
