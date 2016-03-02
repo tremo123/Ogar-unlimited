@@ -55,18 +55,19 @@ Commands.list = {
     console.log("[Console] kickbots   : kick a specified amount of bots");
     console.log("[Console] board      : set scoreboard text");
     console.log("[Console] Restart    : Restart server or set time till restart");
-    console.log("[Console] Announce   : Starts the auto announce for high scores")
+    console.log("[Console] Announce   : Starts the auto announce for high scores");
     console.log("[Console] boardreset : reset scoreboard text");
     console.log("[Console] change     : change specified settings");
     console.log("[Console] clear      : clear console output");
     console.log("[Console] color      : set cell(s) color by client ID");
     console.log("[Console] exit       : stop the server");
     console.log("[Console] food       : spawn food at specified Location");
+    console.log("[Console] Freeze     : Freezes a player");
     console.log("[Console] spawnmass  : sets players spawn mass");
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
     console.log("[Console] kill       : kill cell(s) by client ID");
-    console.log("[Console] Reset      : Destroys everything and starts from scratch")
+    console.log("[Console] Reset      : Destroys everything and starts from scratch");
     console.log("[Console] killall    : kill everyone");
     console.log("[Console] mass       : set cell(s) mass by client ID");
     console.log("[Console] name       : change cell(s) name by client ID");
@@ -1678,6 +1679,30 @@ Commands.list = {
       }
     }
     console.log("That player cannot recombine now");
+  },
+  freeze: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.frozen = !client.frozen;
+        if (client.frozen) {
+          console.log("[Console] Froze player " + id);
+          
+        } else {
+          console.log("[Console] Unfroze player " + id);
+        }
+        
+        break;
+      }
+    }
+    
   },
  spawnmass: function (gameServer, split) {
     var id = parseInt(split[1]);
