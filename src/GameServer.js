@@ -1357,6 +1357,9 @@ GameServer.prototype.setAsMovingNode = function (node) {
 };
 
 GameServer.prototype.splitCells = function (client) {
+  if (client.frozen) {
+    return;
+  }
   var len = client.cells.length;
   var splitCells = 0; // How many cells have been split
   for (var i = 0; i < len; i++) {
@@ -1410,7 +1413,7 @@ GameServer.prototype.splitCells = function (client) {
 };
 
 GameServer.prototype.canEjectMass = function (client) {
-  if (typeof client.lastEject == 'undefined' || this.time - client.lastEject >= this.config.ejectMassCooldown) {
+  if (typeof client.lastEject == 'undefined' || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
     client.lastEject = this.time;
     return true;
   } else
