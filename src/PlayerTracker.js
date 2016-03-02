@@ -11,8 +11,8 @@ function PlayerTracker(gameServer, socket, owner) {
   this.rainbowon = false;
   this.mergeOverrideDuration = 0;
   this.recombineinstant = false;
-  this.mi = 0
-  this.owner = owner
+  this.mi = 0;
+  this.owner = owner;
   this.oldname = "";
   this.norecombine = false;
   this.nodeAdditionQueue = [];
@@ -327,7 +327,7 @@ PlayerTracker.prototype.antiTeamTick = function () {
   if (this.actionMult > 1) this.massDecayMult = this.actionMult;
   else this.massDecayMult = 1;
 
-}
+};
 
 PlayerTracker.prototype.updateSightRange = function () { // For view distance
   var totalSize = 1.0;
