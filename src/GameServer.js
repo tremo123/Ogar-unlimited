@@ -242,6 +242,7 @@ function GameServer() {
     rainbowspeed: 1,
     botupdate: 10,
     notifyupdate: 1,
+    botrealnames: 0,
     autoupdate: 0,
     minionavoid: 1,
     borderDec: 200,
