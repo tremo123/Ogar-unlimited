@@ -1,19 +1,19 @@
 // A fake socket for bot players
 
-function minionSocket(gameServer) {
+function MinionSocket(gameServer) {
   this.server = gameServer;
 }
 
-module.exports = minionSocket;
+module.exports = MinionSocket;
 
 // Override
 
-minionSocket.prototype.sendPacket = function (packet) {
+MinionSocket.prototype.sendPacket = function (packet) {
   // Fakes sending a packet
   return;
 };
 
-minionSocket.prototype.close = function (error) {
+MinionSocket.prototype.close = function (error) {
   // Removes the bot
   var self = this;
   this.playerTracker.cells.forEach(function (cell) {
