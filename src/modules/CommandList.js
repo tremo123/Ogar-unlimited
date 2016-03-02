@@ -417,12 +417,12 @@ Commands.list = {
         fs.writeFileSync(filepath, body);
       }
     });
-    var filename = "minionLoader.js"; // needed
+    var filename = "MinionLoader.js"; // needed
     console.log("[Update] Downloading " + filename);
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/minionLoader.js'; // needed
+    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionLoader.js'; // needed
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        var filepath = './ai/minionLoader.js'; // needed
+        var filepath = './ai/MinionLoader.js'; // needed
         fs.writeFileSync(filepath, body);
       }
     });

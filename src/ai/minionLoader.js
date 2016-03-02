@@ -3,19 +3,19 @@ var BotPlayer = require('./minionPlayer');
 var FakeSocket = require('./minionSocket');
 var PacketHandler = require('../PacketHandler');
 
-function minionLoader(gameServer) {
+function MinionLoader(gameServer) {
   this.gameServer = gameServer;
   this.loadNames();
 }
 
-module.exports = minionLoader;
+module.exports = MinionLoader;
 
 // todo bad constructor name?
-minionLoader.prototype.getName = function () {
+MinionLoader.prototype.getName = function () {
   return this.gameServer.minionname;
 };
 
-minionLoader.prototype.loadNames = function () {
+MinionLoader.prototype.loadNames = function () {
   this.randomNames = [];
 
   // Load names
@@ -33,7 +33,7 @@ minionLoader.prototype.loadNames = function () {
   this.nameIndex = 0;
 };
 
-minionLoader.prototype.addBot = function (owner, name) {
+MinionLoader.prototype.addBot = function (owner, name) {
   var fakeSocket = new FakeSocket(this.gameServer);
   fakeSocket.playerTracker = new BotPlayer(this.gameServer, fakeSocket, owner);
   fakeSocket.packetHandler = new PacketHandler(this.gameServer, fakeSocket);
