@@ -111,7 +111,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
         var c2Speed = cell.getSpeed();
 
 
-        var mult = 0.9 // Limit from 0.5 to 2, not to have bugs
+        var mult = 0.9; // Limit from 0.5 to 2, not to have bugs
 
         if (config.splitversion == 1) {
           var mult = c1Speed / c2Speed / 2;
@@ -202,7 +202,7 @@ PlayerCell.prototype.moveDone = function (gameServer) {
 
 PlayerCell.prototype.abs = function (x) {
   return x < 0 ? -x : x;
-}
+};
 
 PlayerCell.prototype.getDist = function (x1, y1, x2, y2) {
   var xs = x2 - x1;
@@ -212,4 +212,4 @@ PlayerCell.prototype.getDist = function (x1, y1, x2, y2) {
   ys = ys * ys;
 
   return Math.sqrt(xs + ys);
-}
+};
