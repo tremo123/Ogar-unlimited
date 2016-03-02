@@ -186,8 +186,8 @@ The current available console commands are listed here. Command names are not ca
    * Forces players to read a message, This is done by changeing leaderboard to msg, freezing players, and change their name temporarily
  - Msg [message1] [message2] [etc...]
    * Changes the leaderboard to a message for a short time
- - kick/killrange [Start] [End]
-   * Kicks/kills in a range (eg: killrange 1 10 will kill players whos ids are between them)
+ - kick/killrange/ban [Start] [End]
+   * Kicks/kills/bans in a range (eg: killrange 1 10 will kill players whos ids are between them)
  - Nojoin [id]
    * Makes person unable to join
  - Merge [id]
