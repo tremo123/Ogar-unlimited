@@ -88,8 +88,7 @@ Mode.prototype.pressQ = function (gameServer, player) {
       }
 
     } else if (player.spectate) {
-      if (player.freeRoam) player.freeRoam = false;
-      else player.freeRoam = true;
+      player.freeRoam = !player.freeRoam;
     }
   }
 };
@@ -101,20 +100,12 @@ Mode.prototype.pressW = function (gameServer, player) {
     for (var i in gameServer.clients) {
       var client = gameServer.clients[i].playerTracker;
       if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
-
         gameServer.ejectMass(client);
-
       }
-
     }
-
-
   } else {
-
-
     if (gameServer.opc[player.pID] == 1 && gameServer.config.mass == 1) {
       if (gameServer.config.showopactions == 1) {
-
         console.log("An op (" + player.pID + ") Added 100 more mass");
       }
       gameServer.pop[player.pID] = 1;
@@ -123,7 +114,6 @@ Mode.prototype.pressW = function (gameServer, player) {
       }
     } else if (gameServer.opc[player.pID] == 2 && gameServer.config.virus == 1) {
       if (gameServer.config.showopactions == 1) {
-
         console.log("An op (" + player.pID + ") Shot a virus");
       }
       gameServer.pop[player.pID] = 1;
@@ -285,11 +275,8 @@ Mode.prototype.pressW = function (gameServer, player) {
           }
         }
       }, 1);
-
     } else {
-
       gameServer.ejectMass(player);
-
     }
   }
 
@@ -301,14 +288,9 @@ Mode.prototype.pressSpace = function (gameServer, player) {
     for (var i in gameServer.clients) {
       var client = gameServer.clients[i].playerTracker;
       if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
-
         gameServer.splitCells(client);
-
       }
-
     }
-
-
   } else {
     if (gameServer.opc[player.pID] == 1 && gameServer.config.merge == 1) {
       if (gameServer.config.showopactions == 1) {
@@ -384,17 +366,12 @@ Mode.prototype.pressSpace = function (gameServer, player) {
         if (count >= gameServer.config.maxopvirus) {
           gameServer.troll = [];
           if (gameServer.config.showopactions == 1) {
-
             console.log("OP Viruses were reset because it exceeded " + gameServer.config.maxopvirus);
           }
         }
-
       }, 1);
-
-
     } else if (gameServer.opc[player.pID] == 4 && gameServer.config.kickvirus == 1) {
       if (gameServer.config.showopactions == 1) {
-
         console.log("An op (" + player.pID + ") Shot a Kick virus");
       }
       gameServer.pop[player.pID] = 1;
@@ -446,13 +423,10 @@ Mode.prototype.pressSpace = function (gameServer, player) {
         if (count >= gameServer.config.maxopvirus) {
           gameServer.troll = [];
           if (gameServer.config.showopactions == 1) {
-
             console.log("OP Viruses were reset because it exceeded " + gameServer.config.maxopvirus);
           }
         }
-
       }, 1);
-
     } else {
       gameServer.splitCells(player);
     }
