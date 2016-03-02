@@ -1211,6 +1211,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
     }
     if (mass == null) { // Get starting mass
       mass = this.config.playerStartMass;
+      if (player.spawnmass > 0) mass = player.spawnmass;
     }
 
     // Spawn player and add to world
