@@ -34,13 +34,13 @@ minionLoader.prototype.loadNames = function () {
 };
 
 minionLoader.prototype.addBot = function (owner, name) {
-  var s = new FakeSocket(this.gameServer);
-  s.playerTracker = new BotPlayer(this.gameServer, s, owner);
-  s.packetHandler = new PacketHandler(this.gameServer, s);
+  var fakeSocket = new FakeSocket(this.gameServer);
+  fakeSocket.playerTracker = new BotPlayer(this.gameServer, fakeSocket, owner);
+  fakeSocket.packetHandler = new PacketHandler(this.gameServer, fakeSocket);
 
   // Add to client list
-  this.gameServer.clients.push(s);
+  this.gameServer.clients.push(fakeSocket);
   if (!name || typeof name == "undefined") name = "minion";
   // Add to world
-  s.packetHandler.setNickname(name);
+  fakeSocket.packetHandler.setNickname(name);
 };
