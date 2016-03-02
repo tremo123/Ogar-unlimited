@@ -110,14 +110,14 @@ Beacon.prototype.feed = function (feeder, gameServer) {
     r: 255 * (1 - this.stage / this.maxStage),
     g: 255 * (1 - this.stage / this.maxStage),
     b: 255 * (1 - this.stage / (2 * this.maxStage))
-  }
+  };
 
   gameServer.removeNode(feeder);
-}
+};
 
 Beacon.prototype.onAdd = function (gameServer) {
   gameServer.gameMode.beacon = this;
-}
+};
 
 Beacon.prototype.abs = MotherCell.prototype.abs;
 Beacon.prototype.visibleCheck = MotherCell.prototype.visibleCheck;
