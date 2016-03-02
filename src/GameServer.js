@@ -1096,7 +1096,10 @@ GameServer.prototype.mainLoop = function () {
 
     // Reset
     this.tick = 0;
-    if (this.config.autopause == 1) {
+    
+    
+    
+    
       var humans = 0,
         bots = 0;
       for (var i = 0; i < this.clients.length; i++) {
@@ -1106,6 +1109,53 @@ GameServer.prototype.mainLoop = function () {
           bots++;
         }
       }
+      if (this.config.smartbotspawn == 1) {
+        if (humans > 0) {
+          if (bots <=  this.config.smartbspawnbase - humans) {
+           this.livestage = 2;
+    this.liveticks = 0;
+    
+      this.bots.addBot();
+    
+          } else {
+            var toRemove =  bots - (this.config.smartbspawnbase - humans);
+             var removed = 0;
+    var i = 0;
+    while (i < gameServer.clients.length && removed != toRemove) {
+      if (typeof gameServer.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+        var client = gameServer.clients[i].playerTracker;
+        var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          gameServer.removeNode(client.cells[0]);
+        }
+        client.socket.close();
+        removed++;
+      } else
+        i++;
+    }
+          }
+        } else {
+          for (var i in this.clients) {
+            if (typeof this.clients[i].remoteAddress == 'undefined') { 
+             var client = this.clients[i].playerTracker; 
+              var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+        }
+        client.socket.close();
+              
+            }
+            
+          }
+          
+        }
+        
+        
+        
+      }
+      
+      
+      if (this.config.autopause == 1) {
       if ((!this.run) && (humans != 0) && (!this.overideauto)) {
         console.log("[Autopause] Game Resumed!");
         this.run = true;
