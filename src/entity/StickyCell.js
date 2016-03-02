@@ -84,7 +84,7 @@ StickyCell.prototype.update = function (gameServer) {
       this.acquired = check;
     }
   }
-}
+};
 
 StickyCell.prototype.onAdd = function (gameServer) {
   gameServer.gameMode.nodesSticky.push(this);
@@ -102,7 +102,7 @@ StickyCell.prototype.onConsume = function (consumer, gameServer) {
       consumer.mass = 10;
     }
   }
-}
+};
 
 StickyCell.prototype.virusOnConsume = Virus.prototype.onConsume;
 
