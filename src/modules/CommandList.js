@@ -74,6 +74,7 @@ Commands.list = {
     console.log("[Console] playerlist : get list of players and bots");
     console.log("[Console] pause      : pause game , freeze all cells");
     console.log("[Console] reload     : reload config");
+    console.log("[Console] Speed      : Sets a players base speed")
     console.log("[Console] status     : get server status");
     console.log("[Console] tp         : teleport player to specified location");
     console.log("[Console] virus      : spawn virus at a specified Location");
@@ -1725,6 +1726,28 @@ Commands.list = {
       }
     }
     console.log("[Console] Player "+ id + " now spawns with " + mass + " Mass");
+  },
+  speed: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    var speed = parseInt(split[2]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+    if (isNaN(speed)) {
+      console.log("[Console] Please specify a valid speed!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.customspeed = speed;
+
+      }
+    }
+    console.log("[Console] Player "+ id + "'s base speed is now " + speed);
   },
   merge: function (gameServer, split) {
     // Validation checks
