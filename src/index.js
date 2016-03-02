@@ -55,7 +55,7 @@ function prompt() {
     parseCommands(str);
     return prompt(); // Too lazy to learn async
   });
-};
+}
 
 function parseCommands(str) {
   // Log the string
@@ -78,4 +78,4 @@ function parseCommands(str) {
   } else {
     console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
   }
-};
+}
