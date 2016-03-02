@@ -1472,7 +1472,7 @@ GameServer.prototype.ejectMass = function (client) {
     return;
   var ejectedCells = 0; // How many cells have been ejected
   if (this.config.ejectbiggest == 1) {
-    var cell = client.getBiggest();
+    var cell = client.getBiggestc();
     if (!cell) {
       return;
     }
