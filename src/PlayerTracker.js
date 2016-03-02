@@ -10,6 +10,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.socket = socket;
   this.rainbowon = false;
   this.mergeOverrideDuration = 0;
+  this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
   this.spawnmass = 0;
