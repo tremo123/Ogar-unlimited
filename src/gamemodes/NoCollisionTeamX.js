@@ -55,7 +55,7 @@ TeamX.prototype.updateMotherCells = function (gameServer) {
     mother.update(gameServer);
     mother.checkEat(gameServer);
   }
-}
+};
 
 TeamX.prototype.spawnMotherCell = function (gameServer) {
   // Checks if there are enough mother cells on the map
@@ -360,7 +360,7 @@ MotherCell.prototype.update = function (gameServer) {
     this.mass--;
     i++;
   }
-}
+};
 
 MotherCell.prototype.checkEat = function (gameServer) {
   var safeMass = this.mass * .9;
@@ -399,12 +399,12 @@ MotherCell.prototype.checkEat = function (gameServer) {
       this.mass += check.mass;
     }
   }
-}
+};
 
 MotherCell.prototype.abs = function (n) {
   // Because Math.abs is slow
   return (n < 0) ? -n : n;
-}
+};
 
 MotherCell.prototype.spawnFood = function (gameServer) {
   // Get starting position
