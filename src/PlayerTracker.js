@@ -13,6 +13,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
+  this.customspeed = 0;
   this.spawnmass = 0;
   this.owner = owner;
   this.oldname = "";
