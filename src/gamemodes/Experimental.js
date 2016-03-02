@@ -39,7 +39,7 @@ Experimental.prototype.updateMotherCells = function (gameServer) {
     mother.update(gameServer);
     mother.checkEat(gameServer);
   }
-}
+};
 
 Experimental.prototype.spawnMotherCell = function (gameServer) {
   // Checks if there are enough mother cells on the map
