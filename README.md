@@ -132,8 +132,10 @@ The current available console commands are listed here. Command names are not ca
    * Enlarges the game (amount is optional)
  - Freeze [id]
    * Freezes a player
- - Spanwmass [id] [mass]
-   * stes a players spawnmass. set to 0 to return to normal value
+ - Spawnmass [id] [mass]
+   * sets a players spawnmass. set to 0 to return to normal value
+ - Speed [id] [mass]
+   * sets a players base speed. set to 0 to return to normal value
  - Colortext [color]
    * Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)
  - Team [id] [team (r,g,b)]
