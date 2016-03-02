@@ -11,7 +11,7 @@ SetBorder.prototype.build = function () {
   var buf = new ArrayBuffer(33);
   var view = new DataView(buf);
 
-  view.setUint8(0, 64, true);
+  view.setUint8(0, 64);
   view.setFloat64(1, this.left, true);
   view.setFloat64(9, this.top, true);
   view.setFloat64(17, this.right, true);
