@@ -78,7 +78,7 @@ function PlayerTracker(gameServer, socket, owner) {
 module.exports = PlayerTracker;
 
 // Setters/Getters
-PlayerTracker.prototype.getBiggest = function () {
+PlayerTracker.prototype.getBiggestc = function () {
   var biggest = {mass: 0};
   for (var i in this.cells) {
     if (this.cells[i].mass > biggest.mass) biggest = this.cells[i];
