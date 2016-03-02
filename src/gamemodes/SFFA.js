@@ -19,7 +19,7 @@ function SFFA() {
   this.contenders = [];
   this.stime = 60;
   this.maxContenders = 12;
-  this.borderDec = 150
+  this.borderDec = 150;
 
   this.winner;
   this.timer;
@@ -146,7 +146,7 @@ SFFA.prototype.prepare = function (gameServer) {
 
 SFFA.prototype.onPlayerDeath = function (gameServer) {
   // Nothing
-}
+};
 
 SFFA.prototype.formatTime = function (time) {
   if (time < 0) {
@@ -157,7 +157,7 @@ SFFA.prototype.formatTime = function (time) {
   var sec = this.timeLimit % 60;
   sec = (sec > 9) ? sec : "0" + sec.toString();
   return min + ":" + sec;
-}
+};
 SFFA.prototype.formatsTime = function (time) {
   if (time < 0) {
     return "0:00";
@@ -167,7 +167,7 @@ SFFA.prototype.formatsTime = function (time) {
   var sec = this.stime % 60;
   sec = (sec > 9) ? sec : "0" + sec.toString();
   return min + ":" + sec;
-}
+};
 
 // Override
 
