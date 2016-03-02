@@ -1193,6 +1193,7 @@ GameServer.prototype.spawnFood = function () {
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   if (this.nospawn[player.socket.remoteAddress] != true) {
     player.norecombine = false;
+    player.frozen = false;
     if (this.config.randomnames == 1) {
       if (this.randomNames.length > 0) {
         var index = Math.floor(Math.random() * this.randomNames.length);
