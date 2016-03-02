@@ -38,7 +38,7 @@ MotherCell.prototype.update = function (gameServer) {
     this.mass--;
     i++;
   }
-}
+};
 
 MotherCell.prototype.checkEat = function (gameServer) {
   var safeMass = this.mass * .9;
@@ -94,12 +94,12 @@ MotherCell.prototype.checkEat = function (gameServer) {
       }
     }
   }
-}
+};
 
 MotherCell.prototype.abs = function (n) {
   // Because Math.abs is slow
   return (n < 0) ? -n : n;
-}
+};
 
 MotherCell.prototype.spawnFood = function (gameServer) {
   // Get starting position
