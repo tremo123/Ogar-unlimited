@@ -120,10 +120,11 @@ Commands.list = {
       console.log("[PCMD] Disabled all running pcmd instances");
       return;
     }
-    delay = parseInt(split[1]) * 1000;
-    command = split[2];
+    var delay = parseInt(split[1]) * 1000;
+    var re = parseInt(split[2]);
+   var command = split[3];
     var newsplit = [];
-    for (var i = 3; i < split.length; i++) {
+    for (var i = 4; i < split.length; i++) {
        newsplit[i - 1] = split[i];
     }
     if (isNaN(delay)) {
@@ -135,7 +136,11 @@ Commands.list = {
     this.pcmd = setInterval(function () {
       console.log("[PCMD] Running command..");
       gameServer.execommand(command,newsplit);
-      
+      r++;
+        if (r > re) {
+          console.log("[PCMD] Done");
+          clearInterval(game.pcmd);
+        }
     }, delay);
     
     
