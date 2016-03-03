@@ -1211,7 +1211,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   if (this.nospawn[player.socket.remoteAddress] != true) {
     player.norecombine = false;
     player.frozen = false;
-    if (this.config.verify == 1) {
+    if (this.config.verify == 1 && !player.verify) {
       if (player.name == player.vpass || typeof player.socket.remoteAddress == "undefined") {
         player.verify = true;
         player.vfail = 0;
