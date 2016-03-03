@@ -1676,10 +1676,10 @@ GameServer.prototype.getCellsInRange = function (cell) {
         multiplier = 1.33;
         break;
       case 5: // Beacon
-        // This cell cannot be destroyed
+              // This cell cannot be destroyed
         continue;
       case 0: // Players
-        // Can't eat self if it's not time to recombine yet
+              // Can't eat self if it's not time to recombine yet
         if (check.owner == cell.owner) {
           if (!cell.shouldRecombine || !check.shouldRecombine) {
             if (!cell.owner.recombineinstant) continue;
