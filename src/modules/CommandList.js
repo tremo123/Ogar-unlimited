@@ -8,6 +8,7 @@ var request = require('request');
 
 function Commands() {
   this.list = {}; // Empty
+  this.pcmd;
 }
 
 module.exports = Commands;
@@ -112,6 +113,33 @@ Commands.list = {
     console.log("[Console] changelog  : Shows a changelog");
     console.log("[Console] ====================================================");
   },
+  pcmd: function (gameServer, split) {
+    if (split[1] == "reset") {
+      clearInterval(this.pcmd);
+      console.log("[PCMD] Disabled all running pcmd instances");
+      return;
+    }
+    delay = parseInt(split[1]) * 1000;
+    command = split[2];
+    var newsplit = [];
+    for (var i = 3; i < split.length; i++) {
+       newsplit[i - 1] = split[i];
+    }
+    if (isNaN(delay)) {
+      console.log("[Console] Please specify a valid delay!");
+      return;
+    }
+    var game = this;
+    console.log("[PCMD] Request Sent!");
+    this.pcmd = setInterval(function () {
+      console.log("[PCMD] Running command..");
+      gameServer.execommand(command,newsplit);
+      
+    }, delay);
+    
+    
+  },
+  
   reset: function (gameServer, split) {
     for (var i in gameServer.nodes) {
       gameServer.removeNode(gameServer.nodes[i]);
