@@ -279,6 +279,20 @@ Commands.list = {
     });
     var filename = "botnames.txt";
     console.log("[Update] Updating Botnames");
+    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/update/src/realisticnames.txt';
+
+    request(dbase, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var filepath = './realisticnames.txt';
+        fs.writeFileSync(filepath, body);
+
+      } else {
+        console.log("[Update] Couldnt connect to servers. Aborting...");
+        return;
+      }
+    });
+    var filename = "realisticnames.txt";
+    console.log("[Update] Updating realisticnames.txt");
     
     
   }  else if (ok == "skins") {
@@ -311,7 +325,19 @@ Commands.list = {
       });
 
     }
+var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/update/src/realisticnames.txt';
 
+    request(dbase, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var filepath = './realisticnames.txt';
+        fs.writeFileSync(filepath, body);
+
+      } else {
+        console.log("[Update] Couldnt connect to servers. Aborting...");
+        return;
+      }
+    });
+    console.log("[Update] Updating realisticnames.txt");
     request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
       if (!error && response.statusCode == 200) {
 
