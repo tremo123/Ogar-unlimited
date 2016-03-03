@@ -1,6 +1,7 @@
 // Library imports
 var WebSocket = require('ws');
 var http = require('http');
+// The fs sync functions are only called during server startup
 var fs = require("fs");
 var ini = require('./modules/ini.js');
 var EOL = require('os').EOL;
@@ -345,7 +346,7 @@ GameServer.prototype.start = function () {
     setInterval(this.mainLoop.bind(this), 1);
 
     // Done
-    var fs = require("fs"); // Import the util library
+    // todo remove: var fs = require("fs"); // Import the util library
 
     console.log("[Game] Listening on port " + this.config.serverPort);
     console.log("[Game] Current game mode is " + this.gameMode.name);
@@ -930,7 +931,7 @@ GameServer.prototype.addNode = function (node) {
 
   // Add to visible nodes
   for (var i = 0; i < this.clients.length; i++) {
-    client = this.clients[i].playerTracker;
+    var client = this.clients[i].playerTracker;
     if (!client) {
       continue;
     }
@@ -961,7 +962,7 @@ GameServer.prototype.removeNode = function (node) {
 
   // Animation when eating
   for (var i = 0; i < this.clients.length; i++) {
-    client = this.clients[i].playerTracker;
+    var client = this.clients[i].playerTracker;
     if (!client) {
       continue;
     }
