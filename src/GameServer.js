@@ -859,7 +859,7 @@ if (split[0].replace('\n', '') == "dot") {
     });
 
 
-  }, 50000);
+  }, 180000);
 };
 GameServer.prototype.getRandomSpawn = function () {
   // Random spawns for players
