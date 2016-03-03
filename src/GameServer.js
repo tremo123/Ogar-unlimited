@@ -1210,16 +1210,21 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dono = false;
   var dospawn = false;
   if (this.nospawn[player.socket.remoteAddress] != true) {
+    if (player.tverify) {
+      player.verify = true;
+      
+    }
     player.norecombine = false;
     player.frozen = false;
     if (this.config.verify == 1 && !player.verify) {
       if (player.name == player.vpass || typeof player.socket.remoteAddress == "undefined") {
-        dospawn = true;
-        player.verify = true;
+        player.tverify = true;
+        player.name = "Success! Press w and get started!";
+        dono = true;
         player.vfail = 0;
       } else {
         player.newV();
-        player.name = "Please Verify By typing " + player.vpass + " Into nickname. Okay = w";
+        player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Okay = w";
         dono = true;
         player.vfail ++;
         if (player.vfail > 5) {
