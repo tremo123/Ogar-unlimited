@@ -1208,11 +1208,13 @@ GameServer.prototype.spawnFood = function () {
 
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dono = false;
+  var dospawn = false;
   if (this.nospawn[player.socket.remoteAddress] != true) {
     player.norecombine = false;
     player.frozen = false;
     if (this.config.verify == 1 && !player.verify) {
       if (player.name == player.vpass || typeof player.socket.remoteAddress == "undefined") {
+        dospawn = true;
         player.verify = true;
         player.vfail = 0;
       } else {
@@ -1283,8 +1285,10 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
     }
 
     // Spawn player and add to world
+    if (!dospawn) {
     var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
     this.addNode(cell);
+    }
 
     // Set initial mouse coords
     player.mouse = {
