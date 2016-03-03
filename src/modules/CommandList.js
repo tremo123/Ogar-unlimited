@@ -264,10 +264,38 @@ Commands.list = {
       console.log("[Console] Error: could not perform action. Cause: You deleted folders or you are using a binary");
       return;
     }
-    if (ok != "yes") {
-      console.log("[Console] Please do update yes instead of update to confirm");
-      return;
-    }
+  if (ok == "botnames") {
+    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
+
+    request(dbase, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var filepath = './botnames.txt';
+        fs.writeFileSync(filepath, body);
+
+      } else {
+        console.log("[Update] Couldnt connect to servers. Aborting...");
+        return;
+      }
+    });
+    var filename = "botnames.txt";
+    console.log("[Update] Updating Botnames");
+    
+    
+  }  else if (ok == "skins") {
+    
+    console.log("[Console] Updating customskin.txt...");
+      request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+
+          fs.writeFileSync('./customskins.txt', body);
+
+        } else {
+          console.log("[Update] Could not fetch data from servers... Aborting...");
+         return; 
+        }
+      });
+  } else if (ok == "all") {
+    
     console.log("[Console] Fetching data from the servers..."); // Gameserver.js
     if (!fs.existsSync('./customskins.txt')) {
       console.log("[Console] Generating customskin.txt...");
@@ -910,6 +938,9 @@ Commands.list = {
         process.exit(3);
       }
     }, 8000);
+  } else {
+      console.log("[Console] Please do update all,botnames,skins instead of update to confirm");
+  }
   },
 
   explode: function (gameServer, split) {
