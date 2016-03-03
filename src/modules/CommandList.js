@@ -65,6 +65,7 @@ Commands.list = {
     console.log("[Console] food       : spawn food at specified Location");
     console.log("[Console] Freeze     : Freezes a player");
     console.log("[Console] spawnmass  : sets players spawn mass");
+    console.log("[Console] Pcmd       : Periodical commands")
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
     console.log("[Console] kill       : kill cell(s) by client ID");
@@ -2068,7 +2069,7 @@ Commands.list = {
       splita[2] = c1;
       splita[3] = c2;
       splita[4] = c3;
-      gameServer.execommand(command, splita)
+      gameServer.execommand(command, splita);
     }
   },
   killrange: function (gameServer, split) {
