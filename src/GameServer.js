@@ -223,6 +223,7 @@ function GameServer() {
     skins: 1,
     minionupdate: 10,
     splitversion: 1,
+    verify: 0,
     autobanrecord: 0,
     viruscolorintense: 255,
     SpikedCells: 0, // Amount of spiked cells
@@ -1206,10 +1207,22 @@ GameServer.prototype.spawnFood = function () {
 };
 
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
+  var dono = false;
   if (this.nospawn[player.socket.remoteAddress] != true) {
     player.norecombine = false;
     player.frozen = false;
-    if (this.config.randomnames == 1) {
+    if (this.config.verify == 1) {
+      if (player.name == player.vpass) {
+        player.verify = true;
+      } else {
+        player.name = "Please Verify By typing " + player.vpass + " Into nickname. Okay = w";
+        dono = true;
+        
+      }
+      
+      
+    }
+    if (this.config.randomnames == 1 && !dono) {
       if (this.randomNames.length > 0) {
         var index = Math.floor(Math.random() * this.randomNames.length);
         name = this.randomNames[index];
@@ -1220,7 +1233,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
       player.name = name;
     } else {
 
-      if (this.config.skins == 1) {
+      if (this.config.skins == 1 && !dono) {
 
         if (player.name.substr(0, 1) == "<") {
           // Premium Skin
@@ -1407,7 +1420,7 @@ GameServer.prototype.setAsMovingNode = function (node) {
 };
 
 GameServer.prototype.splitCells = function (client) {
-  if (client.frozen) {
+  if (client.frozen || (!client.verify && this.config.verify == 1)) {
     return;
   }
   var len = client.cells.length;
@@ -1522,6 +1535,15 @@ GameServer.prototype.anounce = function () {
 };
 
 GameServer.prototype.ejectMass = function (client) {
+  
+ if  (!client.verify && this.config.verify == 1) {
+   var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+          
+        }
+   
+ }
   if (!this.canEjectMass(client))
     return;
   var ejectedCells = 0; // How many cells have been ejected
