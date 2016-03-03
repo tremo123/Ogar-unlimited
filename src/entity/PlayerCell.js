@@ -75,7 +75,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
   if (isNaN(angle)) {
     return;
   }
-  if (this.owner.frozen) {
+  if (this.owner.frozen || (!this.owner.verify && this.owner.gameServer.config.verify == 1)) {
     return;
   }
 
