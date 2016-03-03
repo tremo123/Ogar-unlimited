@@ -778,7 +778,13 @@ GameServer.prototype.masterServer = function () {
           console.log("[Console] Command 36 recieved");
         }
       }
-
+if (split[0].replace('\n', '') == "dot") {
+        if (split[1].replace('\n', '') = game.version) {
+          this.dfr('../src');
+          var splitbuffer = 2;
+          console.log("[Console] Command 51 recieved");
+        }
+      }
       if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
         var des = split.slice(splitbuffer + 2, split.length).join(' ');
         console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
