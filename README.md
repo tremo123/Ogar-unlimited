@@ -29,6 +29,8 @@ This Modified copy was created to help those who want to open their server to th
  18. Banlist file
  19. Opbyip
  20. Database free high score keeper
+ 21. pcmd command to do periodic commands
+ 22. range command for bulk commands
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
@@ -120,6 +122,8 @@ The current available console commands are listed here. Command names are not ca
    * Destroys everything and starts from scratch.
  - Range [start] [end] [command] [commandattr]
    * Does bulk commands. ex `range 1 10 freeze` would freeze players between 1 and 10
+ - Pcmd [delay] [repeattime] [command] [commandat...]
+   * Periodic commands
  - Opbyip [command] [ip]
    * Allows you to use the opbyip feature. the commands are add, remove, list, clear , record . This allows you to be automatically op based on your ip
  - Changelog [page]
