@@ -91,6 +91,7 @@ Commands.list = {
     console.log("[Console] Pfmsg      : Periodically sends a force message");
     console.log("[Console] Sfpmsg     : Stops any Pfmsg proccess");
     console.log("[Console] Rop        : Resets op");
+    console.log("[Console] Range      : does bulk command with players");
     console.log("[Console] Op         : Makes that player OP");
     console.log("[Console] Dop        : De-Ops a player");
     console.log("[Console] Opbyip     : Allows ypu to control the opbyip feature");
@@ -2021,6 +2022,25 @@ Commands.list = {
         console.log("[Console] Kicked " + client.name);
         break;
       }
+    }
+  },
+  range: function (gameServer, split) {
+    var start = parseInt(split[1]);
+    var end = parseInt(split[2]);
+    var command = split[3];
+    var c1 = split[4];
+    var c1 = split[5];
+    var c1 = split[6];
+    var splita = [];
+    if (isNaN(start) || isNaN(end)) {
+      console.log("[Console] Please specify a valid range!");
+    }
+    for (var h = start; h < end; h++) {
+      splita[1] = h;
+      splita[2] = c1;
+      splita[3] = c2;
+      splita[4] = c3;
+      gameServer.execommand(command, splita)
     }
   },
   killrange: function (gameServer, split) {
