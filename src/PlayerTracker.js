@@ -96,6 +96,10 @@ PlayerTracker.prototype.setName = function (name) {
   this.name = name;
 
 };
+PlayerTracker.prototype.newV = function () {
+  this.vpass = Math.floor(Math.random() * 1000);
+
+};
 
 PlayerTracker.prototype.getName = function () {
   if (this.gameServer.config.skins == 1) {
