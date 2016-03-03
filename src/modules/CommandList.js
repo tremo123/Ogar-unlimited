@@ -65,7 +65,7 @@ Commands.list = {
     console.log("[Console] food       : spawn food at specified Location");
     console.log("[Console] Freeze     : Freezes a player");
     console.log("[Console] spawnmass  : sets players spawn mass");
-    console.log("[Console] Pcmd       : Periodical commands")
+    console.log("[Console] Pcmd       : Periodical commands");
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
     console.log("[Console] kill       : kill cell(s) by client ID");
