@@ -1212,7 +1212,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
     player.norecombine = false;
     player.frozen = false;
     if (this.config.verify == 1) {
-      if (player.name == player.vpass) {
+      if (player.name == player.vpass || typeof player.socket.remoteAddress == "undefined") {
         player.verify = true;
       } else {
         player.name = "Please Verify By typing " + player.vpass + " Into nickname. Okay = w";
