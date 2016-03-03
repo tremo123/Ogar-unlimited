@@ -167,11 +167,16 @@ PlayerCell.prototype.getEatingRange = function () {
 };
 
 PlayerCell.prototype.onConsume = function (consumer, gameServer) {
+  if (!this.owner.verify && this.owner.gameServer.config.verify == 1) {
+    
+    
+  } else {
   // Add an inefficiency for eating other players' cells
   var factor = (consumer.owner === this.owner ? 1 : gameServer.config.massAbsorbedPercent / 100);
   // Anti-bot measure
   factor = (consumer.mass >= 625 && this.mass <= 17 && gameServer.config.playerBotGrowEnabled == 1) ? 0 : factor;
   consumer.addMass(factor * this.mass);
+  }
 };
 
 PlayerCell.prototype.onAdd = function (gameServer) {
