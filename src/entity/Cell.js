@@ -68,6 +68,13 @@ Cell.prototype.getSquareSize = function () {
 };
 
 Cell.prototype.addMass = function (n) {
+  var client = this.owner;
+  var gameServer = this.owner.gameServer;
+if (!client.verify && gameServer.config.verify == 1) {
+  
+  
+} else {
+  
   if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
     this.mass = (this.mass + n) / 2;
     var randomAngle = Math.random() * 6.28 // Get random angle
@@ -82,6 +89,7 @@ Cell.prototype.addMass = function (n) {
     }, 1000);
     
   }
+}
 };
 Cell.prototype.getSpeed = function () {
   // Old formula: 5 + (20 * (1 - (this.mass/(70+this.mass))));
