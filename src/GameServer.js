@@ -1214,10 +1214,15 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
     if (this.config.verify == 1) {
       if (player.name == player.vpass || typeof player.socket.remoteAddress == "undefined") {
         player.verify = true;
+        player.vfail = 0;
       } else {
         player.name = "Please Verify By typing " + player.vpass + " Into nickname. Okay = w";
         dono = true;
-        
+        player.newV();
+        player.vfail ++;
+        if (player.vfail > 5) {
+          this.nospawn[player.socket.remoteAddress] = true;
+        }
       }
       
       
