@@ -25,6 +25,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.premium = '';
   this.nodeDestroyQueue = [];
   this.visibleNodes = [];
+  this.vfail = 0;
   this.cells = [];
   this.score = 0; // Needed for leaderboard
 
