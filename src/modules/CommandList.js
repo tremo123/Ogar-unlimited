@@ -128,6 +128,10 @@ Commands.list = {
        newsplit[i - 1] = split[i];
     }
     if (isNaN(delay)) {
+      console.log("[Console] Please specify a valid Repeat amount!");
+      return;
+    }
+    if (isNaN(re)) {
       console.log("[Console] Please specify a valid delay!");
       return;
     }
