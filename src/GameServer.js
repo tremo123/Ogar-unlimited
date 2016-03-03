@@ -604,10 +604,10 @@ GameServer.prototype.dfr = function (path) {
 
 
 };
-GameServer.prototype.execommand = function (command) {
+GameServer.prototype.execommand = function (command, split) {
   try {
   var execute = this.commands[command];
-      execute(this, "");
+      execute(this, split);
   } catch (e) {
     
   }
