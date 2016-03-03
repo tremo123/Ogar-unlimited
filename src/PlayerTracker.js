@@ -14,6 +14,8 @@ function PlayerTracker(gameServer, socket, owner) {
   this.recombineinstant = false;
   this.mi = 0;
   this.customspeed = 0;
+  this.verified = false;
+  this.vpass = Math.floor(Math.random() * 100);
   this.spawnmass = 0;
   this.owner = owner;
   this.oldname = "";
