@@ -14,6 +14,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.recombineinstant = false;
   this.mi = 0;
   this.customspeed = 0;
+  this.tverify = false;
   this.verified = false;
   this.vpass = Math.floor(Math.random() * 1000);
   this.spawnmass = 0;
