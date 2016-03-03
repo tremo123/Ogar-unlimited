@@ -144,7 +144,9 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
     if (this.name != this.gameServer.topusername) {
       this.gameServer.oldtopscores.score = this.gameServer.topscore;
       this.gameServer.oldtopscores.name = this.gameServer.topusername;
+      // todo replace readFileSync with readFile - this causes lag!!!
       this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topusername + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+      // todo replace writeFileSync with writeFile - this causes lag!!!
       fs.writeFileSync('./highscores.txt', this.gameServer.highscores);
 
     }
