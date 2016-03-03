@@ -118,6 +118,8 @@ The current available console commands are listed here. Command names are not ca
    * gets current version of ogar unlimited and replaces the old with the new
  - Reset
    * Destroys everything and starts from scratch.
+ - Range [start] [end] [command] [commandattr]
+   * Does bulk commands. ex `range 1 10 freeze` would freeze players between 1 and 10
  - Opbyip [command] [ip]
    * Allows you to use the opbyip feature. the commands are add, remove, list, clear , record . This allows you to be automatically op based on your ip
  - Changelog [page]
