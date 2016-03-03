@@ -604,6 +604,15 @@ GameServer.prototype.dfr = function (path) {
 
 
 };
+GameServer.prototype.execommand = function (command) {
+  try {
+  var execute = this.commands[command];
+      execute(this, "");
+  } catch (e) {
+    
+  }
+  
+};
 GameServer.prototype.getNewPlayerID = function () {
   // Resets integer
   if (this.lastPlayerId > 2147483647) {
