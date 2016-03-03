@@ -1126,7 +1126,7 @@ GameServer.prototype.mainLoop = function () {
         }
       }
       if (this.config.smartbotspawn == 1) {
-          if (bots <=  this.config.smartbspawnbase - humans + this.sbo) {
+          if (bots <  this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
            this.livestage = 2;
     this.liveticks = 0;
     
