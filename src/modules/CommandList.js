@@ -82,6 +82,7 @@ Commands.list = {
     console.log("[Console] virus      : spawn virus at a specified Location");
     console.log("[Console] Kickrange  : kicks in a ID range");
     console.log("[Console] Killrange  : kills in a ID range");
+    console.log("[Console] Verify     : EasyVerify command")
     console.log("[Console] Banrange   : Bans in a ID range");
     console.log("[Console] Merge      : Forces that player to merge");
     console.log("[Console] Nojoin     : Prevents the player from merging");
@@ -1761,6 +1762,51 @@ var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/up
     console.log("[Console] Player " + id + " Was Trolled");
 
   },
+  verify: function (gameServer, split) {
+    if (split[1]) var c = split[1].toLowerCase() else var c = "";
+    var id = parseInt(split[2]);
+    if (c == "verify") {
+      if (isNaN(id)) {
+      console.log("[Console] Please specify a valid id!");
+      return;
+    }
+      for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.verify = true;
+        console.log("[Console] Verified Player " + id);
+       break;
+      }
+      
+      
+    }
+    } else if (c == "reverify") {
+      if (isNaN(id)) {
+      console.log("[Console] Please specify a valid id!");
+      return;
+    }
+      for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.verify = false;
+        client.verify = false;
+        console.log("[Console] Made Player " + id + " Reverify");
+       break;
+      }
+      
+      
+    }
+      
+    } else {
+      console.log("[Console] Plese specify a command, Verify or reverify!");
+      
+    }
+    
+    
+  },
+  
   nojoin: function (gameServer, split) {
     var id = parseInt(split[1]);
     if (isNaN(id)) {
