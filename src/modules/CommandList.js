@@ -2124,8 +2124,8 @@ var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/up
     var end = parseInt(split[2]);
     var command = split[3];
     var c1 = split[4];
-    var c1 = split[5];
-    var c1 = split[6];
+    var c2 = split[5];
+    var c3 = split[6];
     var splita = [];
     if (isNaN(start) || isNaN(end)) {
       console.log("[Console] Please specify a valid range!");
