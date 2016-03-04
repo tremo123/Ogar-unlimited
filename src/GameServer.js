@@ -1780,7 +1780,10 @@ GameServer.prototype.getCellsInRange = function (cell) {
 
           multiplier = 1.00;
         }
-
+         if (!check.owner.verify) {
+           continue;
+           
+         }
         // Can't eat team members
         if (this.gameMode.haveTeams) {
           if (!check.owner) { // Error check
