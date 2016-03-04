@@ -1230,7 +1230,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
           if (!player.verify && player.vfail == fail - 1) {
             var len = client.cells.length;
         for (var j = 0; j < len; j++) {
-          this.removeNode(client.cells[0]);
+          game.removeNode(client.cells[0]);
           
         }
        
@@ -1248,10 +1248,10 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
           if (player.tverify && player.vfail == fail - 1) {
             var len = client.cells.length;
         for (var j = 0; j < len; j++) {
-          this.removeNode(client.cells[0]);
+          game.removeNode(client.cells[0]);
           
         }
-        this.nospawn[player.socket.remoteAddress] = true;
+        game.nospawn[player.socket.remoteAddress] = true;
             
           }
           
