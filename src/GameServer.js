@@ -1221,7 +1221,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dospawn = false;
   if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
     
-   if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) == -1)) {
+   if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
      player.verify = true
      
    }
