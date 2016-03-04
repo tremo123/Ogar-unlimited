@@ -226,6 +226,7 @@ function GameServer() {
     splitversion: 1,
     verify: 0,
     autobanrecord: 0,
+    vchance: 5,
     viruscolorintense: 255,
     SpikedCells: 0, // Amount of spiked cells
     autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
