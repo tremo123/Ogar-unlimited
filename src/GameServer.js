@@ -1224,10 +1224,38 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
         player.name = "Success! Press w and get started!";
         dono = true;
         player.vfail = 0;
+        var fail = player.vfail + 1;
+        var game = this;
+        setTimeout(function () {
+          if (!player.verify && player.vfail == fail - 1) {
+            var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+          
+        }
+       
+            
+          }
+          
+        },60000);
       } else {
         player.newV();
         player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Okay = w";
         dono = true;
+        var fail = player.vfail + 1;
+        var game = this;
+        setTimeout(function () {
+          if (player.tverify && player.vfail == fail - 1) {
+            var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+          
+        }
+        this.nospawn[player.socket.remoteAddress] = true;
+            
+          }
+          
+        },60000);
         player.vfail ++;
         if (player.vfail > 5) {
           this.nospawn[player.socket.remoteAddress] = true;
