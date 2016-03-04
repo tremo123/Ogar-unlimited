@@ -1218,9 +1218,9 @@ GameServer.prototype.spawnFood = function () {
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dono = false;
   var dospawn = false;
-  if (this.nospawn[player.socket.remoteAddress] != true ) {
+  if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
     
-   if (this.config.verify != 1) {
+   if (this.config.verify != 1 || (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
      player.verify = true
      
    }
@@ -1245,8 +1245,8 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
         player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Okay = w";
         dono = true;
         player.vfail ++;
-        if (player.vfail > 5) {
-          this.nospawn[player.socket.remoteAddress] = true;
+        if (player.vfail > this.config.vchance) {
+          player.nospawn = true;
         }
       }
       
