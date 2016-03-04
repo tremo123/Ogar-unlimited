@@ -1791,7 +1791,12 @@ var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/up
         var client = gameServer.clients[i].playerTracker;
 
         client.verify = false;
-        client.verify = false;
+        client.tverify = false;
+        var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          gameServer.removeNode(client.cells[0]);
+          count++;
+        }
         console.log("[Console] Made Player " + id + " Reverify");
        break;
       }
