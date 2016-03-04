@@ -2156,7 +2156,7 @@ var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/up
           gameServer.removeNode(client.cells[0]);
         }
         if (client.socket.remoteAddress) {
-          gameServer.nospawn[client.socket.remoteAddress] = true;
+          client.nospawn = true;
         } else {
           client.socket.close();
         }
