@@ -26,7 +26,7 @@ function GameServer() {
   this.sbo = 1;
   this.ipCounts = [];
   this.minionleader;
-  this.version = "10.6.0";
+  this.version = "11.6.0";
   this.rnodes = [];
   this.destroym = false;
   this.lleaderboard = false;
