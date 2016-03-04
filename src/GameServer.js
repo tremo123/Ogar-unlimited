@@ -1209,15 +1209,17 @@ GameServer.prototype.spawnFood = function () {
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dono = false;
   var dospawn = false;
-  if (this.nospawn[player.socket.remoteAddress] != true) {
-    if (player.tverify) {
-      player.verify = true;
-      
-    }
+  if (this.nospawn[player.socket.remoteAddress] != true ) {
+    
     player.norecombine = false;
     player.frozen = false;
-    if (this.config.verify == 1 && !player.verify) {
-      if (player.name == player.vpass || typeof player.socket.remoteAddress == "undefined") {
+    if (this.config.verify == 1 && !player.verify || typeof player.socket.remoteAddress != "undefined") {
+      if (player.tverify || typeof player.socket.remoteAddress == "undefined") {
+      player.verify = true;
+      player.vfail = 0;
+    }
+    if (typeof player.socket.remoteAddress != "undefined") {
+      if (player.name == player.vpass) {
         player.tverify = true;
         player.name = "Success! Press w and get started!";
         dono = true;
@@ -1233,6 +1235,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
       }
       
       
+    }
     }
     if (this.config.randomnames == 1 && !dono) {
       if (this.randomNames.length > 0) {
