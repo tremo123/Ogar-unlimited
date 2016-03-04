@@ -1213,12 +1213,12 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
     
     player.norecombine = false;
     player.frozen = false;
-    if (this.config.verify == 1 && !player.verify || typeof player.socket.remoteAddress != "undefined") {
+    if (this.config.verify == 1 && !player.verify) {
       if (player.tverify || typeof player.socket.remoteAddress == "undefined") {
       player.verify = true;
       player.vfail = 0;
     }
-    if (typeof player.socket.remoteAddress != "undefined") {
+    if (typeof player.socket.remoteAddress != "undefined" && !player.verify && !player.tverify) {
       if (player.name == player.vpass) {
         player.tverify = true;
         player.name = "Success! Press w and get started!";
