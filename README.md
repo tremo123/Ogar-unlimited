@@ -246,3 +246,6 @@ Just make a pull request or make your own copy
 1. No-Lag antibot measures
 2. OP
 3. minions
+4. smart bot/despawn
+5. easy verify
+6. Periodic things (pmsg, pcmd, etc..)
