@@ -1763,7 +1763,8 @@ var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/up
 
   },
   verify: function (gameServer, split) {
-    if (split[1]) var c = split[1].toLowerCase() else var c = "";
+    var c = "";
+    if (split[1]) var c = split[1].toLowerCase();
     var id = parseInt(split[2]);
     if (c == "verify") {
       if (isNaN(id)) {
