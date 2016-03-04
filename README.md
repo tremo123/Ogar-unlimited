@@ -114,6 +114,8 @@ The current available console commands are listed here. Command names are not ca
    * Shows how to use OP
  - Announce
    * Starts the high score announce feature
+ - Verify [command] [id]
+   * Verifies/reverifies a player .doing `verify reverify 1` forces 1 to verify again 
  - Minion [id] [minionnames] [number]
    * creates minions. to turn off, for a player do minion [id]. to destroy all minions do minion destroy
  - Update
