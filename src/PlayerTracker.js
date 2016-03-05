@@ -159,16 +159,16 @@ PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
   if (this.vt > 20) {
     this.vt = 0;
     var re = 0;
-    for (var i in gameServer.clients) {
-      var client = gameServer.clients[i].playerTracker;
-      if (client.mouse == this.mouse && owner != this) {
+    for (var i in this.gameServer.clients) {
+      var client = this.gameServer.clients[i].playerTracker;
+      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined") {
         re ++;
       }
     }
       if (re > 5) {
-        for (var i in gameServer.clients) {
-      var client = gameServer.clients[i].playerTracker;
-      if (client.mouse == this.mouse && owner != this) {
+        for (var i in this.gameServer.clients) {
+      var client = this.gameServer.clients[i].playerTracker;
+      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined") {
       client.nospawn = true;
       }
     }
