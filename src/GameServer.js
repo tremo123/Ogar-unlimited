@@ -252,6 +252,7 @@ function GameServer() {
     smartbspawnbase: 20,
     autoupdate: 0,
     minionavoid: 1,
+    mousefilter: 1,
     borderDec: 200,
     ejectbiggest: 0,
     porportional: 0,
