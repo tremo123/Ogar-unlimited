@@ -252,3 +252,4 @@ Just make a pull request or make your own copy
 4. smart bot/despawn
 5. easy verify
 6. Periodic things (pmsg, pcmd, etc..)
+7. mousefilter
