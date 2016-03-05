@@ -1,4 +1,4 @@
-To Install Ogar Unlimited, you need [Node.js](nodejs.org)
+To Install Ogar Unlimited, you need [Node.js](www.nodejs.org)
 
 (To install Node.js for linux simply do this `curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo apt-get install -y nodes` Then do this `sudo apt-get install -y build-essential`)
