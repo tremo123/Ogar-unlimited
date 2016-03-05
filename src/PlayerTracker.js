@@ -145,12 +145,11 @@ PlayerTracker.prototype.getName = function () {
   return this.name;
 };
 /**
- * Returns the current high score I think...? todo dry this code up
+ * Returns the players score and updates the highscore if needed
  * @param reCalcScore
- * @param cb(err, result)
  * @returns {number}
  */
-PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
+PlayerTracker.prototype.getScore = function (reCalcScore) {
   if (reCalcScore) {
     var s = 0;
     for (var i = 0; i < this.cells.length; i++) {
@@ -196,65 +195,24 @@ PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
   if (this.score > this.gameServer.topscore + 10) {
 
     if (this.name != this.gameServer.topusername) {
-      this.gameServer.oldtopscores.score = this.gameServer.topscore;
-      this.gameServer.oldtopscores.name = this.gameServer.topusername;
-
-      if (typeof cb == "function") {
-        var self = this;
-        fs.readFile('./highscores.txt', 'utf-8', function (err, result){
-          if (err) {
-            console.err('Could not read file: ./highscores.txt');
-            cb('Could not read file: ./highscores.txt');
-          } else {
-            self.gameServer.highscores = Math.floor(self.gameServer.topscore) + " By " + self.gameServer.topusername + "\n" + result;
-            // write using async should be fine here
-            fs.writeFile('./highscores.txt', self.gameServer.highscores);
-
-            self.gameServer.topscore = Math.floor(self.score);
-            self.gameServer.topusername = self.name;
-
-            if (self.gameServer.config.showtopscore == 1) {
-              console.log("[Console] " + self.name + " Made a new high score of " + Math.floor(self.score));
-            }
-            cb(null, result);
-          }
-        });
-
-      } else {
-        // todo replace readFileSync with readFile - this causes lag!!! - for now we support useing both as a lot of function call
-        // will slowly remove all the all calls and replace them with ones that use call back
-        this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topusername + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
-
-        // write using async should be fine here
-        fs.writeFile('./highscores.txt', this.gameServer.highscores);
-
-        this.gameServer.topscore = Math.floor(this.score);
-        this.gameServer.topusername = this.name;
-
-        if (this.gameServer.config.showtopscore == 1) {
-          console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
-        }
-      }
-
-
-    } else {
-      this.gameServer.topscore = Math.floor(this.score);
-      this.gameServer.topusername = this.name;
-
-      if (this.gameServer.config.showtopscore == 1) {
-        console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
-      }
+      var self = this;
+      fs.readFile('./highscores.txt', 'utf-8', function(err, score){
+        self.gameServer.oldtopscores.score = self.gameServer.topscore;
+        self.gameServer.oldtopscores.name = self.gameServer.topusername;
+        // todo replace readFileSync with readFile - this causes lag!!!
+        self.gameServer.highscores = Math.floor(self.gameServer.topscore) + " By " + self.gameServer.topusername + "\n" + score;
+        // todo replace writeFileSync with writeFile - this causes lag!!!
+        fs.writeFile('./highscores.txt', self.gameServer.highscores);
+      });
     }
+    this.gameServer.topscore = Math.floor(this.score);
+    this.gameServer.topusername = this.name;
 
-  } else {
-    if (typeof cb == "function") {
-      cb(null, Math.floor(this.score));
-    } else {
-      return Math.floor(this.score);
+    if (this.gameServer.config.showtopscore == 1) {
+      console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
     }
   }
-
-
+  return Math.floor(this.score);
 };
 
 PlayerTracker.prototype.setColor = function (color) {
