@@ -34,6 +34,7 @@ This Modified copy was created to help those who want to open their server to th
  21. pcmd command to do periodic commands
  22. range command for bulk commands
  23. easy verify system as anti bot mesure (gameserver.ini)
+ 24. mousefilter as a anti bot measure
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
