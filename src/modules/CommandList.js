@@ -3,6 +3,7 @@ var Teams = require('../gamemodes/Teams.js');
 var GameMode = require('../gamemodes');
 var Entity = require('../entity');
 var EjectedMass = require('../entity/EjectedMass');
+// fs sync functions are not called while server is running basicly
 var fs = require("fs");
 var request = require('request');
 
