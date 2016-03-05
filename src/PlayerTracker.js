@@ -79,7 +79,7 @@ function PlayerTracker(gameServer, socket, owner) {
     // Gamemode function
     gameServer.gameMode.onPlayerInit(this);
     // Only scramble if enabled in config
-    if (gameServer.config.serverScrambleCoords == 1) {
+    if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
       this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
       this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
     }
@@ -159,20 +159,20 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
   }
    
 
-
+if (this.gameServer.config.mousefilter == 1) {
   if (this.vt > 17) {
     this.vt = 0;
     var re = 0;
     for (var i in this.gameServer.clients) {
       var client = this.gameServer.clients[i].playerTracker;
-      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined") {
+      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
         re ++;
       }
     }
       if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
       var client = this.gameServer.clients[i].playerTracker;
-      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined") {
+      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
       client.nospawn = true;
       }
     }
@@ -189,6 +189,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
     
     this.vt ++;
   }
+}
   
   
 
