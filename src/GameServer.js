@@ -282,6 +282,7 @@ function GameServer() {
     FDmultiplyer: 5,
     antimatter: 1,
     merge: 1,
+    mbchance: 5,
     virus: 1,
     clientclone: 0,
     mass: 1,
