@@ -58,7 +58,7 @@ this.realrandomNames = [];
     var fs = require("fs"); // Import the util library
 
     // Read and parse the names - filter out whitespace-only names
-    // todo should we use readFileSync? likely doesn't matter here as this looks to be call on sever start
+    // fs.readFileSync is only used during server start
     this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
       return x != ''; // filter empty names
     });

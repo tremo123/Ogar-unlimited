@@ -141,8 +141,13 @@ PlayerTracker.prototype.getName = function () {
   }
   return this.name;
 };
-
-PlayerTracker.prototype.getScore = function (reCalcScore) {
+/**
+ * Returns the current high score I think...? todo dry this code up
+ * @param reCalcScore
+ * @param cb(err, result)
+ * @returns {number}
+ */
+PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
   if (reCalcScore) {
     var s = 0;
     for (var i = 0; i < this.cells.length; i++) {
@@ -156,18 +161,62 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
     if (this.name != this.gameServer.topusername) {
       this.gameServer.oldtopscores.score = this.gameServer.topscore;
       this.gameServer.oldtopscores.name = this.gameServer.topusername;
-      this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topusername + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
-      fs.writeFileSync('./highscores.txt', this.gameServer.highscores);
 
+      if (typeof cb == "function") {
+        var self = this;
+        fs.readFile('./highscores.txt', 'utf-8', function (err, result){
+          if (err) {
+            console.err('Could not read file: ./highscores.txt');
+            cb('Could not read file: ./highscores.txt');
+          } else {
+            self.gameServer.highscores = Math.floor(self.gameServer.topscore) + " By " + self.gameServer.topusername + "\n" + result;
+            // write using async should be fine here
+            fs.writeFile('./highscores.txt', self.gameServer.highscores);
+
+            self.gameServer.topscore = Math.floor(self.score);
+            self.gameServer.topusername = self.name;
+
+            if (self.gameServer.config.showtopscore == 1) {
+              console.log("[Console] " + self.name + " Made a new high score of " + Math.floor(self.score));
+            }
+            cb(null, result);
+          }
+        });
+
+      } else {
+        // todo replace readFileSync with readFile - this causes lag!!! - for now we support useing both as a lot of function call
+        // will slowly remove all the all calls and replace them with ones that use call back
+        this.gameServer.highscores = Math.floor(this.gameServer.topscore) + " By " + this.gameServer.topusername + "\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+
+        // write using async should be fine here
+        fs.writeFile('./highscores.txt', this.gameServer.highscores);
+
+        this.gameServer.topscore = Math.floor(this.score);
+        this.gameServer.topusername = this.name;
+
+        if (this.gameServer.config.showtopscore == 1) {
+          console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+        }
+      }
+
+
+    } else {
+      this.gameServer.topscore = Math.floor(this.score);
+      this.gameServer.topusername = this.name;
+
+      if (this.gameServer.config.showtopscore == 1) {
+        console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+      }
     }
-    this.gameServer.topscore = Math.floor(this.score);
-    this.gameServer.topusername = this.name;
 
-    if (this.gameServer.config.showtopscore == 1) {
-      console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+  } else {
+    if (typeof cb == "function") {
+      cb(null, Math.floor(this.score));
+    } else {
+      return Math.floor(this.score);
     }
   }
-  return Math.floor(this.score);
+
 
 };
 

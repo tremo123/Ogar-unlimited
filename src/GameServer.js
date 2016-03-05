@@ -1,6 +1,7 @@
 // Library imports
 var WebSocket = require('ws');
 var http = require('http');
+// The fs sync functions are only called during server startup
 var fs = require("fs");
 var ini = require('./modules/ini.js');
 var EOL = require('os').EOL;
@@ -352,7 +353,7 @@ GameServer.prototype.start = function () {
     setInterval(this.mainLoop.bind(this), 1);
 
     // Done
-    var fs = require("fs"); // Import the util library
+    // todo remove: var fs = require("fs"); // Import the util library
 
     console.log("[Game] Listening on port " + this.config.serverPort);
     console.log("[Game] Current game mode is " + this.gameMode.name);
@@ -960,7 +961,7 @@ GameServer.prototype.addNode = function (node) {
 
   // Add to visible nodes
   for (var i = 0; i < this.clients.length; i++) {
-    client = this.clients[i].playerTracker;
+    var client = this.clients[i].playerTracker;
     if (!client) {
       continue;
     }
@@ -991,7 +992,7 @@ GameServer.prototype.removeNode = function (node) {
 
   // Animation when eating
   for (var i = 0; i < this.clients.length; i++) {
-    client = this.clients[i].playerTracker;
+    var client = this.clients[i].playerTracker;
     if (!client) {
       continue;
     }
@@ -1107,14 +1108,17 @@ GameServer.prototype.mainLoop = function () {
         // Get client with largest score if gamemode doesn't have a leaderboard
         var lC;
         var lCScore = 0;
+        var self = this;
         for (var i = 0; i < this.clients.length; i++) {
           // if (typeof this.clients[i].getScore == 'undefined') continue;
-          if (this.clients[i].playerTracker.getScore(true) > lCScore) {
-            lC = this.clients[i];
-            lCScore = this.clients[i].playerTracker.getScore(true);
-          }
+          this.clients[i].playerTracker.getScore(true, function (err, result) {
+            if (!err && result > lCScore) {
+              lC = self.clients[i];
+              lCScore = self.clients[i].playerTracker.getScore(true);
+            }
+            self.largestClient = lC;
+          });
         }
-        this.largestClient = lC;
       } else this.largestClient = this.leaderboard[0];
     }
 
