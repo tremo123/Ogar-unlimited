@@ -165,7 +165,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
         re ++;
       }
     }
-      if (re > 5) {
+      if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
       var client = this.gameServer.clients[i].playerTracker;
       if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined") {
