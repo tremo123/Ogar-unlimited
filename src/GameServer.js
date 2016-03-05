@@ -1078,14 +1078,17 @@ GameServer.prototype.mainLoop = function () {
         // Get client with largest score if gamemode doesn't have a leaderboard
         var lC;
         var lCScore = 0;
+        var self = this;
         for (var i = 0; i < this.clients.length; i++) {
           // if (typeof this.clients[i].getScore == 'undefined') continue;
-          if (this.clients[i].playerTracker.getScore(true) > lCScore) {
-            lC = this.clients[i];
-            lCScore = this.clients[i].playerTracker.getScore(true);
-          }
+          this.clients[i].playerTracker.getScore(true, function (err, result) {
+            if (!err && result > lCScore) {
+              lC = self.clients[i];
+              lCScore = self.clients[i].playerTracker.getScore(true);
+            }
+            self.largestClient = lC;
+          });
         }
-        this.largestClient = lC;
       } else this.largestClient = this.leaderboard[0];
     }
 
@@ -1677,10 +1680,10 @@ GameServer.prototype.getCellsInRange = function (cell) {
         multiplier = 1.33;
         break;
       case 5: // Beacon
-              // This cell cannot be destroyed
+        // This cell cannot be destroyed
         continue;
       case 0: // Players
-              // Can't eat self if it's not time to recombine yet
+        // Can't eat self if it's not time to recombine yet
         if (check.owner == cell.owner) {
           if (!cell.shouldRecombine || !check.shouldRecombine) {
             if (!cell.owner.recombineinstant) continue;
