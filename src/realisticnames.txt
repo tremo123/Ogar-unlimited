@@ -10,6 +10,27 @@ Big black car
 <shark>
 <lizard>ass
 <fly>nub
+<fly>
+<spider>
+<wasp>
+<lizard>
+<bat>
+<snake>
+<fox>
+<coyote>
+<hunter>
+<sumo>
+<bear>
+<cougar>
+<phanter>
+<lion>
+<crocodile>
+<shark>
+<mammoth>
+<raptor>
+<t-rex>
+<kraken>
+
 ƬψƬ ☢ Ɲʌɦȥ 艾
 MGR! ✌ Magarro!
 Heяø ⚡ Matt

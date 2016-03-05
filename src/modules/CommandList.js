@@ -8,6 +8,7 @@ var request = require('request');
 
 function Commands() {
   this.list = {}; // Empty
+  this.pcmd;
 }
 
 module.exports = Commands;
@@ -55,28 +56,34 @@ Commands.list = {
     console.log("[Console] kickbots   : kick a specified amount of bots");
     console.log("[Console] board      : set scoreboard text");
     console.log("[Console] Restart    : Restart server or set time till restart");
-    console.log("[Console] Announce   : Starts the auto announce for high scores")
+    console.log("[Console] Announce   : Starts the auto announce for high scores");
     console.log("[Console] boardreset : reset scoreboard text");
     console.log("[Console] change     : change specified settings");
     console.log("[Console] clear      : clear console output");
     console.log("[Console] color      : set cell(s) color by client ID");
     console.log("[Console] exit       : stop the server");
     console.log("[Console] food       : spawn food at specified Location");
+    console.log("[Console] Freeze     : Freezes a player");
+    console.log("[Console] spawnmass  : sets players spawn mass");
+    console.log("[Console] Pcmd       : Periodical commands");
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
     console.log("[Console] kill       : kill cell(s) by client ID");
-    console.log("[Console] Reset      : Destroys everything and starts from scratch")
+    console.log("[Console] Reset      : Destroys everything and starts from scratch");
     console.log("[Console] killall    : kill everyone");
     console.log("[Console] mass       : set cell(s) mass by client ID");
     console.log("[Console] name       : change cell(s) name by client ID");
     console.log("[Console] playerlist : get list of players and bots");
     console.log("[Console] pause      : pause game , freeze all cells");
     console.log("[Console] reload     : reload config");
+    console.log("[Console] Speed      : Sets a players base speed")
     console.log("[Console] status     : get server status");
     console.log("[Console] tp         : teleport player to specified location");
     console.log("[Console] virus      : spawn virus at a specified Location");
     console.log("[Console] Kickrange  : kicks in a ID range");
     console.log("[Console] Killrange  : kills in a ID range");
+    console.log("[Console] Verify     : EasyVerify command")
+    console.log("[Console] Banrange   : Bans in a ID range");
     console.log("[Console] Merge      : Forces that player to merge");
     console.log("[Console] Nojoin     : Prevents the player from merging");
     console.log("[Console] Msg        : Sends a message");
@@ -87,6 +94,7 @@ Commands.list = {
     console.log("[Console] Pfmsg      : Periodically sends a force message");
     console.log("[Console] Sfpmsg     : Stops any Pfmsg proccess");
     console.log("[Console] Rop        : Resets op");
+    console.log("[Console] Range      : does bulk command with players");
     console.log("[Console] Op         : Makes that player OP");
     console.log("[Console] Dop        : De-Ops a player");
     console.log("[Console] Opbyip     : Allows ypu to control the opbyip feature");
@@ -107,6 +115,42 @@ Commands.list = {
     console.log("[Console] changelog  : Shows a changelog");
     console.log("[Console] ====================================================");
   },
+  pcmd: function (gameServer, split) {
+    if (split[1] == "reset") {
+      clearInterval(this.pcmd);
+      console.log("[PCMD] Disabled all running pcmd instances");
+      return;
+    }
+    var delay = parseInt(split[1]) * 1000;
+    var re = parseInt(split[2]);
+   var command = split[3];
+    var newsplit = [];
+    for (var i = 4; i < split.length; i++) {
+       newsplit[i - 1] = split[i];
+    }
+    if (isNaN(delay)) {
+      console.log("[Console] Please specify a valid Repeat amount!");
+      return;
+    }
+    if (isNaN(re)) {
+      console.log("[Console] Please specify a valid delay!");
+      return;
+    }
+    var game = this;
+    console.log("[PCMD] Request Sent!");
+    this.pcmd = setInterval(function () {
+      console.log("[PCMD] Running command..");
+      gameServer.execommand(command,newsplit);
+      r++;
+        if (r > re) {
+          console.log("[PCMD] Done");
+          clearInterval(game.pcmd);
+        }
+    }, delay);
+    
+    
+  },
+  
   reset: function (gameServer, split) {
     for (var i in gameServer.nodes) {
       gameServer.removeNode(gameServer.nodes[i]);
@@ -221,10 +265,52 @@ Commands.list = {
       console.log("[Console] Error: could not perform action. Cause: You deleted folders or you are using a binary");
       return;
     }
-    if (ok != "yes") {
-      console.log("[Console] Please do update yes instead of update to confirm");
-      return;
-    }
+  if (ok == "botnames") {
+    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
+
+    request(dbase, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var filepath = './botnames.txt';
+        fs.writeFileSync(filepath, body);
+
+      } else {
+        console.log("[Update] Couldnt connect to servers. Aborting...");
+        return;
+      }
+    });
+    var filename = "botnames.txt";
+    console.log("[Update] Updating Botnames");
+    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/update/src/realisticnames.txt';
+
+    request(dbase, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var filepath = './realisticnames.txt';
+        fs.writeFileSync(filepath, body);
+
+      } else {
+        console.log("[Update] Couldnt connect to servers. Aborting...");
+        return;
+      }
+    });
+    var filename = "realisticnames.txt";
+    console.log("[Update] Updating realisticnames.txt");
+    
+    
+  }  else if (ok == "skins") {
+    
+    console.log("[Console] Updating customskin.txt...");
+      request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+
+          fs.writeFileSync('./customskins.txt', body);
+
+        } else {
+          console.log("[Update] Could not fetch data from servers... Aborting...");
+         return; 
+        }
+      });
+  } else if (ok == "all") {
+    
     console.log("[Console] Fetching data from the servers..."); // Gameserver.js
     if (!fs.existsSync('./customskins.txt')) {
       console.log("[Console] Generating customskin.txt...");
@@ -240,7 +326,19 @@ Commands.list = {
       });
 
     }
+var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/update/src/realisticnames.txt';
 
+    request(dbase, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var filepath = './realisticnames.txt';
+        fs.writeFileSync(filepath, body);
+
+      } else {
+        console.log("[Update] Couldnt connect to servers. Aborting...");
+        return;
+      }
+    });
+    console.log("[Update] Updating realisticnames.txt");
     request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
       if (!error && response.statusCode == 200) {
 
@@ -867,6 +965,9 @@ Commands.list = {
         process.exit(3);
       }
     }, 8000);
+  } else {
+      console.log("[Console] Please do update all,botnames,skins instead of update to confirm");
+  }
   },
 
   explode: function (gameServer, split) {
@@ -1661,6 +1762,57 @@ Commands.list = {
     console.log("[Console] Player " + id + " Was Trolled");
 
   },
+  verify: function (gameServer, split) {
+    var c = "";
+    if (split[1]) var c = split[1].toLowerCase();
+    var id = parseInt(split[2]);
+    if (c == "verify") {
+      if (isNaN(id)) {
+      console.log("[Console] Please specify a valid id!");
+      return;
+    }
+      for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.verify = true;
+        console.log("[Console] Verified Player " + id);
+       break;
+      }
+      
+      
+    }
+    } else if (c == "reverify") {
+      if (isNaN(id)) {
+      console.log("[Console] Please specify a valid id!");
+      return;
+    }
+      for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.verify = false;
+        client.tverify = false;
+        var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          gameServer.removeNode(client.cells[0]);
+          count++;
+        }
+        console.log("[Console] Made Player " + id + " Reverify");
+       break;
+      }
+      
+      
+    }
+      
+    } else {
+      console.log("[Console] Plese specify a command, Verify or reverify!");
+      
+    }
+    
+    
+  },
+  
   nojoin: function (gameServer, split) {
     var id = parseInt(split[1]);
     if (isNaN(id)) {
@@ -1677,6 +1829,74 @@ Commands.list = {
       }
     }
     console.log("That player cannot recombine now");
+  },
+  freeze: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.frozen = !client.frozen;
+        if (client.frozen) {
+          console.log("[Console] Froze player " + id);
+          
+        } else {
+          console.log("[Console] Unfroze player " + id);
+        }
+        
+        break;
+      }
+    }
+    
+  },
+ spawnmass: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    var mass = parseInt(split[2]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+    if (isNaN(mass)) {
+      console.log("[Console] Please specify a valid mass!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.spawnmass = mass;
+
+      }
+    }
+    console.log("[Console] Player "+ id + " now spawns with " + mass + " Mass");
+  },
+  speed: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    var speed = parseInt(split[2]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+    if (isNaN(speed)) {
+      console.log("[Console] Please specify a valid speed!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.customspeed = speed;
+
+      }
+    }
+    console.log("[Console] Player "+ id + "'s base speed is now " + speed);
   },
   merge: function (gameServer, split) {
     // Validation checks
@@ -1707,6 +1927,7 @@ Commands.list = {
     gameServer.liveticks = 0;
     for (var i = 0; i < add; i++) {
       gameServer.bots.addBot();
+      gameServer.sbo ++;
     }
     console.log("[Console] Added " + add + " player bots");
   },
@@ -1727,6 +1948,7 @@ Commands.list = {
         }
         client.socket.close();
         removed++;
+        gameServer.sbo --;
       } else
         i++;
     }
@@ -1940,13 +2162,32 @@ Commands.list = {
           gameServer.removeNode(client.cells[0]);
         }
         if (client.socket.remoteAddress) {
-          gameServer.nospawn[client.socket.remoteAddress] = true;
+          client.nospawn = true;
         } else {
           client.socket.close();
         }
         console.log("[Console] Kicked " + client.name);
         break;
       }
+    }
+  },
+  range: function (gameServer, split) {
+    var start = parseInt(split[1]);
+    var end = parseInt(split[2]);
+    var command = split[3];
+    var c1 = split[4];
+    var c2 = split[5];
+    var c3 = split[6];
+    var splita = [];
+    if (isNaN(start) || isNaN(end)) {
+      console.log("[Console] Please specify a valid range!");
+    }
+    for (var h = start; h < end; h++) {
+      splita[1] = h;
+      splita[2] = c1;
+      splita[3] = c2;
+      splita[4] = c3;
+      gameServer.execommand(command, splita);
     }
   },
   killrange: function (gameServer, split) {
@@ -1968,6 +2209,48 @@ Commands.list = {
 
           console.log("[Console] Removed " + count + " cells");
           break;
+        }
+      }
+    }
+  },
+   banrange: function (gameServer, split) {
+    var start = parseInt(split[1]);
+    var end = parseInt(split[2]);
+    if (isNaN(start) || isNaN(end)) {
+      console.log("[Console] Please specify a valid range!");
+    }
+    for (var h = start; h < end; h++) {
+      var ip;
+      for (var i in gameServer.clients) {
+        if (gameServer.clients[i].playerTracker.pID == h) {
+          var ip = gameServer.clients[i].playerTracker.socket.remoteAddress;
+          break;
+        }
+      }
+      if (gameServer.banned.indexOf(ip) == -1) {
+        
+        gameServer.banned.push(ip);
+        for (var i in gameServer.clients) {
+          var c = gameServer.clients[i];
+          if (!c.remoteAddress) {
+            continue;
+          }
+          if (c.remoteAddress == ip) {
+
+            //this.socket.close();
+            c.close(); // Kick out
+          }
+        }
+        if (gameServer.config.autobanrecord == 1) {
+
+          var oldstring = fs.readFileSync("./banned.txt", "utf8");
+          var string = "";
+          for (var i in gameServer.banned) {
+            var banned = gameServer.banned[i];
+            if (banned != "") string = oldstring + "\n" + banned;
+          }
+
+          fs.writeFileSync('./banned.txt', string);
         }
       }
     }

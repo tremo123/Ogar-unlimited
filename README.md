@@ -1,5 +1,6 @@
 
-# Ogar unlimited - More features such as Skins,Skinshortcuts,GameModes, OP, Commands, Anti-Bot Measures,minions,Live Console and more! [![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited)
+# Ogar unlimited - The Next Generation Ogar
+[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited)
 A fully functional open source Agar.io server implementation, written in Node.js. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features as time goes
@@ -29,10 +30,11 @@ This Modified copy was created to help those who want to open their server to th
  18. Banlist file
  19. Opbyip
  20. Database free high score keeper
+ 21. pcmd command to do periodic commands
+ 22. range command for bulk commands
+ 23. easy verify system as anti bot mesure (gameserver.ini)
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
-
-### Note: I need a person who can code who organizes and formats my code (it is pretty messy)
 
 ### Note:
 Please note that this is updated very frequently and you should check for updates every week. I may add an auto update system but I probably won't (because I don't think it is the right thing to do, updating without your consent) Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
@@ -112,12 +114,18 @@ The current available console commands are listed here. Command names are not ca
    * Shows how to use OP
  - Announce
    * Starts the high score announce feature
+ - Verify [command] [id]
+   * Verifies/reverifies a player .doing `verify reverify 1` forces 1 to verify again 
  - Minion [id] [minionnames] [number]
    * creates minions. to turn off, for a player do minion [id]. to destroy all minions do minion destroy
  - Update
-   * gets current version of ogar unlimited and replaces the old with the new
+   * gets current version of ogar unlimited and replaces the old with the new. Do update botnames to only update botnames or update skin to only update skins
  - Reset
    * Destroys everything and starts from scratch.
+ - Range [start] [end] [command] [commandattr]
+   * Does bulk commands. ex `range 1 10 freeze` would freeze players between 1 and 10
+ - Pcmd [delay] [repeattime] [command] [commandat...]
+   * Periodic commands
  - Opbyip [command] [ip]
    * Allows you to use the opbyip feature. the commands are add, remove, list, clear , record . This allows you to be automatically op based on your ip
  - Changelog [page]
@@ -130,6 +138,12 @@ The current available console commands are listed here. Command names are not ca
    * Shrinks the game (amount is optional)
  - Enlarge [amount]
    * Enlarges the game (amount is optional)
+ - Freeze [id]
+   * Freezes a player
+ - Spawnmass [id] [mass]
+   * sets a players spawnmass. set to 0 to return to normal value
+ - Speed [id] [mass]
+   * sets a players base speed. set to 0 to return to normal value
  - Colortext [color]
    * Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)
  - Team [id] [team (r,g,b)]
@@ -180,8 +194,8 @@ The current available console commands are listed here. Command names are not ca
    * Forces players to read a message, This is done by changeing leaderboard to msg, freezing players, and change their name temporarily
  - Msg [message1] [message2] [etc...]
    * Changes the leaderboard to a message for a short time
- - kick/killrange [Start] [End]
-   * Kicks/kills in a range (eg: killrange 1 10 will kill players whos ids are between them)
+ - kick/killrange/ban [Start] [End]
+   * Kicks/kills/bans in a range (eg: killrange 1 10 will kill players whos ids are between them)
  - Nojoin [id]
    * Makes person unable to join
  - Merge [id]
@@ -234,3 +248,6 @@ Just make a pull request or make your own copy
 1. No-Lag antibot measures
 2. OP
 3. minions
+4. smart bot/despawn
+5. easy verify
+6. Periodic things (pmsg, pcmd, etc..)

@@ -124,6 +124,10 @@ BotPlayer.prototype.update = function () { // Overrides the update function from
             continue;
           }
         }
+        if (!check.owner.verify && this.gameServer.config.verify == 1) {
+          
+          continue;
+        }
 
         // Check for danger
         if (cell.mass > (check.mass * 1.33)) {

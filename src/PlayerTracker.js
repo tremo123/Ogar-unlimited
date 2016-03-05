@@ -10,8 +10,15 @@ function PlayerTracker(gameServer, socket, owner) {
   this.socket = socket;
   this.rainbowon = false;
   this.mergeOverrideDuration = 0;
+  this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
+  this.customspeed = 0;
+  this.nospawn = false;
+  this.tverify = false;
+  this.verify = false;
+  this.vpass = Math.floor(Math.random() * 1000);
+  this.spawnmass = 0;
   this.owner = owner;
   this.oldname = "";
   this.norecombine = false;
@@ -20,6 +27,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.premium = '';
   this.nodeDestroyQueue = [];
   this.visibleNodes = [];
+  this.vfail = 0;
   this.cells = [];
   this.score = 0; // Needed for leaderboard
 
@@ -88,6 +96,10 @@ PlayerTracker.prototype.getBiggestc = function () {
 };
 PlayerTracker.prototype.setName = function (name) {
   this.name = name;
+
+};
+PlayerTracker.prototype.newV = function () {
+  this.vpass = Math.floor(Math.random() * 1000);
 
 };
 
