@@ -10,10 +10,12 @@ function PlayerTracker(gameServer, socket, owner) {
   this.socket = socket;
   this.rainbowon = false;
   this.mergeOverrideDuration = 0;
+  this.scoreh = [];
   this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
   this.customspeed = 0;
+  this.vr = 0;
   this.nospawn = false;
   this.vt = 0;
   this.tverify = false;
@@ -156,7 +158,29 @@ PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
       this.score = s;
     }
   }
-  if (this.vt > 20) {
+   this.scoreh.push(this.score);
+if (this.vr > 40) {
+  this.vr = 0;
+  var add = 0;
+  var cou = 0;
+for (var i in this.scoreh) {
+  add = this.scoreh[i];
+  cou ++;
+  
+  
+}
+var range = Math.round(add/cou);
+  if (range < 40) {
+    
+    this.nospawn = true;
+  }
+} else {
+  
+  this.vr ++;
+}
+
+
+  if (this.vt > 17) {
     this.vt = 0;
     var re = 0;
     for (var i in this.gameServer.clients) {
