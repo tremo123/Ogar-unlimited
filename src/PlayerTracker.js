@@ -193,7 +193,7 @@ if (this.gameServer.config.mousefilter == 1) {
   
   
 
-  if (this.score > this.gameServer.topscore + 10) {
+  if (this.score > this.gameServer.topscore + 10 && this.gameServer.config.highscore == 1) {
 
     if (this.name != this.gameServer.topusername) {
       var self = this;
