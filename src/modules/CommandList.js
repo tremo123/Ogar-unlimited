@@ -281,7 +281,7 @@ Commands.list = {
     });
     var filename = "botnames.txt";
     console.log("[Update] Updating Botnames");
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/update/src/realisticnames.txt';
+    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/realisticnames.txt';
 
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -327,7 +327,7 @@ Commands.list = {
       });
 
     }
-var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/update/src/realisticnames.txt';
+var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/realisticnames.txt';
 
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
