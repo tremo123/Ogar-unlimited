@@ -244,6 +244,7 @@ function GameServer() {
     serverPort: 443, // Server port
     botrespawn: 1,
     rainbow: 1,
+    highscore: 1,
     rainbowspeed: 1,
     botupdate: 10,
     notifyupdate: 1,
