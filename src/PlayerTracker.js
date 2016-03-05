@@ -158,26 +158,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore, cb) {
       this.score = s;
     }
   }
-   this.scoreh.push(this.score);
-if (this.vr > 40) {
-  this.vr = 0;
-  var add = 0;
-  var cou = 0;
-for (var i in this.scoreh) {
-  add = this.scoreh[i];
-  cou ++;
-  
-  
-}
-var range = Math.round(add/cou);
-  if (range < 40) {
-    
-    this.nospawn = true;
-  }
-} else {
-  
-  this.vr ++;
-}
+   
 
 
   if (this.vt > 17) {
