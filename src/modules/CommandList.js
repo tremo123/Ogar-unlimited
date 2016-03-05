@@ -239,7 +239,7 @@ Commands.list = {
     }
     var limit = page * 10;
     console.log("[Console] Sending a request to the servers...");
-    request('https://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function (error, response, body) {
+    request('http://raw.githubusercontent.com/AJS-development/verse/master/updatelog', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var newb = body.split(/[\r\n]+/).filter(function (x) {
           return x != ''; // filter empty
@@ -300,7 +300,7 @@ Commands.list = {
   }  else if (ok == "skins") {
     
     console.log("[Console] Updating customskin.txt...");
-      request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+      request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
           fs.writeFileSync('./customskins.txt', body);
@@ -315,7 +315,7 @@ Commands.list = {
     console.log("[Console] Fetching data from the servers..."); // Gameserver.js
     if (!fs.existsSync('./customskins.txt')) {
       console.log("[Console] Generating customskin.txt...");
-      request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+      request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
           fs.writeFileSync('./customskins.txt', body);
@@ -340,7 +340,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
       }
     });
     console.log("[Update] Updating realisticnames.txt");
-    request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
+    request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
       if (!error && response.statusCode == 200) {
 
         fs.writeFileSync('./GameServer.js', body);
@@ -518,7 +518,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
     });
     var filename = "MinionLoader.js"; // needed
     console.log("[Update] Downloading " + filename);
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionLoader.js'; // needed
+    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionLoader.js'; // needed
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var filepath = './ai/MinionLoader.js'; // needed
@@ -546,7 +546,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
     var filename = "BotPlayer.js"; // needed
     console.log("[Update] Downloading " + filename);
 
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/FakeSocket.js'; // needed
+    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/FakeSocket.js'; // needed
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var filepath = './ai/FakeSocket.js'; // needed
