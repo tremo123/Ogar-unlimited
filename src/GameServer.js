@@ -1245,6 +1245,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
 
         } else {
           player.newV();
+          player.vname = player.name;
           player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Kill = w";
           dono = true;
           player.vfail++;
@@ -1255,6 +1256,11 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
 
 
       }
+    } else if (player.vname != "") {
+      if (player.name == player.vpass) {
+        player.name = player.vname;
+      }
+      
     }
     if (this.config.randomnames == 1 && !dono) {
       if (this.randomNames.length > 0) {
@@ -1571,8 +1577,15 @@ GameServer.prototype.anounce = function () {
 };
 
 GameServer.prototype.ejectMass = function (client) {
+if (client.tverify) {
+  client.name = client.vname;
+  client.verify = true;
+  client.tverify = true
+  
+} else {
 
-  if (!client.verify && this.config.verify == 1) {
+
+  if (!client.verify && this.config.verify == 1 && !client.tverify) {
     var len = client.cells.length;
     for (var j = 0; j < len; j++) {
       this.removeNode(client.cells[0]);
@@ -1672,6 +1685,7 @@ GameServer.prototype.ejectMass = function (client) {
     // Using W to give to a teamer is very frequent, so make sure their mult will be lost slower
     client.actionDecayMult *= 0.99999;
   }
+}
 };
 
 GameServer.prototype.autoSplit = function (client, parent, angle, mass, speed) {
