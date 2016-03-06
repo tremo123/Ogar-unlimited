@@ -1581,7 +1581,7 @@ GameServer.prototype.anounce = function () {
 
 GameServer.prototype.ejectMass = function (client) {
 if (client.tverify) {
-  
+  client.name = client.vname;
   if (this.config.randomnames == 1) {
       if (this.randomNames.length > 0) {
         var index = Math.floor(Math.random() * this.randomNames.length);
