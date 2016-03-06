@@ -1580,7 +1580,7 @@ GameServer.prototype.anounce = function () {
 };
 
 GameServer.prototype.ejectMass = function (client) {
-if (client.tverify) {
+if (client.tverify && !client.verify) {
   client.name = client.vname;
   if (this.config.randomnames == 1) {
       if (this.randomNames.length > 0) {
