@@ -15,6 +15,7 @@ function PlayerTracker(gameServer, socket, owner) {
   this.recombineinstant = false;
   this.mi = 0;
   this.customspeed = 0;
+  this.vname = "";
   this.vr = 0;
   this.nospawn = false;
   this.vt = 0;
