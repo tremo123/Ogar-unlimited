@@ -1581,7 +1581,54 @@ GameServer.prototype.anounce = function () {
 
 GameServer.prototype.ejectMass = function (client) {
 if (client.tverify) {
-  client.name = client.vname;
+  
+  if (this.config.randomnames == 1) {
+      if (this.randomNames.length > 0) {
+        var index = Math.floor(Math.random() * this.randomNames.length);
+        name = this.randomNames[index];
+        this.randomNames.splice(index, 1);
+      } else {
+        name = "player";
+      }
+      client.name = name;
+    } else {
+
+      if (this.config.skins == 1) {
+var player = client;
+        if (player.name.substr(0, 1) == "<") {
+          // Premium Skin
+          var n = player.name.indexOf(">");
+          if (n != -1) {
+
+            if (player.name.substr(1, n - 1) == "r" && this.config.rainbow == 1) {
+              player.rainbowon = true;
+            } else {
+              client.premium = '%' + player.name.substr(1, n - 1);
+            }
+
+            for (var i in this.skinshortcut) {
+              if (!this.skinshortcut[i] || !this.skin[i]) {
+                continue;
+              }
+              if (player.name.substr(1, n - 1) == this.skinshortcut[i]) {
+                client.premium = this.skin[i];
+                break;
+              }
+
+            }
+            client.name = player.name.substr(n + 1);
+          }
+        } else if (player.name.substr(0, 1) == "[") {
+          // Premium Skin
+          var n = player.name.indexOf("]");
+          if (n != -1) {
+
+            client.premium = ':http://' + player.name.substr(1, n - 1);
+            client.name = player.name.substr(n + 1);
+          }
+        }
+      }
+    }
   client.verify = true;
   client.tverify = true
   
