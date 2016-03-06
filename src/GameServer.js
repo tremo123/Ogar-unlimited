@@ -1244,8 +1244,11 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
 
 
         } else {
-          player.newV();
-          player.vname = player.name;
+          if (player.vfail = 0) {
+            player.vname = player.name;
+          }
+        player.newV();
+          
           player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Kill = w";
           dono = true;
           player.vfail++;
