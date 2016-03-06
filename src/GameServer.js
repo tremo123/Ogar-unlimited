@@ -1244,7 +1244,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
 
 
         } else {
-          if (player.vfail = 0) {
+          if (player.vfail == 0) {
             player.vname = player.name;
           }
         player.newV();
