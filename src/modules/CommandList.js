@@ -2442,7 +2442,7 @@ Commands.list = {
         data = fillChar("SPECTATING: " + nick, '-', ' | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength, true);
         console.log(" " + id + " | " + ip + " | " + data);
       } else if (client.cells.length > 0) {
-        nick = fillChar((client.name == "") ? "An unnamed cell" : client.name, ' ', gameServer.config.playerMaxNickLength);
+        nick = fillChar((!client.name || client.name == "") ? "An unnamed cell" : client.name, ' ', gameServer.config.playerMaxNickLength);
         cells = fillChar(client.cells.length, ' ', 5, true);
         score = fillChar(client.getScore(true), ' ', 6, true);
         position = fillChar(client.centerPos.x >> 0, ' ', 5, true) + ', ' + fillChar(client.centerPos.y >> 0, ' ', 5, true);
