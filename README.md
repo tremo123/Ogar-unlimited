@@ -47,6 +47,9 @@ The official website for the Ogar Project is [ogarproject.com](http://ogarprojec
 ### Purchased Ogar?
 If you've purchased a copy of Ogar, you've probably been SERIOUSLY ripped off. [This post on our website explains why.](http://ogarproject.com/threads/psa-if-you-purchased-ogar-youve-been-ripped-off.6/)
 
+### Easy Verify
+For those of you who have trouble with minions and such, this feature is for you. Currently, there is no program that can get through all of ogar unlimited's filterrs anddd features, but in some future, someone might be able to crack the other anti bot mesures. So we created easy verify, a currently foolproof system that filters out bots. To turn on, turn verify to 1 in config. Then when a player spawns, he is frozen at a spot and is given a 3 digit code. Then that player presses w to kill himself and types in the code in the nickname box. Afteword, when pressing play again, it shows a success message. Press w again to kill and then type your desired name and play as normal. Only required to do once per player, each player is given a different random code that changes on fail. If fail passes over an amount, they are kicked for good.
+
 ### Minions
 You use minions by first adding bots with the addbot command. Then in console, you do `minion [id]` to turn your bots into your minions the id field is your id. Then, they will start following your mouse. You can control those minions by useing the q key. If you press it, a B will appear next to your name. then controls will be normal except now ejecting and splitting will happen on your minions not you. you can reenter normal control mode by pressing q again. You can disable minions by doing `minion` in console
 
