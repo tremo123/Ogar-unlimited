@@ -124,10 +124,10 @@ Commands.list = {
     }
     var delay = parseInt(split[1]) * 1000;
     var re = parseInt(split[2]);
-   var command = split[3];
+    var command = split[3];
     var newsplit = [];
     for (var i = 4; i < split.length; i++) {
-       newsplit[i - 1] = split[i];
+      newsplit[i - 1] = split[i];
     }
     if (isNaN(delay)) {
       console.log("[Console] Please specify a valid Repeat amount!");
@@ -141,23 +141,23 @@ Commands.list = {
     console.log("[PCMD] Request Sent!");
     this.pcmd = setInterval(function () {
       console.log("[PCMD] Running command..");
-      gameServer.execommand(command,newsplit);
+      gameServer.execommand(command, newsplit);
       r++;
-        if (r > re) {
-          console.log("[PCMD] Done");
-          clearInterval(game.pcmd);
-        }
+      if (r > re) {
+        console.log("[PCMD] Done");
+        clearInterval(game.pcmd);
+      }
     }, delay);
-    
-    
+
+
   },
-  
+
   reset: function (gameServer, split) {
-for (var j = 0; j < 10; j++) {
-    for (var i in gameServer.nodes) {
-      gameServer.removeNode(gameServer.nodes[i]);
+    for (var j = 0; j < 10; j++) {
+      for (var i in gameServer.nodes) {
+        gameServer.removeNode(gameServer.nodes[i]);
+      }
     }
-}
     console.log("[Console] Reseted game");
   },
   delete: function (gameServer, split) {
@@ -268,40 +268,40 @@ for (var j = 0; j < 10; j++) {
       console.log("[Console] Error: could not perform action. Cause: You deleted folders or you are using a binary");
       return;
     }
-  if (ok == "botnames") {
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
+    if (ok == "botnames") {
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
 
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './botnames.txt';
-        fs.writeFileSync(filepath, body);
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './botnames.txt';
+          fs.writeFileSync(filepath, body);
 
-      } else {
-        console.log("[Update] Couldnt connect to servers. Aborting...");
-        return;
-      }
-    });
-    var filename = "botnames.txt";
-    console.log("[Update] Updating Botnames");
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/realisticnames.txt';
+        } else {
+          console.log("[Update] Couldnt connect to servers. Aborting...");
+          return;
+        }
+      });
+      var filename = "botnames.txt";
+      console.log("[Update] Updating Botnames");
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/realisticnames.txt';
 
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './realisticnames.txt';
-        fs.writeFileSync(filepath, body);
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './realisticnames.txt';
+          fs.writeFileSync(filepath, body);
 
-      } else {
-        console.log("[Update] Couldnt connect to servers. Aborting...");
-        return;
-      }
-    });
-    var filename = "realisticnames.txt";
-    console.log("[Update] Updating realisticnames.txt");
-    
-    
-  }  else if (ok == "skins") {
-    
-    console.log("[Console] Updating customskin.txt...");
+        } else {
+          console.log("[Update] Couldnt connect to servers. Aborting...");
+          return;
+        }
+      });
+      var filename = "realisticnames.txt";
+      console.log("[Update] Updating realisticnames.txt");
+
+
+    } else if (ok == "skins") {
+
+      console.log("[Console] Updating customskin.txt...");
       request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
@@ -309,668 +309,668 @@ for (var j = 0; j < 10; j++) {
 
         } else {
           console.log("[Update] Could not fetch data from servers... Aborting...");
-         return; 
+          return;
         }
       });
-  } else if (ok == "all") {
-    
-    console.log("[Console] Fetching data from the servers..."); // Gameserver.js
-    if (!fs.existsSync('./customskins.txt')) {
-      console.log("[Console] Generating customskin.txt...");
-      request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
+    } else if (ok == "all") {
 
-          fs.writeFileSync('./customskins.txt', body);
+      console.log("[Console] Fetching data from the servers..."); // Gameserver.js
+      if (!fs.existsSync('./customskins.txt')) {
+        console.log("[Console] Generating customskin.txt...");
+        request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+
+            fs.writeFileSync('./customskins.txt', body);
+
+          } else {
+            console.log("[Update] Could not fetch data from servers... will generate empty file");
+            fs.writeFileSync('./customskins.txt', "");
+          }
+        });
+
+      }
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/realisticnames.txt';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './realisticnames.txt';
+          fs.writeFileSync(filepath, body);
 
         } else {
-          console.log("[Update] Could not fetch data from servers... will generate empty file");
-          fs.writeFileSync('./customskins.txt', "");
+          console.log("[Update] Couldnt connect to servers. Aborting...");
+          return;
+        }
+      });
+      console.log("[Update] Updating realisticnames.txt");
+      request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+
+          fs.writeFileSync('./GameServer.js', body);
+
+        } else {
+          console.log("[Update] ERROR: Could not connect to servers. Will abort update");
+          abort = true;
+          return;
         }
       });
 
-    }
-var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/realisticnames.txt';
+      request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PlayerTracker.js', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
 
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './realisticnames.txt';
-        fs.writeFileSync(filepath, body);
+          fs.writeFileSync('./PlayerTracker.js', body);
 
-      } else {
-        console.log("[Update] Couldnt connect to servers. Aborting...");
-        return;
-      }
-    });
-    console.log("[Update] Updating realisticnames.txt");
-    request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/GameServer.js', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-
-        fs.writeFileSync('./GameServer.js', body);
-
-      } else {
-        console.log("[Update] ERROR: Could not connect to servers. Will abort update");
-        abort = true;
-        return;
-      }
-    });
-
-    request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PlayerTracker.js', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-
-        fs.writeFileSync('./PlayerTracker.js', body);
-
-      }
-    });
-    console.log("[Update] Downloading Playertracker.js");
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PacketHandler.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './PacketHandler.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "PacketHandler.js";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './botnames.txt';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "botnames.txt";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gameserver.ini';
-
-    fs.rename('./gameserver.ini', './oldconfig.ini', function (err) {
-      if (err) console.log('ERROR: ' + err);
-    });
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gameserver.ini';
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "gameserver.ini";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/index.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './index.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "index.js";
-    console.log("[Update] Downloading " + filename);
-    console.log("[Update] Moving on to the folder Packet...")
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/AddNode.js';
-
-    request(dbase, function (error, response, body) {
-      var filepath = './packet/AddNode.js';
-      if (!error && response.statusCode == 200) {
-
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "AddNode.js";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/ClearNodes.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './packet/ClearNodes.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "ClearNodes.js";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/DrawLine.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './packet/DrawLine.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "DrawLine.js";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/SetBorder.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './packet/SetBorder.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "SetBorder.js";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateLeaderboard.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './packet/UpdateLeaderboard.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "UpdateLeaderboard.js";
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateNodes.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-
-        var filepath = './packet/UpdateNodes.js';
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "UpdateNodes.js";
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdatePosition.js';
-
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './packet/UpdatePosition.js';
-
-        fs.writeFileSync(filepath, body);
-
-      }
-    });
-    var filename = "UpdatePosition.js";
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/index.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './packet/index.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "index.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    console.log("[Update] Moving to folder AI...");
-
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/BotLoader.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "BotLoader.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/BotLoader.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "MinionLoader.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionLoader.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/MinionLoader.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionPlayer.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/MinionPlayer.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionSocket.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/MinionSocket.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "BotLoader.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    var filename = "BotLoader.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    var filename = "BotPlayer.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/FakeSocket.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/FakeSocket.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "FakeSocket.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/Readme.txt'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './ai/Readme.txt'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Readme.txt"; // needed
-    console.log("[Update] Downloading " + filename);
-    console.log("[Update] Moving to folder Entities...");
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Beacon.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/Beacon.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Beacon.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Cell.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/Cell.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Cell.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/EjectedMass.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/EjectedMass.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "EjectedMass.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Food.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/Food.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Food.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MotherCell.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/MotherCell.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "MotherCell.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MovingVirus.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/MovingVirus.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "MovingVirus.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/PlayerCell.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/PlayerCell.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "PlayerCell.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/StickyCell.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/StickyCell.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "StickyCell.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Virus.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/Virus.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Virus.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/index.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './entity/index.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "index.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    console.log("[Update] Moving to the Gamemodes folder...");
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/BlackHole.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/BlackHole.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "BlackHole.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Debug.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Debug.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Debug.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental%20v2.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Experimental v2.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Experimental v2.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Experimental.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Experimental.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/FFA.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/FFA.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "FFA.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/HungerGames.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/HungerGames.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "HungerGames.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Leap.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Leap.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Leap.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Mode.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Mode.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Mode.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamX.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/NoCollisionTeamX.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "NCteamsx.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamZ.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/NoCollisionTeamZ.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "NCTeamZ.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeams.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/NoCollisionTeams.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "NCTeams.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Rainbow.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Rainbow.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Rainbow.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/SFFA.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/SFFA.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "SFFA.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TFFA.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/TFFA.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "TFFA.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamZ.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/TeamZ.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Teamz"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamX.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/TeamX.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Teamx.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Teams.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Teams.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Teams.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Tournament.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Tournament.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Tournament.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitffa.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Unlimitffa.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Unlimited FFA.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitpvp.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Unlimitpvp.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Unlimitpvp.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Virus.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Virus.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Virus.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/VirusOff.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/VirusOff.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "VirusOff.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Zombie.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './gamemodes/Zombie.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "Zombie.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    console.log("[Update] Moving to Modules folder");
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/CommandList.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './modules/CommandList.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "CommandList.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/ini.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './modules/ini.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "ini.js"; // needed
-    console.log("[Update] Downloading " + filename);
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/log.js'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = './modules/log.js'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-    var filename = "log.js"; // needed
-    console.log("[Update] Downloading " + filename);
-    console.log("[Update] Downloading readme and newfeatures.md...");
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/README.md'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = '../README.md'; // needed
-        fs.writeFileSync(filepath, body);
-      }
-    });
-
-    var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/Newfeatures.md'; // needed
-    request(dbase, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var filepath = '../Newfeatures.md'; // needed
-        fs.writeFileSync(filepath, body);
-        console.log("[Update] Done downloading all files");
-        console.log("[Update] Applying update...");
-      }
-    });
-
-
-    request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/files.txt', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        extraf = body.split(/[\r\n]+/).filter(function (x) {
-          return x != ''; // filter empty
-        });
-        for (var i in extraf) {
-          gameServer.upextra(extraf[i]);
         }
-      }
-    });
+      });
+      console.log("[Update] Downloading Playertracker.js");
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/PacketHandler.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './PacketHandler.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "PacketHandler.js";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/botnames.txt';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './botnames.txt';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "botnames.txt";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gameserver.ini';
+
+      fs.rename('./gameserver.ini', './oldconfig.ini', function (err) {
+        if (err) console.log('ERROR: ' + err);
+      });
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gameserver.ini';
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "gameserver.ini";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/index.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './index.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "index.js";
+      console.log("[Update] Downloading " + filename);
+      console.log("[Update] Moving on to the folder Packet...")
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/AddNode.js';
+
+      request(dbase, function (error, response, body) {
+        var filepath = './packet/AddNode.js';
+        if (!error && response.statusCode == 200) {
+
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "AddNode.js";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/ClearNodes.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './packet/ClearNodes.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "ClearNodes.js";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/DrawLine.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './packet/DrawLine.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "DrawLine.js";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/SetBorder.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './packet/SetBorder.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "SetBorder.js";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateLeaderboard.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './packet/UpdateLeaderboard.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "UpdateLeaderboard.js";
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdateNodes.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+
+          var filepath = './packet/UpdateNodes.js';
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "UpdateNodes.js";
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/UpdatePosition.js';
+
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './packet/UpdatePosition.js';
+
+          fs.writeFileSync(filepath, body);
+
+        }
+      });
+      var filename = "UpdatePosition.js";
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/index.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './packet/index.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "index.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      console.log("[Update] Moving to folder AI...");
+
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/BotLoader.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "BotLoader.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/BotLoader.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/BotLoader.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "MinionLoader.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionLoader.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/MinionLoader.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionPlayer.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/MinionPlayer.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/MinionSocket.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/MinionSocket.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "BotLoader.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      var filename = "BotLoader.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      var filename = "BotPlayer.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/FakeSocket.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/FakeSocket.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "FakeSocket.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/ai/Readme.txt'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './ai/Readme.txt'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Readme.txt"; // needed
+      console.log("[Update] Downloading " + filename);
+      console.log("[Update] Moving to folder Entities...");
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Beacon.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/Beacon.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Beacon.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Cell.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/Cell.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Cell.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/EjectedMass.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/EjectedMass.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "EjectedMass.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Food.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/Food.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Food.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MotherCell.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/MotherCell.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "MotherCell.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/MovingVirus.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/MovingVirus.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "MovingVirus.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/PlayerCell.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/PlayerCell.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "PlayerCell.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/StickyCell.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/StickyCell.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "StickyCell.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/Virus.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/Virus.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Virus.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/entity/index.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './entity/index.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "index.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      console.log("[Update] Moving to the Gamemodes folder...");
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/BlackHole.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/BlackHole.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "BlackHole.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Debug.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Debug.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Debug.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental%20v2.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Experimental v2.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Experimental v2.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Experimental.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Experimental.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Experimental.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/FFA.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/FFA.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "FFA.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/HungerGames.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/HungerGames.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "HungerGames.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Leap.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Leap.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Leap.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Mode.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Mode.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Mode.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamX.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/NoCollisionTeamX.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "NCteamsx.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeamZ.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/NoCollisionTeamZ.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "NCTeamZ.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/NoCollisionTeams.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/NoCollisionTeams.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "NCTeams.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Rainbow.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Rainbow.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Rainbow.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/SFFA.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/SFFA.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "SFFA.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TFFA.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/TFFA.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "TFFA.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamZ.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/TeamZ.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Teamz"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/TeamX.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/TeamX.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Teamx.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Teams.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Teams.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Teams.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Tournament.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Tournament.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Tournament.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitffa.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Unlimitffa.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Unlimited FFA.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Unlimitpvp.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Unlimitpvp.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Unlimitpvp.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Virus.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Virus.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Virus.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/VirusOff.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/VirusOff.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "VirusOff.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/gamemodes/Zombie.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './gamemodes/Zombie.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "Zombie.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      console.log("[Update] Moving to Modules folder");
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/CommandList.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './modules/CommandList.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "CommandList.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/ini.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './modules/ini.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "ini.js"; // needed
+      console.log("[Update] Downloading " + filename);
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/modules/log.js'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = './modules/log.js'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+      var filename = "log.js"; // needed
+      console.log("[Update] Downloading " + filename);
+      console.log("[Update] Downloading readme and newfeatures.md...");
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/README.md'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = '../README.md'; // needed
+          fs.writeFileSync(filepath, body);
+        }
+      });
+
+      var dbase = 'https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/Newfeatures.md'; // needed
+      request(dbase, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var filepath = '../Newfeatures.md'; // needed
+          fs.writeFileSync(filepath, body);
+          console.log("[Update] Done downloading all files");
+          console.log("[Update] Applying update...");
+        }
+      });
 
 
-    setTimeout(function () {
-      if (!abort) {
-        console.log("[Update] Done! Now restarting/closing...");
-        gameServer.socketServer.close();
-        process.exit(3);
-      }
-    }, 8000);
-  } else {
+      request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/files.txt', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          extraf = body.split(/[\r\n]+/).filter(function (x) {
+            return x != ''; // filter empty
+          });
+          for (var i in extraf) {
+            gameServer.upextra(extraf[i]);
+          }
+        }
+      });
+
+
+      setTimeout(function () {
+        if (!abort) {
+          console.log("[Update] Done! Now restarting/closing...");
+          gameServer.socketServer.close();
+          process.exit(3);
+        }
+      }, 8000);
+    } else {
       console.log("[Console] Please do update all,botnames,skins instead of update to confirm");
-  }
+    }
   },
 
   explode: function (gameServer, split) {
@@ -1771,51 +1771,51 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
     var id = parseInt(split[2]);
     if (c == "verify") {
       if (isNaN(id)) {
-      console.log("[Console] Please specify a valid id!");
-      return;
-    }
-      for (var i in gameServer.clients) {
-      if (gameServer.clients[i].playerTracker.pID == id) {
-        var client = gameServer.clients[i].playerTracker;
-
-        client.verify = true;
-        console.log("[Console] Verified Player " + id);
-       break;
+        console.log("[Console] Please specify a valid id!");
+        return;
       }
-      
-      
-    }
+      for (var i in gameServer.clients) {
+        if (gameServer.clients[i].playerTracker.pID == id) {
+          var client = gameServer.clients[i].playerTracker;
+
+          client.verify = true;
+          console.log("[Console] Verified Player " + id);
+          break;
+        }
+
+
+      }
     } else if (c == "reverify") {
       if (isNaN(id)) {
-      console.log("[Console] Please specify a valid id!");
-      return;
-    }
-      for (var i in gameServer.clients) {
-      if (gameServer.clients[i].playerTracker.pID == id) {
-        var client = gameServer.clients[i].playerTracker;
-
-        client.verify = false;
-        client.tverify = false;
-        var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          gameServer.removeNode(client.cells[0]);
-          count++;
-        }
-        console.log("[Console] Made Player " + id + " Reverify");
-       break;
+        console.log("[Console] Please specify a valid id!");
+        return;
       }
-      
-      
-    }
-      
+      for (var i in gameServer.clients) {
+        if (gameServer.clients[i].playerTracker.pID == id) {
+          var client = gameServer.clients[i].playerTracker;
+
+          client.verify = false;
+          client.tverify = false;
+          var len = client.cells.length;
+          for (var j = 0; j < len; j++) {
+            gameServer.removeNode(client.cells[0]);
+            count++;
+          }
+          console.log("[Console] Made Player " + id + " Reverify");
+          break;
+        }
+
+
+      }
+
     } else {
       console.log("[Console] Plese specify a command, Verify or reverify!");
-      
+
     }
-    
-    
+
+
   },
-  
+
   nojoin: function (gameServer, split) {
     var id = parseInt(split[1]);
     if (isNaN(id)) {
@@ -1847,17 +1847,17 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         client.frozen = !client.frozen;
         if (client.frozen) {
           console.log("[Console] Froze player " + id);
-          
+
         } else {
           console.log("[Console] Unfroze player " + id);
         }
-        
+
         break;
       }
     }
-    
+
   },
- spawnmass: function (gameServer, split) {
+  spawnmass: function (gameServer, split) {
     var id = parseInt(split[1]);
     var mass = parseInt(split[2]);
     if (isNaN(id)) {
@@ -1877,7 +1877,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
 
       }
     }
-    console.log("[Console] Player "+ id + " now spawns with " + mass + " Mass");
+    console.log("[Console] Player " + id + " now spawns with " + mass + " Mass");
   },
   speed: function (gameServer, split) {
     var id = parseInt(split[1]);
@@ -1899,7 +1899,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
 
       }
     }
-    console.log("[Console] Player "+ id + "'s base speed is now " + speed);
+    console.log("[Console] Player " + id + "'s base speed is now " + speed);
   },
   merge: function (gameServer, split) {
     // Validation checks
@@ -1930,7 +1930,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
     gameServer.liveticks = 0;
     for (var i = 0; i < add; i++) {
       gameServer.bots.addBot();
-      gameServer.sbo ++;
+      gameServer.sbo++;
     }
     console.log("[Console] Added " + add + " player bots");
   },
@@ -1951,7 +1951,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         }
         client.socket.close();
         removed++;
-        gameServer.sbo --;
+        gameServer.sbo--;
       } else
         i++;
     }
@@ -2216,7 +2216,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
       }
     }
   },
-   banrange: function (gameServer, split) {
+  banrange: function (gameServer, split) {
     var start = parseInt(split[1]);
     var end = parseInt(split[2]);
     if (isNaN(start) || isNaN(end)) {
@@ -2231,7 +2231,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         }
       }
       if (gameServer.banned.indexOf(ip) == -1) {
-        
+
         gameServer.banned.push(ip);
         for (var i in gameServer.clients) {
           var c = gameServer.clients[i];
@@ -2442,7 +2442,7 @@ var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/mas
         data = fillChar("SPECTATING: " + nick, '-', ' | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength, true);
         console.log(" " + id + " | " + ip + " | " + data);
       } else if (client.cells.length > 0) {
-        nick = fillChar((client.name == "") ? "An unnamed cell" : client.name, ' ', gameServer.config.playerMaxNickLength);
+        nick = fillChar((!client.name || client.name == "") ? "An unnamed cell" : client.name, ' ', gameServer.config.playerMaxNickLength);
         cells = fillChar(client.cells.length, ' ', 5, true);
         score = fillChar(client.getScore(true), ' ', 6, true);
         position = fillChar(client.centerPos.x >> 0, ' ', 5, true) + ', ' + fillChar(client.centerPos.y >> 0, ' ', 5, true);
