@@ -19,7 +19,7 @@ Then connect by typing `agar.io/?ip=localhost:443`
 
 If you want to connect with your friends, you need to port forward
 
-
+(you can also host it for free using c9.io)
 
 (Installation for Linux)
 ```
