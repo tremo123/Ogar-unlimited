@@ -1779,6 +1779,7 @@ Commands.list = {
           var client = gameServer.clients[i].playerTracker;
 
           client.verify = true;
+          client.tverify = false;
           console.log("[Console] Verified Player " + id);
           break;
         }
