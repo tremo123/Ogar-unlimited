@@ -1630,7 +1630,7 @@ var player = client;
       }
     }
   client.verify = true;
-  client.tverify = true
+  client.tverify = false;
   
 } else {
 
