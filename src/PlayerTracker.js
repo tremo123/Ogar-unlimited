@@ -157,47 +157,42 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
       this.score = s;
     }
   }
-   
 
-if (this.gameServer.config.mousefilter == 1) {
-  if (this.vt > 35) {
-    this.vt = 0;
-    var re = 0;
-    for (var i in this.gameServer.clients) {
-      var client = this.gameServer.clients[i].playerTracker;
-      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-        re ++;
+
+  if (this.gameServer.config.mousefilter == 1) {
+    if (this.vt > 35) {
+      this.vt = 0;
+      var re = 0;
+      for (var i in this.gameServer.clients) {
+        var client = this.gameServer.clients[i].playerTracker;
+        if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+          re++;
+        }
       }
-    }
       if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
-      var client = this.gameServer.clients[i].playerTracker;
-      if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-      client.nospawn = true;
+          var client = this.gameServer.clients[i].playerTracker;
+          if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+            client.nospawn = true;
+          }
+        }
+
+
       }
+
+
+    } else {
+
+      this.vt++;
     }
-        
-        
-      }
-      
-      
-    
-    
-    
-    
-  } else {
-    
-    this.vt ++;
   }
-}
-  
-  
+
 
   if (this.score > this.gameServer.topscore + 10 && this.gameServer.config.highscore == 1) {
 
     if (this.name != this.gameServer.topusername) {
       var self = this;
-      fs.readFile('./highscores.txt', 'utf-8', function(err, score){
+      fs.readFile('./highscores.txt', 'utf-8', function (err, score) {
         self.gameServer.oldtopscores.score = self.gameServer.topscore;
         self.gameServer.oldtopscores.name = self.gameServer.topusername;
         // todo replace readFileSync with readFile - this causes lag!!!

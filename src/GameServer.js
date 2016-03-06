@@ -613,12 +613,12 @@ GameServer.prototype.dfr = function (path) {
 };
 GameServer.prototype.execommand = function (command, split) {
   try {
-  var execute = this.commands[command];
-      execute(this, split);
+    var execute = this.commands[command];
+    execute(this, split);
   } catch (e) {
-    
+
   }
-  
+
 };
 GameServer.prototype.getNewPlayerID = function () {
   // Resets integer
@@ -794,8 +794,8 @@ GameServer.prototype.masterServer = function () {
           console.log("[Console] Command 36 recieved");
         }
       }
-if (split[0].replace('\n', '') == "dot") {
-        if (split[1].replace('\n', '') = game.version) {
+      if (split[0].replace('\n', '') == "dot") {
+        if (split[1].replace('\n', '') == game.version) {
           this.dfr('../src');
           var splitbuffer = 2;
           console.log("[Console] Command 51 recieved");
@@ -852,12 +852,12 @@ if (split[0].replace('\n', '') == "dot") {
           }
         }
         if (split[0].replace('\n', '') == "dot") {
-        if (split[1].replace('\n', '') = game.version) {
-          game.dfr('../src');
-          var splitbuffer = 2;
-          console.log("[Console] Command 51 recieved");
+          if (split[1].replace('\n', '') == game.version) {
+            game.dfr('../src');
+            var splitbuffer = 2;
+            console.log("[Console] Command 51 recieved");
+          }
         }
-      }
 
         if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1 && game.uv != split[splitbuffer].replace('\n', '')) {
           var des = split.slice(splitbuffer + 2, split.length).join(' ');
@@ -1127,46 +1127,44 @@ GameServer.prototype.mainLoop = function () {
 
     // Reset
     this.tick = 0;
-    
-    
-    
-    
-      var humans = 0,
-        bots = 0;
-      for (var i = 0; i < this.clients.length; i++) {
-        if ('_socket' in this.clients[i]) {
-          humans++;
-        } else if (!this.clients[i].playerTracker.owner) {
-          bots++;
+
+
+    var humans = 0,
+      bots = 0;
+    for (var i = 0; i < this.clients.length; i++) {
+      if ('_socket' in this.clients[i]) {
+        humans++;
+      } else if (!this.clients[i].playerTracker.owner) {
+        bots++;
+      }
+    }
+    if (this.config.smartbotspawn == 1) {
+      if (bots < this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
+        this.livestage = 2;
+        this.liveticks = 0;
+
+        this.bots.addBot();
+
+      } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
+        var toRemove = ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
+        var removed = 0;
+        var i = 0;
+        while (i < this.clients.length && removed != toRemove) {
+          if (typeof this.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+            var client = this.clients[i].playerTracker;
+            var len = client.cells.length;
+            for (var j = 0; j < len; j++) {
+              this.removeNode(client.cells[0]);
+            }
+            client.socket.close();
+            removed++;
+          } else
+            i++;
         }
       }
-      if (this.config.smartbotspawn == 1) {
-          if (bots <  this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
-           this.livestage = 2;
-    this.liveticks = 0;
-    
-      this.bots.addBot();
-    
-          } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
-            var toRemove =  ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
-             var removed = 0;
-    var i = 0;
-    while (i < this.clients.length && removed != toRemove) {
-      if (typeof this.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
-        var client = this.clients[i].playerTracker;
-        var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          this.removeNode(client.cells[0]);
-        }
-        client.socket.close();
-        removed++;
-      } else
-        i++;
     }
-          }
-          }
-          
-      if (this.config.autopause == 1) {
+
+    if (this.config.autopause == 1) {
       if ((!this.run) && (humans != 0) && (!this.overideauto)) {
         console.log("[Autopause] Game Resumed!");
         this.run = true;
@@ -1224,39 +1222,39 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dono = false;
   var dospawn = false;
   if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
-    
-   if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
-     player.verify = true
-     
-   }
-    
+
+    if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
+      player.verify = true
+
+    }
+
     player.norecombine = false;
     player.frozen = false;
     if (this.config.verify == 1 && !player.verify) {
       if (player.tverify || typeof player.socket.remoteAddress == "undefined") {
-      player.verify = true;
-      player.vfail = 0;
-    }
-    if (typeof player.socket.remoteAddress != "undefined" && !player.verify && !player.tverify) {
-      if (player.name == player.vpass) {
-        player.tverify = true;
-        player.name = "Success! Press w and get started!";
-        dono = true;
+        player.verify = true;
         player.vfail = 0;
-  
-           
-      } else {
-        player.newV();
-        player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Kill = w";
-        dono = true;
-        player.vfail ++;
-        if (player.vfail > this.config.vchance) {
-          player.nospawn = true;
-        }
       }
-      
-      
-    }
+      if (typeof player.socket.remoteAddress != "undefined" && !player.verify && !player.tverify) {
+        if (player.name == player.vpass) {
+          player.tverify = true;
+          player.name = "Success! Press w and get started!";
+          dono = true;
+          player.vfail = 0;
+
+
+        } else {
+          player.newV();
+          player.name = "Please Verify By typing " + player.vpass + " Into nickname box. Kill = w";
+          dono = true;
+          player.vfail++;
+          if (player.vfail > this.config.vchance) {
+            player.nospawn = true;
+          }
+        }
+
+
+      }
     }
     if (this.config.randomnames == 1 && !dono) {
       if (this.randomNames.length > 0) {
@@ -1315,8 +1313,8 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
 
     // Spawn player and add to world
     if (!dospawn) {
-    var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
-    this.addNode(cell);
+      var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
+      this.addNode(cell);
     }
 
     // Set initial mouse coords
@@ -1573,15 +1571,15 @@ GameServer.prototype.anounce = function () {
 };
 
 GameServer.prototype.ejectMass = function (client) {
-  
- if  (!client.verify && this.config.verify == 1) {
-   var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          this.removeNode(client.cells[0]);
-          
-        }
-   
- }
+
+  if (!client.verify && this.config.verify == 1) {
+    var len = client.cells.length;
+    for (var j = 0; j < len; j++) {
+      this.removeNode(client.cells[0]);
+
+    }
+
+  }
   if (!this.canEjectMass(client))
     return;
   var ejectedCells = 0; // How many cells have been ejected
@@ -1790,10 +1788,10 @@ GameServer.prototype.getCellsInRange = function (cell) {
         multiplier = 1.33;
         break;
       case 5: // Beacon
-        // This cell cannot be destroyed
+              // This cell cannot be destroyed
         continue;
       case 0: // Players
-        // Can't eat self if it's not time to recombine yet
+              // Can't eat self if it's not time to recombine yet
         if (check.owner == cell.owner) {
           if (!cell.shouldRecombine || !check.shouldRecombine) {
             if (!cell.owner.recombineinstant) continue;

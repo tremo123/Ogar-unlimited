@@ -62,7 +62,7 @@ BotPlayer.prototype.getLowestCell = function () {
  }; */
 
 BotPlayer.prototype.update = function () { // Overrides the update function from player tracker
-  // Remove nodes from visible nodes if possible
+                                           // Remove nodes from visible nodes if possible
   for (var i = 0; i < this.nodeDestroyQueue.length; i++) {
     var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[i]);
     if (index > -1) {
@@ -125,7 +125,7 @@ BotPlayer.prototype.update = function () { // Overrides the update function from
           }
         }
         if (!check.owner.verify && this.gameServer.config.verify == 1) {
-          
+
           continue;
         }
 

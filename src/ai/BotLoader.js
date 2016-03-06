@@ -12,36 +12,36 @@ module.exports = BotLoader;
 
 BotLoader.prototype.getName = function () {
   var name = "";
- if (this.gameServer.config.botrealnames == 1) {
-   if (this.realrandomNames.length > 0) {
-    var index = Math.floor(Math.random() * this.realrandomNames.length);
-    name = this.realrandomNames[index];
-    this.realrandomNames.splice(index, 1);
+  if (this.gameServer.config.botrealnames == 1) {
+    if (this.realrandomNames.length > 0) {
+      var index = Math.floor(Math.random() * this.realrandomNames.length);
+      name = this.realrandomNames[index];
+      this.realrandomNames.splice(index, 1);
+    } else {
+      name = "bot" + ++this.nameIndex;
+    }
+
   } else {
-    name = "bot" + ++this.nameIndex;
+    // Picks a random name for the bot
+    if (this.randomNames.length > 0) {
+      var index = Math.floor(Math.random() * this.randomNames.length);
+      name = this.randomNames[index];
+      this.randomNames.splice(index, 1);
+    } else {
+      name = "bot" + ++this.nameIndex;
+    }
   }
-   
- } else {
-  // Picks a random name for the bot
-  if (this.randomNames.length > 0) {
-    var index = Math.floor(Math.random() * this.randomNames.length);
-    name = this.randomNames[index];
-    this.randomNames.splice(index, 1);
-  } else {
-    name = "bot" + ++this.nameIndex;
-  }
- }
 
   return name;
 };
 
 BotLoader.prototype.loadNames = function () {
   this.randomNames = [];
-this.realrandomNames = [];
+  this.realrandomNames = [];
 
   // Load names
-    
-    try {
+
+  try {
     var fs = require("fs"); // Import the util library
 
     // Read and parse the names - filter out whitespace-only names
@@ -52,8 +52,8 @@ this.realrandomNames = [];
   } catch (e) {
     // Nothing, use the default names
   }
- 
-  
+
+
   try {
     var fs = require("fs"); // Import the util library
 

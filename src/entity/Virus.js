@@ -190,23 +190,23 @@ Virus.prototype.onRemove = function (gameServer) {
     console.log("[Warning] Tried to remove a non existing virus!");
   }
 };
-Virus.prototype.onAutoMove = function(gameServer) {
-    var r = 100; // Checking radius
+Virus.prototype.onAutoMove = function (gameServer) {
+  var r = 100; // Checking radius
 
-    var len = gameServer.nodesEjected.length;
-    for (var i = 0;i < len;i++) {
-        var check = gameServer.nodesEjected[i];
+  var len = gameServer.nodesEjected.length;
+  for (var i = 0; i < len; i++) {
+    var check = gameServer.nodesEjected[i];
 
-        var topY = check.position.y - r;
-        var bottomY = check.position.y + r;
-        var leftX = check.position.x - r;
-        var rightX = check.position.x + r;
+    var topY = check.position.y - r;
+    var bottomY = check.position.y + r;
+    var leftX = check.position.x - r;
+    var rightX = check.position.x + r;
 
-        if (this.collisionCheck(bottomY,topY,rightX,leftX)) {
-            check.angle = this.angle; //make sure new virus shoots in same direction as this virus
-            this.feed(check,gameServer);
-            i--;
-            len--;
-        }
+    if (this.collisionCheck(bottomY, topY, rightX, leftX)) {
+      check.angle = this.angle; //make sure new virus shoots in same direction as this virus
+      this.feed(check, gameServer);
+      i--;
+      len--;
     }
+  }
 };
