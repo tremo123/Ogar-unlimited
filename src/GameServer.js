@@ -1411,6 +1411,17 @@ GameServer.prototype.updateMoveEngine = function () {
           i--;
         }
       }
+      
+      if (check.cellType == 0) {
+        if ((client != check.owner) && (cell.mass < check.mass * 1.25)) { //extra check to make sure popsplit works
+            check.inRange = false;
+                continue;
+          }
+        len--;
+        if (check.nodeId < cell.nodeId) {
+          i--;
+        }
+      }
 
       // Consume effect
       check.onConsume(cell, this);
