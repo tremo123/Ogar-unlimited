@@ -167,14 +167,14 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
       var re = 0;
       for (var i in this.gameServer.clients) {
         var client = this.gameServer.clients[i].playerTracker;
-        if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+        if (client.mouse == this.mouse && !client.nospawn && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
           re++;
         }
       }
       if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
           var client = this.gameServer.clients[i].playerTracker;
-          if (client.mouse == this.mouse && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+          if (client.mouse == this.mouse && !client.nospawn && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
             client.nospawn = true;
             var len = client.cells.length;
         for (var j = 0; j < len; j++) {
