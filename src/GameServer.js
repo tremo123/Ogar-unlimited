@@ -1087,7 +1087,22 @@ GameServer.prototype.mainLoop = function () {
     }
 
     if (this.tickMain >= 20) { // 1 Second
+    var a = [];
+    var d = false;
       for (var i in this.clients) {
+        if (typeof this.clients[i].remoteAddress != "undefined" && this.whlist.indexOf(this.clients[i].remoteAddress) == -1) {
+        if (a[this.clients[i].playerTracker.mouse] === undefined) {
+          a[this.clients[i].playerTracker.mouse] = 1;
+          
+        } else {
+          a[this.clients[i].playerTracker.mouse] ++;
+          if (a[this.clients[i].playerTracker.mouse] > this.config.mbchance) {
+            this.mfre = true;
+            d = true;
+          }
+        }
+        }
+        
         if (typeof this.clients[i] != "undefined") {
           if (this.clients[i].playerTracker.rainbowon) {
             var client = this.clients[i].playerTracker;
@@ -1097,6 +1112,8 @@ GameServer.prototype.mainLoop = function () {
           }
         }
       }
+      if (d == false) this.mfre = false;
+      
       if (this.rnodes > 0) {
 
         if (this.rrticks > 40) {
