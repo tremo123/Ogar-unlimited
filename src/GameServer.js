@@ -1087,7 +1087,7 @@ GameServer.prototype.mainLoop = function () {
       this.rnodes = [];
     }
 
-    if (this.tickMain >= 20) { // 1 Second
+    if (this.tickMain >= this.config.fps) { // 1 Second
     var a = [];
     var d = false;
       for (var i in this.clients) {
