@@ -292,6 +292,7 @@ function GameServer() {
     merge: 1,
     mbchance: 5,
     virus: 1,
+    vtime: 20,
     clientclone: 0,
     mass: 1,
     killvirus: 1,
@@ -1298,7 +1299,22 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
           if (player.vfail > this.config.vchance) {
             player.nospawn = true;
           }
+          var pl = player;
+          var game = this;
+          setTimeout(function () {
+            if (!pl.verify && !pl.tverify) {
+              var len = pl.cells.length;
+              pl.nospawn = true;
+        for (var j = 0; j < len; j++) {
+          game.removeNode(pl.cells[0]);
+          
         }
+            }
+            
+          },game.config.vtime * 1000);
+          
+        }
+        
 
 
       }
