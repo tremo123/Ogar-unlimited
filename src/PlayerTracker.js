@@ -161,7 +161,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
   }
 
 
-  if (this.gameServer.config.mousefilter == 1) {
+  if (this.gameServer.config.mousefilter == 1 && this.gameServer.mfre == true) {
     if (this.vt > 35) {
       this.vt = 0;
       var re = 0;
