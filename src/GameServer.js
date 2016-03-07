@@ -260,6 +260,7 @@ function GameServer() {
     ejectbiggest: 0,
     porportional: 0,
     customskins: 1,
+    botmaxsplit: 4,
     serverGamemode: 0, // Gamemode, 0 = FFA, 1 = Teams
     serverBots: 0, // Amount of player bots to spawn
     serverViewBaseX: 1024, // Base view distance of players. Warning: high values may cause lag
