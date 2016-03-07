@@ -220,6 +220,7 @@ function GameServer() {
     showtopscore: 0, // Shows top score (1 to enable)
     anounceDelay: 70, // Announce delay
     anounceDuration: 8, // How long the announce lasts
+    vps: 0,
     ejectantispeed: 120, // Speed of ejected anti matter
     maxopvirus: 60, // Maximum amount of OP viruses
     skins: 1,
@@ -345,8 +346,13 @@ GameServer.prototype.start = function () {
   this.masterServer();
 
   // Start the server
+if (this.config.vps == 1) {
+var port = process.env.PORT;
+} else {
+var port = this.config.serverPort;
+}
   this.socketServer = new WebSocket.Server({
-    port: this.config.serverPort,
+    port: port,
     perMessageDeflate: false
   }, function () {
     // Spawn starting food
