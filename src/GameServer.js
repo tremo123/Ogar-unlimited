@@ -19,6 +19,7 @@ var Logger = require('./modules/log');
 // GameServer implementation
 function GameServer() {
   this.skinshortcut = [];
+  this.gtick = 0;
   this.randomNames = [];
   this.uv = "";
   this.highscores;
@@ -1032,7 +1033,14 @@ GameServer.prototype.spawnTick = function () {
 
 GameServer.prototype.gamemodeTick = function () {
   // Gamemode tick
+  var t = this.config.fps/20;
+  if (this.gtick >= Math.round(t) - 1) {
   this.gameMode.onTick(this);
+  this.gtick = 0;
+  } else {
+    this.gtick ++;
+  }
+  
 };
 
 GameServer.prototype.cellUpdateTick = function () {
