@@ -638,7 +638,7 @@ GameServer.prototype.getNewPlayerID = function () {
 
 GameServer.prototype.liveconsole = function () {
   if (this.livestage == 0) {
-    if (this.liveticks > 80) {
+    if (this.liveticks > 160) {
       this.livestage = 1;
       this.firstl = true;
       this.liveticks = 0;
@@ -655,7 +655,7 @@ GameServer.prototype.liveconsole = function () {
     var line5 = "       Max Players:  " + this.config.serverMaxConnections + "                        ";
     var line6 = "       Start Time:   " + this.startTime + "                ";
   } else if (this.livestage == 1) {
-    if (this.liveticks > 80) {
+    if (this.liveticks > 160) {
       this.liveticks = 0;
       this.firstl = true;
       this.livestage = 2;
@@ -713,7 +713,7 @@ GameServer.prototype.liveconsole = function () {
     var line5 = "               4." + l4 + "                    ";
     var line6 = "               5." + l5 + "                    ";
   } else if (this.livestage == 2) {
-    if (this.liveticks > 80) {
+    if (this.liveticks > 160) {
       this.livestage = 0;
       this.liveticks = 0;
       this.firstl = true;
