@@ -245,6 +245,7 @@ function GameServer() {
     serverPort: 443, // Server port
     botrespawn: 1,
     rainbow: 1,
+    fps: 20,
     highscore: 1,
     rainbowspeed: 1,
     botupdate: 10,
@@ -1043,7 +1044,7 @@ GameServer.prototype.mainLoop = function () {
   this.tick += (local - this.time);
   this.time = local;
 
-  if (this.tick >= 50) {
+  if (this.tick >= 1000/this.config.fps) {
     // Loop main functions
     if (this.run) {
       setTimeout(this.cellTick(), 0);
