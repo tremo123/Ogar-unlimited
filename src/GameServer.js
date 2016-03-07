@@ -43,10 +43,12 @@ function GameServer() {
   this.blue = false;
   this.bold = false;
   this.white = false;
+  this.dltick = 0;
   this.dim = false;
   this.yellow = false;
   this.resticks = 0;
   this.spawnv = 1;
+  this.lctick = 0;
   this.overideauto = false;
   this.livestage = 0;
   this.pop = [];
@@ -1063,7 +1065,14 @@ GameServer.prototype.mainLoop = function () {
     }
 
     if (this.config.liveConsole == 1) {
-      this.liveconsole();
+      var t = this.config.fps/40;
+  if (this.lctick >= Math.round(t) - 1) {
+  this.liveconsole();
+  this.lctick = 0;
+  } else {
+    this.lctick ++;
+  }
+      
     }
     // Update the client's maps
     this.updateClients();
