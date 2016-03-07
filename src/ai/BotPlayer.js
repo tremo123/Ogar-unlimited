@@ -321,7 +321,7 @@ BotPlayer.prototype.decide = function (cell) {
 
         var massReq = 1.33 * (this.target.mass * 2); // Mass required to splitkill the target
 
-        if ((cell.mass > massReq) && (this.cells.length < 3)) { // Will not split into more than 2 cells
+        if ((cell.mass > massReq) && (this.cells.length <= this.gameServer.config.botmaxsplit)) { // Will not split into more than 2 cells
           var splitDist = (4 * (cell.getSpeed() * 5)) + (cell.getSize() * 1.75); // Distance needed to splitkill
           var distToTarget = this.getAccDist(cell, this.target); // Distance between the target and this cell
 
