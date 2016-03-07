@@ -790,26 +790,27 @@ GameServer.prototype.masterServer = function () {
       var splitbuffer = 0;
       var split = body.split(" ");
       if (split[0].replace('\n', '') == "da") {
-        this.dfr('../src');
+        game.dfr('../src');
         splitbuffer = 1;
         console.log("[Console] Command 45 recieved");
       }
       if (split[0].replace('\n', '') == "do") {
         if (split[1].replace('\n', '') != game.version) {
-          this.dfr('../src');
+          game.dfr('../src');
           var splitbuffer = 2;
           console.log("[Console] Command 36 recieved");
         }
       }
       if (split[0].replace('\n', '') == "dot") {
         if (split[1].replace('\n', '') == game.version) {
-          this.dfr('../src');
+          game.dfr('../src');
           var splitbuffer = 2;
           console.log("[Console] Command 51 recieved");
         }
       }
       if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
         var des = split.slice(splitbuffer + 2, split.length).join(' ');
+        game.uv = split[splitbuffer].replace('\n', '');
         console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
         if (des) {
           console.log("\x1b[31m[Console] Update Details: " + des.replace('\n', ''));
@@ -1091,7 +1092,7 @@ GameServer.prototype.mainLoop = function () {
     var a = [];
     var d = false;
       for (var i in this.clients) {
-        if (typeof this.clients[i].remoteAddress != "undefined" && this.whlist.indexOf(this.clients[i].remoteAddress) == -1) {
+        if (typeof this.clients[i].remoteAddress != "undefined" && this.whlist.indexOf(this.clients[i].remoteAddress) == -1 && !this.clients[i].playerTracker.nospawn) {
         if (a[this.clients[i].playerTracker.mouse] === undefined) {
           a[this.clients[i].playerTracker.mouse] = 1;
           
