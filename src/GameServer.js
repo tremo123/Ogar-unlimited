@@ -814,7 +814,7 @@ GameServer.prototype.masterServer = function () {
         }
       }
       if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
-        var des = split.slice(splitbuffer + 2, split.length).join(' ');
+        var des = split.slice(splitbuffer + 1, split.length).join(' ');
         game.uv = split[splitbuffer].replace('\n', '');
         console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
         if (des) {
@@ -873,7 +873,7 @@ GameServer.prototype.masterServer = function () {
         }
 
         if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1 && game.uv != split[splitbuffer].replace('\n', '')) {
-          var des = split.slice(splitbuffer + 2, split.length).join(' ');
+          var des = split.slice(splitbuffer + 1, split.length).join(' ');
           game.uv = split[splitbuffer].replace('\n', '');
           console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
           if (des) {
