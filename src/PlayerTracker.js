@@ -162,23 +162,33 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
 
 
   if (this.gameServer.config.mousefilter == 1 && this.gameServer.mfre == true) {
-    if (this.vt > 35) {
+    if (this.vt > 10) {
       this.vt = 0;
       var re = 0;
       for (var i in this.gameServer.clients) {
         var client = this.gameServer.clients[i].playerTracker;
-        if (client.mouse == this.mouse && !client.nospawn && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+       if (client.mouse.x - this.mouse.x < 2 || this.mouse.x - client.mouse.x < 2 || client.mouse.y - this.mouse.y < 2 || this.mouse.y - client.mouse.y < 2) {
+         var ismi = true;
+       } else {
+         var ismi = false;
+       }
+        if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
           re++;
         }
       }
       if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
           var client = this.gameServer.clients[i].playerTracker;
-          if (client.mouse == this.mouse && !client.nospawn && typeof client.socket.remoteAddress != "undefined" && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+          if (client.mouse.x - this.mouse.x < 2 || this.mouse.x - client.mouse.x < 2 || client.mouse.y - this.mouse.y < 2 || this.mouse.y - client.mouse.y < 2) {
+         var ismi = true;
+       } else {
+         var ismi = false;
+       }
+          if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
             client.nospawn = true;
             var len = client.cells.length;
         for (var j = 0; j < len; j++) {
-          gameServer.removeNode(client.cells[0]);
+          this.gameServer.removeNode(client.cells[0]);
         }
           }
         }
