@@ -11,6 +11,9 @@ function PlayerTracker(gameServer, socket, owner) {
   this.rainbowon = false;
   this.mergeOverrideDuration = 0;
   this.scoreh = [];
+
+   this.shouldMoveCells = true; // False if the mouse packet wasn't triggered
+   this.movePacketTriggered = false;
   this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
