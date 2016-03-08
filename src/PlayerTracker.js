@@ -359,6 +359,29 @@ if (this.movePacketTriggered) {
     this.tickLeaderboard--;
   }
 
+    // Map obfuscation
+     var width = this.viewBox.width;
+    var height = this.viewBox.height;
+
+   if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
+        // Update map, it may have changed
+       this.socket.sendPacket(new Packet.SetBorder(
+            this.gameServer.config.borderLeft,
+            this.gameServer.config.borderRight,
+            this.gameServer.config.borderTop,
+            this.gameServer.config.borderBottom
+        ));
+    } else {
+       // Send a border packet to fake the map size
+        this.socket.sendPacket(new Packet.SetBorder(
+            this.centerPos.x + this.socket.playerTracker.scrambleX - width,
+            this.centerPos.x + this.socket.playerTracker.scrambleX + width,
+            this.centerPos.y + this.socket.playerTracker.scrambleY - height,
+           this.centerPos.y + this.socket.playerTracker.scrambleY + height
+        ));
+   }
+ 
+
   // Handles disconnections
   if (this.disconnect > -1) {
     // Player has disconnected... remove it when the timer hits -1
