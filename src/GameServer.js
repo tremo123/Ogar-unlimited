@@ -1304,7 +1304,6 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
           setTimeout(function () {
             if (!pl.verify && !pl.tverify) {
               var len = pl.cells.length;
-              pl.nospawn = true;
         for (var j = 0; j < len; j++) {
           game.removeNode(pl.cells[0]);
           
