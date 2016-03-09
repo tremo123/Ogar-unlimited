@@ -231,6 +231,7 @@ function GameServer() {
     splitversion: 1,
     verify: 0,
     autobanrecord: 0,
+serverScrambleMinimaps: 1,
     vchance: 5,
     viruscolorintense: 255,
     SpikedCells: 0, // Amount of spiked cells

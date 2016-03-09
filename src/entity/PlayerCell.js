@@ -79,6 +79,8 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
     return;
   }
 
+       if (!this.owner.shouldMoveCells) return; // Mouse is in one place
+
   // Distance between mouse pointer and cell
   var dist = this.getDist(this.position.x, this.position.y, x2, y2);
   var speed = Math.min(this.getSpeed(), dist);
