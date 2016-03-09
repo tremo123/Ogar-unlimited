@@ -1547,6 +1547,7 @@ GameServer.prototype.splitCells = function (client) {
     var deltaY = client.mouse.y - cell.position.y;
     var deltaX = client.mouse.x - cell.position.x;
     var angle = Math.atan2(deltaX, deltaY);
+    if (angle == 0) angle = Math.PI / 2;
 
     // Get starting position
     var startPos = {
