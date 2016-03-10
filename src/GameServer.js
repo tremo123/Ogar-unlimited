@@ -1413,7 +1413,7 @@ GameServer.prototype.updateMoveEngine = function () {
       }
       
       if (check.cellType == 0) {
-        if ((client != check.owner) && (cell.mass < check.mass * 1.25)) { //extra check to make sure popsplit works
+        if ((client != check.owner) && (cell.mass < check.mass * 1.25)) { //extra check to make sure popsplit works by retslac
             check.inRange = false;
                 continue;
           }
