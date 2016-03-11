@@ -1,5 +1,9 @@
 // todo @Michael need to rewrite this function as there is a lot of repeated code that could be refactored / dry
 // todo should be a list of files that is handled by a generic function, no need to write the same code for each file
+
+var fs = require("fs");
+var request = require('request');
+
 module.exports = function (gameServer, split) {
   var ok = split[1];
   var abort = false;

@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 module.exports = function (gameServer, split) {
   if (split[1]) var c = split[1].toLowerCase(); else var c = "";
   var ip = split[2];

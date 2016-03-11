@@ -1,3 +1,5 @@
+var GameMode = require('../../gamemodes');
+
 module.exports = function (gameServer, split) {
   try {
     var n = parseInt(split[1]);

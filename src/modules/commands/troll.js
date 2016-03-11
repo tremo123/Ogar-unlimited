@@ -1,4 +1,5 @@
 var fillChar = require('./fillChar.js');
+var Entity = require('../../entity');
 
 module.exports = function (gameServer, split) {
   var id = parseInt(split[1]);

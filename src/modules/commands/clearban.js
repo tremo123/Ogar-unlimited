@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 module.exports = function (gameServer, split) {
   console.log("[Console] Cleared " + gameServer.banned.length + " IP's");
   gameServer.banned = [];

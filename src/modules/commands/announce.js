@@ -1,3 +1,5 @@
+var GameMode = require('../../gamemodes');
+
 module.exports = function (gameServer, split) {
   console.log("High Score announce system started");
   setInterval(function () {

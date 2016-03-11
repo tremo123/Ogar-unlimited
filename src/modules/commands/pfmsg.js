@@ -1,3 +1,5 @@
+var GameMode = require('../../gamemodes');
+
 module.exports = function (gameServer, split) {
   var delay = parseInt(split[1] * 1000);
   var dur = parseInt(split[2] * 1000);

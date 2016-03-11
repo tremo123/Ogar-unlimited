@@ -1,3 +1,6 @@
+var GameMode = require('../../gamemodes');
+var fs = require("fs");
+
 module.exports = function (gameServer, split) {
   // Get ip
   var ip = split[1];

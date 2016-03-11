@@ -1,3 +1,5 @@
+var EjectedMass = require('../../entity/EjectedMass');
+
 module.exports = function (gameServer, split) {
   var id = parseInt(split[1]);
   if (isNaN(id)) {

@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 module.exports = function (gameServer, split) {
   var start = parseInt(split[1]);
   var end = parseInt(split[2]);

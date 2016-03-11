@@ -1,3 +1,5 @@
+var Entity = require('../../entity');
+
 module.exports = function (gameServer, split) {
   var pos = {
     x: parseInt(split[1]),

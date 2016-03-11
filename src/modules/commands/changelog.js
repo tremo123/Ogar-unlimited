@@ -1,3 +1,5 @@
+var request = require('request');
+
 module.exports = function (gameServer, split) {
   var page = parseInt(split[1]);
   if (isNaN(page) || page < 1) {

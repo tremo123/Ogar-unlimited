@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 module.exports = function (gameServer, split) {
   var ip = split[1]; // Get ip
   var index = gameServer.banned.indexOf(ip);

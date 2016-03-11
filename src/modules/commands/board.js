@@ -1,3 +1,5 @@
+var GameMode = require('../../gamemodes');
+
 module.exports = function (gameServer, split) {
   var newLB = [];
   for (var i = 1; i < split.length; i++) {

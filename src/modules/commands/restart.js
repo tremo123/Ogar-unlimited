@@ -1,3 +1,5 @@
+var GameMode = require('../../gamemodes');
+
 module.exports = function (gameServer, split) {
   var time = split[1];
   if (isNaN(time) || time < 1) {
