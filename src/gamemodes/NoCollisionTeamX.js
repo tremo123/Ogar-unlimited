@@ -160,7 +160,7 @@ TeamX.prototype.onServerInit = function (gameServer) {
       GS_getCellsInRange = gameServer.getCellsInRange;
 
     gameServer.getCellsInRange = function (cell) {
-      var list = new Array();
+      var list = [];
       var squareR = cell.getSquareSize(); // Get cell squared radius
 
       // Loop through all cells that are visible to the cell. There is probably a more efficient way of doing this but whatever

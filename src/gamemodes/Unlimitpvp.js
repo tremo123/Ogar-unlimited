@@ -186,7 +186,7 @@ Unlimitpvp.prototype.updateLB = function (gameServer) {
   switch (this.gamePhase) {
     case 0:
       lb[0] = "Welcome to";
-      lb[1] = "Andrews server,"
+      lb[1] = "Andrews server,";
       lb[2] = "Waiting for";
       lb[3] = "players: ";
       lb[4] = this.contenders.length + "/" + this.maxContenders;

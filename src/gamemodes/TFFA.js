@@ -185,7 +185,7 @@ TFFA.prototype.updateLB = function (gameServer) {
       break;
     case 2:
       lb[0] = "Players Remaining";
-      lb[1] = "Alive:"
+      lb[1] = "Alive:";
       lb[2] = this.contenders.length + "/" + this.maxContenders;
       lb[3] = "Time Limit:";
       lb[4] = this.formatTime(this.timeLimit);

@@ -10,7 +10,7 @@ module.exports = FakeSocket;
 
 FakeSocket.prototype.sendPacket = function (packet) {
   // Fakes sending a packet
-  return;
+
 };
 
 FakeSocket.prototype.close = function (error) {

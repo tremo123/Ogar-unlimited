@@ -90,7 +90,7 @@ VirusOff.prototype.updateLB = function (gameServer) {
     if (lb.length == 0) {
       // Initial player
       lb.push(player);
-      continue;
+
     } else if (lb.length < gameServer.config.ffaMaxLB) {
       this.leaderboardAddSort(player, lb);
     } else {
