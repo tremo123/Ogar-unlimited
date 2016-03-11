@@ -1469,8 +1469,11 @@ GameServer.prototype.updateMoveEngine = function () {
     for (var j = 0; j < list.length; j++) {
       var check = list[j];
 
-      // if we're deleting from this.nodesPlayer, fix outer loop variables; we need to update its length, and maybe 'i' too
       if (check.cellType == 0) {
+        if ((client != check.owner) && (cell.mass < check.mass * 1.25)) { //extra check to make sure popsplit works by retslac
+            check.inRange = false;
+                continue;
+          }
         len--;
         if (check.nodeId < cell.nodeId) {
           i--;
