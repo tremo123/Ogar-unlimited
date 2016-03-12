@@ -71,7 +71,7 @@ PacketHandler.prototype.handleMessage = function (message) {
         client.mouse.y = view.getInt32(5, true) - client.scrambleY;
       }
 
-             client.movePacketTriggered = true;
+      client.movePacketTriggered = true;
       break;
     case 17:
       // Space Press - Split cell

@@ -12,8 +12,8 @@ function PlayerTracker(gameServer, socket, owner) {
   this.mergeOverrideDuration = 0;
   this.scoreh = [];
 
-   this.shouldMoveCells = true; // False if the mouse packet wasn't triggered
-   this.movePacketTriggered = false;
+  this.shouldMoveCells = true; // False if the mouse packet wasn't triggered
+  this.movePacketTriggered = false;
   this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
@@ -170,11 +170,11 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
       var re = 0;
       for (var i in this.gameServer.clients) {
         var client = this.gameServer.clients[i].playerTracker;
-       if (client.mouse.x - this.mouse.x < 2 || this.mouse.x - client.mouse.x < 2 || client.mouse.y - this.mouse.y < 2 || this.mouse.y - client.mouse.y < 2) {
-         var ismi = true;
-       } else {
-         var ismi = false;
-       }
+        if (client.mouse.x - this.mouse.x < 2 || this.mouse.x - client.mouse.x < 2 || client.mouse.y - this.mouse.y < 2 || this.mouse.y - client.mouse.y < 2) {
+          var ismi = true;
+        } else {
+          var ismi = false;
+        }
         if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
           re++;
         }
@@ -183,16 +183,16 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
         for (var i in this.gameServer.clients) {
           var client = this.gameServer.clients[i].playerTracker;
           if (client.mouse.x - this.mouse.x < 2 || this.mouse.x - client.mouse.x < 2 || client.mouse.y - this.mouse.y < 2 || this.mouse.y - client.mouse.y < 2) {
-         var ismi = true;
-       } else {
-         var ismi = false;
-       }
+            var ismi = true;
+          } else {
+            var ismi = false;
+          }
           if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
             client.nospawn = true;
             var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          this.gameServer.removeNode(client.cells[0]);
-        }
+            for (var j = 0; j < len; j++) {
+              this.gameServer.removeNode(client.cells[0]);
+            }
           }
         }
 
@@ -245,12 +245,12 @@ PlayerTracker.prototype.getPremium = function () {
 // Functions
 
 PlayerTracker.prototype.update = function () {
-if (this.movePacketTriggered) {
-        this.movePacketTriggered = false;
-        this.shouldMoveCells = true;
-   } else {
-         this.shouldMoveCells = false;
-    }
+  if (this.movePacketTriggered) {
+    this.movePacketTriggered = false;
+    this.shouldMoveCells = true;
+  } else {
+    this.shouldMoveCells = false;
+  }
   // Actions buffer (So that people cant spam packets)
   if (this.socket.packetHandler.pressSpace) { // Split cell
     this.gameServer.gameMode.pressSpace(this.gameServer, this);
@@ -359,28 +359,28 @@ if (this.movePacketTriggered) {
     this.tickLeaderboard--;
   }
 
-    // Map obfuscation
-     var width = this.viewBox.width;
-    var height = this.viewBox.height;
+  // Map obfuscation
+  var width = this.viewBox.width;
+  var height = this.viewBox.height;
 
-   if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
-        // Update map, it may have changed
-       this.socket.sendPacket(new Packet.SetBorder(
-            this.gameServer.config.borderLeft,
-            this.gameServer.config.borderRight,
-            this.gameServer.config.borderTop,
-            this.gameServer.config.borderBottom
-        ));
-    } else {
-       // Send a border packet to fake the map size
-        this.socket.sendPacket(new Packet.SetBorder(
-            this.centerPos.x + this.socket.playerTracker.scrambleX - width,
-            this.centerPos.x + this.socket.playerTracker.scrambleX + width,
-            this.centerPos.y + this.socket.playerTracker.scrambleY - height,
-           this.centerPos.y + this.socket.playerTracker.scrambleY + height
-        ));
-   }
- 
+  if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
+    // Update map, it may have changed
+    this.socket.sendPacket(new Packet.SetBorder(
+      this.gameServer.config.borderLeft,
+      this.gameServer.config.borderRight,
+      this.gameServer.config.borderTop,
+      this.gameServer.config.borderBottom
+    ));
+  } else {
+    // Send a border packet to fake the map size
+    this.socket.sendPacket(new Packet.SetBorder(
+      this.centerPos.x + this.socket.playerTracker.scrambleX - width,
+      this.centerPos.x + this.socket.playerTracker.scrambleX + width,
+      this.centerPos.y + this.socket.playerTracker.scrambleY - height,
+      this.centerPos.y + this.socket.playerTracker.scrambleY + height
+    ));
+  }
+
 
   // Handles disconnections
   if (this.disconnect > -1) {

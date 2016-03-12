@@ -47,7 +47,7 @@ Commands.list = {
     console.log("Space = Explode virus");
     console.log("Four C's:");
     console.log("W = Kill virus");
-    console.log("Space = Kick Virus")
+    console.log("Space = Kick Virus");
     console.log("[Console] ====================================================");
   },
   help: function (gameServer, split) {
@@ -77,13 +77,13 @@ Commands.list = {
     console.log("[Console] playerlist : get list of players and bots");
     console.log("[Console] pause      : pause game , freeze all cells");
     console.log("[Console] reload     : reload config");
-    console.log("[Console] Speed      : Sets a players base speed")
+    console.log("[Console] Speed      : Sets a players base speed");
     console.log("[Console] status     : get server status");
     console.log("[Console] tp         : teleport player to specified location");
     console.log("[Console] virus      : spawn virus at a specified Location");
     console.log("[Console] Kickrange  : kicks in a ID range");
     console.log("[Console] Killrange  : kills in a ID range");
-    console.log("[Console] Verify     : EasyVerify command")
+    console.log("[Console] Verify     : EasyVerify command");
     console.log("[Console] Banrange   : Bans in a ID range");
     console.log("[Console] Merge      : Forces that player to merge");
     console.log("[Console] Nojoin     : Prevents the player from merging");
@@ -211,7 +211,7 @@ Commands.list = {
         if (client.minioncontrol == true && isNaN(add)) {
           client.minioncontrol = false;
           client.mi = 0;
-          if (client.oldname) client.name = client.oldname
+          if (client.oldname) client.name = client.oldname;
           console.log("[Console] Succesfully removed minions for " + client.name);
         } else {
 
@@ -257,7 +257,7 @@ Commands.list = {
 
       } else {
         console.log("[Console] Could not connect to servers. Aborting...");
-        return;
+
       }
     });
   },
@@ -278,7 +278,7 @@ Commands.list = {
 
         } else {
           console.log("[Update] Couldnt connect to servers. Aborting...");
-          return;
+
         }
       });
       var filename = "botnames.txt";
@@ -292,7 +292,7 @@ Commands.list = {
 
         } else {
           console.log("[Update] Couldnt connect to servers. Aborting...");
-          return;
+
         }
       });
       var filename = "realisticnames.txt";
@@ -309,7 +309,7 @@ Commands.list = {
 
         } else {
           console.log("[Update] Could not fetch data from servers... Aborting...");
-          return;
+
         }
       });
     } else if (ok == "all") {
@@ -338,7 +338,7 @@ Commands.list = {
 
         } else {
           console.log("[Update] Couldnt connect to servers. Aborting...");
-          return;
+
         }
       });
       console.log("[Update] Updating realisticnames.txt");
@@ -350,7 +350,7 @@ Commands.list = {
         } else {
           console.log("[Update] ERROR: Could not connect to servers. Will abort update");
           abort = true;
-          return;
+
         }
       });
 
@@ -408,7 +408,7 @@ Commands.list = {
       });
       var filename = "index.js";
       console.log("[Update] Downloading " + filename);
-      console.log("[Update] Moving on to the folder Packet...")
+      console.log("[Update] Moving on to the folder Packet...");
       var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/packet/AddNode.js';
 
       request(dbase, function (error, response, body) {
@@ -995,7 +995,7 @@ Commands.list = {
               },
               gameServer.config.ejectMass
             );
-            ejected.setAngle(6.28 * Math.random()) // Random angle [0, 2 * pi)
+            ejected.setAngle(6.28 * Math.random()); // Random angle [0, 2 * pi)
             ejected.setMoveEngineData(
               Math.random() * gameServer.config.ejectSpeed,
               35,
@@ -2084,8 +2084,8 @@ Commands.list = {
       console.log("Server Restarting in " + time + " minutes!");
       setTimeout(function () {
         var newLB = [];
-        newLB[0] = "Server Restarting"
-        newLB[1] = "In 1 Minute"
+        newLB[0] = "Server Restarting";
+        newLB[1] = "In 1 Minute";
         this.lleaderboard = false;
 
         // Clears the update leaderboard function and replaces it with our own

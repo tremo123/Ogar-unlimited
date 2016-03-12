@@ -77,10 +77,10 @@ Cell.prototype.addMass = function (n) {
 
     if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
       this.mass = (this.mass + n) / 2;
-      var randomAngle = Math.random() * 6.28 // Get random angle
+      var randomAngle = Math.random() * 6.28; // Get random angle
       this.owner.gameServer.newCellVirused(this.owner, this, randomAngle, this.mass, 350);
     } else {
-      this.mass += n
+      this.mass += n;
       var th = this;
 
       setTimeout(function () {
@@ -161,7 +161,7 @@ Cell.prototype.collisionCheck2 = function (objectSquareSize, objectPosition) {
   var dx = this.position.x - objectPosition.x;
   var dy = this.position.y - objectPosition.y;
 
-  return (dx * dx + dy * dy + this.getSquareSize() <= objectSquareSize);
+  return (dx * dx + dy * dy <= objectSquareSize);
 };
 
 Cell.prototype.visibleCheck = function (box, centerPos) {

@@ -83,7 +83,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
             },
             gameServer.config.ejectMass
           );
-          ejected.setAngle(6.28 * Math.random()) // Random angle [0, 2*pi)
+          ejected.setAngle(6.28 * Math.random()); // Random angle [0, 2*pi)
           ejected.setMoveEngineData(
             Math.random() * gameServer.config.ejectSpeed,
             35,

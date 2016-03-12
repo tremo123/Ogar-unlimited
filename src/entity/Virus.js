@@ -98,7 +98,7 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
           },
           gameServer.config.ejectMass
         );
-        ejected.setAngle(6.28 * Math.random()) // Random angle [0, 2*pi)
+        ejected.setAngle(6.28 * Math.random()); // Random angle [0, 2*pi)
         ejected.setMoveEngineData(
           Math.random() * gameServer.config.ejectSpeed,
           35,
@@ -161,7 +161,7 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
       angle = Math.random() * 6.28; // Random directions
       splitMass = consumer.mass / 4;
       var speed = 0;
-      speed = (.000005) * (splitMass * splitMass) + (0.035) * splitMass + 160
+      speed = (.000005) * (splitMass * splitMass) + (0.035) * splitMass + 160;
       gameServer.newCellVirused(client, consumer, angle, splitMass, speed);
       consumer.mass -= splitMass;
 
