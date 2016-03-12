@@ -1378,9 +1378,11 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
         }
       }
     }
+    
     if (pos == null) { // Get random pos
       pos = this.getRandomSpawn();
     }
+    
     if (mass == null) { // Get starting mass
       mass = this.config.playerStartMass;
       if (player.spawnmass > 0) mass = player.spawnmass;
