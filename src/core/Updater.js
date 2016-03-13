@@ -86,8 +86,7 @@ module.exports = class Updater {
       }
     });
   }
-
-}
+};
 
 // private functions
 function handleError(gameServer) {
@@ -99,6 +98,7 @@ function handleError(gameServer) {
       gameServer.socketServer.close();
       process.exit(3);
     } else {
+      this.runNpmInstall();
       setTimeout(function () {
         console.log("[Update] Done! Now shuting down in 8 seconds for restart...");
         gameServer.socketServer.close();
