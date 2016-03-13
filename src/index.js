@@ -52,7 +52,12 @@ if (showConsole) {
 
 function prompt() {
   in_.question(">", function (str) {
-    parseCommands(str);
+    try {
+      parseCommands(str);
+    } catch (err) {
+      // todo do something :D
+    }
+
     return prompt(); // Too lazy to learn async
   });
 }
