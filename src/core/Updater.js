@@ -58,8 +58,7 @@ module.exports = class Updater {
   }
   downloadFile(file, callback) {
     let url = this.url + file.src;
-    console.log(url);
-    console.log('[Downloading] ', url);
+    console.log('[Downloading] ' + url + ' to: ' + file.dst);
     request(url, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         fs.writeFile(file.dst, body, (err, res)=>{
@@ -74,10 +73,17 @@ module.exports = class Updater {
   }
 
   downloadAllFiles(){
-    async.each(this.newFiles, this.downloadFile, handleError(this.gameServer));
+    console.log('downloadAllFiles')
+    async.each(this.newFiles, (file, cb)=>{
+      console.log('inside async.each');
+      this.downloadFile(file, cb);
+    }, handleError(this.gameServer));
   }
   downloadUpdatedFiles(){
-    async.each(this.updatedFiles, this.downloadFile, handleError(this.gameServer));
+    async.each(this.updatedFiles, (file, cb)=>{
+     console.log('inside async.each');
+      this.downloadFile(file, cb);
+    }, handleError(this.gameServer));
   }
   runNpmInstall(){
     // executes `pwd`
@@ -95,9 +101,9 @@ module.exports = class Updater {
 function handleError(gameServer) {
   return function (err) {
     if (err) {
-      console.err("[Console] Error: failed to download some or all files. err msg: " + err);
-      console.err("[Console] Error: server is likely not in a viable state. You should manually reinstall it!");
-      console.err("[Console] Error: Shutting down!");
+      console.error("[Console] Error: failed to download some or all files. err msg: " + err);
+      console.error("[Console] Error: server is likely not in a viable state. You should manually reinstall it!");
+      console.error("[Console] Error: Shutting down!");
       gameServer.socketServer.close();
       process.exit(3);
     } else {

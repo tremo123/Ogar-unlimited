@@ -757,20 +757,26 @@
   },
   {
     "name": "README",
-    "src": "src/README.md",
+    "src": "README.md",
     "dst": "../README.md",
     "hash": "fc8e14d6c7a3ca8a79af6f5c24374c37"
   },
   {
     "name": "Newfeatures",
-    "src": "src/Newfeatures.md",
+    "src": "Newfeatures.md",
     "dst": "../Newfeatures.md",
     "hash": "71ffe475ec4f257d5962ba5a8388d887"
   },
   {
     "name": "files",
-    "src": "src/files.txt",
+    "src": "files.txt",
     "dst": "../files.txt",
     "hash": "8abd8f74c590536e23c166e232264aab"
+  },
+  {
+    "name": "LICENSE",
+    "src": "LICENSE.md",
+    "dst": "../LICENSE.md",
+    "hash": "3227a02aab317c20d332fb70fb67849c"
   }
 ]
