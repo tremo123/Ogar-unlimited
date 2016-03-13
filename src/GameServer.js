@@ -953,9 +953,9 @@ GameServer.prototype.upextra = function (filed) {
 
 };
 GameServer.prototype.getRandomColor = function () {
-  var colorRGB = [0xFF, 0x07, ((Math.random() * (256 - 7)) >> 0) + 7];
+  var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
   colorRGB.sort(function () {
-    return 0.5 - Math.random()
+    return 0.5 - Math.random();
   });
 
   return {
