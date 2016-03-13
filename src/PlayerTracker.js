@@ -170,7 +170,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
       var re = 0;
       for (var i in this.gameServer.clients) {
         var client = this.gameServer.clients[i].playerTracker;
-        if (Math.abs(client.mouse.x - this.mouse.x < 2) || Math.abs(this.mouse.y - client.mouse.y) < 2) {
+        if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) {
           var ismi = true;
         } else {
           var ismi = false;
@@ -182,7 +182,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
       if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
           var client = this.gameServer.clients[i].playerTracker;
-          if (Math.abs(client.mouse.x - this.mouse.x < 2) || Math.abs(this.mouse.y - client.mouse.y) < 2) {
+          if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) {
             var ismi = true;
           } else {
             var ismi = false;
