@@ -9,7 +9,7 @@ const exec = require('child_process').exec;
 
 module.exports = class Updater {
   constructor(gameServer) {
-    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/";
+    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + gameServer.branch + "/";
     this.gameServer = gameServer;
     this.files = require(path.resolve(global.process.env.PWD, 'files.json'));
     this.newFiles = {};
@@ -18,9 +18,9 @@ module.exports = class Updater {
 
   init() {
     this.hashFiles();
-    this.downloadFile({'src':'files.json', 'dst':'filesTemp.json'},(err, res)=>{
+    this.downloadFile({src:'src/files.json', dst:'filesTemp.json'},(err, res)=>{
       if (!err) {
-        this.newFiles = JSON.parse(fs.readFileSync('src/files.json'));
+        this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
         this.newFiles.forEach((ele)=>{
           let currentFile = this.getFileByName(ele.name);
           if (!currentFile || ele.hash !== currentFile.hash) {
@@ -57,7 +57,10 @@ module.exports = class Updater {
     }
   }
   downloadFile(file, callback) {
-    request(this.url + file.src, function (error, response, body) {
+    let url = this.url + file.src;
+    console.log(url);
+    console.log('[Downloading] ', url);
+    request(url, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         fs.writeFile(file.dst, body, (err, res)=>{
           if (typeof callback === "function"){
@@ -65,7 +68,7 @@ module.exports = class Updater {
           }
         });
       } else {
-        callback("[Update] Couldnt connect to servers. Aborting download of: " + file.name);
+        callback("[Update] Couldn't connect to servers. Failed to download: " + url);
       }
     });
   }
