@@ -73,15 +73,12 @@ module.exports = class Updater {
   }
 
   downloadAllFiles(){
-    console.log('downloadAllFiles')
     async.each(this.newFiles, (file, cb)=>{
-      console.log('inside async.each');
       this.downloadFile(file, cb);
     }, handleError(this.gameServer));
   }
   downloadUpdatedFiles(){
     async.each(this.updatedFiles, (file, cb)=>{
-     console.log('inside async.each');
       this.downloadFile(file, cb);
     }, handleError(this.gameServer));
   }
@@ -107,9 +104,9 @@ function handleError(gameServer) {
       gameServer.socketServer.close();
       process.exit(3);
     } else {
-      this.runNpmInstall();
+      gameServer.updater.runNpmInstall();
+      console.log("[Update] Done! Now shuting down in 8 seconds for restart...");
       setTimeout(function () {
-        console.log("[Update] Done! Now shuting down in 8 seconds for restart...");
         gameServer.socketServer.close();
         process.exit(3);
       }, 8000);
