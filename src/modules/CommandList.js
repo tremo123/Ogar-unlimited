@@ -1,3 +1,10 @@
+// todo if a command has an error it should not break the console - not sure why this is happening, it shouldn't
+// this could be fixed a number of ways.
+// 1) every command could be surrounded in a try/catch
+// 2) or we could create a command running function that has the try/catch built into it - we already do have a runner not sure why it's not catching
+// Option 1 is the easiest but takes a lot of work
+// Option 2 takes a lot more though but also future proofs us
+
 // Imports
 //var Teams = require('../gamemodes/Teams.js');
 //var GameMode = require('../gamemodes');
@@ -105,6 +112,7 @@ Commands.list = {
     console.log("[Console] changelog  : Shows a changelog");
     console.log("[Console] ====================================================");
   },
+  dev: require('./commands/dev.js'),
   pcmd: require('./commands/pcmd.js'),
   reset: require('./commands/reset.js'),
   delete: require('./commands/delete.js'),
