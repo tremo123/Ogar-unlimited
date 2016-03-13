@@ -19,6 +19,7 @@ var Updater = require('./core/Updater.js');
 
 // GameServer implementation
 function GameServer() {
+  this.branch = "dev";
   this.updater = new Updater(this);
   this.skinshortcut = [];
   this.gtick = 0;
