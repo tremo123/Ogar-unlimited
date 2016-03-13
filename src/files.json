@@ -1,5 +1,11 @@
 [
   {
+    "name": "package.json",
+    "src": "../package.json",
+    "dst": "../package.json",
+    "hash": "bfc43eb0306bc9ca3697b9834db2b277"
+  },
+  {
     "name": "botnames",
     "src": "botnames.txt",
     "dst": "./botnames.txt",
@@ -21,7 +27,7 @@
     "name": "GameServer",
     "src": "GameServer.js",
     "dst": "./GameServer.js",
-    "hash": "ec5677b62b288ce4ab892b402dd83a7d"
+    "hash": "42b42f5ffb4374109e082ea288b77438"
   },
   {
     "name": "PlayerTracker",
@@ -315,7 +321,7 @@
     "name": "modules:CommandList",
     "src": "modules/CommandList.js",
     "dst": "./modules/CommandList.js",
-    "hash": "747129ba6188e51be5c39539f34607fe"
+    "hash": "66ef448120743bb5153737d2f31aae76"
   },
   {
     "name": "modules:ini",
@@ -723,7 +729,7 @@
     "name": "modules:commands:update.js",
     "src": "modules/commands/update.js",
     "dst": "./modules/commands/update.js",
-    "hash": "3de05edf17c6d526d6bbe5f9b0a02917"
+    "hash": "6135f907dabb14fb1fda5bf2ac1a6215"
   },
   {
     "name": "modules:commands:verify.js",
