@@ -4,8 +4,10 @@ const path = require('path');
 const request = require('request');
 const async = require('async');
 const md5File = require('md5-file');
+const sys = require('sys');
+const exec = require('child_process').exec;
 
-export default class Updater {
+module.exports = class Updater {
   constructor(gameServer) {
     this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/";
     this.gameServer = gameServer;
@@ -73,6 +75,16 @@ export default class Updater {
   }
   downloadUpdatedFiles(){
     async.each(this.updatedFiles, this.downloadFile, handleError(this.gameServer));
+  }
+  runNpmInstall(){
+    // executes `pwd`
+    console.log('[Update] Running npm install to install new node modules!');
+    let child = exec("npm install", function (error, stdout, stderr) {
+      if (error !== null) {
+        console.err('[Execution Error] Failed to run npm install  Reason: ', error);
+        console.err('[Execution Error] You should exit the server and run: npm install');
+      }
+    });
   }
 
 }
