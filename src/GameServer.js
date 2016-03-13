@@ -15,9 +15,11 @@ var Gamemode = require('./gamemodes');
 var BotLoader = require('./ai/BotLoader');
 var minionLoader = require('./ai/minionLoader');
 var Logger = require('./modules/log');
+var Updater = require('./core/Updater.js');
 
 // GameServer implementation
 function GameServer() {
+  this.updater = new Updater(this);
   this.skinshortcut = [];
   this.gtick = 0;
   this.randomNames = [];
@@ -347,6 +349,10 @@ module.exports = GameServer;
 GameServer.prototype.start = function () {
   // Logging
   this.log.setup(this);
+
+  // updater
+  this.updater.init();
+
   ipcounts = [];
   // Gamemode configurations
   this.gameMode.onServerInit(this);
