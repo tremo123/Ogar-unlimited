@@ -4,8 +4,10 @@
   "description": "Open source Agar.io server",
   "main": "src/index.js",
   "dependencies": {
-    "ws": "latest",
-    "request": "latest"
+    "async": "^1.5.2",
+    "md5-file": "^2.0.4",
+    "request": "latest",
+    "ws": "latest"
   },
   "devDependencies": {},
   "scripts": {
