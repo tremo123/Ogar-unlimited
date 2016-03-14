@@ -216,6 +216,7 @@ function GameServer() {
   this.tick = 0; // 1 second ticks of mainLoop
   this.tickMain = 0; // 50 ms ticks, 20 of these = 1 leaderboard update
   this.tickSpawn = 0; // Used with spawning food
+  this.mainLoopBind = this.mainLoop.bind(this);
 
   // Config
   this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
@@ -373,7 +374,8 @@ GameServer.prototype.start = function () {
     this.startingFood();
 
     // Start Main Loop
-    setInterval(this.mainLoop.bind(this), 1);
+    //setInterval(this.mainLoop.bind(this), 1);
+    setImmediate(this.mainLoopBind);
 
     // Done
     // todo remove: var fs = require("fs"); // Import the util library
@@ -958,9 +960,9 @@ GameServer.prototype.upextra = function (filed) {
 
 };
 GameServer.prototype.getRandomColor = function () {
-  var colorRGB = [0xFF, 0x07, ((Math.random() * (256 - 7)) >> 0) + 7];
+  var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
   colorRGB.sort(function () {
-    return 0.5 - Math.random()
+    return 0.5 - Math.random();
   });
 
   return {
@@ -1068,9 +1070,9 @@ GameServer.prototype.mainLoop = function () {
   if (this.tick >= 1000 / this.config.fps) {
     // Loop main functions
     if (this.run) {
-      setTimeout(this.cellTick(), 0);
-      setTimeout(this.spawnTick(), 0);
-      setTimeout(this.gamemodeTick(), 0);
+      (this.cellTick(), 0);
+      (this.spawnTick(), 0);
+      (this.gamemodeTick(), 0);
     }
 
     if (this.config.liveConsole == 1) {
@@ -1227,7 +1229,13 @@ GameServer.prototype.mainLoop = function () {
         this.leaderboard = [];
       }
     }
-  }
+    
+    // Restart main loop immediately after current event loop (setImmediate does not amplify any lag delay unlike setInterval or setTimeout)
+	  setImmediate(this.mainLoopBind);
+	} else {
+	  // Restart main loop 1 ms after current event loop (setTimeout uses less cpu resources than setImmediate)
+		setTimeout(this.mainLoopBind, 1);
+	}
 };
 
 GameServer.prototype.resetlb = function () {
@@ -1377,9 +1385,11 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
         }
       }
     }
+    
     if (pos == null) { // Get random pos
       pos = this.getRandomSpawn();
     }
+    
     if (mass == null) { // Get starting mass
       mass = this.config.playerStartMass;
       if (player.spawnmass > 0) mass = player.spawnmass;
@@ -1476,8 +1486,11 @@ GameServer.prototype.updateMoveEngine = function () {
     for (var j = 0; j < list.length; j++) {
       var check = list[j];
 
-      // if we're deleting from this.nodesPlayer, fix outer loop variables; we need to update its length, and maybe 'i' too
       if (check.cellType == 0) {
+        if ((client != check.owner) && (cell.mass < check.mass * 1.25)) { //extra check to make sure popsplit works by retslac
+            check.inRange = false;
+                continue;
+          }
         len--;
         if (check.nodeId < cell.nodeId) {
           i--;

@@ -37,6 +37,10 @@ MovingVirus.prototype.feed = function (feeder, gameServer) {
   gameServer.removeNode(feeder);
 };
 
+MovingVirus.prototype.onAutoMove = function (gameServer) {
+  // Called on each auto move engine tick
+};
+
 MovingVirus.prototype.onAdd = function (gameServer) {
   gameServer.gameMode.movingVirusCount++;
   gameServer.nodesVirus.push(this);
