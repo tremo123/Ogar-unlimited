@@ -311,7 +311,7 @@ PlayerTracker.prototype.update = function () {
         // Add nodes to client's screen if client has not seen it already
         for (var i = 0; i < newVisible.length; i++) {
           var index = this.visibleNodes.indexOf(newVisible[i]);
-          if (index == -1 && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0)) {
+          if (index == -1 && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
             
             updateNodes.push(newVisible[i]);
           }
@@ -338,7 +338,7 @@ PlayerTracker.prototype.update = function () {
   // Update moving nodes
   for (var i = 0; i < this.visibleNodes.length; i++) {
     var node = this.visibleNodes[i];
-    if (node.sendUpdate() && (!this.blind || (node.owner == this || node.cellType != 0) )) {
+    if (node.sendUpdate() && (!this.blind || (node.owner == this || node.cellType != 0) ))) {
       // Sends an update if cell is moving
       updateNodes.push(node);
     }
