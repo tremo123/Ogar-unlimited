@@ -79,9 +79,11 @@ Cell.prototype.addMass = function (n) {
       this.mass = this.mass + n;
       var th = this; // Max mass thingy
       setTimeout(function () {
+ if (th.mass > th.owner.gameServer.config.playerMaxMass && th.owner.cells.length < th.owner.gameServer.config.playerMaxCells) {
         th.mass = th.mass/2;
        var randomAngle = Math.random() * 6.28; // Get random angle
       th.owner.gameServer.newCellVirused(th.owner, th, randomAngle, th.mass, 350); 
+}
         
       }, 1000);
       
