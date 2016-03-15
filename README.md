@@ -137,6 +137,8 @@ The current available console commands are listed here. Command names are not ca
    * Gets changelog from the servers
  - Explode [id]
    * explodes player
+ - Blind [id]
+   * Blinds/unblinds a player
  - Split [ID] [Count]
    * Splits a player
  - Shrink [amount]
