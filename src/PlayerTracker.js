@@ -338,7 +338,7 @@ PlayerTracker.prototype.update = function () {
   // Update moving nodes
   for (var i = 0; i < this.visibleNodes.length; i++) {
     var node = this.visibleNodes[i];
-    if (node.sendUpdate() && (!this.blind || (node.owner == this || node.cellType != 0) ))) {
+    if (node.sendUpdate() && (!this.blind || (node.owner == this || node.cellType != 0) )) {
       // Sends an update if cell is moving
       updateNodes.push(node);
     }
