@@ -62,8 +62,8 @@ PacketHandler.prototype.handleMessage = function (message) {
         this.gameServer.switchSpectator(this.socket.playerTracker);
         if (!this.socket.playerTracker.spectate) {
           if(this.gameServer.config.kickspectate > 0 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-            this.playerTracker.spect = setTimeout(function () {
-             if(this.playerTracker.spectate && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+            this.socket.playerTracker.spect = setTimeout(function () {
+             if(this.socket.playerTracker.spectate && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
                    this.socket.close();
                }
             }.bind(this), this.gameServer.config.kickspectate * 1000);
