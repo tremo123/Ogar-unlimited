@@ -936,10 +936,23 @@ GameServer.prototype.getRandomSpawn = function () {
 
   return pos;
 };
-GameServer.prototype.upextra = function (filed) {
+GameServer.prototype.upextra = function (sp) {
+  if (!sp) {
+    return;
+  }
+  spl = sp.split(":");
+  var filed = spl[0];
+  if (spl[2]) var dbase = spl[2]; else var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed;
+  var refre = spl[1];
   var request = require('request');
-  request('http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed, function (error, response, body) {
+  request(dbase, function (error, response, body) {
     if (!error && response.statusCode == 200) {
+      
+      if (refre == "r") {
+        fs.writeFileSync('./' + filed, body);
+        console.log("[Update] Downloaded " + filed);
+        
+      } else {
       try {
         var test = fs.readFileSync('./' + filed);
       } catch (err) {
@@ -948,6 +961,7 @@ GameServer.prototype.upextra = function (filed) {
         fs.writeFileSync('./' + filed, body);
         console.log("[Update] Downloaded " + filed);
       }
+    }
     }
   });
 
