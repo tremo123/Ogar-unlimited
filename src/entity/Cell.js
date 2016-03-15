@@ -76,9 +76,15 @@ Cell.prototype.addMass = function (n) {
   } else {
 
     if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
-      this.mass = (this.mass + n) / 2;
-      var randomAngle = Math.random() * 6.28; // Get random angle
-      this.owner.gameServer.newCellVirused(this.owner, this, randomAngle, this.mass, 350);
+      this.mass = this.mass + n;
+      var th = this; // Max mass thingy
+      setTimeout(function () {
+        th.mass = th.mass/2;
+       var randomAngle = Math.random() * 6.28; // Get random angle
+      th.owner.gameServer.newCellVirused(th.owner, th, randomAngle, th.mass, 350); 
+        
+      }, 1000);
+      
     } else {
       this.mass += n;
       var th = this;
