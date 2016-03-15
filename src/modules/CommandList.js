@@ -55,6 +55,7 @@ Commands.list = {
     console.log("[Console] ophelp     : Shows OP help");
     console.log("[Console] addbot     : add bot to the server");
     console.log("[Console] kickbots   : kick a specified amount of bots");
+    console.log("[Console] Blind      : makes a player not able to see others");
     console.log("[Console] board      : set scoreboard text");
     console.log("[Console] Restart    : Restart server or set time till restart");
     console.log("[Console] Announce   : Starts the auto announce for high scores");
@@ -1833,6 +1834,30 @@ Commands.list = {
       }
     }
     console.log("That player cannot recombine now");
+  },
+  blind: function (gameServer, split) {
+    var id = parseInt(split[1]);
+    if (isNaN(id)) {
+      console.log("[Console] Please specify a valid player ID!");
+      return;
+    }
+
+    for (var i in gameServer.clients) {
+      if (gameServer.clients[i].playerTracker.pID == id) {
+        var client = gameServer.clients[i].playerTracker;
+
+        client.blind = !client.blind;
+        if (client.blind) {
+          console.log("[Console] Blinded player " + id);
+
+        } else {
+          console.log("[Console] Unblinded player " + id);
+        }
+
+        break;
+      }
+    }
+
   },
   freeze: function (gameServer, split) {
     var id = parseInt(split[1]);
