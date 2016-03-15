@@ -1275,6 +1275,7 @@ GameServer.prototype.spawnFood = function () {
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   var dono = false;
   var dospawn = false;
+  clearTimeout(player.spect);
   if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
 
     if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
