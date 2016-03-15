@@ -262,6 +262,7 @@ function GameServer() {
     minionavoid: 1,
     mousefilter: 1,
     borderDec: 200,
+    kickspectate: 0,
     ejectbiggest: 0,
     porportional: 0,
     customskins: 1,
