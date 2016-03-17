@@ -16,7 +16,7 @@ module.exports = {
   NCTeamX: require('./NoCollisionTeamX.js'),
   Unlimitpvp: require('./Unlimitpvp.js'),
   UnlimitFFA: require('./Unlimitffa.js'),
-  Leap: require('./Leap.js'
+  Leap: require('./Leap.js'),
   BlackHole: require('./BlackHole.js'),
   TFFA: require('./TFFA.js'),
   VirusOff: require('./VirusOff.js'),
