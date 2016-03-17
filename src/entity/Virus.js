@@ -182,9 +182,10 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
     consumer.calcMergeTime(gameServer.config.playerRecombineTime);
     client.actionMult += 0.6; // Account for anti-teaming
   }
+  gameServer.troll[this.nodeId] = 0;
  } else {
    consumer.addMass(this.mass)
-   
+   gameServer.troll[this.nodeId] = 0;
  }
 };
 
