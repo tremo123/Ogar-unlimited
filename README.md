@@ -111,7 +111,6 @@ Id   | Name
 16   | NoCollision TeamZ
 17   | NoCollision TeamX
 18   | Leap - Where you leap instead of split, made by Ogarplus
-19   | Virus - Where you shoot viruses
 22   | BlackHole
 
 ## Console Commands
