@@ -1778,7 +1778,12 @@ if (this.config.ejectvirus != 1) {
       // Create cell
        if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
       ejected.setAngle(angle);
+      if (this.config.ejectvirus == 1) {
+        ejected.setMoveEngineData(this.config.ejectvspeed, 20);
+        
+      } else {
       ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+      }
       if (this.config.ejectvirus == 1) {
         ejected.par = player;
         
@@ -1834,7 +1839,12 @@ if (this.config.ejectvirus != 1) {
       // Create cell
        if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
       ejected.setAngle(angle);
+      if (this.config.ejectvirus == 1) {
+        ejected.setMoveEngineData(this.config.ejectvspeed, 20);
+        
+      } else {
       ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+      }
       if (this.config.ejectvirus == 1) {
         ejected.par = player;
         
