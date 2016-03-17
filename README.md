@@ -10,6 +10,8 @@ This Modified copy was created to help those who want to open their server to th
 
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
+*NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER OR USE NPM INSTALL WS AND NPM INSTALL REQUEST*
+
 ### Highlight features in this modified copy
  1. PMSG command, to periodically send a message (no need for admin to be online to explain rules)
  2. OP , to do stuff in game WITHOUT a illegal clone client, see below
