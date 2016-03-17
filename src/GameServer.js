@@ -1854,11 +1854,12 @@ GameServer.prototype.newCellVirused = function (client, parent, angle, mass, spe
   };
 
   // Create cell
-  newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+  var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
   newCell.setAngle(angle);
   newCell.setMoveEngineData(speed, 15);
   newCell.calcMergeTime(this.config.playerRecombineTime);
   newCell.ignoreCollision = true; // Remove collision checks
+  newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
 
   // Add to moving cells list
   this.addNode(newCell);
