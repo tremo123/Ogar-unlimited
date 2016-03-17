@@ -16,8 +16,7 @@ module.exports = {
   NCTeamX: require('./NoCollisionTeamX.js'),
   Unlimitpvp: require('./Unlimitpvp.js'),
   UnlimitFFA: require('./Unlimitffa.js'),
-  Leap: require('./Leap.js'),
-  Virus: require('./Virus.js'),
+  Leap: require('./Leap.js'
   BlackHole: require('./BlackHole.js'),
   TFFA: require('./TFFA.js'),
   VirusOff: require('./VirusOff.js'),
@@ -74,9 +73,6 @@ var get = function (id) {
       break;
     case 18: // leap
       mode = new module.exports.Leap();
-      break;
-    case 19:
-      mode = new module.exports.Virus();
       break;
     case 20: // Rainbow
       mode = new module.exports.Rainbow();
