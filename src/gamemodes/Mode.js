@@ -150,7 +150,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected)
+          gameServer.ejectVirus(ejected, player)
         }
 
       }, 1);
@@ -200,7 +200,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected)
+          gameServer.ejectVirus(ejected, player)
         }
         var count = 0;
         for (var i in gameServer.troll) {
@@ -261,7 +261,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected)
+          gameServer.ejectVirus(ejected, player)
         }
         var count = 0;
         for (var i in gameServer.troll) {
@@ -357,7 +357,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected)
+          gameServer.ejectVirus(ejected, player)
         }
         var count = 0;
         for (var i in gameServer.troll) {
@@ -414,7 +414,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected)
+          gameServer.ejectVirus(ejected, player)
         }
         var count = 0;
         for (var i in gameServer.troll) {
