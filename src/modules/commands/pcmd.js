@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function (gameServer, split) {
   if (split[1] == "reset") {
     clearInterval(this.pcmd);
@@ -19,17 +20,16 @@ module.exports = function (gameServer, split) {
     console.log("[Console] Please specify a valid delay!");
     return;
   }
-  var game = this;
+
   console.log("[PCMD] Request Sent!");
-  this.pcmd = setInterval(function () {
-    console.log("[PCMD] Running command..");
+  let r = 0;
+  let interval = setInterval(function () {
+    console.log("[PCMD] Running command.");
     gameServer.execommand(command, newsplit);
     r++;
     if (r > re) {
       console.log("[PCMD] Done");
-      clearInterval(game.pcmd);
+      clearInterval(interval);
     }
   }, delay);
-
-
 };
