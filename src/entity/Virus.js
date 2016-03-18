@@ -9,11 +9,14 @@ function Virus() {
   this.fed = 0;
   this.wobbly = 0; // wobbly effect
   this.isMotherCell = false; // Not to confuse bots
+  this.par;
 }
 
 module.exports = Virus;
 
 Virus.prototype = new Cell();
+
+
 
 Virus.prototype.calcMove = null; // Only for player controlled movement
 
@@ -37,10 +40,13 @@ Virus.prototype.feed = function (feeder, gameServer) {
 Virus.prototype.getEatingRange = function () {
   return this.getSize() * .4; // 0 for ejected cells
 };
-
+Virus.prototype.setpar = function (par) {
+  this.par = par;
+  
+};
 Virus.prototype.onConsume = function (consumer, gameServer) {
   var client = consumer.owner;
-
+ if (client != this.par) {
   if (gameServer.troll[this.nodeId - 1] == 1) {
 
     client.setColor(0); // Set color
@@ -176,6 +182,11 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
     consumer.calcMergeTime(gameServer.config.playerRecombineTime);
     client.actionMult += 0.6; // Account for anti-teaming
   }
+  gameServer.troll[this.nodeId] = 0;
+ } else {
+   consumer.addMass(this.mass)
+   gameServer.troll[this.nodeId] = 0;
+ }
 };
 
 Virus.prototype.onAdd = function (gameServer) {

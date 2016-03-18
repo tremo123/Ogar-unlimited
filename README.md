@@ -10,6 +10,10 @@ This Modified copy was created to help those who want to open their server to th
 
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
+**NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER OR USE NPM INSTALL WS AND NPM INSTALL REQUEST** (especially those who are confused by this awesome video by assault gaming [here](http://youtu.be/Q53R10of3_Q))
+
+(Wow, I found a funny and incredibly weird video by jp on agar.io [here](http://youtu.be/vbDsV-F6j34))
+
 ### Highlight features in this modified copy
  1. PMSG command, to periodically send a message (no need for admin to be online to explain rules)
  2. OP , to do stuff in game WITHOUT a illegal clone client, see below
@@ -35,11 +39,12 @@ This Modified copy was created to help those who want to open their server to th
  22. range command for bulk commands
  23. easy verify system as anti bot mesure (gameserver.ini)
  24. mousefilter as a anti bot measure
+ 25. do i really have to put highlight features here?
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
 ### Note:
-Please note that this is updated very frequently and you should check for updates every week. I may add an auto update system but I probably won't (because I don't think it is the right thing to do, updating without your consent) Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
+Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
 
 ### Official Website (for official ogar)
 The official website for the Ogar Project is [ogarproject.com](http://ogarproject.com). You can register on the forums to chat with other Ogar users, get support, advertise your server, and more.
@@ -107,7 +112,6 @@ Id   | Name
 16   | NoCollision TeamZ
 17   | NoCollision TeamX
 18   | Leap - Where you leap instead of split, made by Ogarplus
-19   | Virus - Where you shoot viruses
 22   | BlackHole
 
 ## Console Commands
@@ -137,6 +141,8 @@ The current available console commands are listed here. Command names are not ca
    * Gets changelog from the servers
  - Explode [id]
    * explodes player
+ - Blind [id]
+   * Blinds/unblinds a player
  - Split [ID] [Count]
    * Splits a player
  - Shrink [amount]
