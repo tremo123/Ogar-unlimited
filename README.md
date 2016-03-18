@@ -12,7 +12,7 @@ This Modified copy was created to help those who want to open their server to th
 
 **NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER OR USE NPM INSTALL WS AND NPM INSTALL REQUEST** (especially those who are confused by this awesome video by assault gaming [here](http://youtu.be/Q53R10of3_Q))
 
-Wow, I found a funny and incredibly weird video by jp on agar.io [here](http://youtu.be/vbDsV-F6j34)
+(Wow, I found a funny and incredibly weird video by jp on agar.io [here](http://youtu.be/vbDsV-F6j34))
 
 ### Highlight features in this modified copy
  1. PMSG command, to periodically send a message (no need for admin to be online to explain rules)
