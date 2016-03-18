@@ -1926,44 +1926,7 @@ GameServer.prototype.shootVirus = function (parent) {
 
 GameServer.prototype.ejectVirus = function (parent,owner) {
   
-  // Called when the W key is pressed
-  if (!this.canEjectMass(player)) return;
-  var client = owner;
-  for (var i = 0; i < client.cells.length; i++) {
-    var cell = client.cells[i];
 
-    if (!cell) {
-      continue;
-    }
-
-    if (cell.mass < this.config.virusMass) {
-      continue;
-    }
-
-    var deltaY = client.mouse.y - cell.position.y;
-    var deltaX = client.mouse.x - cell.position.x;
-    var angle = Math.atan2(deltaX, deltaY);
-
-    // Get starting position
-    var size = cell.getSize() + 5;
-    var startPos = {
-      x: cell.position.x + ((size + 15) * Math.sin(angle)),
-      y: cell.position.y + ((size + 15) * Math.cos(angle))
-    };
-
-    // Remove mass from parent cell
-    cell.mass -= gameServer.config.virusmassloss;
-    // Randomize angle
-    angle += (Math.random() * .4) - .2;
-
-    // Create cell
-    var ejected = new Entity.Virus(gameServer.getNextNodeId(), null, startPos, 15);
-    ejected.setAngle(angle);
-    ejected.setMoveEngineData(160, 20);
-
-    //Shoot Virus
-    gameServer.ejectVirus(ejected,player);
-  }
   
   var parentPos = {
     x: parent.position.x,
