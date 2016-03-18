@@ -77,8 +77,8 @@ PacketHandler.prototype.handleMessage = function (message) {
     case 16:
       // Set Target
       if (view.byteLength == 13) {
-        var client = this.socket.playerTracker;
-        client.mouse.x = view.getInt32(1, true) - client.scrambleX;
+        var client = this.socket.playerTracker; // Scramble
+        client.mouse.x = view.getInt32(1, true) - client.scrambleX; // Scramble
         client.mouse.y = view.getInt32(5, true) - client.scrambleY;
       }
 
@@ -106,7 +106,7 @@ PacketHandler.prototype.handleMessage = function (message) {
         // Send SetBorder packet first
         var c = this.gameServer.config;
         this.socket.sendPacket(new Packet.SetBorder(
-          c.borderLeft + this.socket.playerTracker.scrambleX,
+          c.borderLeft + this.socket.playerTracker.scrambleX, // Scramble
           c.borderRight + this.socket.playerTracker.scrambleX,
           c.borderTop + this.socket.playerTracker.scrambleY,
           c.borderBottom + this.socket.playerTracker.scrambleY
