@@ -1936,6 +1936,7 @@ GameServer.prototype.ejectVirus = function (parent,owner) {
   var newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusMass);
   newVirus.setAngle(parent.getAngle());
   newVirus.setpar(owner);
+  newVirus.mass = 10
   newVirus.setMoveEngineData(this.config.ejectvspeed, 20);
   newVirus.color = owner.color;
 
