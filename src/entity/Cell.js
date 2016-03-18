@@ -1,5 +1,6 @@
 Cell.spi = 0;
 Cell.virusi = 255;
+Cell.recom = 0;
 function Cell(nodeId, owner, position, mass, gameServer) {
   this.nodeId = nodeId;
   this.owner = owner; // playerTracker that owns this cell
