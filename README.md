@@ -39,6 +39,7 @@ Wow, I found a funny and incredibly weird video by jp on agar.io [here](http://y
  22. range command for bulk commands
  23. easy verify system as anti bot mesure (gameserver.ini)
  24. mousefilter as a anti bot measure
+ 25. do i really have to put highlight features here?
  
 (You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
