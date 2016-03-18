@@ -382,6 +382,7 @@ GameServer.prototype.start = function () {
     console.log("[Game] Current game mode is " + this.gameMode.name);
     Cell.spi = this.config.SpikedCells;
     Cell.virusi = this.config.viruscolorintense;
+    Cell.recom = this.config.playerRecombineTime;
     if (this.config.anounceHighScore == 1) {
       var execute = this.commands["announce"];
       execute(this, "");
