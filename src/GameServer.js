@@ -1614,7 +1614,7 @@ GameServer.prototype.splitCells = function (client) {
 };
 
 GameServer.prototype.canEjectMass = function (client) {
-  if (typeof client.lastEject == 'undefined' || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
+  if (typeof client.lastEject == 'undefined' || this.config.ejectMassCooldown == 0 || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
     client.lastEject = this.time;
     return true;
   } else
