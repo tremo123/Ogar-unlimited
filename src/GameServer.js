@@ -44,6 +44,7 @@ function GameServer() {
   this.bold = false;
   this.white = false;
   this.dltick = 0;
+  this.mfre = false; // If true, mouse filter is initialised
   this.dim = false;
   this.yellow = false;
   this.resticks = 0;
@@ -1138,8 +1139,8 @@ GameServer.prototype.mainLoop = function () {
           if (a[this.clients[i].playerTracker.mouse] === undefined) {
             a[this.clients[i].playerTracker.mouse] = 1;
 
-          } else {
-            a[this.clients[i].playerTracker.mouse]++;
+          } else { // Where it checks for duplicates. If there is over 5, it activates mouse filter using mfre, to see how it works, go to playertracker. This is here so i can reduce lag using a simple and less cpu using method to check for duplicates because the method to actually get rid of them is not efficient.
+            a[this.clients[i].playerTracker.mouse]++; 
             if (a[this.clients[i].playerTracker.mouse] > this.config.mbchance) {
               this.mfre = true;
               d = true;
