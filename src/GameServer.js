@@ -1924,7 +1924,7 @@ GameServer.prototype.shootVirus = function (parent) {
   this.setAsMovingNode(newVirus);
 };
 
-GameServer.prototype.ejectVirus = function (parent,owner) {
+GameServer.prototype.ejectVirus = function (parent,owner,color) {
   
 
   
@@ -1938,7 +1938,7 @@ GameServer.prototype.ejectVirus = function (parent,owner) {
   newVirus.setpar(owner);
   newVirus.mass = 10
   newVirus.setMoveEngineData(this.config.ejectvspeed, 20);
-  newVirus.color = owner.color;
+  if (color) newVirus.color = color; else newVirus.color = owner.color;
 
   // Add to moving cells list
   this.addNode(newVirus);
