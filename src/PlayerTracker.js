@@ -85,6 +85,8 @@ function PlayerTracker(gameServer, socket, owner) {
     this.pID = gameServer.getNewPlayerID();
     // Gamemode function
     gameServer.gameMode.onPlayerInit(this);
+    
+    // SCRAMBLE
     // Only scramble if enabled in config
     if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
       
@@ -97,6 +99,7 @@ function PlayerTracker(gameServer, socket, owner) {
         
       }
     }
+    // /SCRAMBLE
   }
 }
 
