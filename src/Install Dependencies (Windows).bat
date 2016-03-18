@@ -55,7 +55,7 @@ call npm install
 cls
 echo.
 echo.
-echo npm installed successfully...
+echo Installed successfully...
 
 cls
 echo.
