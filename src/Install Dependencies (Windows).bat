@@ -1,10 +1,13 @@
 @echo off
 
+set NODE_VER="5.9.0"
 title ----- Install Dependencies -----
 
-where node >nul
-if %ERRORLEVEL% NEQ 0 (
 
+Setlocal EnableDelayedExpansion
+
+where nodet /Q >nul
+if %ERRORLEVEL%==1 (
     set SETUP_DIR=%CD%
 
     echo NodeJs is not installed on this computer...
@@ -13,9 +16,9 @@ if %ERRORLEVEL% NEQ 0 (
     pause >nul 2<&1
 
 if not exist "%systemdrive%\Program Files (x86)" (
-    start https://nodejs.org/dist/v5.9.0/node-v5.9.0-x86.msi
+    start https://nodejs.org/dist/v%NODE_VER%/node-v%NODE_VER%-x86.msi
 ) else (
-    start https://nodejs.org/dist/v5.9.0/node-v5.9.0-x64.msi
+    start https://nodejs.org/dist/v%NODE_VER%/node-v%NODE_VER%-x64.msi
 )
 
 echo.
@@ -35,14 +38,16 @@ echo.
 echo Dependencies already installed...
 echo.
 echo.
-set /p input="Do you want to update? (Y/N)"
+
+set /p update= "Do you want to update? (Y/N)"
 cls
-if "%input%" == "N" if "%input%" == "n" (
+if /I "!update!"=="n" (
 echo.
 echo Press any key to exit...
 pause >nul
+exit
 )
-rd /s /q "node_modules/"
+rm /s /q "node_modules/"
 )
 
 echo.
