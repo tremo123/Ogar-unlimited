@@ -87,8 +87,15 @@ function PlayerTracker(gameServer, socket, owner) {
     gameServer.gameMode.onPlayerInit(this);
     // Only scramble if enabled in config
     if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+      
+      if (Math.round(Math.random()) == 0) { // value can sometimes be negative
       this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
       this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
+      } else {
+          this.scrambleX = Math.floor((1 << 15) * Math.random());
+      this.scrambleY = Math.floor((1 << 15) * Math.random());
+        
+      }
     }
   }
 }
