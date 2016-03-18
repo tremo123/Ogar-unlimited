@@ -1,5 +1,7 @@
 @echo off
 
+title ----- Install Dependencies -----
+
 where node >nul
 if %ERRORLEVEL% NEQ 0 (
 
