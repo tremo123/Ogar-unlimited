@@ -6,7 +6,7 @@ title ----- Install Dependencies -----
 
 Setlocal EnableDelayedExpansion
 
-where nodet /Q >nul
+where node /Q >nul
 if %ERRORLEVEL%==1 (
     set SETUP_DIR=%CD%
 
