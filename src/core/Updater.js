@@ -11,7 +11,7 @@ module.exports = class Updater {
   constructor(gameServer) {
     this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + gameServer.branch + "/";
     this.gameServer = gameServer;
-    this.files = require(path.resolve(global.process.env.PWD, 'files.json'));
+    this.files = require(path.resolve(process.cwd(), 'files.json'));
     this.newFiles = {};
     this.updatedFiles = [];
   }
