@@ -25,7 +25,7 @@ echo Reopen this batch after you have installed NodeJs...
 echo.
 echo.
 echo Press any key to exit...
-pause >nul 2<&1
+pause >nul
 exit
 
 ) else (
