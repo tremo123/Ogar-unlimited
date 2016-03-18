@@ -47,7 +47,7 @@ echo Press any key to exit...
 pause >nul
 exit
 )
-rm /s /q "node_modules/"
+rd /s /q "node_modules/"
 )
 
 echo.
