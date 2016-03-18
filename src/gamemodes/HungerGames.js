@@ -294,7 +294,7 @@ HungerGames.prototype.onServerInit = function (gameServer) {
 };
 
 HungerGames.prototype.onPlayerSpawn = function (gameServer, player) {
-  if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+  if (gameServer.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
     // Only spawn players if the game hasnt started yet
     if ((this.gamePhase == 0) && (this.contenders.length < this.maxContenders)) {
       player.color = gameServer.getRandomColor(); // Random color
