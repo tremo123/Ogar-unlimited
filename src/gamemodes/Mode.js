@@ -192,7 +192,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 1;
-          ejected.color = {
+          var color = {
             r: 0,
             g: 0,
             b: 250,
@@ -200,7 +200,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected, player)
+          gameServer.ejectVirus(ejected, player, color)
         }
         var count = 0;
         for (var i in gameServer.troll) {
@@ -252,7 +252,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           var nodeid = gameServer.getNextNodeId();
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
-          ejected.color = {
+          var color = {
             r: 250,
             g: 0,
             b: 0,
@@ -261,7 +261,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected, player)
+          gameServer.ejectVirus(ejected, player, color)
         }
         var count = 0;
         for (var i in gameServer.troll) {
@@ -349,7 +349,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 3;
-          ejected.color = {
+         var color = {
             r: 250,
             g: 100,
             b: 0,
@@ -357,7 +357,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected, player)
+          gameServer.ejectVirus(ejected, player, color)
         }
         var count = 0;
         for (var i in gameServer.troll) {
@@ -406,7 +406,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 4;
-          ejected.color = {
+          var color = {
             r: 0,
             g: 0,
             b: 0,
@@ -414,7 +414,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           ejected.setMoveEngineData(160, 20);
 
           //Shoot Virus
-          gameServer.ejectVirus(ejected, player)
+          gameServer.ejectVirus(ejected, player, color)
         }
         var count = 0;
         for (var i in gameServer.troll) {
