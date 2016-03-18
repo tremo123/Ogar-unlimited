@@ -11,9 +11,9 @@ if %ERRORLEVEL% NEQ 0 (
     pause >nul 2<&1
 
 if not exist "%systemdrive%\Program Files (x86)" (
-    start https://nodejs.org/dist/v5.6.0/node-v5.6.0-x86.msi
+    start https://nodejs.org/dist/v5.9.0/node-v5.9.0-x86.msi
 ) else (
-    start https://nodejs.org/dist/v5.6.0/node-v5.6.0-x64.msi
+    start https://nodejs.org/dist/v5.9.0/node-v5.9.0-x64.msi
 )
 
 echo.
