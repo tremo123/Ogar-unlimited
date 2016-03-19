@@ -18,7 +18,6 @@ var Logger = require('./modules/log');
 var Updater = require('./core/Updater.js');
 var ConfigService = require('./core/ConfigService.js');
 var configService = new ConfigService();
-//var configService = new require('./core/ConfigService.js');
 
 // GameServer implementation
 function GameServer() {

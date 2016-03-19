@@ -45,7 +45,7 @@
     "name": "gameserver",
     "src": "src/gameserver.ini",
     "dst": "./gameserver.ini",
-    "hash": "4a1d734eb2ac79c92ae90a91f276e775"
+    "hash": "4c95b589d5e7576921c3055843409e36"
   },
   {
     "name": "packet:AddNode",
@@ -579,7 +579,7 @@
     "name": "modules:commands:pcmd.js",
     "src": "src/modules/commands/pcmd.js",
     "dst": "./modules/commands/pcmd.js",
-    "hash": "12f112de243fad4c2ab81ed048a7d02e"
+    "hash": "d1ca7c55e9ffef886f035674b033643a"
   },
   {
     "name": "modules:commands:pfmsg.js",
