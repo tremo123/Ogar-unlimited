@@ -1364,6 +1364,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
       if (this.randomNames.length > 0) {
         var index = Math.floor(Math.random() * this.randomNames.length);
         name = this.randomNames[index];
+        this.randomNames.splice(index, 1);
       } else {
         name = "player";
       }
