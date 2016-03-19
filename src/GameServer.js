@@ -178,9 +178,6 @@ GameServer.prototype.start = function () {
     //setInterval(this.mainLoop.bind(this), 1);
     setImmediate(this.mainLoopBind);
 
-    // Done
-    // todo remove: var fs = require("fs"); // Import the util library
-
     console.log("[Game] Listening on port " + this.config.serverPort);
     console.log("[Game] Current game mode is " + this.gameMode.name);
     Cell.spi = this.config.SpikedCells;
