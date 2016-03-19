@@ -850,8 +850,7 @@ GameServer.prototype.spawnTick = function () {
   this.tickSpawn++;
   if (this.tickSpawn >= this.config.spawnInterval) {
     // todo use dt
-    this.generatorService.update(); // Spawn food
-    this.virusCheck(); // Spawn viruses
+    this.generatorService.update(); // Spawn food & viruses
 
     this.tickSpawn = 0; // Reset
   }
@@ -1201,38 +1200,6 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
       x: pos.x,
       y: pos.y
     };
-  }
-};
-
-GameServer.prototype.virusCheck = function () {
-  // Checks if there are enough viruses on the map
-  if (this.spawnv == 1) {
-    if (this.nodesVirus.length < this.config.virusMinAmount) {
-      // Spawns a virus
-      var pos = this.getRandomPosition();
-      var virusSquareSize = (this.config.virusStartMass * 100) >> 0;
-
-      // Check for players
-      for (var i = 0; i < this.nodesPlayer.length; i++) {
-        var check = this.nodesPlayer[i];
-
-        if (check.mass < this.config.virusStartMass) {
-          continue;
-        }
-
-        var squareR = check.getSquareSize(); // squared Radius of checking player cell
-
-        var dx = check.position.x - pos.x;
-        var dy = check.position.y - pos.y;
-
-        if (dx * dx + dy * dy + virusSquareSize <= squareR)
-          return; // Collided
-      }
-
-      // Spawn if no cells are colliding
-      var v = new Entity.Virus(this.getNextNodeId(), null, pos, this.config.virusStartMass);
-      this.addNode(v);
-    }
   }
 };
 
