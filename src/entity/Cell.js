@@ -1,6 +1,6 @@
 Cell.spi = 0;
 Cell.virusi = 255;
-Cell.recom = 0;
+
 function Cell(nodeId, owner, position, mass, gameServer) {
   this.nodeId = nodeId;
   this.owner = owner; // playerTracker that owns this cell
@@ -160,11 +160,8 @@ Cell.prototype.collisionCheck2 = function (objectSquareSize, objectPosition) {
 
   var dx = this.position.x - objectPosition.x;
   var dy = this.position.y - objectPosition.y;
-if (Cell.recom == 0) {
-  return (dx * dx + dy * dy + this.getSquareSize() <= objectSquareSize);
-} else {
+
   return (dx * dx + dy * dy <= objectSquareSize);
-}
 };
 
 Cell.prototype.visibleCheck = function (box, centerPos) {

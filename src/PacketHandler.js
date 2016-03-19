@@ -60,25 +60,14 @@ PacketHandler.prototype.handleMessage = function (message) {
       if (this.socket.playerTracker.cells.length <= 0) {
         // Make sure client has no cells
         this.gameServer.switchSpectator(this.socket.playerTracker);
-        if (!this.socket.playerTracker.spectate) {
-          if(this.gameServer.config.kickspectate > 0 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-            this.socket.playerTracker.spect = setTimeout(function () {
-             if(this.socket.playerTracker.spectate && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-                   this.socket.close();
-               }
-            }.bind(this), this.gameServer.config.kickspectate * 1000);
-        }
-          
-        }
-        
         this.socket.playerTracker.spectate = true;
       }
       break;
     case 16:
       // Set Target
       if (view.byteLength == 13) {
-        var client = this.socket.playerTracker; // Scramble
-        client.mouse.x = view.getInt32(1, true) - client.scrambleX; // Scramble
+        var client = this.socket.playerTracker;
+        client.mouse.x = view.getInt32(1, true) - client.scrambleX;
         client.mouse.y = view.getInt32(5, true) - client.scrambleY;
       }
 
@@ -106,7 +95,7 @@ PacketHandler.prototype.handleMessage = function (message) {
         // Send SetBorder packet first
         var c = this.gameServer.config;
         this.socket.sendPacket(new Packet.SetBorder(
-          c.borderLeft + this.socket.playerTracker.scrambleX, // Scramble
+          c.borderLeft + this.socket.playerTracker.scrambleX,
           c.borderRight + this.socket.playerTracker.scrambleX,
           c.borderTop + this.socket.playerTracker.scrambleY,
           c.borderBottom + this.socket.playerTracker.scrambleY

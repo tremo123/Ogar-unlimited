@@ -8,7 +8,6 @@ function PlayerTracker(gameServer, socket, owner) {
   this.name = "";
   this.gameServer = gameServer;
   this.socket = socket;
-  this.blind = false;
   this.rainbowon = false;
   this.mergeOverrideDuration = 0;
   this.scoreh = [];
@@ -18,7 +17,6 @@ function PlayerTracker(gameServer, socket, owner) {
   this.frozen = false;
   this.recombineinstant = false;
   this.mi = 0;
-  this.spect;
   this.vskin = "";
   this.customspeed = 0;
   this.vname = "";
@@ -85,21 +83,11 @@ function PlayerTracker(gameServer, socket, owner) {
     this.pID = gameServer.getNewPlayerID();
     // Gamemode function
     gameServer.gameMode.onPlayerInit(this);
-    
-    // SCRAMBLE
     // Only scramble if enabled in config
     if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-      
-      if (Math.round(Math.random()) == 0) { // value can sometimes be negative
       this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
       this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
-      } else {
-          this.scrambleX = Math.floor((1 << 15) * Math.random());
-      this.scrambleY = Math.floor((1 << 15) * Math.random());
-        
-      }
     }
-    // /SCRAMBLE
   }
 }
 
@@ -176,22 +164,22 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
   }
 
 
-  if (this.gameServer.config.mousefilter == 1 && this.gameServer.mfre == true) { // Mouse filter code when gameserver detects duplicates
+  if (this.gameServer.config.mousefilter == 1 && this.gameServer.mfre == true) {
     if (this.vt > 10) {
       this.vt = 0;
       var re = 0;
       for (var i in this.gameServer.clients) {
         var client = this.gameServer.clients[i].playerTracker;
-        if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) { // check to see if mouse's loxation is similar to others
+        if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) {
           var ismi = true;
         } else {
-          var ismi = false; 
+          var ismi = false;
         }
         if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
           re++;
         }
       }
-      if (re > this.gameServer.config.mbchance) { // if there is over 5 duplicates
+      if (re > this.gameServer.config.mbchance) {
         for (var i in this.gameServer.clients) {
           var client = this.gameServer.clients[i].playerTracker;
           if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) {
@@ -200,10 +188,10 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
             var ismi = false;
           }
           if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
-            client.nospawn = true; // Kick
+            client.nospawn = true;
             var len = client.cells.length;
             for (var j = 0; j < len; j++) {
-              this.gameServer.removeNode(client.cells[0]); // kill
+              this.gameServer.removeNode(client.cells[0]);
             }
           }
         }
@@ -321,8 +309,7 @@ PlayerTracker.prototype.update = function () {
         // Add nodes to client's screen if client has not seen it already
         for (var i = 0; i < newVisible.length; i++) {
           var index = this.visibleNodes.indexOf(newVisible[i]);
-          if (index == -1 && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
-            
+          if (index == -1) {
             updateNodes.push(newVisible[i]);
           }
         }
@@ -338,17 +325,15 @@ PlayerTracker.prototype.update = function () {
     // Add nodes to screen
     for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
       var node = this.nodeAdditionQueue[i];
-      if (!this.blind || (node.owner == this || node.cellType != 0)) {
       this.visibleNodes.push(node);
       updateNodes.push(node);
-    }
     }
   }
 
   // Update moving nodes
   for (var i = 0; i < this.visibleNodes.length; i++) {
     var node = this.visibleNodes[i];
-    if (node.sendUpdate() && (!this.blind || (node.owner == this || node.cellType != 0) )) {
+    if (node.sendUpdate()) {
       // Sends an update if cell is moving
       updateNodes.push(node);
     }
