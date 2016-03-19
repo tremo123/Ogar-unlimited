@@ -16,5 +16,10 @@ module.exports = {
       x: Math.floor(Math.random() * (borderRight - borderLeft)) + borderLeft,
       y: Math.floor(Math.random() * (borderBottom - borderTop)) + borderTop
     }
+  },
+  getDist: function (x1, y1, x2, y2) { // Use Pythagoras theorem
+    var deltaX = Math.abs(x1 - x2);
+    var deltaY = Math.abs(y1 - y2);
+    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   }
 };

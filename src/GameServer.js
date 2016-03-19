@@ -1203,11 +1203,7 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   }
 };
 
-GameServer.prototype.getDist = function (x1, y1, x2, y2) { // Use Pythagoras theorem
-  var deltaX = Math.abs(x1 - x2);
-  var deltaY = Math.abs(y1 - y2);
-  return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-};
+GameServer.prototype.getDist = utilities.getDist;
 
 GameServer.prototype.updateMoveEngine = function () {
   // Move player cells

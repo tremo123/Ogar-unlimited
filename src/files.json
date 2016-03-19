@@ -27,7 +27,7 @@
     "name": "GameServer",
     "src": "src/GameServer.js",
     "dst": "./GameServer.js",
-    "hash": "73276dae321453ebdadfaac64a0f9bec"
+    "hash": "d7da016417779e645146a4240cf2705e"
   },
   {
     "name": "PlayerTracker",
