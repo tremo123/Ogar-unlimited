@@ -5,7 +5,7 @@
 // done - next add hashing so we only have to download files that are newer
 // done - next refactor this to use promises/waterfall or something alone that lines
 
-const fs = require('fs');
+var fs = require('fs');
 
 module.exports = function (gameServer, split) {
   let arg = split[1];
