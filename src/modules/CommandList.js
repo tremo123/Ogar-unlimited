@@ -21,7 +21,21 @@ function Commands() {
 module.exports = Commands;
 
 // Utils
+<<<<<<< HEAD
 //var fillChar = require('./commands/fillChar.js');
+=======
+var fillChar = function (data, char, fieldLength, rTL) {
+  var result = data.toString();
+  if (rTL === true) {
+    for (var i = result.length; i < fieldLength; i++)
+      result = char.concat(result);
+  } else {
+    for (var i = result.length; i < fieldLength; i++)
+      result = result.concat(char);
+  }
+  return result;
+};
+>>>>>>> parent of f964b43... refactor fillChar into it's own file
 
 // Commands
 
