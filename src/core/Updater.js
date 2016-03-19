@@ -1,11 +1,11 @@
 'use strict';
-const fs = require('fs');
-const path = require('path');
-const request = require('request');
-const async = require('async');
-const md5File = require('md5-file');
-const sys = require('sys');
-const exec = require('child_process').exec;
+var fs = require('fs');
+var path = require('path');
+var request = require('request');
+var async = require('async');
+var md5File = require('md5-file');
+var sys = require('sys');
+var exec = require('child_process').exec;
 
 module.exports = class Updater {
   constructor(gameServer) {
