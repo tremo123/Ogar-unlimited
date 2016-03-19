@@ -1905,6 +1905,7 @@ GameServer.prototype.switchSpectator = function (player) {
 
 // Stats server
 
+// todo make a service or seperate server?
 GameServer.prototype.startStatsServer = function (port) {
   // Do not start the server if the port is negative
   if (port < 1) {
