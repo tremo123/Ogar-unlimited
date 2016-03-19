@@ -168,6 +168,13 @@ module.exports = class ConfigService {
 
   loadConfig() {
     try {
+      var test = fs.readFileSync('./files.json', 'utf-8');
+     
+    } catch (err) {
+      console.log("[Game] files.json not found... Generating new files.json");
+      fs.writeFileSync('./files.json', '');
+    }
+    try {
       console.log('Loading gameserver.ini');
       // Load the contents of the config file
       var load = ini.parse(fs.readFileSync('./gameserver.ini', 'utf-8'));
