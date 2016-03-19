@@ -53,7 +53,7 @@ module.exports = class Updater {
       // write to file pretty because this file will be edited by humans :D
       fs.writeFileSync('files.json', JSON.stringify(files, null, 2));
     } catch (err) {
-      console.error(err);
+      console.err(err);
     }
   }
   downloadFile(file, callback) {
@@ -87,8 +87,8 @@ module.exports = class Updater {
     console.log('[Update] Running npm install to install new node modules!');
     let child = exec("npm install", function (error, stdout, stderr) {
       if (error !== null) {
-        console.error('[Execution Error] Failed to run npm install  Reason: ', error);
-        console.error('[Execution Error] You should exit the server and run: npm install');
+        console.err('[Execution Error] Failed to run npm install  Reason: ', error);
+        console.err('[Execution Error] You should exit the server and run: npm install');
       }
     });
   }
