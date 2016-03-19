@@ -17,7 +17,11 @@ var minionLoader = require('./ai/minionLoader');
 var Logger = require('./modules/log');
 var Updater = require('./core/Updater.js');
 var ConfigService = require('./core/ConfigService.js');
+var ConsoleService = require('./core/ConsoleService.js');
+
+// Need configService to build the init GameServer
 var configService = new ConfigService();
+
 
 // GameServer implementation
 function GameServer() {
@@ -148,6 +152,8 @@ function GameServer() {
 }
 
 module.exports = GameServer;
+// Need ConsoleService to add GameServer methods
+var consoleService = new ConsoleService(this);
 
 GameServer.prototype.start = function () {
   // Logging
@@ -891,6 +897,9 @@ GameServer.prototype.mainLoop = function () {
     if (this.config.liveConsole == 1) {
       var t = this.config.fps / 20;
       if (this.lctick >= Math.round(t) - 1) {
+
+        // todo this is the new liveConsole function but the live console does not see to work.
+        //consoleService.liveConsole();
         this.liveconsole();
         this.lctick = 0;
       } else {
