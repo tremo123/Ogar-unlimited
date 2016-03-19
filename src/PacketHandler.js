@@ -61,16 +61,15 @@ PacketHandler.prototype.handleMessage = function (message) {
         // Make sure client has no cells
         this.gameServer.switchSpectator(this.socket.playerTracker);
         if (!this.socket.playerTracker.spectate) {
-          if(this.gameServer.config.kickspectate > 0 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+          if (this.gameServer.config.kickspectate > 0 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
             this.socket.playerTracker.spect = setTimeout(function () {
-             if(this.socket.playerTracker.spectate && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-                   this.socket.close();
-               }
+              if (this.socket.playerTracker.spectate && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+                this.socket.close();
+              }
             }.bind(this), this.gameServer.config.kickspectate * 1000);
+          }
         }
-          
-        }
-        
+
         this.socket.playerTracker.spectate = true;
       }
       break;

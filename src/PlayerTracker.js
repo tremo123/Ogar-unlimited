@@ -85,18 +85,18 @@ function PlayerTracker(gameServer, socket, owner) {
     this.pID = gameServer.getNewPlayerID();
     // Gamemode function
     gameServer.gameMode.onPlayerInit(this);
-    
+
     // SCRAMBLE
     // Only scramble if enabled in config
     if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-      
+
       if (Math.round(Math.random()) == 0) { // value can sometimes be negative
-      this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
-      this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
+        this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
+        this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
       } else {
-          this.scrambleX = Math.floor((1 << 15) * Math.random());
-      this.scrambleY = Math.floor((1 << 15) * Math.random());
-        
+        this.scrambleX = Math.floor((1 << 15) * Math.random());
+        this.scrambleY = Math.floor((1 << 15) * Math.random());
+
       }
     }
     // /SCRAMBLE
@@ -185,7 +185,7 @@ PlayerTracker.prototype.getScore = function (reCalcScore) {
         if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) { // check to see if mouse's loxation is similar to others
           var ismi = true;
         } else {
-          var ismi = false; 
+          var ismi = false;
         }
         if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
           re++;
@@ -322,7 +322,7 @@ PlayerTracker.prototype.update = function () {
         for (var i = 0; i < newVisible.length; i++) {
           var index = this.visibleNodes.indexOf(newVisible[i]);
           if (index == -1 && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
-            
+
             updateNodes.push(newVisible[i]);
           }
         }
@@ -339,9 +339,9 @@ PlayerTracker.prototype.update = function () {
     for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
       var node = this.nodeAdditionQueue[i];
       if (!this.blind || (node.owner == this || node.cellType != 0)) {
-      this.visibleNodes.push(node);
-      updateNodes.push(node);
-    }
+        this.visibleNodes.push(node);
+        updateNodes.push(node);
+      }
     }
   }
 

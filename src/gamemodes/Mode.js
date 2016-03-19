@@ -349,7 +349,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 3;
-         var color = {
+          var color = {
             r: 250,
             g: 100,
             b: 0,

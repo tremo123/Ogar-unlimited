@@ -960,21 +960,21 @@ GameServer.prototype.upextra = function (sp) {
   var request = require('request');
   request(dbase, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      
+
       if (refre == "r") {
         fs.writeFileSync('./' + filed, body);
         console.log("[Update] Downloaded " + filed);
-        
+
       } else {
-      try {
-        var test = fs.readFileSync('./' + filed);
-      } catch (err) {
+        try {
+          var test = fs.readFileSync('./' + filed);
+        } catch (err) {
 
 
-        fs.writeFileSync('./' + filed, body);
-        console.log("[Update] Downloaded " + filed);
+          fs.writeFileSync('./' + filed, body);
+          console.log("[Update] Downloaded " + filed);
+        }
       }
-    }
     }
   });
 
@@ -1147,7 +1147,7 @@ GameServer.prototype.mainLoop = function () {
             a[this.clients[i].playerTracker.mouse] = 1;
 
           } else { // Where it checks for duplicates. If there is over 5, it activates mouse filter using mfre, to see how it works, go to playertracker. This is here so i can reduce lag using a simple and less cpu using method to check for duplicates because the method to actually get rid of them is not efficient.
-            a[this.clients[i].playerTracker.mouse]++; 
+            a[this.clients[i].playerTracker.mouse]++;
             if (a[this.clients[i].playerTracker.mouse] > this.config.mbchance) {
               this.mfre = true;
               d = true;
@@ -1250,13 +1250,13 @@ GameServer.prototype.mainLoop = function () {
         this.leaderboard = [];
       }
     }
-    
+
     // Restart main loop immediately after current event loop (setImmediate does not amplify any lag delay unlike setInterval or setTimeout)
-	  setImmediate(this.mainLoopBind);
-	} else {
-	  // Restart main loop 1 ms after current event loop (setTimeout uses less cpu resources than setImmediate)
-		setTimeout(this.mainLoopBind, 1);
-	}
+    setImmediate(this.mainLoopBind);
+  } else {
+    // Restart main loop 1 ms after current event loop (setTimeout uses less cpu resources than setImmediate)
+    setTimeout(this.mainLoopBind, 1);
+  }
 };
 
 GameServer.prototype.resetlb = function () {
@@ -1407,11 +1407,11 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
         }
       }
     }
-    
+
     if (pos == null) { // Get random pos
       pos = this.getRandomSpawn();
     }
-    
+
     if (mass == null) { // Get starting mass
       mass = this.config.playerStartMass;
       if (player.spawnmass > 0) mass = player.spawnmass;
@@ -1510,9 +1510,9 @@ GameServer.prototype.updateMoveEngine = function () {
 
       if (check.cellType == 0) {
         if ((client != check.owner) && (cell.mass < check.mass * 1.25) && this.config.playerRecombineTime != 0) { //extra check to make sure popsplit works by retslac
-            check.inRange = false;
-                continue;
-          }
+          check.inRange = false;
+          continue;
+        }
         len--;
         if (check.nodeId < cell.nodeId) {
           i--;
@@ -1746,23 +1746,23 @@ GameServer.prototype.ejectMass = function (client) {
     }
     if (!this.canEjectMass(client))
       return;
-      var player = client;
+    var player = client;
     var ejectedCells = 0; // How many cells have been ejected
     if (this.config.ejectbiggest == 1) {
       var cell = client.getBiggestc();
       if (!cell) {
         return;
       }
-if (this.config.ejectvirus != 1) {
-      if (cell.mass < this.config.playerMinMassEject) {
-        return;
+      if (this.config.ejectvirus != 1) {
+        if (cell.mass < this.config.playerMinMassEject) {
+          return;
+        }
+      } else {
+        if (cell.mass < this.config.playerminviruseject) {
+          return;
+        }
+
       }
-} else {
-  if (cell.mass < this.config.playerminviruseject) {
-        return;
-      }
-  
-}
 
       var deltaY = client.mouse.y - cell.position.y;
       var deltaX = client.mouse.x - cell.position.x;
@@ -1777,33 +1777,33 @@ if (this.config.ejectvirus != 1) {
 
       // Remove mass from parent cell
       if (this.config.ejectvirus != 1) {
-      cell.mass -= this.config.ejectMassLoss;
-} else {
-  cell.mass -= this.config.virusmassloss;
-}
+        cell.mass -= this.config.ejectMassLoss;
+      } else {
+        cell.mass -= this.config.virusmassloss;
+      }
       // Randomize angle
       angle += (Math.random() * .4) - .2;
 
       // Create cell
-       if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
+      if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
       ejected.setAngle(angle);
       if (this.config.ejectvirus == 1) {
         ejected.setMoveEngineData(this.config.ejectvspeed, 20);
-        
+
       } else {
-      ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+        ejected.setMoveEngineData(this.config.ejectSpeed, 20);
       }
       if (this.config.ejectvirus == 1) {
         ejected.par = player;
-        
+
       }
-      
+
       if (this.config.randomEjectMassColor == 1) {
         ejected.setColor(this.getRandomColor());
       } else {
         ejected.setColor(cell.getColor());
       }
-      
+
 
       this.addNode(ejected);
       this.setAsMovingNode(ejected);
@@ -1811,64 +1811,64 @@ if (this.config.ejectvirus != 1) {
     } else {
       for (var i = 0; i < client.cells.length; i++) {
         var cell = client.cells[i];
-if (!cell) {
-        return;
-      }
-if (this.config.ejectvirus != 1) {
-      if (cell.mass < this.config.playerMinMassEject) {
-        return;
-      }
-} else {
-  if (cell.mass < this.config.playerminviruseject) {
-        return;
-      }
-  
-}
+        if (!cell) {
+          return;
+        }
+        if (this.config.ejectvirus != 1) {
+          if (cell.mass < this.config.playerMinMassEject) {
+            return;
+          }
+        } else {
+          if (cell.mass < this.config.playerminviruseject) {
+            return;
+          }
 
-      var deltaY = client.mouse.y - cell.position.y;
-      var deltaX = client.mouse.x - cell.position.x;
-      var angle = Math.atan2(deltaX, deltaY);
+        }
 
-      // Get starting position
-      var size = cell.getSize() + 5;
-      var startPos = {
-        x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
-        y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
-      };
+        var deltaY = client.mouse.y - cell.position.y;
+        var deltaX = client.mouse.x - cell.position.x;
+        var angle = Math.atan2(deltaX, deltaY);
 
-      // Remove mass from parent cell
-      if (this.config.ejectvirus != 1) {
-      cell.mass -= this.config.ejectMassLoss;
-} else {
-  cell.mass -= this.config.virusmassloss;
-}
-      // Randomize angle
-      angle += (Math.random() * .4) - .2;
+        // Get starting position
+        var size = cell.getSize() + 5;
+        var startPos = {
+          x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
+          y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
+        };
 
-      // Create cell
-       if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
-      ejected.setAngle(angle);
-      if (this.config.ejectvirus == 1) {
-        ejected.setMoveEngineData(this.config.ejectvspeed, 20);
-        
-      } else {
-      ejected.setMoveEngineData(this.config.ejectSpeed, 20);
-      }
-      if (this.config.ejectvirus == 1) {
-        ejected.par = player;
-        
-      }
-      
-      if (this.config.randomEjectMassColor == 1) {
-        ejected.setColor(this.getRandomColor());
-      } else {
-        ejected.setColor(cell.getColor());
-      }
-      
+        // Remove mass from parent cell
+        if (this.config.ejectvirus != 1) {
+          cell.mass -= this.config.ejectMassLoss;
+        } else {
+          cell.mass -= this.config.virusmassloss;
+        }
+        // Randomize angle
+        angle += (Math.random() * .4) - .2;
 
-      this.addNode(ejected);
-      this.setAsMovingNode(ejected);
-      ejectedCells++;
+        // Create cell
+        if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
+        ejected.setAngle(angle);
+        if (this.config.ejectvirus == 1) {
+          ejected.setMoveEngineData(this.config.ejectvspeed, 20);
+
+        } else {
+          ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+        }
+        if (this.config.ejectvirus == 1) {
+          ejected.par = player;
+
+        }
+
+        if (this.config.randomEjectMassColor == 1) {
+          ejected.setColor(this.getRandomColor());
+        } else {
+          ejected.setColor(cell.getColor());
+        }
+
+
+        this.addNode(ejected);
+        this.setAsMovingNode(ejected);
+        ejectedCells++;
       }
     }
     if (ejectedCells > 0) {
@@ -1887,7 +1887,7 @@ GameServer.prototype.autoSplit = function (client, parent, angle, mass, speed) {
   };
 
   // Create cell
- var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+  var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
   newCell.setAngle(angle);
   newCell.setMoveEngineData(speed, 15);
   newCell.restoreCollisionTicks = 25;
@@ -1907,12 +1907,12 @@ GameServer.prototype.newCellVirused = function (client, parent, angle, mass, spe
   };
 
   // Create cell
-var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+  var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
   newCell.setAngle(angle);
   newCell.setMoveEngineData(speed, 15);
   newCell.calcMergeTime(this.config.playerRecombineTime);
   newCell.ignoreCollision = true; // Remove collision checks
- newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
+  newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
   // Add to moving cells list
   this.addNode(newCell);
   this.setAsMovingNode(newCell);
@@ -1933,10 +1933,9 @@ GameServer.prototype.shootVirus = function (parent) {
   this.setAsMovingNode(newVirus);
 };
 
-GameServer.prototype.ejectVirus = function (parent,owner,color) {
-  
+GameServer.prototype.ejectVirus = function (parent, owner, color) {
 
-  
+
   var parentPos = {
     x: parent.position.x,
     y: parent.position.y,
@@ -1999,10 +1998,10 @@ GameServer.prototype.getCellsInRange = function (cell) {
         multiplier = 1.33;
         break;
       case 5: // Beacon
-        // This cell cannot be destroyed
+              // This cell cannot be destroyed
         continue;
       case 0: // Players
-        // Can't eat self if it's not time to recombine yet
+              // Can't eat self if it's not time to recombine yet
         if (check.owner == cell.owner) {
           if (!cell.shouldRecombine || !check.shouldRecombine) {
             if (!cell.owner.recombineinstant) continue;

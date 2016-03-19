@@ -18,10 +18,10 @@ module.exports = class Updater {
 
   init() {
     this.hashFiles();
-    this.downloadFile({src:'src/files.json', dst:'filesTemp.json'},(err, res)=>{
+    this.downloadFile({src: 'src/files.json', dst: 'filesTemp.json'}, (err, res)=> {
       if (!err) {
         this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
-        this.newFiles.forEach((ele)=>{
+        this.newFiles.forEach((ele)=> {
           let currentFile = this.getFileByName(ele.name);
           if (!currentFile || ele.hash !== currentFile.hash) {
             this.updatedFiles.push(ele);
@@ -39,7 +39,7 @@ module.exports = class Updater {
   }
 
   getFileByName(name) {
-    this.newFiles.find((ele)=>{
+    this.newFiles.find((ele)=> {
       return ele.name === name;
     });
   }
@@ -56,13 +56,14 @@ module.exports = class Updater {
       console.error(err);
     }
   }
+
   downloadFile(file, callback) {
     let url = this.url + file.src;
     console.log('[Downloading] ' + url + ' to: ' + file.dst);
     request(url, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        fs.writeFile(file.dst, body, (err, res)=>{
-          if (typeof callback === "function"){
+        fs.writeFile(file.dst, body, (err, res)=> {
+          if (typeof callback === "function") {
             callback(err, res);
           }
         });
@@ -72,17 +73,19 @@ module.exports = class Updater {
     });
   }
 
-  downloadAllFiles(){
-    async.each(this.newFiles, (file, cb)=>{
+  downloadAllFiles() {
+    async.each(this.newFiles, (file, cb)=> {
       this.downloadFile(file, cb);
     }, handleError(this.gameServer));
   }
-  downloadUpdatedFiles(){
-    async.each(this.updatedFiles, (file, cb)=>{
+
+  downloadUpdatedFiles() {
+    async.each(this.updatedFiles, (file, cb)=> {
       this.downloadFile(file, cb);
     }, handleError(this.gameServer));
   }
-  runNpmInstall(){
+
+  runNpmInstall() {
     // executes `pwd`
     console.log('[Update] Running npm install to install new node modules!');
     let child = exec("npm install", function (error, stdout, stderr) {
