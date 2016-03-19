@@ -18,6 +18,9 @@ var Logger = require('./modules/log');
 var Updater = require('./core/Updater.js');
 var ConfigService = require('./core/ConfigService.js');
 var ConsoleService = require('./core/ConsoleService.js');
+var GeneratorService = require('./core/GeneratorService.js');
+
+var utilities = require('./core/utilities.js');
 
 // Need configService to build the init GameServer
 var configService = new ConfigService();
@@ -149,11 +152,14 @@ function GameServer() {
 
   // Gamemodes
   this.gameMode = Gamemode.get(this.config.serverGamemode);
+
+  // Services
+  this.consoleService = new ConsoleService(this);
+  this.generatorService = new GeneratorService(this);
 }
 
 module.exports = GameServer;
-// Need ConsoleService to add GameServer methods
-var consoleService = new ConsoleService(this);
+
 
 GameServer.prototype.start = function () {
   // Logging
@@ -178,7 +184,7 @@ GameServer.prototype.start = function () {
     perMessageDeflate: false
   }, function () {
     // Spawn starting food
-    this.startingFood();
+    this.generatorService.init();
 
     // Start Main Loop
     //setInterval(this.mainLoop.bind(this), 1);
@@ -596,12 +602,10 @@ GameServer.prototype.liveconsole = function () {
   this.liveticks++;
 };
 
-GameServer.prototype.getRandomPosition = function () {
-  return {
-    x: Math.floor(Math.random() * (this.config.borderRight - this.config.borderLeft)) + this.config.borderLeft,
-    y: Math.floor(Math.random() * (this.config.borderBottom - this.config.borderTop)) + this.config.borderTop
-  };
+GameServer.prototype.getRandomPosition = function() {
+  return utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
 };
+// todo masterServer
 GameServer.prototype.masterServer = function () {
   var request = require('request');
   var game = this;
@@ -778,18 +782,7 @@ GameServer.prototype.upextra = function (sp) {
 
 
 };
-GameServer.prototype.getRandomColor = function () {
-  var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
-  colorRGB.sort(function () {
-    return 0.5 - Math.random();
-  });
-
-  return {
-    r: colorRGB[0],
-    b: colorRGB[1],
-    g: colorRGB[2]
-  };
-};
+GameServer.prototype.getRandomColor = utilities.getRandomColor;
 
 GameServer.prototype.addNode = function (node) {
   this.nodes.push(node);
@@ -856,7 +849,8 @@ GameServer.prototype.spawnTick = function () {
   // Spawn food
   this.tickSpawn++;
   if (this.tickSpawn >= this.config.spawnInterval) {
-    this.updateFood(); // Spawn food
+    // todo use dt
+    this.generatorService.update(); // Spawn food
     this.virusCheck(); // Spawn viruses
 
     this.tickSpawn = 0; // Reset
@@ -899,7 +893,7 @@ GameServer.prototype.mainLoop = function () {
       if (this.lctick >= Math.round(t) - 1) {
 
         // todo this is the new liveConsole function but the live console does not see to work.
-        //consoleService.liveConsole();
+        //this.consoleService.liveConsole();
         this.liveconsole();
         this.lctick = 0;
       } else {
@@ -1076,28 +1070,6 @@ GameServer.prototype.updateClients = function () {
     this.clients[i].playerTracker.antiTeamTick();
     this.clients[i].playerTracker.update();
   }
-};
-
-GameServer.prototype.startingFood = function () {
-  // Spawns the starting amount of food cells
-  for (var i = 0; i < this.config.foodStartAmount; i++) {
-    this.spawnFood();
-  }
-};
-
-GameServer.prototype.updateFood = function () {
-  var toSpawn = Math.min(this.config.foodSpawnAmount, (this.config.foodMaxAmount - this.currentFood));
-  for (var i = 0; i < toSpawn; i++) {
-    this.spawnFood();
-  }
-};
-
-GameServer.prototype.spawnFood = function () {
-  var f = new Entity.Food(this.getNextNodeId(), null, this.getRandomPosition(), this.config.foodMass, this);
-  f.setColor(this.getRandomColor());
-
-  this.addNode(f);
-  this.currentFood++;
 };
 
 GameServer.prototype.spawnPlayer = function (player, pos, mass) {
