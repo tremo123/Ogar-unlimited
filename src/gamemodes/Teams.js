@@ -50,7 +50,7 @@ Teams.prototype.getTeamColor = function (team) {
 // Override
 
 Teams.prototype.onPlayerSpawn = function (gameServer, player) {
-  if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+  if (gameServer.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
     // Random color based on team
     player.color = this.getTeamColor(player.team);
     // Spawn player
