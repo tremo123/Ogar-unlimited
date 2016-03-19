@@ -2,7 +2,7 @@
 var Commands = require('./modules/CommandList');
 var GameServer = require('./GameServer');
 
-var Version = '11.6.5';
+var Version = '11.8.5';
 
 // Init variables
 var showConsole = true;
@@ -52,12 +52,7 @@ if (showConsole) {
 
 function prompt() {
   in_.question(">", function (str) {
-    try {
-      parseCommands(str);
-    } catch (err) {
-      // todo do something :D
-    }
-
+    parseCommands(str);
     return prompt(); // Too lazy to learn async
   });
 }
