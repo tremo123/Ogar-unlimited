@@ -248,6 +248,7 @@ Commands.list = {
           return x != ''; // filter empty
         });
         if (page > Math.ceil(newb.length / 10)) page = Math.ceil(newb.length / 10);
+        console.log("[Console] Contacted server, use changelog [page] to go to different pages.");
         console.log("[Console] Update log - Page " + page + "/" + Math.ceil(newb.length / 10));
         for (var i in newb) {
           if (i < limit && i >= limit - 10) {
