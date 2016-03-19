@@ -8,7 +8,7 @@
 var fs = require('fs');
 
 module.exports = function (gameServer, split) {
-  var arg = split[1];
+  let arg = split[1];
   if (!fs.existsSync('./packet')) {
     console.err("[Console] Error: could not perform action. Cause: You deleted folders or you are using a binary");
     return;
