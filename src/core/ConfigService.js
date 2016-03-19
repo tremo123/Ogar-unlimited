@@ -1,4 +1,7 @@
 'use strict';
+var fs = require("fs");
+var ini = require('../modules/ini.js');
+
 module.exports = class ConfigService {
   constructor() {
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
@@ -126,8 +129,143 @@ module.exports = class ConfigService {
       tourneyAutoFillPlayers: 1, // The timer for filling the server with bots will not count down unless there is this amount of real players
       playerBotGrowEnabled: 1, // If 0, eating a cell with less than 17 mass while cell has over 625 wont gain any mass
     }; // end of this.config
+    this.banned = [];
+    this.opByIp = [];
+    this.highScores = '';
+    this.botNames = [];
+    this.skinShortCuts = [];
+    this.skins = [];
+
+
+    this.loadConfig();
+    this.loadBanned();
+    this.loadOpByIp();
+    this.loadHighScores();
+    this.loadBotNames();
+    this.loadCustomSkin();
   }
   getConfig() {
     return this.config;
+  }
+  getBanned(){
+    return this.banned;
+  }
+  getOpByIp(){
+    return this.opByIp;
+  }
+  getHighScores() {
+    return this.highScores;
+  }
+  getBotNames(){
+    return this.botNames;
+  }
+  getSkinShortCuts(){
+    return this.skinShortCuts;
+  }
+  getSkins(){
+    return this.skins;
+  }
+
+  loadConfig() {
+    try {
+      console.log('Loading gameserver.ini');
+      // Load the contents of the config file
+      var load = ini.parse(fs.readFileSync('./gameserver.ini', 'utf-8'));
+      // Replace all the default config's values with the loaded config's values
+      for (var obj in load) {
+        this.config[obj] = load[obj];
+      }
+    } catch (err) {
+      // No config
+      console.log("[Game] Config not found... Generating new config");
+
+      // Create a new config
+      fs.writeFileSync('./gameserver.ini', ini.stringify(this.config));
+    }
+
+    try {
+      var override = ini.parse(fs.readFileSync('./override.ini', 'utf-8'));
+      for (var o in override) {
+        this.config[o] = override[o];
+      }
+    } catch (err) {
+      console.log("[Game] Override not found... Generating new override");
+      fs.writeFileSync('./override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
+
+    }
+  }
+  loadBanned() {
+    try {
+      this.banned = fs.readFileSync("./banned.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+
+    } catch (err) {
+      console.log("[Game] Banned.txt not found... Generating new banned.txt");
+      fs.writeFileSync('./banned.txt', '');
+    }
+  }
+  loadOpByIp() {
+    try {
+      this.opByIp = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+    } catch (err) {
+      console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
+      fs.writeFileSync('./opbyip.txt', '');
+    }
+  }
+  loadHighScores() {
+    try {
+      this.highScores = fs.readFileSync('./highscores.txt', 'utf-8');
+      this.highScores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+      fs.writeFileSync('./highscores.txt', this.highscores);
+    } catch (err) {
+      console.log("[Game] highscores.txt not found... Generating new highscores.txt");
+      fs.writeFileSync('./highscores.txt', '');
+    }
+  }
+  loadBotNames() {
+    try {
+      // Read and parse the names - filter out whitespace-only names
+      this.botNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+    } catch (e) {
+      // Nothing, use the default names
+    }
+  }
+
+  // todo this needs maintenance
+  loadCustomSkin(){
+    try {
+      if (!fs.existsSync('customskins.txt')) {
+        console.log("[Console] Generating customskin.txt...");
+        request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+
+            fs.writeFileSync('customskins.txt', body);
+
+          } else {
+            console.log("[Update] Could not fetch data from servers... will generate empty file");
+            fs.writeFileSync('customskins.txt', "");
+          }
+        });
+
+      }
+      var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+      if (this.config.customskins == 1) {
+        for (var i in loadskins) {
+          var custom = loadskins[i].split(" ");
+          this.skinShortCuts[i] = custom[0];
+          this.skins[i] = custom[1];
+        }
+      }
+    } catch (e) {
+      console.warn("[Console] Failed to load/download customskins.txt")
+    }
+
   }
 };

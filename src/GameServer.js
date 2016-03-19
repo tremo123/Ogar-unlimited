@@ -136,8 +136,13 @@ function GameServer() {
 
   // Config
   this.config = configService.getConfig();
-  // Parse config
-  this.loadConfig();
+  this.banned = configService.getBanned();
+  this.opbyip = configService.getOpByIp();
+  this.highscores = configService.getHighScores();
+  this.randomNames = configService.getBotNames();
+  this.skinshortcut = configService.getSkinShortCuts();
+  this.skin = configService.getSkins();
+  gameServern = this;
 
   // Gamemodes
   this.gameMode = Gamemode.get(this.config.serverGamemode);
@@ -1919,99 +1924,6 @@ GameServer.prototype.updateCells = function () {
       }
     }
   }
-};
-
-GameServer.prototype.loadConfig = function () {
-  try {
-    // Load the contents of the config file
-    var load = ini.parse(fs.readFileSync('./gameserver.ini', 'utf-8'));
-    // Replace all the default config's values with the loaded config's values
-    for (var obj in load) {
-      this.config[obj] = load[obj];
-    }
-  } catch (err) {
-    // No config
-    console.log("[Game] Config not found... Generating new config");
-
-    // Create a new config
-    fs.writeFileSync('./gameserver.ini', ini.stringify(this.config));
-  }
-
-  try {
-    var override = ini.parse(fs.readFileSync('./override.ini', 'utf-8'));
-    for (var o in override) {
-      this.config[o] = override[o];
-    }
-  } catch (err) {
-    console.log("[Game] Override not found... Generating new override");
-    fs.writeFileSync('./override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
-
-  }
-  try {
-    var load = ini.parse(fs.readFileSync('./banned.txt', 'utf-8'));
-    this.banned = fs.readFileSync("./banned.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
-      return x != ''; // filter empty names
-    });
-
-  } catch (err) {
-    console.log("[Game] Banned.txt not found... Generating new banned.txt");
-    fs.writeFileSync('./banned.txt', '');
-  }
-  try {
-    var load = ini.parse(fs.readFileSync('./opbyip.txt', 'utf-8'));
-    this.opbyip = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
-      return x != ''; // filter empty names
-    });
-  } catch (err) {
-    console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
-    fs.writeFileSync('./opbyip.txt', '');
-  }
-  try {
-    this.highscores = fs.readFileSync('./highscores.txt', 'utf-8');
-    this.highscores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
-    fs.writeFileSync('./highscores.txt', this.highscores);
-  } catch (err) {
-    console.log("[Game] highscores.txt not found... Generating new highscores.txt");
-    fs.writeFileSync('./highscores.txt', '');
-  }
-  try {
-
-    // Read and parse the names - filter out whitespace-only names
-    this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
-      return x != ''; // filter empty names
-    });
-  } catch (e) {
-    // Nothing, use the default names
-  }
-  try {
-    if (!fs.existsSync('customskins.txt')) {
-      console.log("[Console] Generating customskin.txt...");
-      request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-
-          fs.writeFileSync('customskins.txt', body);
-
-        } else {
-          console.log("[Update] Could not fetch data from servers... will generate empty file");
-          fs.writeFileSync('customskins.txt', "");
-        }
-      });
-
-    }
-    var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
-      return x != ''; // filter empty names
-    });
-    if (this.config.customskins == 1) {
-      for (var i in loadskins) {
-        var custom = loadskins[i].split(" ");
-        this.skinshortcut[i] = custom[0];
-        this.skin[i] = custom[1];
-      }
-    }
-  } catch (e) {
-
-  }
-  gameServern = this;
 };
 
 GameServer.prototype.switchSpectator = function (player) {
