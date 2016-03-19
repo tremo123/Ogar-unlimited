@@ -22,8 +22,8 @@ module.exports = function (gameServer, split) {
   }
 
   console.log("[PCMD] Request Sent!");
-  let r = 0;
-  let interval = setInterval(function () {
+  var r = 0;
+  var interval = setInterval(function () {
     console.log("[PCMD] Running command.");
     gameServer.execommand(command, newsplit);
     r++;
