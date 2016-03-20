@@ -199,7 +199,7 @@ GameServer.prototype.start = function () {
   this.log.setup(this);
 
   // updater
-  this.updater.init();
+  // this.updater.init();
 
   ipcounts = [];
   // Gamemode configurations
