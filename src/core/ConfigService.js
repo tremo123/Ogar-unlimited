@@ -6,6 +6,7 @@ const glob = require('glob');
 module.exports = class ConfigService {
   constructor() {
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
+      consoleUpdateTime: 100,
       autoban: 0, // Auto bans a player if they are cheating
       randomEjectMassColor: 0, // 0 = off 1 = on
       ffaTimeLimit: 60, // TFFA time

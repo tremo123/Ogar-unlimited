@@ -160,12 +160,19 @@ function GameServer() {
   // Services
   this.consoleService = new ConsoleService(this);
   this.generatorService = new GeneratorService(this);
+
+  // Services config
+  this.consoleService.isLiveConsole = this.config.liveConsole === 1;
+  this.consoleService.updateInterveral = this.config.consoleUpdateTime;
 }
 
 module.exports = GameServer;
 
 
 GameServer.prototype.start = function () {
+  // console service
+  this.consoleService.start();
+
   // Logging
   this.log.setup(this);
 
@@ -413,11 +420,10 @@ GameServer.prototype.start = function () {
 
   this.startStatsServer(this.config.serverStatsPort);
 };
-GameServer.prototype.getMode = function () {
-  return this.gameMode;
-};
-
+GameServer.prototype.getMode = newGameServer.getMode;
 GameServer.prototype.getNextNodeId = newGameServer.getNextNodeId;
+
+// todo what is this? This is an example of a poorly named function
 GameServer.prototype.dfr = function (path) {
   var dfr = function (path) {
     if (fs.existsSync(path)) {
@@ -448,147 +454,6 @@ GameServer.prototype.dfr = function (path) {
 };
 GameServer.prototype.execommand = newGameServer.execCommand;
 GameServer.prototype.getNewPlayerID = newGameServer.getNewPlayerID;
-
-GameServer.prototype.liveconsole = function () {
-  if (this.livestage == 0) {
-    if (this.liveticks > 80) {
-      this.livestage = 1;
-      this.firstl = true;
-      this.liveticks = 0;
-    }
-    var players = 0;
-    this.clients.forEach(function (client) {
-      if (client.playerTracker && client.playerTracker.cells.length > 0)
-        players++
-    });
-    var line1 = "               Status                            ";
-    var line2 = "       Players:      " + this.clients.length + "                           ";
-    var line3 = "       Spectators:   " + (this.clients.length - players) + "                            ";
-    var line4 = "       Alive:        " + players + "                          ";
-    var line5 = "       Max Players:  " + this.config.serverMaxConnections + "                        ";
-    var line6 = "       Start Time:   " + this.startTime + "                ";
-  } else if (this.livestage == 1) {
-    if (this.liveticks > 80) {
-      this.liveticks = 0;
-      this.firstl = true;
-      this.livestage = 2;
-    }
-    var players = 0;
-    this.clients.forEach(function (client) {
-      if (client.playerTracker && client.playerTracker.cells.length > 0)
-        players++
-    });
-    if (!this.gameMode.haveTeams && this.lleaderboard) {
-      if (this.leaderboard.length <= 0) {
-        var l1 = "No Players";
-        var l2 = "Are Playing";
-        var l3 = "";
-        var l4 = "";
-        var l5 = "";
-      } else {
-        if (typeof this.leaderboard[0] != "undefined") {
-          var l1 = this.leaderboard[0].name;
-        } else {
-          var l1 = "None"
-        }
-        if (typeof this.leaderboard[1] != "undefined") {
-          var l2 = this.leaderboard[1].name;
-        } else {
-          var l2 = "None"
-        }
-        if (typeof this.leaderboard[2] != "undefined") {
-          var l3 = this.leaderboard[2].name;
-        } else {
-          var l3 = "None"
-        }
-        if (typeof this.leaderboard[3] != "undefined") {
-          var l4 = this.leaderboard[3].name;
-        } else {
-          var l4 = "None"
-        }
-        if (typeof this.leaderboard[4] != "undefined") {
-          var l5 = this.leaderboard[4].name;
-        } else {
-          var l5 = "None"
-        }
-      }
-    } else {
-      var l1 = "Sorry, No leader";
-      var l2 = "Board in Teams!";
-      var l3 = "Or in MSG Mode";
-      var l4 = "";
-      var l5 = "";
-    }
-    var line1 = "              Leaderboard                   ";
-    var line2 = "               1." + l1 + "                    ";
-    var line3 = "               2." + l2 + "                    ";
-    var line4 = "               3." + l3 + "                    ";
-    var line5 = "               4." + l4 + "                    ";
-    var line6 = "               5." + l5 + "                    ";
-  } else if (this.livestage == 2) {
-    if (this.liveticks > 80) {
-      this.livestage = 0;
-      this.liveticks = 0;
-      this.firstl = true;
-    }
-    var line1 = "               Status                            ";
-    var line2 = "       Uptime:      " + process.uptime() + "                    ";
-    var line3 = "       Memory:      " + process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb";
-    var line4 = "       Banned:      " + this.banned.length + "        ";
-    var line5 = "       Highscore:   " + this.topscore + " By " + this.topusername + "      ";
-    var line6 = "                                                ";
-  }
-  if (this.firstl) {
-    process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
-    process.stdout.write("\u001B[8;36;44m   ___                                                                        " + EOL);
-    process.stdout.write("  / _ \\ __ _ __ _ _ _                                                         " + EOL);
-    process.stdout.write(" | (_) / _` / _` | '_|                                                        " + EOL);
-    process.stdout.write("  \\___/\\__, \\__,_|_|                                                          " + EOL);
-    process.stdout.write("\u001B[4m       |___/                                                                  " + EOL);
-    process.stdout.write("   u n l i m i t e d                                                          " + EOL);
-    process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
-    this.firstl = false;
-  }
-
-  if (this.resticks > 29) {
-    this.firstl = true;
-    this.resticks = 0;
-  } else {
-    this.resticks++;
-  }
-
-  process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
-  process.stdout.write("\u001B[8;36;44m   ___                  " + line1 + EOL);
-  process.stdout.write("  / _ \\ __ _ __ _ _ _   " + line2 + EOL);
-  process.stdout.write(" | (_) / _` / _` | '_|  " + line3 + EOL);
-  process.stdout.write("  \\___/\\__, \\__,_|_|    " + line4 + EOL);
-  process.stdout.write("\u001B[4m       |___/            " + line5 + EOL);
-  process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
-  process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
-
-  if (this.red) {
-    process.stdout.write("\x1b[31m\r");
-  }
-  if (this.green) {
-    process.stdout.write("\x1b[32m\r");
-  }
-  if (this.blue) {
-    process.stdout.write("\x1b[34m\r");
-  }
-  if (this.white) {
-    process.stdout.write("\x1b[37m\r");
-  }
-  if (this.yellow) {
-    process.stdout.write("\x1b[33m\r");
-  }
-  if (this.bold) {
-    process.stdout.write("\x1b[1m\r");
-  }
-  if (this.dim) {
-    process.stdout.write("\x1b[2m\r");
-  }
-  this.liveticks++;
-};
 
 GameServer.prototype.getRandomPosition = function() {
   return utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
@@ -876,19 +741,6 @@ GameServer.prototype.mainLoop = function () {
       (this.gamemodeTick(), 0);
     }
 
-    if (this.config.liveConsole == 1) {
-      var t = this.config.fps / 20;
-      if (this.lctick >= Math.round(t) - 1) {
-
-        // todo this is the new liveConsole function but the live console does not see to work.
-        //this.consoleService.liveConsole();
-        this.liveconsole();
-        this.lctick = 0;
-      } else {
-        this.lctick++;
-      }
-
-    }
     // Update the client's maps
     this.updateClients();
     setTimeout(this.cellUpdateTick(), 0);

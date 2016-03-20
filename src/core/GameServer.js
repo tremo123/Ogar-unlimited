@@ -1,24 +1,28 @@
 'use strict';
 const ConfigService = require('./ConfigService.js');
-let configService = new ConfigService();
 const Gamemode = require('../gamemodes');
+const GeneratorService = require('./GeneratorService.js');
 
 
 module.exports = class GameServer {
-  constructor(){
+  constructor(consoleService){
+    // fields
     this.lastNodeId = 1;
     this.lastPlayerId = 1;
 
-
+    // services
+    this.consoleService = consoleService;
+    this.generatorService = new GeneratorService(this);
+    this.configService = new ConfigService();
 
     // Config
-    this.config = configService.getConfig();
-    this.banned = configService.getBanned();
-    this.opbyip = configService.getOpByIp();
-    this.highscores = configService.getHighScores();
-    this.randomNames = configService.getBotNames();
-    this.skinshortcut = configService.getSkinShortCuts();
-    this.skin = configService.getSkins();
+    this.config = this.configService.getConfig();
+    this.banned = this.configService.getBanned();
+    this.opbyip = this.configService.getOpByIp();
+    this.highscores = this.configService.getHighScores();
+    this.randomNames = this.configService.getBotNames();
+    this.skinshortcut = this.configService.getSkinShortCuts();
+    this.skin = this.configService.getSkins();
 
     // Gamemodes
     this.gameMode = Gamemode.get(this.config.serverGamemode);
@@ -47,7 +51,9 @@ module.exports = class GameServer {
     }
     return this.lastPlayerId++;
   };
-
+  getMode() {
+    return this.gameMode;
+  };
 
 
 };

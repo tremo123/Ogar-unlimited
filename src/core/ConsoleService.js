@@ -5,11 +5,36 @@ const EOL = require('os').EOL;
 module.exports = class ConsoleService {
   constructor(gameServer){
     this.gameServer = gameServer;
+    this.version = '0.0.0';
+    this.updateInterveral = 100;
+    this.isLiveConsole = false;
+    this.interveral = undefined;
+    this.hasTitleBeenWriten = false;
 
     // commands
     this.commands = Commands.list;
 
   }
+  start() {
+    console.log('Starting ConsoleService');
+    if (!this.hasTitleBeenWriten) {
+      this.writeTitle();
+      this.hasTitleBeenWriten = true;
+    }
+    this.interveral = setInterval(this.update.bind(this), this.updateInterveral);
+  }
+  stop() {
+    if (this.interveral) {
+      clearInterval(this.interveral);
+    }
+
+  }
+  update() {
+    if (this.isLiveConsole) {
+      this.liveConsole();
+    }
+  }
+  // todo this need a lot of work
   liveConsole() {
     if (this.gameServer.livestage == 0) {
       if (this.gameServer.liveticks > 80) {
@@ -161,7 +186,9 @@ module.exports = class ConsoleService {
 
   };
 
-  start(version) {
+
+
+  writeTitle() {
     // Start msg
     console.log("\u001B[33m                                        _ _       _              _ ");
     console.log("                                       | (_)     (_)_           | |");
@@ -173,7 +200,7 @@ module.exports = class ConsoleService {
 
     console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
     console.log("[Game] By The AJS development team\x1b[0m");
-    console.log("[Game] Server version is " + version);
+    console.log("[Game] Server version is " + this.version);
   }
 
   prompt(in_) {

@@ -27,7 +27,7 @@
     "name": "GameServer",
     "src": "src/GameServer.js",
     "dst": "./GameServer.js",
-    "hash": "25dcb7be35209e8c43e725f7c37a06eb"
+    "hash": "63de1f7642a39a9f26bc5267d55fc98e"
   },
   {
     "name": "PlayerTracker",
@@ -45,7 +45,7 @@
     "name": "gameserver",
     "src": "src/configs/gameserver.ini",
     "dst": "./configs/gameserver.ini",
-    "hash": "23b9cad9a2b5fe1f7234f34d43359f80"
+    "hash": "187ddb18eb5f55776b052a64dd381ace"
   },
   {
     "name": "packet:AddNode",
