@@ -20,6 +20,7 @@ var ConfigService = require('./core/ConfigService.js');
 var ConsoleService = require('./core/ConsoleService.js');
 var GeneratorService = require('./core/GeneratorService.js');
 var NewGameServer = require('./core/GameServer.js');
+var StatServer = require('./core/StatServer.js');
 
 var utilities = require('./core/utilities.js');
 
@@ -160,6 +161,7 @@ function GameServer() {
   // Services
   this.consoleService = new ConsoleService(this);
   this.generatorService = new GeneratorService(this);
+  this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 
   // Services config
   this.consoleService.isLiveConsole = this.config.liveConsole === 1;
@@ -168,6 +170,26 @@ function GameServer() {
 
 module.exports = GameServer;
 
+// start refactored functions
+GameServer.prototype.getMode = newGameServer.getMode;
+GameServer.prototype.getNextNodeId = newGameServer.getNextNodeId;
+GameServer.prototype.execommand = newGameServer.execCommand;
+GameServer.prototype.getNewPlayerID = newGameServer.getNewPlayerID;
+GameServer.prototype.getRandomPosition = newGameServer.getRandomPosition;
+GameServer.prototype.getRandomSpawn = newGameServer.getRandomSpawn;
+GameServer.prototype.addNode = newGameServer.addNode;
+GameServer.prototype.removeNode = newGameServer.removeNode;
+GameServer.prototype.getRandomColor = newGameServer.getRandomColor;
+GameServer.prototype.getDist = newGameServer.getDist;
+// end refactored functions
+
+// start refactoring functions
+
+// duplicated in core/GameServer.js
+GameServer.prototype.setAsMovingNode = function (node) {
+  this.movingNodes.push(node);
+};
+// end refactoring functions
 
 GameServer.prototype.start = function () {
   // console service
@@ -418,10 +440,8 @@ GameServer.prototype.start = function () {
     this.clients.push(ws);
   }
 
-  this.startStatsServer(this.config.serverStatsPort);
+  this.statServer.start();
 };
-GameServer.prototype.getMode = newGameServer.getMode;
-GameServer.prototype.getNextNodeId = newGameServer.getNextNodeId;
 
 // todo what is this? This is an example of a poorly named function
 GameServer.prototype.dfr = function (path) {
@@ -452,12 +472,7 @@ GameServer.prototype.dfr = function (path) {
 
 
 };
-GameServer.prototype.execommand = newGameServer.execCommand;
-GameServer.prototype.getNewPlayerID = newGameServer.getNewPlayerID;
 
-GameServer.prototype.getRandomPosition = function() {
-  return utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
-};
 // todo masterServer
 GameServer.prototype.masterServer = function () {
   var request = require('request');
@@ -570,7 +585,7 @@ GameServer.prototype.masterServer = function () {
 
   }, 240000);
 };
-GameServer.prototype.getRandomSpawn = newGameServer.getRandomSpawn;
+
 // todo dead function?
 GameServer.prototype.upextra = function (sp) {
   if (!sp) {
@@ -603,11 +618,6 @@ GameServer.prototype.upextra = function (sp) {
 
 
 };
-GameServer.prototype.getRandomColor = utilities.getRandomColor;
-
-GameServer.prototype.addNode = newGameServer.addNode;
-
-GameServer.prototype.removeNode = newGameServer.removeNode;
 
 GameServer.prototype.cellTick = function () {
   // Move cells
@@ -960,8 +970,6 @@ GameServer.prototype.spawnPlayer = function (player, pos, mass) {
   }
 };
 
-GameServer.prototype.getDist = utilities.getDist;
-
 GameServer.prototype.updateMoveEngine = function () {
   // Move player cells
   var len = this.nodesPlayer.length;
@@ -1053,9 +1061,6 @@ GameServer.prototype.updateMoveEngine = function () {
   }
 };
 
-GameServer.prototype.setAsMovingNode = function (node) {
-  this.movingNodes.push(node);
-};
 
 GameServer.prototype.splitCells = function (client) {
   if (client.frozen || (!client.verify && this.config.verify == 1)) {
@@ -1659,50 +1664,6 @@ GameServer.prototype.switchSpectator = function (player) {
       player.spectatedPlayer = oldPlayer;
     }
   }
-};
-
-// Stats server
-
-// todo make a service or seperate server?
-GameServer.prototype.startStatsServer = function (port) {
-  // Do not start the server if the port is negative
-  if (port < 1) {
-    return;
-  }
-
-  // Create stats
-  this.stats = "Test";
-  this.getStats();
-
-  // Show stats
-  this.httpServer = http.createServer(function (req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.writeHead(200);
-    res.end(this.stats);
-  }.bind(this));
-
-  this.httpServer.listen(port, function () {
-    // Stats server
-    console.log("[Game] Loaded stats server on port " + port);
-    setInterval(this.getStats.bind(this), this.config.serverStatsUpdate * 1000);
-  }.bind(this));
-};
-
-GameServer.prototype.getStats = function () {
-  var players = 0;
-  this.clients.forEach(function (client) {
-    if (client.playerTracker && client.playerTracker.cells.length > 0)
-      players++
-  });
-  var s = {
-    'current_players': this.clients.length,
-    'alive': players,
-    'spectators': this.clients.length - players,
-    'max_players': this.config.serverMaxConnections,
-    'gamemode': this.gameMode.name,
-    'start_time': this.startTime
-  };
-  this.stats = JSON.stringify(s);
 };
 
 // Custom prototype functions

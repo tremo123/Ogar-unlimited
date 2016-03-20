@@ -3,6 +3,7 @@ const ConfigService = require('./ConfigService.js');
 const Gamemode = require('../gamemodes');
 const GeneratorService = require('./GeneratorService.js');
 const Packet = require('../packet');
+const utilities = require('./utilities.js');
 
 
 module.exports = class GameServer {
@@ -14,6 +15,7 @@ module.exports = class GameServer {
     this.nodes = [];
     this.clients = [];
     this.currentFood = 0;
+    this.movingNodes = [];
 
     // services
     this.consoleService = consoleService;
@@ -147,4 +149,16 @@ module.exports = class GameServer {
 
     return pos;
   }
+  getRandomPosition() {
+    return utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+  }
+  getRandomColor() {
+    return utilities.getRandomColor();
+  }
+  getDist(x1, y1, x2, y2){
+    return utilities.getDist(x1, y1, x2, y2);
+  }
+  setAsMovingNode(node) {
+    this.movingNodes.push(node);
+  };
 };
