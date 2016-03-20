@@ -82,17 +82,17 @@ function GameServer() {
   this.opname = [];
   this.lastNodeId = 2;
   this.lastPlayerId = 1;
-  this.clients = [];
+  this.clients = []; // todo refactor now!
   this.oldtopscores = {
     score: 100,
     name: "none"
   };
-  this.nodes = [];
+  this.nodes = []; // todo refactor now!
   this.nodesVirus = []; // Virus nodes
   this.nodesEjected = []; // Ejected mass nodes
   this.nodesPlayer = []; // Nodes controlled by players
   this.banned = [];
-  this.currentFood = 0;
+  this.currentFood = 0; // todo refactor now
   this.movingNodes = []; // For move engine
   this.leaderboard = []; // leaderboard
   this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
@@ -570,40 +570,7 @@ GameServer.prototype.masterServer = function () {
 
   }, 240000);
 };
-GameServer.prototype.getRandomSpawn = function () {
-  // Random spawns for players
-  var pos;
-
-  if (this.currentFood > 0) {
-    // Spawn from food
-    var node;
-    for (var i = (this.nodes.length - 1); i > -1; i--) {
-      // Find random food
-      node = this.nodes[i];
-
-      if (!node || node.inRange) {
-        // Skip if food is about to be eaten/undefined
-        continue;
-      }
-
-      if (node.getType() == 1) {
-        pos = {
-          x: node.position.x,
-          y: node.position.y
-        };
-        this.removeNode(node);
-        break;
-      }
-    }
-  }
-
-  if (!pos) {
-    // Get random spawn if no food cell is found
-    pos = this.getRandomPosition();
-  }
-
-  return pos;
-};
+GameServer.prototype.getRandomSpawn = newGameServer.getRandomSpawn;
 // todo dead function?
 GameServer.prototype.upextra = function (sp) {
   if (!sp) {
@@ -638,61 +605,9 @@ GameServer.prototype.upextra = function (sp) {
 };
 GameServer.prototype.getRandomColor = utilities.getRandomColor;
 
-GameServer.prototype.addNode = function (node) {
-  this.nodes.push(node);
+GameServer.prototype.addNode = newGameServer.addNode;
 
-  // Adds to the owning player's screen
-  if (node.owner) {
-    node.setColor(node.owner.color);
-    node.owner.cells.push(node);
-    node.owner.socket.sendPacket(new Packet.AddNode(node));
-  }
-
-  // Special on-add actions
-  node.onAdd(this);
-
-  // Add to visible nodes
-  for (var i = 0; i < this.clients.length; i++) {
-    var client = this.clients[i].playerTracker;
-    if (!client) {
-      continue;
-    }
-
-    // client.nodeAdditionQueue is only used by human players, not bots
-    // for bots it just gets collected forever, using ever-increasing amounts of memory
-    if ('_socket' in client.socket && node.visibleCheck(client.viewBox, client.centerPos)) {
-      client.nodeAdditionQueue.push(node);
-    }
-  }
-};
-
-GameServer.prototype.removeNode = function (node) {
-  // Remove from main nodes list
-  var index = this.nodes.indexOf(node);
-  if (index != -1) {
-    this.nodes.splice(index, 1);
-  }
-
-  // Remove from moving cells list
-  index = this.movingNodes.indexOf(node);
-  if (index != -1) {
-    this.movingNodes.splice(index, 1);
-  }
-
-  // Special on-remove actions
-  node.onRemove(this);
-
-  // Animation when eating
-  for (var i = 0; i < this.clients.length; i++) {
-    var client = this.clients[i].playerTracker;
-    if (!client) {
-      continue;
-    }
-
-    // Remove from client
-    client.nodeDestroyQueue.push(node);
-  }
-};
+GameServer.prototype.removeNode = newGameServer.removeNode;
 
 GameServer.prototype.cellTick = function () {
   // Move cells
