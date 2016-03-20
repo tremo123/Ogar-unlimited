@@ -145,25 +145,32 @@ module.exports = class ConfigService {
     this.loadBotNames();
     this.loadCustomSkin();
   }
+
   getConfig() {
     return this.config;
   }
-  getBanned(){
+
+  getBanned() {
     return this.banned;
   }
-  getOpByIp(){
+
+  getOpByIp() {
     return this.opByIp;
   }
+
   getHighScores() {
     return this.highScores;
   }
-  getBotNames(){
+
+  getBotNames() {
     return this.botNames;
   }
-  getSkinShortCuts(){
+
+  getSkinShortCuts() {
     return this.skinShortCuts;
   }
-  getSkins(){
+
+  getSkins() {
     return this.skins;
   }
 
@@ -178,14 +185,14 @@ module.exports = class ConfigService {
     }
     console.log('Loading Config Files...');
     let configFiles = glob.sync("./configs/*.ini");
-    if (configFiles === []){
+    if (configFiles === []) {
       console.log("[Game] No config files found, generating: src/config/gameserver.ini");
 
       // Create a new config
       fs.writeFileSync('./config/gameserver.ini', ini.stringify(this.config));
     }
 
-    configFiles.forEach((file)=>{
+    configFiles.forEach((file)=> {
       try {
         console.log('Loading ' + file);
         // Load the contents of the config file
@@ -199,8 +206,6 @@ module.exports = class ConfigService {
       }
     });
 
-
-
     try {
       var override = ini.parse(fs.readFileSync('./configs/override.ini', 'utf-8'));
       for (var o in override) {
@@ -212,6 +217,7 @@ module.exports = class ConfigService {
 
     }
   }
+
   loadBanned() {
     try {
       this.banned = fs.readFileSync("./banned.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
@@ -223,6 +229,7 @@ module.exports = class ConfigService {
       fs.writeFileSync('./banned.txt', '');
     }
   }
+
   loadOpByIp() {
     try {
       this.opByIp = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
@@ -233,6 +240,7 @@ module.exports = class ConfigService {
       fs.writeFileSync('./opbyip.txt', '');
     }
   }
+
   loadHighScores() {
     try {
       this.highScores = fs.readFileSync('./highscores.txt', 'utf-8');
@@ -243,6 +251,7 @@ module.exports = class ConfigService {
       fs.writeFileSync('./highscores.txt', '');
     }
   }
+
   loadBotNames() {
     try {
       // Read and parse the names - filter out whitespace-only names
@@ -255,7 +264,7 @@ module.exports = class ConfigService {
   }
 
   // todo this needs maintenance
-  loadCustomSkin(){
+  loadCustomSkin() {
     try {
       if (!fs.existsSync('customskins.txt')) {
         console.log("[Console] Generating customskin.txt...");
