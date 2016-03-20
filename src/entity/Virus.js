@@ -179,7 +179,7 @@ Virus.prototype.onConsume = function(consumer, gameServer) {
                 var speed = 0;
                 speed = (.000005) * (splitMass * splitMass) + (0.035) * splitMass + 160;
                 consumer.mass -= bigSplits[k];
- +        gameServer.newCellVirused(client, consumer, angle, bigSplits[k], speed);
+       gameServer.newCellVirused(client, consumer, angle, bigSplits[k], speed);
 
             }
         }
