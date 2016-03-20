@@ -39,7 +39,5 @@ src/.settings/org.eclipse.wst.jsdt.ui.superType.name
 #generated files
 highscores.txt
 banned.txt
-gameserver.ini
 opbyip.txt
-src/highscores.txt
 filesTemp.json

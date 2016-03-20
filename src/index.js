@@ -25,12 +25,13 @@ process.argv.forEach(function (val) {
   }
 });
 
-// Run Ogar
-
-gameServer.start(Version);
-
 // Add command handler
 gameServer.commands = consoleService.commands.list;
+
+
+// Run Ogar
+gameServer.start(Version);
+
 
 // Initialize the server console
 if (showConsole) {

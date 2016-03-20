@@ -1,6 +1,7 @@
 'use strict';
-var fs = require("fs");
-var ini = require('../modules/ini.js');
+const fs = require("fs");
+const ini = require('../modules/ini.js');
+const glob = require('glob');
 
 module.exports = class ConfigService {
   constructor() {
@@ -169,35 +170,45 @@ module.exports = class ConfigService {
   loadConfig() {
     try {
       var test = fs.readFileSync('./files.json', 'utf-8');
-     
+
     } catch (err) {
       console.log("[Game] files.json not found... Generating new files.json");
+      // todo we need a real generator function for this, it shouldn't be an empty file
       fs.writeFileSync('./files.json', '');
     }
-    try {
-      console.log('Loading gameserver.ini');
-      // Load the contents of the config file
-      var load = ini.parse(fs.readFileSync('./gameserver.ini', 'utf-8'));
-      // Replace all the default config's values with the loaded config's values
-      for (var obj in load) {
-        this.config[obj] = load[obj];
-      }
-    } catch (err) {
-      // No config
-      console.log("[Game] Config not found... Generating new config");
+    console.log('Loading Config Files...');
+    let configFiles = glob.sync("./configs/*.ini");
+    if (configFiles === []){
+      console.log("[Game] No config files found, generating: src/config/gameserver.ini");
 
       // Create a new config
-      fs.writeFileSync('./gameserver.ini', ini.stringify(this.config));
+      fs.writeFileSync('./config/gameserver.ini', ini.stringify(this.config));
     }
 
+    configFiles.forEach((file)=>{
+      try {
+        console.log('Loading ' + file);
+        // Load the contents of the config file
+        let load = ini.parse(fs.readFileSync(file, 'utf-8'));
+        // Replace all the default config's values with the loaded config's values
+        for (let obj in load) {
+          this.config[obj] = load[obj];
+        }
+      } catch (err) {
+        console.warn("[Game] Error while loading: " + file + " error: " + err);
+      }
+    });
+
+
+
     try {
-      var override = ini.parse(fs.readFileSync('./override.ini', 'utf-8'));
+      var override = ini.parse(fs.readFileSync('./configs/override.ini', 'utf-8'));
       for (var o in override) {
         this.config[o] = override[o];
       }
     } catch (err) {
       console.log("[Game] Override not found... Generating new override");
-      fs.writeFileSync('./override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
+      fs.writeFileSync('./configs/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
 
     }
   }
