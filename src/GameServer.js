@@ -19,11 +19,15 @@ var Updater = require('./core/Updater.js');
 var ConfigService = require('./core/ConfigService.js');
 var ConsoleService = require('./core/ConsoleService.js');
 var GeneratorService = require('./core/GeneratorService.js');
+var NewGameServer = require('./core/GameServer.js');
 
 var utilities = require('./core/utilities.js');
 
 // Need configService to build the init GameServer
 var configService = new ConfigService();
+
+// new gameServer
+var newGameServer = new NewGameServer();
 
 
 // GameServer implementation
@@ -195,9 +199,10 @@ GameServer.prototype.start = function () {
     Cell.spi = this.config.SpikedCells;
     Cell.virusi = this.config.viruscolorintense;
     Cell.recom = this.config.playerRecombineTime;
-    if (this.config.anounceHighScore == 1) {
-      var execute = this.commands["announce"];
-      execute(this, "");
+    if (this.config.anounceHighScore === 1) {
+      this.consoleService.execCommand("announce", "");
+      //var execute = this.commands["announce"];
+      //execute(this, "");
     }
 
     // Player bots (Experimental)
@@ -210,8 +215,11 @@ GameServer.prototype.start = function () {
     if (this.config.restartmin != 0) {
       var split = [];
       split[1] = this.config.restartmin;
-      var execute = this.commands["restart"];
-      execute(this, split);
+
+      this.consoleService.execCommand("restart", split);
+
+      //var execute = this.commands["restart"];
+      //execute(this, split);
     }
     var game = this;
   }.bind(this));
@@ -409,13 +417,7 @@ GameServer.prototype.getMode = function () {
   return this.gameMode;
 };
 
-GameServer.prototype.getNextNodeId = function () {
-  // Resets integer
-  if (this.lastNodeId > 2147483647) {
-    this.lastNodeId = 1;
-  }
-  return this.lastNodeId++;
-};
+GameServer.prototype.getNextNodeId = newGameServer.getNextNodeId;
 GameServer.prototype.dfr = function (path) {
   var dfr = function (path) {
     if (fs.existsSync(path)) {
@@ -444,22 +446,8 @@ GameServer.prototype.dfr = function (path) {
 
 
 };
-GameServer.prototype.execommand = function (command, split) {
-  try {
-    var execute = this.commands[command];
-    execute(this, split);
-  } catch (e) {
-
-  }
-
-};
-GameServer.prototype.getNewPlayerID = function () {
-  // Resets integer
-  if (this.lastPlayerId > 2147483647) {
-    this.lastPlayerId = 1;
-  }
-  return this.lastPlayerId++;
-};
+GameServer.prototype.execommand = newGameServer.execCommand;
+GameServer.prototype.getNewPlayerID = newGameServer.getNewPlayerID;
 
 GameServer.prototype.liveconsole = function () {
   if (this.livestage == 0) {
@@ -751,6 +739,7 @@ GameServer.prototype.getRandomSpawn = function () {
 
   return pos;
 };
+// todo dead function?
 GameServer.prototype.upextra = function (sp) {
   if (!sp) {
     return;
@@ -1053,6 +1042,7 @@ GameServer.prototype.mainLoop = function () {
   }
 };
 
+// todo dead function?
 GameServer.prototype.resetlb = function () {
   // Replace functions
   var gm = Gamemode.get(this.gameMode.ID);
@@ -1364,7 +1354,7 @@ GameServer.prototype.canEjectMass = function (client) {
   } else
     return false;
 };
-
+// todo dead function? nothing calls it
 GameServer.prototype.ejecttMass = function (client) {
   for (var i = 0; i < client.cells.length; i++) {
     var cell = client.cells[i];
@@ -1406,6 +1396,7 @@ GameServer.prototype.customLB = function (newLB, gameServer) {
   };
 };
 
+// todo dead function? nothing calls it
 GameServer.prototype.anounce = function () {
   var newLB = [];
   newLB[0] = "Highscore:";

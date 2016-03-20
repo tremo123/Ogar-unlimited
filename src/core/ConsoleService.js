@@ -1,9 +1,13 @@
 'use strict';
-var EOL = require('os').EOL;
+const Commands = require('../modules/CommandList');
+const EOL = require('os').EOL;
 
 module.exports = class ConsoleService {
   constructor(gameServer){
     this.gameServer = gameServer;
+
+    // commands
+    this.commands = Commands.list;
 
   }
   liveConsole() {
@@ -145,6 +149,69 @@ module.exports = class ConsoleService {
       process.stdout.write("\x1b[2m\r");
     }
     this.gameServer.liveticks++;
+  }
+
+  execCommand(command, args) {
+    try {
+      var execute = this.commands[command];
+      execute(this, args);
+    } catch (e) {
+      console.warn('[ConsoleService] Failed to run command: ' + command + " args: " + args);
+    }
+
+  };
+
+  start(version) {
+    // Start msg
+    console.log("\u001B[33m                                        _ _       _              _ ");
+    console.log("                                       | (_)     (_)_           | |");
+    console.log("  ___   ____  ____  ____    _   _ ____ | |_ ____  _| |_  ____ _ | |");
+    console.log(" / _ \\ / _  |/ _  |/ ___)  | | | |  _ \\| | |    \\| |  _)/ _  ) || |");
+    console.log("| |_| ( ( | ( ( | | |      | |_| | | | | | | | | | | |_( (/ ( (_| |");
+    console.log(" \\___/ \\_|| |\\_||_|_|       \\____|_| |_|_|_|_|_|_|_|\\___)____)____|");
+    console.log("      (_____|                                                      \u001B[0m");
+
+    console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
+    console.log("[Game] By The AJS development team\x1b[0m");
+    console.log("[Game] Server version is " + version);
+  }
+
+  prompt(in_) {
+    let self = this;
+    return function () {
+      in_.question(">", function (str) {
+        try {
+          self.parseCommands(str);
+        } catch (err) {
+          // todo do something :D
+        }
+        // todo fix this
+        return self.prompt(in_)(); // Too lazy to learn async
+      });
+    };
+  }
+
+  parseCommands(str) {
+    // Log the string
+    this.gameServer.log.onCommand(str);
+
+    // Don't process ENTER
+    if (str === '')
+      return;
+
+    // Splits the string
+    var split = str.split(" ");
+
+    // Process the first string value
+    var first = split[0].toLowerCase();
+
+    // Get command function
+    var execute = this.commands[first];
+    if (typeof execute !== 'undefined') {
+      execute(this.gameServer, split);
+    } else {
+      console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+    }
   }
 
 };
