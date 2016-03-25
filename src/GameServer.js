@@ -1809,15 +1809,15 @@ GameServer.prototype.ejectMass = function(client) {
             for (var i = 0; i < client.cells.length; i++) {
                 var cell = client.cells[i];
                 if (!cell) {
-                    return;
+                    continue;
                 }
                 if (this.config.ejectvirus != 1) {
                     if (cell.mass < this.config.playerMinMassEject) {
-                        return;
+                        continue;
                     }
                 } else {
                     if (cell.mass < this.config.playerminviruseject) {
-                        return;
+                        continue;
                     }
 
                 }
