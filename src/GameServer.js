@@ -1885,7 +1885,7 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
     };
 
     // Create cell
-    var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass, this);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.restoreCollisionTicks = 25;
