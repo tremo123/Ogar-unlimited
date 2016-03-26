@@ -284,9 +284,9 @@ function GameServer() {
         serverLogLevel: 1, // Logging level of the server. 0 = No logs, 1 = Logs the console, 2 = Logs console and ip connections
         serverScrambleCoords: 1, // Toggles scrambling of coordinates. 0 = No scrambling, 1 = scrambling. Default is 1.
         borderLeft: 0, // Left border of map (Vanilla value: 0)
-        borderRight: 6000, // Right border of map (Vanilla value: 11180.3398875)
+        borderRight: 6000, // Right border of map (Vanilla value: 14142.135623730952)
         borderTop: 0, // Top border of map (Vanilla value: 0)
-        borderBottom: 6000, // Bottom border of map (Vanilla value: 11180.3398875)
+        borderBottom: 6000, // Bottom border of map (Vanilla value: 14142.135623730952)
         liveConsole: 0, // Easiest way to get stats (1 to enable)
         anounceHighScore: 0, // Announces highscore (1 to enable)
         spawnInterval: 20, // The interval between each food cell spawn in ticks (1 tick = 50 ms)
