@@ -3,11 +3,10 @@ var PlayerTracker = require('../core/PlayerTracker.js');
 
 module.exports = class BotPlayer extends PlayerTracker {
 
-  constructor(gameServer) {
-    super(gameServer);
+  constructor(gameServer, socket) {
+    super(gameServer, socket);
     //PlayerTracker.apply(this, Array.prototype.slice.call(arguments));
     this.color = gameServer.getRandomColor();
-
     // AI only
     this.gameState = 0;
     this.path = [];
@@ -44,7 +43,7 @@ module.exports = class BotPlayer extends PlayerTracker {
 
     // Starting cell
     var lowest = this.cells[0];
-    for (i = 1; i < this.cells.length; i++) {
+    for (let i = 1; i < this.cells.length; i++) {
       if (lowest.mass > this.cells[i].mass) {
         lowest = this.cells[i];
       }
