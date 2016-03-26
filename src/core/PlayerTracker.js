@@ -10,11 +10,6 @@ var fs = require("fs");
 
 module.exports = class PlayerTracker {
   constructor(gameServer, socket, owner) {
-    if (socket) {
-      console.log('PlayerTracker: ', socket.remoteAddress)
-      console.log(socket.remoteAddress)
-      console.log(socket._socket.remoteAddress)
-    }
     this.pID = -1;
     this.disconnect = -1; // Disconnection
     this.name = "";
