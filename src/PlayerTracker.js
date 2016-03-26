@@ -8,6 +8,7 @@ function PlayerTracker(gameServer, socket, owner) {
     this.name = "";
     this.gameServer = gameServer;
     this.socket = socket;
+    this.visible = true;
     this.blind = false;
     this.rainbowon = false;
     this.mergeOverrideDuration = 0;
