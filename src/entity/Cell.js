@@ -28,6 +28,10 @@ module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 
+Cell.prototype.getId = function () {
+  return this.nodeId;
+};
+
 Cell.prototype.getName = function () {
   if (this.owner) {
     return this.owner.name;
