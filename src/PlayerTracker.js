@@ -324,7 +324,7 @@ PlayerTracker.prototype.update = function() {
                 // Add nodes to client's screen if client has not seen it already
                 for (var i = 0; i < newVisible.length; i++) {
                     var index = this.visibleNodes.indexOf(newVisible[i]);
-                    if (index == -1 && newVisible[i].getVis() && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
+                    if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
 
                         updateNodes.push(newVisible[i]);
                     }
@@ -340,7 +340,7 @@ PlayerTracker.prototype.update = function() {
         // Add nodes to screen
         for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
             var node = this.nodeAdditionQueue[i];
-            if ((!this.blind || (node.owner == this || node.cellType != 0)) && node.getVis()) {
+            if ((!this.blind || (node.owner == this || node.cellType != 0)) && (node.getVis() || node.owner == this)) {
                 this.visibleNodes.push(node);
                 updateNodes.push(node);
             }
@@ -350,7 +350,7 @@ PlayerTracker.prototype.update = function() {
     // Update moving nodes
     for (var i = 0; i < this.visibleNodes.length; i++) {
         var node = this.visibleNodes[i];
-        if (node.sendUpdate() && node.getVis() && (!this.blind || (node.owner == this || node.cellType != 0))) {
+        if (node.sendUpdate() && (node.getVis() || node.owner == this) && (!this.blind || (node.owner == this || node.cellType != 0))) {
             // Sends an update if cell is moving
             updateNodes.push(node);
         }
