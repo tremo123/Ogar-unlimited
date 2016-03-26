@@ -3,9 +3,9 @@ const Commands = require('../modules/CommandList');
 const EOL = require('os').EOL;
 
 module.exports = class ConsoleService {
-  constructor(gameServer){
+  constructor(gameServer, version){
     this.gameServer = gameServer;
-    this.version = '0.0.0';
+    this.version = version;
     this.updateInterveral = 100;
     this.isLiveConsole = false;
     this.interveral = undefined;
