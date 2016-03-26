@@ -1885,16 +1885,16 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
     };
 
     // Create cell
-    var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass, this);
-    newCell.setAngle(angle);
-    newCell.setMoveEngineData(speed, 15);
-    newCell.restoreCollisionTicks = 25;
-    newCell.calcMergeTime(this.config.playerRecombineTime);
-    newCell.ignoreCollision = true; // Remove collision checks
-    newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
+    var AT = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass, this);
+    AT.setAngle(angle);
+    AT.setMoveEngineData(speed, 15);
+    AT.restoreCollisionTicks = 25;
+    AT.calcMergeTime(this.config.playerRecombineTime);
+    AT.ignoreCollision = true; // Remove collision checks
+    AT.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
-    this.addNode(newCell);
-    this.setAsMovingNode(newCell);
+    this.addNode(AT);
+    this.setAsMovingNode(AT);
 };
 
 GameServer.prototype.newCellVirused = function(client, parent, angle, mass, speed) {
