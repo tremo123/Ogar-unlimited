@@ -31,7 +31,7 @@ module.exports = Cell;
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 
 Cell.prototype.getName = function() {
-    if (this.owner) {
+    if (this.owner && !this.name) {
         return this.owner.name;
     } else {
         return this.name;
