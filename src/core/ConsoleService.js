@@ -210,7 +210,8 @@ module.exports = class ConsoleService {
         try {
           self.parseCommands(str);
         } catch (err) {
-          // todo do something :D
+          console.error("[Console] command: ", str, " failed with error!");
+          console.error("[Console] error: ", err);
         }
         // todo fix this
         return self.prompt(in_)(); // Too lazy to learn async
