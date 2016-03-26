@@ -33,6 +33,8 @@ module.exports = Cell;
 Cell.prototype.getVis = function() {
     if (this.owner) {
         return this.owner.visible;
+    } else if (this.cellType == 2 && this.par) {
+        return this.par.visible;
     } else {
         return this.visible;
     }
