@@ -16,7 +16,6 @@ var MinionLoader = require('../ai/MinionLoader');
 
 // services
 const Logger = require('../modules/log');
-const Updater = require('./Updater.js');
 const StatServer = require('./StatServer.js');
 const GeneratorService = require('./GeneratorService.js');
 const ConfigService = require('./ConfigService.js');
@@ -61,7 +60,6 @@ module.exports = class GameServer {
     this.consoleService = consoleService;
     this.generatorService = new GeneratorService(this);
     this.log = new Logger();
-    this.updater = new Updater(this);
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 
     // Gamemodes
@@ -176,19 +174,17 @@ module.exports = class GameServer {
     // @formatter:on
   }
 
+  // init should only ever be called once.
   init() {
 
   }
 
   start(version) {
     // console service
-    this.consoleService.start(version);
+    this.consoleService.start();
 
     // Logging
     this.log.setup(this);
-
-    // updater
-    this.updater.init();
 
     this.ipcounts = [];
     // Gamemode configurations

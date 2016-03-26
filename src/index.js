@@ -1,8 +1,10 @@
 // Imports
 'use strict';
+const Readline = require('readline');
 const GameServer = require('./core/GameServer');
 const ConsoleService = require('./core/ConsoleService.js');
-const Readline = require('readline');
+const Updater = require('./core/Updater.js');
+let updater = new Updater(this);
 
 const VERSION = '11.8.5';
 let gameServer = new GameServer();
@@ -31,8 +33,11 @@ process.argv.forEach(function (val) {
 // todo breaking encapsulation
 gameServer.commands = consoleService.commands.list;
 
+// Init updater
+updater.init();
+
 // Run Ogar
-gameServer.start(VERSION);
+gameServer.start();
 
 // Initialize the server console
 if (showConsole) {
