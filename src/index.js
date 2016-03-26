@@ -59,6 +59,7 @@ function prompt() {
 
 function parseCommands(str) {
   // Log the string
+  try {
   gameServer.log.onCommand(str);
 
   // Don't process ENTER
@@ -77,5 +78,10 @@ function parseCommands(str) {
     execute(gameServer, split);
   } else {
     console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+  }
+  } catch (e) {
+    console.log("[ERROR] Oh my, there seems to be an error with the command " + first);
+    console.log("[ERROR] Please alert AJS dev with this message:\n" + e);
+    
   }
 }
