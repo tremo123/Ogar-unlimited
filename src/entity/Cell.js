@@ -11,6 +11,7 @@ function Cell(nodeId, owner, position, mass, gameServer) {
         b: 0
     };
     this.position = position;
+    this.name;
     this.mass = mass; // Starting mass of the cell
     this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
     this.spiked = Cell.spi; // If 1, then this cell has spikes around it
@@ -30,11 +31,19 @@ module.exports = Cell;
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 
 Cell.prototype.getName = function() {
-    if (this.owner) {
+    if (this.owner && !this.name) {
         return this.owner.name;
     } else {
-        return "";
+        return this.name;
     }
+};
+Cell.prototype.setName = function(name, so) {
+    if (so && this.owner) {
+        this.owner.name = name;
+    } else {
+        this.name = name;
+    }
+    return true;
 };
 Cell.prototype.getPremium = function() {
     if (this.owner) {
