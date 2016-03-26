@@ -1845,7 +1845,7 @@ Commands.list = {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-
+var valid = false;
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
@@ -1857,11 +1857,13 @@ Commands.list = {
                 } else {
                     console.log("[Console] Unhid player " + client.name + " (" + id + ")");
                 }
-
+                valid = true;
                 break;
             }
         }
-
+if (!valid) {
+  console.log("[Console] Please specify a valid player ID!, " + id + " Is not a player, Use playerlist to see all players");
+}
     },
     
     
@@ -1871,7 +1873,7 @@ Commands.list = {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-
+var valid = false;
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
@@ -1883,10 +1885,14 @@ Commands.list = {
                 } else {
                     console.log("[Console] Unblinded player " + client.name + " (" + id + ")");
                 }
+                valid = true;
 
                 break;
             }
         }
+        if (!valid) {
+  console.log("[Console] Please specify a valid player ID!, " + id + " Is not a player, Use playerlist to see all players");
+}
 
     },
     freeze: function(gameServer, split) {
@@ -1895,7 +1901,7 @@ Commands.list = {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-
+var valid = false;
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
@@ -1907,10 +1913,13 @@ Commands.list = {
                 } else {
                     console.log("[Console] Unfroze player " + client.name + " (" + id + ")");
                 }
-
+var valid = true;
                 break;
             }
         }
+        if (!valid) {
+  console.log("[Console] Please specify a valid player ID!, " + id + " Is not a player, Use playerlist to see all players");
+}
 
     },
     spawnmass: function(gameServer, split) {
@@ -1924,16 +1933,20 @@ Commands.list = {
             console.log("[Console] Please specify a valid mass!");
             return;
         }
-
+var valid = false;
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
 
                 client.spawnmass = mass;
-
+console.log("[Console] Player " + client.name + " (" + id + ") now spawns with " + mass + " Mass");
+valid = true;
+break;
             }
         }
-        console.log("[Console] Player " + client.name + " (" + id + ") now spawns with " + mass + " Mass");
+        if (!valid) {
+  console.log("[Console] Please specify a valid player ID!, " + id + " Is not a player, Use playerlist to see all players");
+}
     },
     speed: function(gameServer, split) {
         var id = parseInt(split[1]);
@@ -1946,16 +1959,20 @@ Commands.list = {
             console.log("[Console] Please specify a valid speed!");
             return;
         }
-
+var valid = false;
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
                 var client = gameServer.clients[i].playerTracker;
 
                 client.customspeed = speed;
-
+console.log("[Console] Player " + client.name + " (" + id + ")'s base speed is now " + speed);
+valid = true;
             }
         }
-        console.log("[Console] Player " + client.name + " (" + id + ")'s base speed is now " + speed);
+        if (!valid) {
+  console.log("[Console] Please specify a valid player ID!, " + id + " Is not a player, Use playerlist to see all players");
+}
+        
     },
     merge: function(gameServer, split) {
         // Validation checks
@@ -1964,7 +1981,7 @@ Commands.list = {
             console.log("[Console] Please specify a valid player ID!");
             return;
         }
-
+var valid = false
         // Sets merge time
         for (var i in gameServer.clients) {
             if (gameServer.clients[i].playerTracker.pID == id) {
@@ -1973,9 +1990,13 @@ Commands.list = {
                 client.recombineinstant = true;
 
                 console.log("[Console] Forced " + client.name + " (" + id + ") to merge cells");
+                valid = true;
                 break;
             }
         }
+        if (!valid) {
+  console.log("[Console] Please specify a valid player ID!, " + id + " Is not a player, Use playerlist to see all players");
+}
     },
     addbot: function(gameServer, split) {
         var add = parseInt(split[1]);
