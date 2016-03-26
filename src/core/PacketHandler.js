@@ -1,4 +1,4 @@
-var Packet = require('./packet');
+var Packet = require('./../packet/index');
 
 function PacketHandler(gameServer, socket) {
   this.gameServer = gameServer;

@@ -182,7 +182,7 @@ PlayerCell.prototype.onConsume = function (consumer, gameServer) {
 
 PlayerCell.prototype.onAdd = function (gameServer) {
   // Add to special player node list
-  gameServer.nodesPlayer.push(this);
+  gameServer.addNodesPlayer(this);
   // Gamemode actions
   gameServer.gameMode.onCellAdd(this);
 };
@@ -195,10 +195,8 @@ PlayerCell.prototype.onRemove = function (gameServer) {
     this.owner.cells.splice(index, 1);
   }
   // Remove from special player controlled node list
-  index = gameServer.nodesPlayer.indexOf(this);
-  if (index != -1) {
-    gameServer.nodesPlayer.splice(index, 1);
-  }
+  gameServer.removeNodesPlayer(this);
+
   // Gamemode actions
   gameServer.gameMode.onCellRemove(this);
 };

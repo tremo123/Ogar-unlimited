@@ -3,7 +3,7 @@
     "name": "package.json",
     "src": "package.json",
     "dst": "../package.json",
-    "hash": "bfc43eb0306bc9ca3697b9834db2b277"
+    "hash": "abc642a65e235e6f1c1e93d18cd29252"
   },
   {
     "name": "botnames",
@@ -27,7 +27,7 @@
     "name": "GameServer",
     "src": "src/GameServer.js",
     "dst": "./GameServer.js",
-    "hash": "56cdd1eb734c7f300504e02df31c7cdf"
+    "hash": "ae40790a19e532d3cf03fe45b9d6b7ba"
   },
   {
     "name": "PlayerTracker",
@@ -159,7 +159,7 @@
     "name": "entity:PlayerCell",
     "src": "src/entity/PlayerCell.js",
     "dst": "./entity/PlayerCell.js",
-    "hash": "9f2834d31c5ff1e00d6e7acb5f16bf78"
+    "hash": "d6caa430af7328a801ff10f3bfd77b7a"
   },
   {
     "name": "entity:StickyCell",
@@ -207,7 +207,7 @@
     "name": "gamemodes:FFA",
     "src": "src/gamemodes/FFA.js",
     "dst": "./gamemodes/FFA.js",
-    "hash": "90d7d10a4cde0e4d1f20b8d582fd3107"
+    "hash": "fa4f5069b73edfd9ef31feb5bd317d9a"
   },
   {
     "name": "gamemodes:HungerGames",

@@ -41,14 +41,16 @@ module.exports = class StatServer {
 
   update() {
     var players = 0;
-    this.gameServer.clients.forEach(function (client) {
+    let clients =  this.gameServer.getClients();
+    clients.forEach(function (client) {
       if (client.playerTracker && client.playerTracker.cells.length > 0)
         players++
     });
+
     var s = {
-      'current_players': this.gameServer.clients.length,
+      'current_players': clients.length,
       'alive': players,
-      'spectators': this.gameServer.clients.length - players,
+      'spectators': clients.length - players,
       'max_players': this.gameServer.config.serverMaxConnections,
       'gamemode': this.gameServer.gameMode.name,
       'start_time': this.gameServer.startTime

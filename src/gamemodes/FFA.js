@@ -81,12 +81,13 @@ FFA.prototype.onServerInit = function (gameServer) {
 FFA.prototype.updateLB = function (gameServer) {
   var lb = gameServer.leaderboard;
   // Loop through all clients
-  for (var i = 0; i < gameServer.clients.length; i++) {
-    if (typeof gameServer.clients[i] == "undefined") {
+  var clients = gameServer.getClients();
+  for (var i = 0; i < clients.length; i++) {
+    if (typeof clients[i] == "undefined") {
       continue;
     }
 
-    var player = gameServer.clients[i].playerTracker;
+    var player = clients[i].playerTracker;
     var playerScore = player.getScore(true);
     if (player.cells.length <= 0) {
       continue;

@@ -111,6 +111,7 @@ Experimental.prototype.onServerInit = function (gameServer) {
   };
 
   // Override this
+  // TODO CRITICAL VERY BAD
   gameServer.getRandomSpawn = gameServer.getRandomPosition;
 };
 
@@ -134,5 +135,7 @@ Experimental.prototype.onChange = function (gameServer) {
   }
   // Add back default functions
   Virus.prototype.feed = VirusFeed;
+
+  // TODO CRITICAL VERY BAD
   gameServer.getRandomSpawn = require('../GameServer').prototype.getRandomSpawn;
 };

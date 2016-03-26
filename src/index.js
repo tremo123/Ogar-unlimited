@@ -1,11 +1,15 @@
 // Imports
-var GameServer = require('./GameServer');
+'use strict';
+console.log('index')
+var GameServer = require('./core/GameServer');
 var ConsoleService = require('./core/ConsoleService.js');
 var request = require('request');
+
 
 var Version = '11.8.5';
 var gameServer = new GameServer();
 var consoleService = new ConsoleService(gameServer);
+gameServer.setConsoleService(consoleService);
 
 // Init variables
 var showConsole = true;

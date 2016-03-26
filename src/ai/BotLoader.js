@@ -1,7 +1,8 @@
+'use strict';
 // Project imports
 var BotPlayer = require('./BotPlayer');
 var FakeSocket = require('./FakeSocket');
-var PacketHandler = require('../PacketHandler');
+var PacketHandler = require('../core/PacketHandler');
 
 function BotLoader(gameServer) {
   this.gameServer = gameServer;

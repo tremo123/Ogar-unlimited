@@ -19,7 +19,7 @@ module.exports = class GeneratorService {
 
   }
 
-  update(dt) {
+  update() {
     let toSpawn = Math.min(this.config.foodSpawnAmount, (this.config.foodMaxAmount - this.gameServer.currentFood));
     for (let i = 0; i < toSpawn; i++) {
       this.spawnFood();
@@ -43,8 +43,9 @@ module.exports = class GeneratorService {
         var virusSquareSize = (this.config.virusStartMass * 100) >> 0;
 
         // Check for players
-        for (var i = 0; i < this.gameServer.nodesPlayer.length; i++) {
-          var check = this.gameServer.nodesPlayer[i];
+        let nodesPlayer = this.gameServer.getNodesPlayer();
+        for (var i = 0; i < nodesPlayer.length; i++) {
+          let check = nodesPlayer[i];
 
           if (check.mass < this.config.virusStartMass) {
             continue;

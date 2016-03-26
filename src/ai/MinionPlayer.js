@@ -1,4 +1,4 @@
-var PlayerTracker = require('../PlayerTracker');
+var PlayerTracker = require('../core/PlayerTracker');
 
 function MinionPlayer() {
   PlayerTracker.apply(this, Array.prototype.slice.call(arguments));
