@@ -1,18 +1,16 @@
 // Imports
 'use strict';
-console.log('index')
-var GameServer = require('./core/GameServer');
-var ConsoleService = require('./core/ConsoleService.js');
-var request = require('request');
+const GameServer = require('./core/GameServer');
+const ConsoleService = require('./core/ConsoleService.js');
+const Readline = require('readline');
 
-
-var Version = '11.8.5';
-var gameServer = new GameServer();
-var consoleService = new ConsoleService(gameServer);
+const VERSION = '11.8.5';
+let gameServer = new GameServer();
+let consoleService = new ConsoleService(gameServer, VERSION);
 gameServer.setConsoleService(consoleService);
 
 // Init variables
-var showConsole = true;
+let showConsole = true;
 
 // start the consoleService
 consoleService.start();
@@ -30,19 +28,17 @@ process.argv.forEach(function (val) {
 });
 
 // Add command handler
+// todo breaking encapsulation
 gameServer.commands = consoleService.commands.list;
 
-
 // Run Ogar
-gameServer.start(Version);
-
+gameServer.start(VERSION);
 
 // Initialize the server console
 if (showConsole) {
-  var readline = require('readline');
-  var in_ = readline.createInterface({
+  let streamsInterface = Readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(consoleService.prompt(in_), 100);
+  setTimeout(consoleService.prompt(streamsInterface), 100);
 }
