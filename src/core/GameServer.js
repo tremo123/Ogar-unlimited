@@ -880,6 +880,13 @@ module.exports = class GameServer {
     this.clients.push(client);
   }
 
+  removeClient(client){
+    var index = this.server.clients.indexOf(client);
+    if (index != -1) {
+      this.server.clients.splice(index, 1);
+    }
+  }
+
   getCurrentFood() {
     return this.currentFood;
   }
