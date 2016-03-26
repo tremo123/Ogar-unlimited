@@ -1600,11 +1600,11 @@ GameServer.prototype.splitCells = function(client) {
         var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
         split.setAngle(angle);
         // Polyfill for log10
-        Math.log10 = Math.log10 || function(x) {
+        /*Math.log10 = Math.log10 || function(x) {
             return Math.log(x) / Math.LN10;
-        };
-        var splitSpeed = this.config.splitSpeed * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
-        split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
+        };*/
+        var splitSpeed = this.config.splitSpeed; //* Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
+        split.setMoveEngineData(splitSpeed, 40, 0.85); //vanilla agar.io = 130, 32, 0.85
         split.calcMergeTime(this.config.playerRecombineTime);
         split.ignoreCollision = true;
         split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
@@ -1785,10 +1785,9 @@ GameServer.prototype.ejectMass = function(client) {
             else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
             ejected.setAngle(angle);
             if (this.config.ejectvirus == 1) {
-                ejected.setMoveEngineData(this.config.ejectvspeed, 20);
-
+                ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
             } else {
-                ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+                ejected.setMoveEngineData(this.config.ejectSpeed, 20, 0.85);
             }
             if (this.config.ejectvirus == 1) {
                 ejected.par = player;
@@ -1885,16 +1884,16 @@ GameServer.prototype.autoSplit = function(client, parent, angle, mass, speed) {
     };
 
     // Create cell
-    var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
-    newCell.setAngle(angle);
-    newCell.setMoveEngineData(speed, 15);
-    newCell.restoreCollisionTicks = 25;
-    newCell.calcMergeTime(this.config.playerRecombineTime);
-    newCell.ignoreCollision = true; // Remove collision checks
-    newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
+    var AT = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass, this);
+    AT.setAngle(angle);
+    AT.setMoveEngineData(speed, 15);
+    AT.restoreCollisionTicks = 25;
+    AT.calcMergeTime(this.config.playerRecombineTime);
+    AT.ignoreCollision = true; // Remove collision checks
+    AT.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
-    this.addNode(newCell);
-    this.setAsMovingNode(newCell);
+    this.addNode(AT);
+    this.setAsMovingNode(AT);
 };
 
 GameServer.prototype.newCellVirused = function(client, parent, angle, mass, speed) {
