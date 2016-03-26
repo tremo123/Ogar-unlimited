@@ -12,7 +12,7 @@ function Cell(nodeId, owner, position, mass, gameServer) {
     };
     this.position = position;
     this.visible = true;
-    this.name;
+    this.name = '';
     this.mass = mass; // Starting mass of the cell
     this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
     this.spiked = Cell.spi; // If 1, then this cell has spikes around it
