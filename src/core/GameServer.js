@@ -23,7 +23,8 @@ const ConfigService = require('./ConfigService.js');
 module.exports = class GameServer {
   constructor(world, consoleService) {
     // fields
-    this.lastNodeId = 2;    // todo why 2?
+    this.world = world;
+    //this.lastNodeId = 2;    // todo why 2?
     this.lastPlayerId = 1;
     this.running = true;
 
@@ -429,11 +430,7 @@ module.exports = class GameServer {
   }
 
   getNextNodeId() {
-    // Resets integer
-    if (this.lastNodeId > 2147483647) {
-      this.lastNodeId = 1;
-    }
-    return this.lastNodeId++;
+    return this.world.getNewNodeId();
   }
 
   getNewPlayerID() {
@@ -448,8 +445,13 @@ module.exports = class GameServer {
     return this.gameMode;
   }
 
-  addNode(node) {
+  addNode(node, type) {
+    this.world.setNode(node.getId(), node, type);
+
     this.nodes.push(node);
+    if (type === "moving"){
+      this.setAsMovingNode(node);
+    }
 
     // Adds to the owning player's screen
     if (node.owner) {
@@ -468,6 +470,7 @@ module.exports = class GameServer {
         continue;
       }
 
+      // todo memory leak?
       // client.nodeAdditionQueue is only used by human players, not bots
       // for bots it just gets collected forever, using ever-increasing amounts of memory
       if ('_socket' in client.socket && node.visibleCheck(client.viewBox, client.centerPos)) {
@@ -818,7 +821,7 @@ module.exports = class GameServer {
       // Spawn player and add to world
       if (!dospawn) {
         var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
-        this.addNode(cell);
+        this.addNode(cell, "player");
       }
 
       // Set initial mouse coords
@@ -1068,8 +1071,7 @@ module.exports = class GameServer {
     if (color) newVirus.color = color; else newVirus.color = owner.color;
 
     // Add to moving cells list
-    this.addNode(newVirus);
-    this.setAsMovingNode(newVirus);
+    this.addNode(newVirus, "moving");
   };
   ejectMass(client) {
     let name;
@@ -1197,8 +1199,7 @@ module.exports = class GameServer {
         }
 
 
-        this.addNode(ejected);
-        this.setAsMovingNode(ejected);
+        this.addNode(ejected, "moving");
         ejectedCells++;
       } else {
         for (var i = 0; i < client.cells.length; i++) {
@@ -1258,8 +1259,7 @@ module.exports = class GameServer {
           }
 
 
-          this.addNode(ejected);
-          this.setAsMovingNode(ejected);
+          this.addNode(ejected, "moving");
           ejectedCells++;
         }
       }
@@ -1286,8 +1286,7 @@ module.exports = class GameServer {
     newCell.ignoreCollision = true; // Remove collision checks
     newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
-    this.addNode(newCell);
-    this.setAsMovingNode(newCell);
+    this.addNode(newCell, "moving");
   };
   shootVirus(parent) {
     var parentPos = {
@@ -1300,8 +1299,7 @@ module.exports = class GameServer {
     newVirus.setMoveEngineData(200, 20);
 
     // Add to moving cells list
-    this.addNode(newVirus);
-    this.setAsMovingNode(newVirus);
+    this.addNode(newVirus, "moving");
   };
 
   customLB(newLB, gameServer) {
@@ -1370,8 +1368,7 @@ module.exports = class GameServer {
       split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
 
       // Add to moving cells list
-      this.setAsMovingNode(split);
-      this.addNode(split);
+      this.addNode(split, "moving");
       splitCells++;
     }
     if (splitCells > 0) client.actionMult += 0.5; // Account anti-teaming
@@ -1789,8 +1786,7 @@ module.exports = class GameServer {
     newCell.ignoreCollision = true; // Remove collision checks
     newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
-    this.addNode(newCell);
-    this.setAsMovingNode(newCell);
+    this.addNode(newCell, "moving");
   };
   ejecttMass(client) {
     for (var i = 0; i < client.cells.length; i++) {
@@ -1820,8 +1816,7 @@ module.exports = class GameServer {
       ejected.setMoveEngineData(this.config.ejectantispeed, 20);
       ejected.setColor(cell.getColor());
 
-      this.addNode(ejected);
-      this.setAsMovingNode(ejected);
+      this.addNode(ejected, "moving");
     }
   };
 

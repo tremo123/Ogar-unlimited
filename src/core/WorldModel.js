@@ -6,54 +6,65 @@ const SortedMap = require("collections/sorted-map");
 
 'use strict';
 module.exports = class WorldModel {
-  constructor(){
+  constructor() {
     this.lastNodeId = 2;    // todo why 2?
     this.nodes = new SortedMap();
     this.movingNodes = new Set();
     this.playerNodes = SortedMap();
   }
 
-  setNode(id, node, isMoving, isPlayer){
+  setNode(id, node, type) {
     this.nodes.set(id, node);
-    if (isMoving) {
-      this.setNodeAsMoving(id);
-    }
-    if (isPlayer) {
-      this.playerNodes.set(id, node);
+    switch (type) {
+      case "player":
+        this.playerNodes.set(id, node);
+        break;
+      case "moving":
+        this.setNodeAsMoving(id);
+        break;
     }
   }
-  addNode(node, isMoving, isPlayer){
+
+  addNode(node, type) {
     let id = this.getNewNodeId();
-    this.setNode(id, node, isMoving, isPlayer);
+    this.setNode(id, node, type);
     return id;
   }
-  getNode(id){
+
+  getNode(id) {
     return this.nodes.get(id);
   }
-  getNodes(){
+
+  getNodes() {
     return this.nodes;
   }
+
   removeNode(id) {
     this.nodes.delete(id);
     this.movingNodes.delete(id);
   }
-  getNewNodeId(){
+
+  getNewNodeId() {
     // Resets integer
     if (this.lastNodeId > 2147483647) {
       this.lastNodeId = 1;
     }
     return this.lastNodeId++;
   }
-  setNodeAsMoving(id){
+
+  setNodeAsMoving(id) {
     this.movingNodes.add(id);
   }
-  setNodeAsNotMoving(id){
+
+  setNodeAsNotMoving(id) {
     this.movingNodes.delete(id);
   }
-  getMovingNodes(){
+
+  getMovingNodes() {
     return this.movingNodes;
   }
-  getPlayerNodes(){
+
+  getPlayerNodes() {
     return this.playerNodes;
   }
 
