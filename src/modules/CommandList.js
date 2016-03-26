@@ -62,6 +62,7 @@ Commands.list = {
         console.log("[Console] boardreset : reset scoreboard text");
         console.log("[Console] change     : change specified settings");
         console.log("[Console] clear      : clear console output");
+        console.log("[Console] hide       : Hides a player (invisibility)");
         console.log("[Console] color      : set cell(s) color by client ID");
         console.log("[Console] exit       : stop the server");
         console.log("[Console] food       : spawn food at specified Location");
@@ -1838,6 +1839,32 @@ Commands.list = {
         }
         console.log("That player cannot recombine now");
     },
+    hide: function(gameServer, split) {
+        var id = parseInt(split[1]);
+        if (isNaN(id)) {
+            console.log("[Console] Please specify a valid player ID!");
+            return;
+        }
+
+        for (var i in gameServer.clients) {
+            if (gameServer.clients[i].playerTracker.pID == id) {
+                var client = gameServer.clients[i].playerTracker;
+
+                client.visible = !client.visible;
+                if (!client.visible) {
+                    console.log("[Console] Hid player " + id);
+
+                } else {
+                    console.log("[Console] Unhid player " + id);
+                }
+
+                break;
+            }
+        }
+
+    },
+    
+    
     blind: function(gameServer, split) {
         var id = parseInt(split[1]);
         if (isNaN(id)) {
