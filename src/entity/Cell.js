@@ -11,6 +11,7 @@ function Cell(nodeId, owner, position, mass, gameServer) {
         b: 0
     };
     this.position = position;
+    this.visible = true;
     this.name;
     this.mass = mass; // Starting mass of the cell
     this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
@@ -29,7 +30,22 @@ function Cell(nodeId, owner, position, mass, gameServer) {
 module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
+Cell.prototype.getVis = function() {
+    if (this.owner && !this.visible) {
+        return this.owner.visible;
+    } else {
+        return this.visible;
+    }
+};
 
+Cell.prototype.setVis = function(state, so) {
+    if (!so && this.owner) {
+        this.owner.visible = state;
+    } else {
+        this.visible = state;
+    }
+    return true;
+};
 Cell.prototype.getName = function() {
     if (this.owner && !this.name) {
         return this.owner.name;
@@ -38,7 +54,7 @@ Cell.prototype.getName = function() {
     }
 };
 Cell.prototype.setName = function(name, so) {
-    if (so && this.owner) {
+    if (!so && this.owner) {
         this.owner.name = name;
     } else {
         this.name = name;
