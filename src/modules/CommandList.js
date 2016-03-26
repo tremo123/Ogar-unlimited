@@ -1852,10 +1852,10 @@ Commands.list = {
 
                 client.visible = !client.visible;
                 if (!client.visible) {
-                    console.log("[Console] Hid player " + id);
+                    console.log("[Console] Hid player " + client.name + " (" + id + ")");
 
                 } else {
-                    console.log("[Console] Unhid player " + id);
+                    console.log("[Console] Unhid player " + client.name + " (" + id + ")");
                 }
 
                 break;
@@ -1878,10 +1878,10 @@ Commands.list = {
 
                 client.blind = !client.blind;
                 if (client.blind) {
-                    console.log("[Console] Blinded player " + id);
+                    console.log("[Console] Blinded player " + client.name + " (" + id + ")");
 
                 } else {
-                    console.log("[Console] Unblinded player " + id);
+                    console.log("[Console] Unblinded player " + client.name + " (" + id + ")");
                 }
 
                 break;
@@ -1902,10 +1902,10 @@ Commands.list = {
 
                 client.frozen = !client.frozen;
                 if (client.frozen) {
-                    console.log("[Console] Froze player " + id);
+                    console.log("[Console] Froze player " + client.name + " (" + id + ")");
 
                 } else {
-                    console.log("[Console] Unfroze player " + id);
+                    console.log("[Console] Unfroze player " + client.name + " (" + id + ")");
                 }
 
                 break;
@@ -1933,7 +1933,7 @@ Commands.list = {
 
             }
         }
-        console.log("[Console] Player " + id + " now spawns with " + mass + " Mass");
+        console.log("[Console] Player " + client.name + " (" + id + ") now spawns with " + mass + " Mass");
     },
     speed: function(gameServer, split) {
         var id = parseInt(split[1]);
@@ -1955,7 +1955,7 @@ Commands.list = {
 
             }
         }
-        console.log("[Console] Player " + id + "'s base speed is now " + speed);
+        console.log("[Console] Player " + client.name + " (" + id + ")'s base speed is now " + speed);
     },
     merge: function(gameServer, split) {
         // Validation checks
@@ -1972,7 +1972,7 @@ Commands.list = {
                 client.norecombine = false;
                 client.recombineinstant = true;
 
-                console.log("[Console] Forced " + client.name + " to merge cells");
+                console.log("[Console] Forced " + client.name + " (" + id + ") to merge cells");
                 break;
             }
         }
