@@ -478,8 +478,13 @@ module.exports = class GameServer {
       }
     }
   }
+  getNodes(){
+    return this.nodes;
+  }
 
   removeNode(node) {
+    this.world.setNode(node.getId());
+
     // Remove from main nodes list
     var index = this.nodes.indexOf(node);
     if (index != -1) {
@@ -513,14 +518,11 @@ module.exports = class GameServer {
 
     if (this.currentFood > 0) {
       // Spawn from food
-      var node;
-      for (var i = (this.nodes.length - 1); i > -1; i--) {
-        // Find random food
-        node = this.nodes[i];
-
+      let nodes = this.getNodes();
+      nodes.some((node)=>{
         if (!node || node.inRange) {
           // Skip if food is about to be eaten/undefined
-          continue;
+          return false;
         }
 
         if (node.getType() == 1) {
@@ -529,9 +531,9 @@ module.exports = class GameServer {
             y: node.position.y
           };
           this.removeNode(node);
-          break;
+          return true;
         }
-      }
+      });
     }
 
     if (!pos) {
