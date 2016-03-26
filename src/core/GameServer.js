@@ -19,10 +19,9 @@ const Logger = require('../modules/log');
 const StatServer = require('./StatServer.js');
 const GeneratorService = require('./GeneratorService.js');
 const ConfigService = require('./ConfigService.js');
-const ConsoleService = require('./ConsoleService.js');
 
 module.exports = class GameServer {
-  constructor(consoleService) {
+  constructor(world, consoleService) {
     // fields
     this.lastNodeId = 2;    // todo why 2?
     this.lastPlayerId = 1;
@@ -179,9 +178,7 @@ module.exports = class GameServer {
 
   }
 
-  start(version) {
-    // console service
-    this.consoleService.start();
+  start() {
 
     // Logging
     this.log.setup(this);

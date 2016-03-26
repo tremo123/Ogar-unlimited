@@ -1,21 +1,12 @@
 // Imports
 'use strict';
 const Readline = require('readline');
-const GameServer = require('./core/GameServer');
-const ConsoleService = require('./core/ConsoleService.js');
-const Updater = require('./core/Updater.js');
-let updater = new Updater(this);
-
 const VERSION = '11.8.5';
-let gameServer = new GameServer();
-let consoleService = new ConsoleService(gameServer, VERSION);
-gameServer.setConsoleService(consoleService);
+const ControlServer = require('./core/ControlServer');
+let controlServer = new ControlServer(VERSION);
 
 // Init variables
 let showConsole = true;
-
-// start the consoleService
-consoleService.start();
 
 // Handle arguments
 process.argv.forEach(function (val) {
@@ -29,15 +20,9 @@ process.argv.forEach(function (val) {
   }
 });
 
-// Add command handler
-// todo breaking encapsulation
-gameServer.commands = consoleService.commands.list;
-
-// Init updater
-updater.init();
-
-// Run Ogar
-gameServer.start();
+// init/start the control server
+controlServer.init();
+controlServer.start();
 
 // Initialize the server console
 if (showConsole) {
@@ -45,5 +30,5 @@ if (showConsole) {
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(consoleService.prompt(streamsInterface), 100);
+  setTimeout(controlServer.getConsoleService().prompt(streamsInterface), 100);
 }

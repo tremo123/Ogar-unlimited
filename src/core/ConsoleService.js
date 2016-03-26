@@ -3,8 +3,8 @@ const Commands = require('../modules/CommandList');
 const EOL = require('os').EOL;
 
 module.exports = class ConsoleService {
-  constructor(gameServer, version){
-    this.gameServer = gameServer;
+  constructor(version){
+    this.gameServer = undefined;
     this.version = version;
     this.updateInterveral = 100;
     this.isLiveConsole = false;
@@ -17,6 +17,9 @@ module.exports = class ConsoleService {
   }
   start() {
     console.log('Starting ConsoleService');
+    if (this.gameServer === undefined) {
+      throw "[ConsoleService] GameSever has not been set, cannot start!"
+    }
     if (!this.hasTitleBeenWriten) {
       this.writeTitle();
       this.hasTitleBeenWriten = true;
@@ -34,7 +37,7 @@ module.exports = class ConsoleService {
       this.liveConsole();
     }
   }
-  // todo this need a lot of work
+  // todo this needs a lot of work
   liveConsole() {
     if (this.gameServer.livestage == 0) {
       if (this.gameServer.liveticks > 80) {
@@ -186,6 +189,9 @@ module.exports = class ConsoleService {
 
   };
 
+  setGameServer(gameServer) {
+    this.gameServer = gameServer;
+  }
 
 
   writeTitle() {
