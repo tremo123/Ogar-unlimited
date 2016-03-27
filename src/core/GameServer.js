@@ -1081,13 +1081,20 @@ module.exports = class GameServer {
     this.addNode(newVirus, "moving");
   };
 
+  // todo refactor this is way to long and does way to many different things
   ejectMass(client) {
+    function getAngleFromClientToCell(client, cell){
+      let deltaY = client.mouse.y - cell.position.y;
+      let deltaX = client.mouse.x - cell.position.x;
+      return Math.atan2(deltaX, deltaY);
+    }
+
     let name;
     if (client.tverify && !client.verify) {
       client.name = client.vname;
       if (this.config.randomnames == 1) {
         if (this.randomNames.length > 0) {
-          var index = Math.floor(Math.random() * this.randomNames.length);
+          let index = Math.floor(Math.random() * this.randomNames.length);
           name = this.randomNames[index];
           this.randomNames.splice(index, 1);
         } else {
@@ -1097,10 +1104,10 @@ module.exports = class GameServer {
       } else {
 
         if (this.config.skins == 1) {
-          var player = client;
+          let player = client;
           if (player.name.substr(0, 1) == "<") {
             // Premium Skin
-            var n = player.name.indexOf(">");
+            let n = player.name.indexOf(">");
             if (n != -1) {
 
               if (player.name.substr(1, n - 1) == "r" && this.config.rainbow == 1) {
@@ -1109,7 +1116,7 @@ module.exports = class GameServer {
                 client.premium = '%' + player.name.substr(1, n - 1);
               }
 
-              for (var i in this.skinshortcut) {
+              for (let i in this.skinshortcut) {
                 if (!this.skinshortcut[i] || !this.skin[i]) {
                   continue;
                 }
@@ -1123,7 +1130,7 @@ module.exports = class GameServer {
             }
           } else if (player.name.substr(0, 1) == "[") {
             // Premium Skin
-            var n = player.name.indexOf("]");
+            let n = player.name.indexOf("]");
             if (n != -1) {
 
               client.premium = ':http://' + player.name.substr(1, n - 1);
@@ -1135,23 +1142,17 @@ module.exports = class GameServer {
       client.verify = true;
       client.tverify = false;
 
-    } else {
-
+    }
+    else {
 
       if (!client.verify && this.config.verify == 1 && !client.tverify) {
-        var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          this.removeNode(client.cells[0]);
-
-        }
-
+        client.cells.forEach((cell)=>this.removeNode(cell))
       }
-      if (!this.canEjectMass(client))
-        return;
-      var player = client;
-      var ejectedCells = 0; // How many cells have been ejected
+      if (!this.canEjectMass(client)) return;
+      let player = client;
+      let ejectedCells = 0; // How many cells have been ejected
       if (this.config.ejectbiggest == 1) {
-        var cell = client.getBiggestc();
+        let cell = client.getBiggestc();
         if (!cell) {
           return;
         }
@@ -1166,13 +1167,11 @@ module.exports = class GameServer {
 
         }
 
-        var deltaY = client.mouse.y - cell.position.y;
-        var deltaX = client.mouse.x - cell.position.x;
-        var angle = Math.atan2(deltaX, deltaY);
+        let angle = getAngleFromClientToCell(client, cell);
 
         // Get starting position
-        var size = cell.getSize() + 5;
-        var startPos = {
+        let size = cell.getSize() + 5;
+        let startPos = {
           x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
           y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
         };
@@ -1187,20 +1186,18 @@ module.exports = class GameServer {
         angle += (Math.random() * .4) - .2;
 
         // Create cell
-        if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
+        let ejected = undefined;
+        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        else ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
         ejected.setAngle(angle);
-        if (this.config.ejectvirus == 1) {
+        if (this.config.ejectvirus === 1) {
           ejected.setMoveEngineData(this.config.ejectvspeed, 20);
-
+          ejected.par = player;
         } else {
           ejected.setMoveEngineData(this.config.ejectSpeed, 20);
         }
-        if (this.config.ejectvirus == 1) {
-          ejected.par = player;
 
-        }
-
-        if (this.config.randomEjectMassColor == 1) {
+        if (this.config.randomEjectMassColor === 1) {
           ejected.setColor(this.getRandomColor());
         } else {
           ejected.setColor(cell.getColor());
@@ -1226,13 +1223,11 @@ module.exports = class GameServer {
 
           }
 
-          var deltaY = client.mouse.y - cell.position.y;
-          var deltaX = client.mouse.x - cell.position.x;
-          var angle = Math.atan2(deltaX, deltaY);
+          let angle = getAngleFromClientToCell(client, cell);
 
           // Get starting position
-          var size = cell.getSize() + 5;
-          var startPos = {
+          let size = cell.getSize() + 5;
+          let startPos = {
             x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
             y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
           };
@@ -1247,8 +1242,11 @@ module.exports = class GameServer {
           angle += (Math.random() * .4) - .2;
 
           // Create cell
-          if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this); else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
+          let ejected = undefined;
+          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+          else ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
           ejected.setAngle(angle);
+
           if (this.config.ejectvirus == 1) {
             ejected.setMoveEngineData(this.config.ejectvspeed, 20);
 
@@ -1281,13 +1279,13 @@ module.exports = class GameServer {
 
   newCellVirused(client, parent, angle, mass, speed) {
     // Starting position
-    var startPos = {
+    let startPos = {
       x: parent.position.x,
       y: parent.position.y
     };
 
     // Create cell
-    var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -1298,12 +1296,12 @@ module.exports = class GameServer {
   };
 
   shootVirus(parent) {
-    var parentPos = {
+    let parentPos = {
       x: parent.position.x,
-      y: parent.position.y,
+      y: parent.position.y
     };
 
-    var newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusStartMass);
+    let newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusStartMass);
     newVirus.setAngle(parent.getAngle());
     newVirus.setMoveEngineData(200, 20);
 
@@ -1323,8 +1321,8 @@ module.exports = class GameServer {
     if (typeof client.lastEject == 'undefined' || this.config.ejectMassCooldown == 0 || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
       client.lastEject = this.time;
       return true;
-    } else
-      return false;
+    }
+    return false;
   };
 
   splitCells(client) {
