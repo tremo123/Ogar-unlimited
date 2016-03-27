@@ -1472,23 +1472,20 @@ module.exports = class GameServer {
         } else this.largestClient = this.leaderboard[0];
       }
 
-      // Debug
-      //console.log(this.tick - 50);
-
-      // Reset
+       // Reset
       this.tick = 0;
 
-
-      var humans = 0,
+      let humans = 0,
         bots = 0;
-      var clients = this.getClients();
-      for (var i = 0; i < clients.length; i++) {
-        if ('_socket' in clients[i]) {
+
+      this.getClients().forEach((client)=>{
+        if ('_socket' in client) {
           humans++;
-        } else if (!clients[i].playerTracker.owner) {
+        } else if (!client.playerTracker.owner) {
           bots++;
         }
-      }
+      });
+
       if (this.config.smartbotspawn == 1) {
         if (bots < this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
           this.livestage = 2;
