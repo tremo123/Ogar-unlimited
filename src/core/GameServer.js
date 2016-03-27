@@ -1457,17 +1457,18 @@ module.exports = class GameServer {
         this.tickMain = 0; // Reset
         if (!this.gameMode.specByLeaderboard) {
           // Get client with largest score if gamemode doesn't have a leaderboard
-          var lC;
-          var lCScore = 0;
-          let clients = this.clients;
-          for (var i = 0; i < this.clients.length; i++) {
-            // if (typeof this.clients[i].getScore == 'undefined') continue;
-            if (clients[i].playerTracker.getScore(true) > lCScore) {
-              lC = clients[i];
-              lCScore = clients[i].playerTracker.getScore(true);
-            }
-          }
-          this.largestClient = lC;
+          let largestClient;
+          let largestClientScore = 0;
+
+          this.clients.forEach((client)=>{
+            let clientScore = client.playerTracker.getScore(true);
+              if (clientScore > largestClientScore) {
+                largestClient = client;
+                largestClientScore = clientScore;
+              }
+          });
+
+          this.largestClient = largestClient;
         } else this.largestClient = this.leaderboard[0];
       }
 
