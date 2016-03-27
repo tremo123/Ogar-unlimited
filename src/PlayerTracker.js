@@ -637,4 +637,3 @@ PlayerTracker.prototype.getAngle = function(x1, y1, x2, y2) {
     var deltaX = x1 - x2;
     return Math.atan2(deltaX, deltaY);
 };
-
