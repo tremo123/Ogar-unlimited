@@ -507,8 +507,9 @@ module.exports = class PlayerTracker {
     this.viewBox.height = this.sightRangeY;
 
     var newVisible = [];
-    for (var i = 0; i < this.gameServer.nodes.length; i++) {
-      let node = this.gameServer.nodes[i];
+    let nodes = this.gameServer.getNodes();
+    for (var i = 0; i < nodes.length; i++) {
+      let node = nodes[i];
 
       if (!node) {
         continue;
@@ -582,8 +583,9 @@ module.exports = class PlayerTracker {
 
       // Use calcViewBox's way of looking for nodes
       var newVisible = [];
-      for (var i = 0; i < this.gameServer.nodes.length; i++) {
-        let node = this.gameServer.nodes[i];
+      let nodes = this.gameServer.getNodes();
+      for (var i = 0; i < nodes.length; i++) {
+        let node = nodes[i];
 
         if (!node) {
           continue;

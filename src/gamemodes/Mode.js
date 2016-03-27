@@ -1,3 +1,5 @@
+// todo seems a bit buggy, some times crashes the server silently
+
 var Entity = require('../entity');
 
 function Mode() {

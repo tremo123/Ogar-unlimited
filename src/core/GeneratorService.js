@@ -37,7 +37,8 @@ module.exports = class GeneratorService {
   virusCheck() {
     // Checks if there are enough viruses on the map
     if (this.gameServer.spawnv == 1) {
-      if (this.gameServer.nodesVirus.length < this.config.virusMinAmount) {
+      let virusNodes = this.gameServer.getVirusNodes();
+      if (virusNodes.length < this.config.virusMinAmount) {
         // Spawns a virus
         var pos = utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
         var virusSquareSize = (this.config.virusStartMass * 100) >> 0;

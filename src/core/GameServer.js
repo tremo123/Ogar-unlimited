@@ -28,7 +28,7 @@ module.exports = class GameServer {
     this.lastPlayerId = 1;
     this.running = true;
 
-    this.nodes = [];
+    this._nodes = [];
     this.movingNodes = [];
     this.nodesPlayer = []; // Nodes controlled by players
     this.nodesVirus = []; // Virus nodes
@@ -435,13 +435,13 @@ module.exports = class GameServer {
   }
 
   getNodes() {
-    return this.nodes;
+    return this._nodes;
   }
 
   addNode(node, type) {
     this.world.setNode(node.getId(), node, type);
 
-    this.nodes.push(node);
+    this._nodes.push(node);
     if (type === "moving") {
       this.setAsMovingNode(node);
     }
@@ -477,9 +477,9 @@ module.exports = class GameServer {
     this.world.setNode(node.getId());
 
     // Remove from main nodes list
-    let index = this.nodes.indexOf(node);
+    let index = this._nodes.indexOf(node);
     if (index != -1) {
-      this.nodes.splice(index, 1);
+      this._nodes.splice(index, 1);
     }
 
     // Remove from moving cells list
@@ -558,6 +558,16 @@ module.exports = class GameServer {
     this.nodesVirus.push(node)
   }
 
+  removeVirusNode(node){
+    let index = this.nodesVirus.indexOf(node);
+    if (index != -1) {
+      this.nodesVirus.splice(index, 1);
+    } else {
+      // todo do we really care?
+      console.log("[Warning] Tried to remove a non existing moving virus!");
+    }
+  }
+
   // Ejected Nodes
   getEjectedNodes() {
     return this.nodesEjected;
@@ -565,6 +575,12 @@ module.exports = class GameServer {
 
   addEjectedNodes(node) {
     this.nodesEjected.push(node)
+  }
+  removeEjectedNode(node){
+    let index = this.nodesEjected.indexOf(node);
+    if (index != -1) {
+      this.nodesEjected.splice(index, 1);
+    }
   }
 
   clearEjectedNodes(){

@@ -1,3 +1,4 @@
+'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
 var Food = require('../entity/Food');
@@ -48,8 +49,9 @@ Experimental.prototype.spawnMotherCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 

@@ -1,3 +1,4 @@
+'use strict';
 var Cell = require('./Cell');
 var Virus = require('./Virus');
 var Food = require('./Food');
@@ -45,8 +46,9 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  for (var i in gameServer.nodesPlayer) {
-    var check = gameServer.nodesPlayer[i];
+  let playerNodes = gameServer.getPlayerNodes();
+  for (var i in playerNodes) {
+    var check = playerNodes[i];
 
     if (check.mass > safeMass) {
       // Too big to be consumed

@@ -1,5 +1,6 @@
+'use strict';
 module.exports = function (gameServer, split) {
-  borderDec = split[1];
+  let borderDec = split[1];
   if (isNaN(borderDec)) {
     borderDec = 200;
   }
@@ -8,9 +9,9 @@ module.exports = function (gameServer, split) {
   gameServer.config.borderTop += borderDec;
   gameServer.config.borderBottom -= borderDec;
 
-  var len = gameServer.nodes.length;
-  for (var i = 0; i < len; i++) {
-    var node = gameServer.nodes[i];
+  let nodes = gameServer.getNodes();
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
 
     if ((!node) || (node.getType() == 0)) {
       continue;

@@ -1,3 +1,4 @@
+'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
 var MotherCell = require('../entity/MotherCell');
@@ -67,8 +68,9 @@ Experimental2.prototype.spawnMotherCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -112,8 +114,9 @@ Experimental2.prototype.spawnMovingVirus = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -162,8 +165,9 @@ Experimental2.prototype.spawnStickyCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 

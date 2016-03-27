@@ -1,3 +1,4 @@
+'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
 var Food = require('../entity/Food');
@@ -147,8 +148,9 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var safeMass = 500000;
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
-  for (var i in gameServer.nodes) {
-    var check = gameServer.nodes[i];
+  let nodes = gameServer.getNodes();
+  for (var i in nodes) {
+    var check = nodes[i];
     // Calculations
     var len = r - (check.getSize() / 2) >> 0;
     if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {

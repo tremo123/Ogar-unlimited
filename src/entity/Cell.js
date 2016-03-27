@@ -1,3 +1,4 @@
+'use strict';
 Cell.spi = 0;
 Cell.virusi = 255;
 Cell.recom = 0;
@@ -198,8 +199,9 @@ Cell.prototype.calcMovePhys = function (config) {
       var x1 = this.position.x + (totTravel * sin) + xd;
       var y1 = this.position.y + (totTravel * cos) + yd;
       if (typeof this.gameServer != "undefined") {
-        for (var i = 0; i < this.gameServer.nodesEjected.length; i++) {
-          var cell = this.gameServer.nodesEjected[i];
+        let ejectedNodes = this.gameServer.getEjectedNodes();
+        for (var i = 0; i < ejectedNodes.length; i++) {
+          var cell = ejectedNodes[i];
           if (this.nodeId == cell.nodeId) {
             continue;
           }
@@ -212,8 +214,8 @@ Cell.prototype.calcMovePhys = function (config) {
             var newDeltaX = cell.position.x - x1;
             var newAngle = Math.atan2(newDeltaX, newDeltaY);
             var move = (collisionDist - dist + 5) / 2; //move cells each halfway until they touch
-            xmove = move * Math.sin(newAngle);
-            ymove = move * Math.cos(newAngle);
+            let xmove = move * Math.sin(newAngle);
+            let ymove = move * Math.cos(newAngle);
             cell.position.x += xmove >> 0;
             cell.position.y += ymove >> 0;
             xd += -xmove;

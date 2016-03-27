@@ -62,8 +62,9 @@ StickyCell.prototype.update = function (gameServer) {
   };
 
   // Look for victims
-  for (var i in gameServer.nodesPlayer) {
-    var check = gameServer.nodesPlayer[i];
+  let playerNodes = gameServer.getPlayerNodes();
+  for (var i in playerNodes) {
+    var check = playerNodes[i];
 
     // Do boundary (non-absorbing) collision check
     var collisionDist = check.getSize() + this.radius;

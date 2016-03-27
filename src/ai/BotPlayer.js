@@ -239,8 +239,9 @@ module.exports = class BotPlayer extends PlayerTracker {
           //console.log("[Bot] "+cell.getName()+": Wandering");
           if ((this.centerPos.x == this.mouse.x) && (this.centerPos.y == this.mouse.y)) {
             // Get a new position
-            var index = Math.floor(Math.random() * this.gameServer.nodes.length);
-            var randomNode = this.gameServer.nodes[index];
+            let nodes = this.gameServer.getNodes();
+            var index = Math.floor(Math.random() * nodes.length);
+            var randomNode = nodes[index];
             var pos = {
               x: 0,
               y: 0

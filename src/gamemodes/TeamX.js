@@ -1,3 +1,4 @@
+'use strict';
 var Teams = require('./Teams.js');
 var Cell = require('../entity/Cell.js');
 var Food = require('../entity/Food.js');
@@ -64,8 +65,9 @@ TeamX.prototype.spawnMotherCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -367,8 +369,9 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  for (var i in gameServer.nodesPlayer) {
-    var check = gameServer.nodesPlayer[i];
+  let nodesPlayer = gameServer.getPlayerNodes();
+  for (var i in nodesPlayer) {
+    var check = nodesPlayer[i];
 
     if (check.mass > safeMass) {
       // Too big to be consumed

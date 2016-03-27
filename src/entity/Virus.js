@@ -1,3 +1,4 @@
+'use strict';
 var Cell = require('./Cell');
 var EjectedMass = require('../entity/EjectedMass');
 
@@ -189,23 +190,18 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
 };
 
 Virus.prototype.onAdd = function (gameServer) {
-  gameServer.nodesVirus.push(this);
+  gameServer.addVirusNodes(this);
 };
 
 Virus.prototype.onRemove = function (gameServer) {
-  var index = gameServer.nodesVirus.indexOf(this);
-  if (index != -1) {
-    gameServer.nodesVirus.splice(index, 1);
-  } else {
-    console.log("[Warning] Tried to remove a non existing virus!");
-  }
+  gameServer.removeVirusNode(this)
 };
 Virus.prototype.onAutoMove = function (gameServer) {
   var r = 100; // Checking radius
 
-  var len = gameServer.nodesEjected.length;
-  for (var i = 0; i < len; i++) {
-    var check = gameServer.nodesEjected[i];
+  let ejectedNodes = gameServer.getEjectedNodes();
+  for (var i = 0; i < ejectedNodes.length; i++) {
+    var check = ejectedNodes[i];
 
     var topY = check.position.y - r;
     var bottomY = check.position.y + r;

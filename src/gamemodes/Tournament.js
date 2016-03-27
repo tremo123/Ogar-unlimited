@@ -1,3 +1,4 @@
+'use strict';
 var Mode = require('./Mode');
 
 function Tournament() {
@@ -69,9 +70,9 @@ Tournament.prototype.getSpectate = function () {
 
 Tournament.prototype.prepare = function (gameServer) {
   // Remove all cells
-  var len = gameServer.nodes.length;
-  for (var i = 0; i < len; i++) {
-    var node = gameServer.nodes[0];
+  let nodes = gameServer.getNodes();
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[0];
 
     if (!node) {
       continue;

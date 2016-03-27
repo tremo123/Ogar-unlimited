@@ -147,8 +147,9 @@ TeamZ.prototype.spawnDrug = function (gameServer, cell) { // spawn HERO or BRAIN
 
     // Check for players
     var collided = false;
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
       var r = check.getSize(); // Radius of checking player cell
 
       // Collision box
