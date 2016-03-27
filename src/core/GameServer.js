@@ -1083,12 +1083,6 @@ module.exports = class GameServer {
 
   // todo refactor this is way to long and does way to many different things
   ejectMass(client) {
-    function getAngleFromClientToCell(client, cell){
-      let deltaY = client.mouse.y - cell.position.y;
-      let deltaX = client.mouse.x - cell.position.x;
-      return Math.atan2(deltaX, deltaY);
-    }
-
     let name;
     if (client.tverify && !client.verify) {
       client.name = client.vname;
@@ -1167,7 +1161,7 @@ module.exports = class GameServer {
 
         }
 
-        let angle = getAngleFromClientToCell(client, cell);
+        let angle = utilities.getAngleFromClientToCell(client, cell);
 
         // Get starting position
         let size = cell.getSize() + 5;
@@ -1188,7 +1182,7 @@ module.exports = class GameServer {
         // Create cell
         let ejected = undefined;
         if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
-        else ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
+        else ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
           ejected.setMoveEngineData(this.config.ejectvspeed, 20);
@@ -1207,7 +1201,7 @@ module.exports = class GameServer {
         this.addNode(ejected, "moving");
         ejectedCells++;
       } else {
-        for (var i = 0; i < client.cells.length; i++) {
+        for (let i = 0; i < client.cells.length; i++) {
           var cell = client.cells[i];
           if (!cell) {
             return;
@@ -1223,7 +1217,7 @@ module.exports = class GameServer {
 
           }
 
-          let angle = getAngleFromClientToCell(client, cell);
+          let angle = utilities.getAngleFromClientToCell(client, cell);
 
           // Get starting position
           let size = cell.getSize() + 5;
@@ -1326,49 +1320,34 @@ module.exports = class GameServer {
   };
 
   splitCells(client) {
-    if (client.frozen || (!client.verify && this.config.verify == 1)) {
-      return;
-    }
-    var len = client.cells.length;
-    var splitCells = 0; // How many cells have been split
-    for (var i = 0; i < len; i++) {
-      if (client.cells.length >= this.config.playerMaxCells) {
-        // Player cell limit
-        continue;
-      }
+    if (client.frozen || (!client.verify && this.config.verify === 1)) return;
 
-      var cell = client.cells[i];
-      if (!cell) {
-        continue;
-      }
+    let splitCells = 0; // How many cells have been split
+    client.cells.forEach((cell)=>{
+      if (!cell) return;
+      // Player cell limit
+      if (client.cells.length >= this.config.playerMaxCells) return;
 
-      if (cell.mass < this.config.playerMinMassSplit) {
-        continue;
-      }
+      if (cell.mass < this.config.playerMinMassSplit) return;
 
       // Get angle
-      var deltaY = client.mouse.y - cell.position.y;
-      var deltaX = client.mouse.x - cell.position.x;
-      var angle = Math.atan2(deltaX, deltaY);
+      let angle = utilities.getAngleFromClientToCell(client, cell);
       if (angle == 0) angle = Math.PI / 2;
 
       // Get starting position
-      var startPos = {
+      let startPos = {
         x: cell.position.x,
         y: cell.position.y
       };
       // Calculate mass and speed of splitting cell
-      var newMass = cell.mass / 2;
+      let newMass = cell.mass / 2;
       cell.mass = newMass;
 
       // Create cell
-      var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
+      let split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
       split.setAngle(angle);
-      // Polyfill for log10
-      Math.log10 = Math.log10 || function (x) {
-          return Math.log(x) / Math.LN10;
-        };
-      var splitSpeed = this.config.splitSpeed * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
+
+      let splitSpeed = this.config.splitSpeed * Math.max(utilities.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
       split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
       split.calcMergeTime(this.config.playerRecombineTime);
       split.ignoreCollision = true;
@@ -1377,7 +1356,7 @@ module.exports = class GameServer {
       // Add to moving cells list
       this.addNode(split, "moving");
       splitCells++;
-    }
+    });
     if (splitCells > 0) client.actionMult += 0.5; // Account anti-teaming
   };
 
