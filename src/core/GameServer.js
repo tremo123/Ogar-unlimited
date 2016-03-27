@@ -599,19 +599,13 @@ module.exports = class GameServer {
 
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    let len = this.movingNodes.length;
-    for (var i = 0; i < len; i++) {
-      var check = this.movingNodes[i];
-
+    this.movingNodes.forEach((check)=>{
       // Recycle unused nodes
-      while ((typeof check == "undefined") && (i < this.movingNodes.length)) {
+      while ((typeof check === "undefined") && (i < this.movingNodes.length)) {
         // Remove moving cells that are undefined
+        let i = this.movingNodes.indexOf(check);
         this.movingNodes.splice(i, 1);
-        check = this.movingNodes[i];
-      }
-
-      if (i >= this.movingNodes.length) {
-        continue;
+        check = this.movingNodes[i + 1];
       }
 
       if (check.moveEngineTicks > 0) {
@@ -627,7 +621,7 @@ module.exports = class GameServer {
           this.movingNodes.splice(index, 1);
         }
       }
-    }
+    });
   }
 
   updateCells() {
@@ -637,22 +631,20 @@ module.exports = class GameServer {
     }
 
     // Loop through all player cells
-
-    for (var i = 0; i < this.nodesPlayer.length; i++) {
-      var cell = this.nodesPlayer[i];
-
+    this.nodesPlayer.forEach((cell)=>{
       if (!cell) {
-        continue;
+        return;
       }
       // Have fast decay over 5k mass
+      let massDecay = 0;
       if (this.config.playerFastDecay == 1) {
         if (cell.mass < this.config.fastdecayrequire) {
-          var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
+          massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
         } else {
-          var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
+          massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
         }
       } else {
-        var massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+        massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
       }
 
       // Recombining
@@ -667,17 +659,17 @@ module.exports = class GameServer {
 
       // Mass decay
       if (cell.mass >= this.config.playerMinMassDecay) {
-        var client = cell.owner;
-        if (this.config.teaming == 0) {
-          var teamMult = (client.massDecayMult - 1) / 160 + 1; // Calculate anti-teaming multiplier for decay
-          var thisDecay = 1 - massDecay * (1 / teamMult); // Reverse mass decay and apply anti-teaming multiplier
+        let client = cell.owner;
+        if (this.config.teaming === 0) {
+          let teamMult = (client.massDecayMult - 1) / 160 + 1; // Calculate anti-teaming multiplier for decay
+          let thisDecay = 1 - massDecay * (1 / teamMult); // Reverse mass decay and apply anti-teaming multiplier
           cell.mass *= (1 - thisDecay);
         } else {
           // No anti-team
           cell.mass *= massDecay;
         }
       }
-    }
+    });
   }
 
   spawnPlayer(player, pos, mass) {
@@ -687,8 +679,7 @@ module.exports = class GameServer {
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
 
       if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
-        player.verify = true
-
+        player.verify = true;
       }
 
       player.norecombine = false;
@@ -718,22 +709,17 @@ module.exports = class GameServer {
             if (player.vfail > this.config.vchance) {
               player.nospawn = true;
             }
-            var pl = player;
-            var game = this;
+            //let pl = player;
+            let self = this;
             setTimeout(function () {
-              if (!pl.verify && !pl.tverify) {
-                var len = pl.cells.length;
+              if (!player.verify && !player.tverify) {
+                var len = player.cells.length;
                 for (var j = 0; j < len; j++) {
-                  game.removeNode(pl.cells[0]);
-
+                  self.removeNode(player.cells[0]);
                 }
               }
-
-            }, game.config.vtime * 1000);
-
+            }, self.config.vtime * 1000);
           }
-
-
         }
       } else if (player.vname != "") {
         if (player.name == player.vpass) {
@@ -754,12 +740,10 @@ module.exports = class GameServer {
       } else {
 
         if (this.config.skins == 1 && !dono) {
-
           if (player.name.substr(0, 1) == "<") {
             // Premium Skin
-            var n = player.name.indexOf(">");
+            let n = player.name.indexOf(">");
             if (n != -1) {
-
               if (player.name.substr(1, n - 1) == "r" && this.config.rainbow == 1) {
                 player.rainbowon = true;
               } else {
@@ -790,18 +774,13 @@ module.exports = class GameServer {
         }
       }
 
-      if (pos == null) { // Get random pos
-        pos = this.getRandomSpawn();
-      }
-
-      if (mass == null) { // Get starting mass
-        mass = this.config.playerStartMass;
-        if (player.spawnmass > 0) mass = player.spawnmass;
-      }
+      pos = (pos == null) ? this.getRandomSpawn() : pos;
+      mass = (mass == null) ? this.config.playerStartMass : mass;
+      mass = (player.spawnmass > mass) ? player.spawnmass : mass;
 
       // Spawn player and add to world
       if (!dospawn) {
-        var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
+        let cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
         this.addNode(cell, "player");
       }
 
@@ -881,17 +860,10 @@ module.exports = class GameServer {
     for (var i = 0; i < len; i++) {
       var check = cell.owner.visibleNodes[i];
 
-      if (typeof check === 'undefined') {
-        continue;
-      }
-
+      // exist?
       // if something already collided with this cell, don't check for other collisions
-      if (check.inRange) {
-        continue;
-      }
-
       // Can't eat itself
-      if (cell.nodeId === check.nodeId) {
+      if (typeof check === 'undefined' || check.inRange || cell.nodeId === check.nodeId) {
         continue;
       }
 
@@ -906,7 +878,7 @@ module.exports = class GameServer {
       }
 
       // Cell type check - Cell must be bigger than this number times the mass of the cell being eaten
-      var multiplier = 1.25;
+      let multiplier = 1.25;
 
       switch (check.getType()) {
         case 1: // Food cell
