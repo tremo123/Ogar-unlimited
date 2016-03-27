@@ -27,5 +27,8 @@ module.exports = {
     let deltaY = client.mouse.y - cell.position.y;
     let deltaX = client.mouse.x - cell.position.x;
     return Math.atan2(deltaX, deltaY);
+  },
+  log10: function (x) {
+    return Math.log(x) / Math.LN10;
   }
 };
