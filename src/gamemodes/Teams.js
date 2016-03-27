@@ -1,4 +1,6 @@
+'use strict';
 var Mode = require('./Mode');
+const utilities = require('../core/utilities.js');
 
 function Teams() {
   Mode.apply(this, Array.prototype.slice.call(arguments));
@@ -112,7 +114,7 @@ Teams.prototype.onCellMove = function (x1, y1, cell) {
     if (check.owner.getTeam() == team) {
       // Check if in collision range
       var collisionDist = check.getSize() + r; // Minimum distance between the 2 cells
-      var dist = cell.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
+      var dist = utilities.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
 
       // Calculations
       if (dist < collisionDist) { // Collided

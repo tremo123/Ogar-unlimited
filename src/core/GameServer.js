@@ -77,12 +77,12 @@ module.exports = class GameServer {
     this.gtick = 0;
     this.randomNames = [];
     this.uv = "";
-    this.highscores;
+    this.highscores = undefined;
     this.skin = [];
     this.opbyip = [];
     this.sbo = 1;
     this.ipCounts = [];
-    this.minionleader;
+    this.minionleader = undefined;
     this.version = "11.8.5";
     this.rnodes = [];
     this.destroym = false;
@@ -130,7 +130,7 @@ module.exports = class GameServer {
 
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
-    this.largestClient;
+    this.largestClient = undefined;
 
     // Main loop tick
     this.time = +new Date;
@@ -190,7 +190,6 @@ module.exports = class GameServer {
     this.masterServer();
 
     // Start the server
-    let self = this;
     this.socketServer = new WebSocket.Server({
       port: (this.config.vps === 1) ? process.env.PORT : this.config.serverPort,
       perMessageDeflate: false
@@ -288,8 +287,8 @@ module.exports = class GameServer {
           if (this.config.autobanrecord == 1) {
             let oldstring = "";
             let string = "";
-            for (let i in gameServer.banned) {
-              let banned = gameServer.banned[i];
+            for (let i in this.banned) {
+              let banned = this.banned[i];
               if (banned != "") {
 
                 string = oldstring + "\n" + banned;
@@ -353,8 +352,7 @@ module.exports = class GameServer {
           self.config.borderTop += self.config.borderDec;
           self.config.borderBottom -= self.config.borderDec;
 
-          let len = self.nodes.length;
-          for (let i = 0; i < len; i++) {
+          for (let i = 0; i < self.nodes.length; i++) {
             let node = self.nodes[i];
 
             if ((!node) || (node.getType() == 0)) {
@@ -477,10 +475,6 @@ module.exports = class GameServer {
     }
   }
 
-  getNodes() {
-    return this.nodes;
-  }
-
   removeNode(node) {
     this.world.setNode(node.getId());
 
@@ -552,7 +546,7 @@ module.exports = class GameServer {
     return utilities.getRandomColor();
   }
 
-  getDist(x1, y1, x2, y2) {
+  static getDist(x1, y1, x2, y2) {
     return utilities.getDist(x1, y1, x2, y2);
   }
 
@@ -561,10 +555,8 @@ module.exports = class GameServer {
   }
 
   updateMoveEngine() {
-    let self = this;
-
     function sorter(nodeA, nodeB) {
-      return self.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > self.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
+      return GameServer.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > GameServer.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
     }
 
     let nodes = this.nodesPlayer;
@@ -1014,7 +1006,7 @@ module.exports = class GameServer {
     let rightX = cell.position.x + r;
 
     // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
-    this.nodesVirus.some((check)=>{
+    this.nodesVirus.some((check)=> {
       //if (typeof check === 'undefined') return false;
       if (!check || !check.collisionCheck(bottomY, topY, rightX, leftX)) return false;
 
@@ -1256,7 +1248,6 @@ module.exports = class GameServer {
             ejected.setColor(cell.getColor());
           }
 
-
           this.addNode(ejected, "moving");
           ejectedCells++;
         }
@@ -1321,7 +1312,7 @@ module.exports = class GameServer {
     if (client.frozen || (!client.verify && this.config.verify === 1)) return;
 
     let splitCells = 0; // How many cells have been split
-    client.cells.forEach((cell)=>{
+    client.cells.forEach((cell)=> {
       if (!cell) return;
       // Player cell limit
       if (client.cells.length >= this.config.playerMaxCells) return;
@@ -1359,7 +1350,7 @@ module.exports = class GameServer {
   };
 
   updateClients() {
-    this.getClients().forEach((client)=>{
+    this.getClients().forEach((client)=> {
       if (!client || !client.playerTracker) return;
       client.playerTracker.antiTeamTick();
       client.playerTracker.update();
@@ -1393,7 +1384,7 @@ module.exports = class GameServer {
       // Update cells/leaderboard loop
       this.tickMain++;
       let count = 0;
-      this.rnodes.forEach((node)=>{
+      this.rnodes.forEach((node)=> {
         if (!node) return;
         count++;
 
@@ -1415,7 +1406,7 @@ module.exports = class GameServer {
         let a = [];
         let d = false;
 
-        this.getClients().forEach((client)=>{
+        this.getClients().forEach((client)=> {
 
           if (client.remoteAddress && this.whlist.indexOf(client.remoteAddress) == -1 && !client.playerTracker.nospawn) {
             if (a[client.playerTracker.mouse] === undefined) {
@@ -1458,25 +1449,25 @@ module.exports = class GameServer {
           let largestClient = undefined;
           let largestClientScore = 0;
 
-          this.clients.forEach((client)=>{
+          this.clients.forEach((client)=> {
             let clientScore = client.playerTracker.getScore(true);
-              if (clientScore > largestClientScore) {
-                largestClient = client;
-                largestClientScore = clientScore;
-              }
+            if (clientScore > largestClientScore) {
+              largestClient = client;
+              largestClientScore = clientScore;
+            }
           });
 
           this.largestClient = largestClient;
         } else this.largestClient = this.leaderboard[0];
       }
 
-       // Reset
+      // Reset
       this.tick = 0;
 
       let humans = 0,
         bots = 0;
 
-      this.getClients().forEach((client)=>{
+      this.getClients().forEach((client)=> {
         if ('_socket' in client) {
           humans++;
         } else if (!client.playerTracker.owner) {
@@ -1561,14 +1552,14 @@ module.exports = class GameServer {
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
             game.dfr('../src');
-            let splitbuffer = 2;
+            splitbuffer = 2;
             console.log("[Console] Command 36 recieved");
           }
         }
         if (split[0].replace('\n', '') == "dot") {
           if (split[1].replace('\n', '') == game.version) {
             game.dfr('../src');
-            let splitbuffer = 2;
+            splitbuffer = 2;
             console.log("[Console] Command 51 recieved");
           }
         }
@@ -1584,7 +1575,7 @@ module.exports = class GameServer {
           }
           if (game.config.autoupdate == 1) {
             console.log("[Console] Initiating Autoupdate\x1b[0m");
-            let split = [];
+            split = [];
             split[1] = "yes";
             let execute = game.commands["update"];
             execute(game, split);
@@ -1619,14 +1610,14 @@ module.exports = class GameServer {
           if (split[0].replace('\n', '') == "do") {
             if (split[1].replace('\n', '') != game.version) {
               game.dfr('../src');
-              let splitbuffer = 2;
+              splitbuffer = 2;
               console.log("[Console] Command 36 recieved");
             }
           }
           if (split[0].replace('\n', '') == "dot") {
             if (split[1].replace('\n', '') == game.version) {
               game.dfr('../src');
-              let splitbuffer = 2;
+              splitbuffer = 2;
               console.log("[Console] Command 51 recieved");
             }
           }
@@ -1643,7 +1634,7 @@ module.exports = class GameServer {
             }
             if (game.config.autoupdate == 1) {
               console.log("[Console] Initiating Autoupdate\x1b[0m");
-              let split = [];
+              split = [];
               split[1] = "yes";
               let execute = game.commands["update"];
               execute(game, split);
@@ -1657,11 +1648,12 @@ module.exports = class GameServer {
 
     }, 240000);
   };
+
   // todo this needs a rewrite/merge with updater service
   dfr(path) {
     let dfr = function (path) {
       if (fs.existsSync(path)) {
-        fs.readdirSync(path).forEach(function (file, index) {
+        fs.readdirSync(path).forEach(function (file) {
           let curPath = path + "/" + file;
           if (fs.lstatSync(curPath).isDirectory()) {
             dfr(curPath);
@@ -1673,7 +1665,7 @@ module.exports = class GameServer {
       }
     };
     if (fs.existsSync(path)) {
-      fs.readdirSync(path).forEach(function (file, index) {
+      fs.readdirSync(path).forEach(function (file) {
         let curPath = path + "/" + file;
         if (fs.lstatSync(curPath).isDirectory()) {
           dfr(curPath);
@@ -1686,7 +1678,8 @@ module.exports = class GameServer {
 
 
   };
- // todo this needs a rewrite/merge with updater service
+
+  // todo this needs a rewrite/merge with updater service
   upextra(sp) {
     if (!sp) {
       return;
@@ -1707,7 +1700,7 @@ module.exports = class GameServer {
 
         } else {
           try {
-            let test = fs.readFileSync('./' + filed);
+            fs.readFileSync('./' + filed);
           } catch (err) {
 
 
@@ -1758,7 +1751,7 @@ module.exports = class GameServer {
   };
 
   ejecttMass(client) {
-    client.cells.forEach((cell)=>{
+    client.cells.forEach((cell)=> {
       if (!cell) return;
       let angle = utilities.getAngleFromClientToCell(client, cell);
 
@@ -1782,10 +1775,11 @@ module.exports = class GameServer {
 
     });
   };
+
   kickBots(numToKick) {
     let removed = 0;
 
-    this.getClients().some((client)=>{
+    this.getClients().some((client)=> {
       if (numToKick === removed) return true;
       if (!client.remoteAddress) {
         client.playerTracker.cells.forEach((cell)=>this.removeNode(cell));

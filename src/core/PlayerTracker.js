@@ -1,5 +1,6 @@
 'use strict';
 var Packet = require('../packet/index');
+const utilities = require('./utilities.js');
 
 // this creates circular decencies
 //var GameServer = require('../GameServer.js');
@@ -557,7 +558,7 @@ module.exports = class PlayerTracker {
       // To mimic agar.io, get distance from center to mouse and apply a part of the distance
       specPlayer = null;
 
-      var dist = this.gameServer.getDist(this.mouse.x, this.mouse.y, this.centerPos.x, this.centerPos.y);
+      var dist = utilities.getDist(this.mouse.x, this.mouse.y, this.centerPos.x, this.centerPos.y);
       var angle = this.getAngle(this.mouse.x, this.mouse.y, this.centerPos.x, this.centerPos.y);
       var speed = Math.min(dist / 10, 190); // Not to break laws of universe by going faster than light speed
 

@@ -1,3 +1,5 @@
+'use strict';
+const utilities = require('../core/utilities.js');
 var Mode = require('./Mode.js');
 var Cell = require('../entity/Cell.js');
 var Entity = require('../entity');
@@ -574,7 +576,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
     };
 
     // Create cell
-    newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 10);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -937,7 +939,7 @@ TeamZ.prototype.onCellMove = function (x1, y1, cell) {
       }
 
       // First collision check passed... now more precise checking
-      dist = cell.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
+      let dist = utilities.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
 
       // Calculations
       if (dist < collisionDist) { // Collided

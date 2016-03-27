@@ -193,8 +193,8 @@ GameServer.prototype.getRandomPosition = newGameServer.getRandomPosition;
 GameServer.prototype.getRandomSpawn = newGameServer.getRandomSpawn;
 GameServer.prototype.addNode = newGameServer.addNode;
 GameServer.prototype.removeNode = newGameServer.removeNode;
-GameServer.prototype.getRandomColor = newGameServer.getRandomColor;
-GameServer.prototype.getDist = newGameServer.getDist;
+GameServer.getRandomColor = GameServer.getRandomColor;
+GameServer.getDist = GameServer.getDist;
 
 GameServer.prototype.updateMoveEngine = newGameServer.updateMoveEngine.bind(newGameServer);
 GameServer.prototype.updateCells = newGameServer.updateCells;
