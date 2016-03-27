@@ -1,4 +1,4 @@
-// This line is here to throw an error if anything tries to use this file
+This line is here to throw an error if anything tries to use this file
 
 'use strict';
 // Library imports
