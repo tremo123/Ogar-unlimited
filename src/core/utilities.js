@@ -21,5 +21,10 @@ module.exports = {
     var deltaX = Math.abs(x1 - x2);
     var deltaY = Math.abs(y1 - y2);
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  },
+  getAngleFromClientToCell: function (client, cell) {
+    let deltaY = client.mouse.y - cell.position.y;
+    let deltaX = client.mouse.x - cell.position.x;
+    return Math.atan2(deltaX, deltaY);
   }
 };
