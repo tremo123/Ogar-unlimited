@@ -1035,8 +1035,8 @@ module.exports = class GameServer {
       }
     } else {
       // Find next non-spectator with cells in the client list
-      var oldPlayer = player.spectatedPlayer + 1;
-      var count = 0;
+      let oldPlayer = player.spectatedPlayer + 1;
+      let count = 0;
       while (player.spectatedPlayer != oldPlayer && count != this.clients.length) {
         if (oldPlayer == this.clients.length) {
           oldPlayer = 0;
@@ -1065,17 +1065,15 @@ module.exports = class GameServer {
   };
 
   ejectVirus(parent, owner, color) {
-
-
     var parentPos = {
       x: parent.position.x,
-      y: parent.position.y,
+      y: parent.position.y
     };
 
-    var newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusMass);
+    let newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusmass);
     newVirus.setAngle(parent.getAngle());
     newVirus.setpar(owner);
-    newVirus.mass = 10
+    newVirus.mass = 10;
     newVirus.setMoveEngineData(this.config.ejectvspeed, 20);
     if (color) newVirus.color = color; else newVirus.color = owner.color;
 
