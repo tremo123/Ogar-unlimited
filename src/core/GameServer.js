@@ -1416,30 +1416,27 @@ module.exports = class GameServer {
       if (this.tickMain >= this.config.fps) { // 1 Second
         let a = [];
         let d = false;
-        var clients = this.getClients();
-        for (var i in clients) {
-          if (typeof clients[i].remoteAddress != "undefined" && this.whlist.indexOf(clients[i].remoteAddress) == -1 && !clients[i].playerTracker.nospawn) {
-            if (a[clients[i].playerTracker.mouse] === undefined) {
-              a[clients[i].playerTracker.mouse] = 1;
+
+        this.getClients().forEach((client)=>{
+
+          if (client.remoteAddress && this.whlist.indexOf(client.remoteAddress) == -1 && !client.playerTracker.nospawn) {
+            if (a[client.playerTracker.mouse] === undefined) {
+              a[client.playerTracker.mouse] = 1;
 
             } else { // Where it checks for duplicates. If there is over 5, it activates mouse filter using mfre, to see how it works, go to playertracker. This is here so i can reduce lag using a simple and less cpu using method to check for duplicates because the method to actually get rid of them is not efficient.
-              a[clients[i].playerTracker.mouse]++;
-              if (a[clients[i].playerTracker.mouse] > this.config.mbchance) {
+              a[client.playerTracker.mouse]++;
+              if (a[client.playerTracker.mouse] > this.config.mbchance) {
                 this.mfre = true;
                 d = true;
               }
             }
           }
-
-          if (typeof clients[i] != "undefined") {
-            if (clients[i].playerTracker.rainbowon) {
-              var client = clients[i].playerTracker;
-              for (var j in client.cells) {
-                this.rnodes[client.cells[j].nodeId] = client.cells[j];
-              }
-            }
+          // todo likely do not need the client check as it was not included above - this is most likely defensive programming
+          if (client && client.playerTracker.rainbowon) {
+            client.cells.forEach((cell)=>this.rnodes[cell.nodeId] = cell);
           }
-        }
+        });
+
         if (d == false) this.mfre = false;
 
         if (this.rnodes > 0) {
@@ -1462,6 +1459,7 @@ module.exports = class GameServer {
           // Get client with largest score if gamemode doesn't have a leaderboard
           var lC;
           var lCScore = 0;
+          let clients = this.clients;
           for (var i = 0; i < this.clients.length; i++) {
             // if (typeof this.clients[i].getScore == 'undefined') continue;
             if (clients[i].playerTracker.getScore(true) > lCScore) {
