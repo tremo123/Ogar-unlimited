@@ -1,3 +1,4 @@
+'use strict';
 module.exports = {
   getRandomColor: function () {
     var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
