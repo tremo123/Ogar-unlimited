@@ -1,5 +1,5 @@
 var Commands = require('./modules/CommandList');
-var GameServer = require('./GameServer');
+var GameServer = require('./core/GameServer');
 
 var gameServer = new GameServer();
 
