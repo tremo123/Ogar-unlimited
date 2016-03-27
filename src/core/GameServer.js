@@ -1457,7 +1457,7 @@ module.exports = class GameServer {
         this.tickMain = 0; // Reset
         if (!this.gameMode.specByLeaderboard) {
           // Get client with largest score if gamemode doesn't have a leaderboard
-          let largestClient;
+          let largestClient = undefined;
           let largestClientScore = 0;
 
           this.clients.forEach((client)=>{
