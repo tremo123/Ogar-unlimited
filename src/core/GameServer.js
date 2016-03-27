@@ -465,8 +465,9 @@ module.exports = class GameServer {
     node.onAdd(this);
 
     // Add to visible nodes
-    for (var i = 0; i < this.clients.length; i++) {
-      var client = this.clients[i].playerTracker;
+    let clients = this.getClients();
+    for (var i = 0; i < clients.length; i++) {
+      var client = clients[i].playerTracker;
       if (!client) {
         continue;
       }
@@ -503,8 +504,9 @@ module.exports = class GameServer {
     node.onRemove(this);
 
     // Animation when eating
-    for (var i = 0; i < this.clients.length; i++) {
-      var client = this.clients[i].playerTracker;
+    let clients = this.getClients();
+    for (var i = 0; i < clients.length; i++) {
+      var client = clients[i].playerTracker;
       if (!client) {
         continue;
       }
@@ -1486,7 +1488,7 @@ module.exports = class GameServer {
         }
       });
 
-      if (this.config.smartbotspawn == 1) {
+      if (this.config.smartbotspawn === 1) {
         if (bots < this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
           this.livestage = 2;
           this.liveticks = 0;
@@ -1494,21 +1496,8 @@ module.exports = class GameServer {
           this.bots.addBot();
 
         } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
-          var toRemove = ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
-          var removed = 0;
-          var i = 0;
-          while (i < clients.length && removed != toRemove) {
-            if (typeof clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
-              var client = clients[i].playerTracker;
-              var len = client.cells.length;
-              for (var j = 0; j < len; j++) {
-                this.removeNode(client.cells[0]);
-              }
-              client.socket.close();
-              removed++;
-            } else
-              i++;
-          }
+          let numToKick = ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
+          this.kickBots(numToKick)
         }
       }
 
@@ -1800,6 +1789,26 @@ module.exports = class GameServer {
       this.addNode(ejected, "moving");
     }
   };
+  kickBots(numToKick) {
+
+    let removed = 0;
+
+    this.getClients().some((client)=>{
+      if (numToKick === removed) return true;
+      if (!client.remoteAddress) {
+        client.playerTracker.cells.forEach((cell)=>this.removeNode(cell));
+        try {
+          client.socket.close();
+        }
+        catch (err) { // todo I dont know why bots are throwing an error on socket.close
+          console.error('todo: Michael fix kickBots : err: ', err);
+        }
+
+        removed++;
+      }
+    });
+    return removed;
+  }
 
 
 };
