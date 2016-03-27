@@ -1382,6 +1382,7 @@ module.exports = class GameServer {
     if (this.tick >= 1000 / this.config.fps) {
       // Loop main functions
       if (this.run) {
+        // todo what is going on here?
         (this.cellTick(), 0);
         (this.spawnTick(), 0);
         (this.gameModeTick(), 0);
@@ -1393,14 +1394,9 @@ module.exports = class GameServer {
 
       // Update cells/leaderboard loop
       this.tickMain++;
-      var count = 0;
-      for (var i in this.rnodes) {
-        let node = this.rnodes[i];
-
-        if (!node) {
-          continue;
-        }
-
+      let count = 0;
+      this.rnodes.forEach((node)=>{
+        if (!node) return;
         count++;
 
         if (typeof node.rainbow == 'undefined') {
@@ -1413,15 +1409,13 @@ module.exports = class GameServer {
 
         node.color = this.colors[node.rainbow];
         node.rainbow += this.config.rainbowspeed;
-      }
+      });
 
-      if (count <= 0) {
-        this.rnodes = [];
-      }
+      if (count <= 0) this.rnodes = [];
 
       if (this.tickMain >= this.config.fps) { // 1 Second
-        var a = [];
-        var d = false;
+        let a = [];
+        let d = false;
         var clients = this.getClients();
         for (var i in clients) {
           if (typeof clients[i].remoteAddress != "undefined" && this.whlist.indexOf(clients[i].remoteAddress) == -1 && !clients[i].playerTracker.nospawn) {
