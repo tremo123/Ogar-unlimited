@@ -1361,15 +1361,11 @@ module.exports = class GameServer {
   };
 
   updateClients() {
-    var clients = this.getClients();
-    for (var i = 0; i < clients.length; i++) {
-      if (typeof clients[i] == "undefined") {
-        continue;
-      }
-      if (typeof clients[i].playerTracker == "undefined") continue;
-      clients[i].playerTracker.antiTeamTick();
-      clients[i].playerTracker.update();
-    }
+    this.getClients().forEach((client)=>{
+      if (!client || !client.playerTracker) return;
+      client.playerTracker.antiTeamTick();
+      client.playerTracker.update();
+    });
   };
 
   cellUpdateTick() {
