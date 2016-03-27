@@ -31,14 +31,18 @@ module.exports = class GameServer {
     this.nodes = [];
     this.movingNodes = [];
     this.nodesPlayer = []; // Nodes controlled by players
+    this.nodesVirus = []; // Virus nodes
+    this.nodesEjected = []; // Ejected mass nodes
+    this.rnodes = [];
+
+
     this.clients = [];
     this.currentFood = 0;
 
     // inprogress
     this.whlist = [];
     this.nospawn = [];
-    this.nodesVirus = []; // Virus nodes
-    this.nodesEjected = []; // Ejected mass nodes
+
     this.ipCounts = [];
 
     this.leaderboard = []; // leaderboard
@@ -84,7 +88,7 @@ module.exports = class GameServer {
     this.ipCounts = [];
     this.minionleader = undefined;
     this.version = "11.8.5";
-    this.rnodes = [];
+
     this.destroym = false;
     this.lleaderboard = false;
     this.topscore = 50;
@@ -122,8 +126,7 @@ module.exports = class GameServer {
       score: 100,
       name: "none"
     };
-    this.nodesVirus = []; // Virus nodes
-    this.nodesEjected = []; // Ejected mass nodes
+
 
     this.banned = [];
 
@@ -352,8 +355,9 @@ module.exports = class GameServer {
           self.config.borderTop += self.config.borderDec;
           self.config.borderBottom -= self.config.borderDec;
 
-          for (let i = 0; i < self.nodes.length; i++) {
-            let node = self.nodes[i];
+          let nodes = self.getNodes();
+          for (let i = 0; i < nodes.length; i++) {
+            let node = nodes[i];
 
             if ((!node) || (node.getType() == 0)) {
               continue;
@@ -424,20 +428,14 @@ module.exports = class GameServer {
 
   }
 
+  //***************** refactoring nodes start
+  // basic nodes
   getNextNodeId() {
     return this.world.getNewNodeId();
   }
 
-  getNewPlayerID() {
-    // Resets integer
-    if (this.lastPlayerId > 2147483647) {
-      this.lastPlayerId = 1;
-    }
-    return this.lastPlayerId++;
-  }
-
-  getMode() {
-    return this.gameMode;
+  getNodes() {
+    return this.nodes;
   }
 
   addNode(node, type) {
@@ -485,10 +483,7 @@ module.exports = class GameServer {
     }
 
     // Remove from moving cells list
-    index = this.movingNodes.indexOf(node);
-    if (index != -1) {
-      this.movingNodes.splice(index, 1);
-    }
+    this.removeMovingNode(node);
 
     // Special on-remove actions
     node.onRemove(this);
@@ -504,6 +499,96 @@ module.exports = class GameServer {
       // Remove from client
       client.nodeDestroyQueue.push(node);
     }
+  }
+
+  // moving nodes
+  getMovingNodes() {
+    return this.movingNodes;
+  }
+  removeMovingNode(node){
+    let index = this.movingNodes.indexOf(node);
+    if (index != -1) {
+      this.movingNodes.splice(index, 1);
+    }
+  }
+
+  setAsMovingNode(node) {
+    this.movingNodes.push(node);
+  }
+
+  // player nodes
+  getNewPlayerID() {
+    // Resets integer
+    if (this.lastPlayerId > 2147483647) {
+      this.lastPlayerId = 1;
+    }
+    return this.lastPlayerId++;
+  }
+
+  getPlayerNodes() {
+    return this.nodesPlayer;
+  }
+
+  addPlayerNode(node) {
+    this.nodesPlayer.push(node);
+  }
+
+  getNodesPlayer() {
+    return this.nodesPlayer;
+  }
+
+  addNodesPlayer(node) {
+    this.nodesPlayer.push(node);
+  }
+
+  removeNodesPlayer(node) {
+    // Remove from special player controlled node list
+    let index = this.nodesPlayer.indexOf(node);
+    if (index != -1) {
+      this.nodesPlayer.splice(index, 1);
+    }
+  }
+
+  // Virus Nodes
+  getVirusNodes() {
+    return this.nodesVirus;
+  }
+
+  addVirusNodes(node) {
+    this.nodesVirus.push(node)
+  }
+
+  // Ejected Nodes
+  getEjectedNodes() {
+    return this.nodesEjected;
+  }
+
+  addEjectedNodes(node) {
+    this.nodesEjected.push(node)
+  }
+
+  clearEjectedNodes(){
+    this.nodesEjected = [];
+  }
+
+  // rainbow nodes
+  getRainbowNodes(){
+    return this.rnodes;
+  }
+  addRainbowNode(node){
+    this.rnodes.push(node);
+  }
+  setRainbowNode(index, node){
+    this.rnodes[index] = cell
+  }
+  clearRainbowNodes(){
+    this.rnodes = [];
+  }
+
+  //***************** refactoring nodes end
+
+  clearLeaderBoard() {
+    this.leaderboard = [];
   }
 
   getRandomSpawn() {
@@ -550,8 +635,8 @@ module.exports = class GameServer {
     return utilities.getDist(x1, y1, x2, y2);
   }
 
-  setAsMovingNode(node) {
-    this.movingNodes.push(node);
+  getMode() {
+    return this.gameMode;
   }
 
   updateMoveEngine() {
@@ -559,7 +644,7 @@ module.exports = class GameServer {
       return GameServer.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > GameServer.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
     }
 
-    let nodes = this.nodesPlayer;
+    let nodes = this.getPlayerNodes();
     nodes.sort(sorter);
     nodes.forEach((cell)=> {
       // Do not move cells that have already been eaten or have collision turned off
@@ -589,14 +674,14 @@ module.exports = class GameServer {
 
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    this.movingNodes.forEach((check)=> {
-      // Recycle unused nodes
-      while ((typeof check === "undefined") && (i < this.movingNodes.length)) {
-        // Remove moving cells that are undefined
-        let i = this.movingNodes.indexOf(check);
-        this.movingNodes.splice(i, 1);
-        check = this.movingNodes[i + 1];
-      }
+    this.getMovingNodes().forEach((check)=> {
+      // todo need to review this as it doesnt really make sense to remove a node that doesnt exist
+      //// Recycle unused nodes
+      //if (!check) {
+      //  this.removeMovingNode(check);
+      //  return;
+      //}
+
 
       if (check.moveEngineTicks > 0) {
         check.onAutoMove(this);
@@ -606,10 +691,7 @@ module.exports = class GameServer {
         // Auto move is done
         check.moveDone(this);
         // Remove cell from list
-        let index = this.movingNodes.indexOf(check);
-        if (index != -1) {
-          this.movingNodes.splice(index, 1);
-        }
+        this.removeMovingNode(check);
       }
     });
   }
@@ -621,7 +703,7 @@ module.exports = class GameServer {
     }
 
     // Loop through all player cells
-    this.nodesPlayer.forEach((cell)=> {
+    this.getPlayerNodes().forEach((cell)=> {
       if (!cell) {
         return;
       }
@@ -792,30 +874,6 @@ module.exports = class GameServer {
   getGameMode() {
     // todo why do we use Gamemode to return the game mode?
     return Gamemode.get(this.config.serverGamemode);
-  }
-
-  getNodes() {
-    return this.nodes;
-  }
-
-  getMovingNodes() {
-    return this.movingNodes;
-  }
-
-  getNodesPlayer() {
-    return this.nodesPlayer;
-  }
-
-  addNodesPlayer(node) {
-    this.nodesPlayer.push(node);
-  }
-
-  removeNodesPlayer(node) {
-    // Remove from special player controlled node list
-    let index = this.nodesPlayer.indexOf(node);
-    if (index != -1) {
-      this.nodesPlayer.splice(index, 1);
-    }
   }
 
   getClients() {
@@ -1006,7 +1064,7 @@ module.exports = class GameServer {
     let rightX = cell.position.x + r;
 
     // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
-    this.nodesVirus.some((check)=> {
+    this.getVirusNodes().some((check)=> {
       //if (typeof check === 'undefined') return false;
       if (!check || !check.collisionCheck(bottomY, topY, rightX, leftX)) return false;
 
@@ -1384,11 +1442,11 @@ module.exports = class GameServer {
       // Update cells/leaderboard loop
       this.tickMain++;
       let count = 0;
-      this.rnodes.forEach((node)=> {
+      this.getRainbowNodes().forEach((node)=> {
         if (!node) return;
         count++;
 
-        if (typeof node.rainbow == 'undefined') {
+        if (!node.rainbow) {
           node.rainbow = Math.floor(Math.random() * this.colors.length);
         }
 
@@ -1400,7 +1458,7 @@ module.exports = class GameServer {
         node.rainbow += this.config.rainbowspeed;
       });
 
-      if (count <= 0) this.rnodes = [];
+      if (count <= 0) this.clearRainbowNodes();
 
       if (this.tickMain >= this.config.fps) { // 1 Second
         let a = [];
@@ -1422,17 +1480,18 @@ module.exports = class GameServer {
           }
           // todo likely do not need the client check as it was not included above - this is most likely defensive programming
           if (client && client.playerTracker.rainbowon) {
-            client.cells.forEach((cell)=>this.rnodes[cell.nodeId] = cell);
+            client.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
           }
         });
 
         if (d == false) this.mfre = false;
 
-        if (this.rnodes > 0) {
+        let rNodes = this.getRainbowNodes();
+        if (rNodes.length > 0) {
 
           if (this.rrticks > 40) {
             this.rrticks = 0;
-            this.rnodes = [];
+            this.clearRainbowNodes();
 
           } else {
             this.rrticks++;
@@ -1495,8 +1554,8 @@ module.exports = class GameServer {
         } else if (this.run && humans == 0) {
           console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
           this.run = false;
-          this.nodesEjected = [];
-          this.leaderboard = [];
+          this.clearEjectedNodes();
+          this.clearLeaderBoard();
         }
       }
 
