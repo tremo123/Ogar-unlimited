@@ -599,7 +599,7 @@ module.exports = class GameServer {
 
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    this.movingNodes.forEach((check)=>{
+    this.movingNodes.forEach((check)=> {
       // Recycle unused nodes
       while ((typeof check === "undefined") && (i < this.movingNodes.length)) {
         // Remove moving cells that are undefined
@@ -631,7 +631,7 @@ module.exports = class GameServer {
     }
 
     // Loop through all player cells
-    this.nodesPlayer.forEach((cell)=>{
+    this.nodesPlayer.forEach((cell)=> {
       if (!cell) {
         return;
       }
@@ -856,26 +856,17 @@ module.exports = class GameServer {
     var squareR = cell.getSquareSize(); // Get cell squared radius
 
     // Loop through all cells that are visible to the cell. There is probably a more efficient way of doing this but whatever
-    var len = cell.owner.visibleNodes.length;
-    for (var i = 0; i < len; i++) {
-      var check = cell.owner.visibleNodes[i];
-
+    cell.owner.visibleNodes.forEach((check)=> {
       // exist?
       // if something already collided with this cell, don't check for other collisions
       // Can't eat itself
-      if (typeof check === 'undefined' || check.inRange || cell.nodeId === check.nodeId) {
-        continue;
-      }
+      if (typeof check === 'undefined' || check.inRange || cell.nodeId === check.nodeId) return;
 
       // Can't eat cells that have collision turned off
-      if ((cell.owner === check.owner) && (cell.ignoreCollision)) {
-        continue;
-      }
+      if ((cell.owner === check.owner) && (cell.ignoreCollision)) return;
 
       // AABB Collision
-      if (!check.collisionCheck2(squareR, cell.position)) {
-        continue;
-      }
+      if (!check.collisionCheck2(squareR, cell.position)) return;
 
       // Cell type check - Cell must be bigger than this number times the mass of the cell being eaten
       let multiplier = 1.25;
@@ -884,59 +875,132 @@ module.exports = class GameServer {
         case 1: // Food cell
           list.push(check);
           check.inRange = true; // skip future collision checks for this food
-          continue;
+          return;
         case 2: // Virus
           multiplier = 1.33;
           break;
         case 5: // Beacon
           // This cell cannot be destroyed
-          continue;
+          return;
         case 0: // Players
           // Can't eat self if it's not time to recombine yet
-          if (check.owner == cell.owner) {
-            if (!cell.shouldRecombine || !check.shouldRecombine) {
-              if (!cell.owner.recombineinstant) continue;
+          if (check.owner === cell.owner) {
+            if ((!cell.shouldRecombine || !check.shouldRecombine) && !cell.owner.recombineinstant) {
+              return;
             }
-
             multiplier = 1.00;
           }
           // Can't eat team members
           if (this.gameMode.haveTeams) {
-            if (!check.owner) { // Error check
-              continue;
-            }
-
-            if ((check.owner != cell.owner) && (check.owner.getTeam() == cell.owner.getTeam())) {
-              continue;
+            if (!check.owner && (check.owner !== cell.owner) && (check.owner.getTeam() === cell.owner.getTeam())) {
+              return;
             }
           }
-          break;
-        default:
           break;
       }
 
       // Make sure the cell is big enough to be eaten.
-      if ((check.mass * multiplier) > cell.mass) {
-        continue;
-      }
+      if ((check.mass * multiplier) > cell.mass) return;
 
       // Eating range
-      var xs = Math.pow(check.position.x - cell.position.x, 2);
-      var ys = Math.pow(check.position.y - cell.position.y, 2);
-      var dist = Math.sqrt(xs + ys);
+      let xs = Math.pow(check.position.x - cell.position.x, 2);
+      let ys = Math.pow(check.position.y - cell.position.y, 2);
+      let dist = Math.sqrt(xs + ys);
 
       var eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
-      if (dist > eatingRange) {
-        // Not in eating range
-        continue;
-      }
+
+      // Not in eating range
+      if (dist > eatingRange) return;
 
       // Add to list of cells nearby
       list.push(check);
 
       // Something is about to eat this cell; no need to check for other collisions with it
       check.inRange = true;
-    }
+    });
+
+
+    //var len = cell.owner.visibleNodes.length;
+    //for (var i = 0; i < len; i++) {
+    //  var check = cell.owner.visibleNodes[i];
+    //
+    //  // exist?
+    //  // if something already collided with this cell, don't check for other collisions
+    //  // Can't eat itself
+    //  if (typeof check === 'undefined' || check.inRange || cell.nodeId === check.nodeId) {
+    //    continue;
+    //  }
+    //
+    //  // Can't eat cells that have collision turned off
+    //  if ((cell.owner === check.owner) && (cell.ignoreCollision)) {
+    //    continue;
+    //  }
+    //
+    //  // AABB Collision
+    //  if (!check.collisionCheck2(squareR, cell.position)) {
+    //    continue;
+    //  }
+    //
+    //  // Cell type check - Cell must be bigger than this number times the mass of the cell being eaten
+    //  let multiplier = 1.25;
+    //
+    //  switch (check.getType()) {
+    //    case 1: // Food cell
+    //      list.push(check);
+    //      check.inRange = true; // skip future collision checks for this food
+    //      continue;
+    //    case 2: // Virus
+    //      multiplier = 1.33;
+    //      break;
+    //    case 5: // Beacon
+    //      // This cell cannot be destroyed
+    //      continue;
+    //    case 0: // Players
+    //      // Can't eat self if it's not time to recombine yet
+    //      if (check.owner == cell.owner) {
+    //        if (!cell.shouldRecombine || !check.shouldRecombine) {
+    //          if (!cell.owner.recombineinstant) continue;
+    //        }
+    //
+    //        multiplier = 1.00;
+    //      }
+    //      // Can't eat team members
+    //      if (this.gameMode.haveTeams) {
+    //        if (!check.owner) { // Error check
+    //          continue;
+    //        }
+    //
+    //        if ((check.owner != cell.owner) && (check.owner.getTeam() == cell.owner.getTeam())) {
+    //          continue;
+    //        }
+    //      }
+    //      break;
+    //    default:
+    //      break;
+    //  }
+    //
+    //  // Make sure the cell is big enough to be eaten.
+    //  if ((check.mass * multiplier) > cell.mass) {
+    //    continue;
+    //  }
+    //
+    //  // Eating range
+    //  var xs = Math.pow(check.position.x - cell.position.x, 2);
+    //  var ys = Math.pow(check.position.y - cell.position.y, 2);
+    //  var dist = Math.sqrt(xs + ys);
+    //
+    //  var eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
+    //  if (dist > eatingRange) {
+    //    // Not in eating range
+    //    continue;
+    //  }
+    //
+    //  // Add to list of cells nearby
+    //  list.push(check);
+    //
+    //  // Something is about to eat this cell; no need to check for other collisions with it
+    //  check.inRange = true;
+    //}
     return list;
   };
 
