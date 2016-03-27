@@ -1318,7 +1318,7 @@ module.exports = class GameServer {
   };
 
   canEjectMass(client) {
-    if (typeof client.lastEject == 'undefined' || this.config.ejectMassCooldown == 0 || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
+    if (!client.lastEject || this.config.ejectMassCooldown == 0 || this.time - client.lastEject >= this.config.ejectMassCooldown && !client.frozen) {
       client.lastEject = this.time;
       return true;
     }
