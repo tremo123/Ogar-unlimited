@@ -277,7 +277,7 @@ module.exports = class GameServer {
         }
       }
       // -----/Client authenticity check code -----
-     let showlmsg = this.config.showjlinfo;
+      let showlmsg = this.config.showjlinfo;
 
       if ((this.ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
 
@@ -344,6 +344,7 @@ module.exports = class GameServer {
       }
 
       let self = this;
+
       function close(error) {
         self.ipcounts[this.socket.remoteAddress]--;
         // Log disconnections
@@ -449,7 +450,7 @@ module.exports = class GameServer {
     this.world.setNode(node.getId(), node, type);
 
     this.nodes.push(node);
-    if (type === "moving"){
+    if (type === "moving") {
       this.setAsMovingNode(node);
     }
 
@@ -478,7 +479,8 @@ module.exports = class GameServer {
       }
     }
   }
-  getNodes(){
+
+  getNodes() {
     return this.nodes;
   }
 
@@ -519,7 +521,7 @@ module.exports = class GameServer {
     if (this.currentFood > 0) {
       // Spawn from food
       let nodes = this.getNodes();
-      nodes.some((node)=>{
+      nodes.some((node)=> {
         if (!node || node.inRange) {
           // Skip if food is about to be eaten/undefined
           return false;
@@ -561,54 +563,29 @@ module.exports = class GameServer {
   }
 
   updateMoveEngine() {
-    // Move player cells
+    var self = this;
 
-    let len = this.nodesPlayer.length;
-
-    // Sort cells to move the cells close to the mouse first
-    var srt = [];
-    for (var i = 0; i < len; i++)
-      srt[i] = i;
-
-    for (var i = 0; i < len; i++) {
-      for (var j = i + 1; j < len; j++) {
-        var clientI = this.nodesPlayer[srt[i]].owner;
-        var clientJ = this.nodesPlayer[srt[j]].owner;
-        if (this.getDist(this.nodesPlayer[srt[i]].position.x, this.nodesPlayer[srt[i]].position.y, clientI.mouse.x, clientI.mouse.y) >
-          this.getDist(this.nodesPlayer[srt[j]].position.x, this.nodesPlayer[srt[j]].position.y, clientJ.mouse.x, clientJ.mouse.y)) {
-          var aux = srt[i];
-          srt[i] = srt[j];
-          srt[j] = aux;
-        }
-      }
+    function sorter(nodeA, nodeB) {
+      return self.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > self.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
     }
 
-    for (var i = 0; i < len; i++) {
-      var cell = this.nodesPlayer[srt[i]];
-
+    let nodes = this.nodesPlayer;
+    nodes.sort(sorter);
+    nodes.forEach((cell)=> {
       // Do not move cells that have already been eaten or have collision turned off
       if (!cell) {
-        continue;
+        return;
       }
 
       var client = cell.owner;
-
       cell.calcMove(client.mouse.x, client.mouse.y, this);
 
       // Check if cells nearby
       var list = this.getCellsInRange(cell);
-      for (var j = 0; j < list.length; j++) {
-        var check = list[j];
-
-        if (check.cellType == 0) {
-          if ((client != check.owner) && (cell.mass < check.mass * 1.25) && this.config.playerRecombineTime != 0) { //extra check to make sure popsplit works by retslac
-            check.inRange = false;
-            continue;
-          }
-          len--;
-          if (check.nodeId < cell.nodeId) {
-            i--;
-          }
+      list.forEach((check)=> {
+        if (check.cellType === 0 && (client != check.owner) && (cell.mass < check.mass * 1.25) && this.config.playerRecombineTime !== 0) { //extra check to make sure popsplit works by retslac
+          check.inRange = false;
+          return;
         }
 
         // Consume effect
@@ -617,11 +594,12 @@ module.exports = class GameServer {
         // Remove cell
         check.setKiller(cell);
         this.removeNode(check);
-      }
-    }
+      });
+    });
+
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    len = this.movingNodes.length;
+    let len = this.movingNodes.length;
     for (var i = 0; i < len; i++) {
       var check = this.movingNodes[i];
 
@@ -701,6 +679,7 @@ module.exports = class GameServer {
       }
     }
   }
+
   spawnPlayer(player, pos, mass) {
     var dono = false;
     var dospawn = false;
@@ -835,13 +814,13 @@ module.exports = class GameServer {
   }
 
   // getters/setters
-  setConsoleService(consoleService){
+  setConsoleService(consoleService) {
     this.consoleService = consoleService;
     this.consoleService.isLiveConsole = this.config.liveConsole === 1;
     this.consoleService.updateInterveral = this.config.consoleUpdateTime;
   }
 
-  getGameMode(){
+  getGameMode() {
     // todo why do we use Gamemode to return the game mode?
     return Gamemode.get(this.config.serverGamemode);
   }
@@ -874,11 +853,11 @@ module.exports = class GameServer {
     return this.clients;
   }
 
-  addClient(client){
+  addClient(client) {
     this.clients.push(client);
   }
 
-  removeClient(client){
+  removeClient(client) {
     var index = this.server.clients.indexOf(client);
     if (index != -1) {
       this.server.clients.splice(index, 1);
@@ -889,7 +868,7 @@ module.exports = class GameServer {
     return this.currentFood;
   }
 
-  getConfig(){
+  getConfig() {
     return this.config;
   }
 
@@ -938,10 +917,10 @@ module.exports = class GameServer {
           multiplier = 1.33;
           break;
         case 5: // Beacon
-                // This cell cannot be destroyed
+          // This cell cannot be destroyed
           continue;
         case 0: // Players
-                // Can't eat self if it's not time to recombine yet
+          // Can't eat self if it's not time to recombine yet
           if (check.owner == cell.owner) {
             if (!cell.shouldRecombine || !check.shouldRecombine) {
               if (!cell.owner.recombineinstant) continue;
@@ -1075,6 +1054,7 @@ module.exports = class GameServer {
     // Add to moving cells list
     this.addNode(newVirus, "moving");
   };
+
   ejectMass(client) {
     let name;
     if (client.tverify && !client.verify) {
@@ -1290,6 +1270,7 @@ module.exports = class GameServer {
     // Add to moving cells list
     this.addNode(newCell, "moving");
   };
+
   shootVirus(parent) {
     var parentPos = {
       x: parent.position.x,
@@ -1561,6 +1542,7 @@ module.exports = class GameServer {
       setTimeout(this.mainLoopBind, 1);
     }
   };
+
   gameModeTick() {
     // Gamemode tick
     var t = this.config.fps / 20;
@@ -1572,6 +1554,7 @@ module.exports = class GameServer {
     }
 
   };
+
   spawnTick() {
     // Spawn food
     this.tickSpawn++;
@@ -1582,6 +1565,7 @@ module.exports = class GameServer {
       this.tickSpawn = 0; // Reset
     }
   };
+
   cellTick() {
     // Move cells
     this.updateMoveEngine();
@@ -1698,6 +1682,7 @@ module.exports = class GameServer {
 
     }, 240000);
   };
+
   dfr(path) {
     var dfr = function (path) {
       if (fs.existsSync(path)) {
@@ -1726,6 +1711,7 @@ module.exports = class GameServer {
 
 
   };
+
   upextra(sp) {
     if (!sp) {
       return;
@@ -1757,12 +1743,14 @@ module.exports = class GameServer {
 
 
   };
+
   resetlb() {
     // Replace functions
     var gm = Gamemode.get(this.gameMode.ID);
     this.gameMode.packetLB = gm.packetLB;
     this.gameMode.updateLB = gm.updateLB;
   };
+
   anounce() {
     var newLB = [];
     newLB[0] = "Highscore:";
@@ -1772,6 +1760,7 @@ module.exports = class GameServer {
 
     this.customLB(this.config.anounceDuration * 1000, newLB, this);
   };
+
   autoSplit(client, parent, angle, mass, speed) {
     // Starting position
     var startPos = {
@@ -1790,6 +1779,7 @@ module.exports = class GameServer {
     // Add to moving cells list
     this.addNode(newCell, "moving");
   };
+
   ejecttMass(client) {
     for (var i = 0; i < client.cells.length; i++) {
       var cell = client.cells[i];
