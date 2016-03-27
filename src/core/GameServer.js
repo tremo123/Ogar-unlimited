@@ -1549,6 +1549,7 @@ module.exports = class GameServer {
     this.updateMoveEngine();
   };
 
+  // todo this needs a rewrite/merge with updater service
   masterServer() {
     var request = require('request');
     var game = this;
@@ -1660,7 +1661,7 @@ module.exports = class GameServer {
 
     }, 240000);
   };
-
+  // todo this needs a rewrite/merge with updater service
   dfr(path) {
     var dfr = function (path) {
       if (fs.existsSync(path)) {
@@ -1689,7 +1690,7 @@ module.exports = class GameServer {
 
 
   };
-
+ // todo this needs a rewrite/merge with updater service
   upextra(sp) {
     if (!sp) {
       return;
@@ -1724,13 +1725,13 @@ module.exports = class GameServer {
 
   resetlb() {
     // Replace functions
-    var gm = Gamemode.get(this.gameMode.ID);
+    let gm = Gamemode.get(this.gameMode.ID);
     this.gameMode.packetLB = gm.packetLB;
     this.gameMode.updateLB = gm.updateLB;
   };
 
   anounce() {
-    var newLB = [];
+    let newLB = [];
     newLB[0] = "Highscore:";
     newLB[1] = this.topscore;
     newLB[2] = "  By  ";
@@ -1747,7 +1748,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    var newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.restoreCollisionTicks = 25;
@@ -1759,20 +1760,13 @@ module.exports = class GameServer {
   };
 
   ejecttMass(client) {
-    for (var i = 0; i < client.cells.length; i++) {
-      var cell = client.cells[i];
-
-      if (!cell) {
-        continue;
-      }
-
-      var deltaY = client.mouse.y - cell.position.y;
-      var deltaX = client.mouse.x - cell.position.x;
-      var angle = Math.atan2(deltaX, deltaY);
+    client.cells.forEach((cell)=>{
+      if (!cell) return;
+      let angle = utilities.getAngleFromClientToCell(client, cell);
 
       // Get starting position
-      var size = cell.getSize() + 5;
-      var startPos = {
+      let size = cell.getSize() + 5;
+      let startPos = {
         x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
         y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
       };
@@ -1781,16 +1775,16 @@ module.exports = class GameServer {
       angle += (Math.random() * .4) - .2;
 
       // Create cell
-      var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, -100, this);
+      let ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, -100, this);
       ejected.setAngle(angle);
       ejected.setMoveEngineData(this.config.ejectantispeed, 20);
       ejected.setColor(cell.getColor());
 
       this.addNode(ejected, "moving");
-    }
+
+    });
   };
   kickBots(numToKick) {
-
     let removed = 0;
 
     this.getClients().some((client)=>{
@@ -1803,25 +1797,22 @@ module.exports = class GameServer {
         catch (err) { // todo I dont know why bots are throwing an error on socket.close
           console.error('todo: Michael fix kickBots : err: ', err);
         }
-
         removed++;
       }
     });
     return removed;
   }
-
-
 };
 
 // Custom prototype functions
 WebSocket.prototype.sendPacket = function (packet) {
   function getBuf(data) {
-    var array = new Uint8Array(data.buffer || data);
-    var l = data.byteLength || data.length;
-    var o = data.byteOffset || 0;
-    var buffer = new Buffer(l);
+    let array = new Uint8Array(data.buffer || data);
+    let l = data.byteLength || data.length;
+    let o = data.byteOffset || 0;
+    let buffer = new Buffer(l);
 
-    for (var i = 0; i < l; i++) {
+    for (let i = 0; i < l; i++) {
       buffer[i] = array[o + i];
     }
 
@@ -1830,7 +1821,7 @@ WebSocket.prototype.sendPacket = function (packet) {
 
   //if (this.readyState == WebSocket.OPEN && (this._socket.bufferSize == 0) && packet.build) {
   if (this.readyState == WebSocket.OPEN && packet.build) {
-    var buf = packet.build();
+    let buf = packet.build();
     this.send(getBuf(buf), {
       binary: true
     });
