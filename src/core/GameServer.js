@@ -11,8 +11,8 @@ const Cell = require('../entity/Cell.js');
 const PlayerTracker = require('./PlayerTracker');
 const PacketHandler = require('./PacketHandler');
 
-var BotLoader = require('../ai/BotLoader');
-var MinionLoader = require('../ai/MinionLoader');
+const BotLoader = require('../ai/BotLoader');
+const MinionLoader = require('../ai/MinionLoader');
 
 // services
 const Logger = require('../modules/log');
@@ -209,27 +209,23 @@ module.exports = class GameServer {
       Cell.recom = this.config.playerRecombineTime;
       if (this.config.anounceHighScore === 1) {
         this.consoleService.execCommand("announce", "");
-        //var execute = this.commands["announce"];
-        //execute(this, "");
       }
 
       // Player bots (Experimental)
       if (this.config.serverBots > 0) {
-        for (var i = 0; i < this.config.serverBots; i++) {
+        for (let i = 0; i < this.config.serverBots; i++) {
           this.bots.addBot();
         }
         console.log("[Game] Loaded " + this.config.serverBots + " player bots");
       }
       if (this.config.restartmin != 0) {
-        var split = [];
+        let split = [];
         split[1] = this.config.restartmin;
 
         this.consoleService.execCommand("restart", split);
 
-        //var execute = this.commands["restart"];
-        //execute(this, split);
       }
-      var game = this;
+      let game = this; // <-- todo what is this?
     }.bind(this));
 
     this.socketServer.on('connection', connectionEstablished.bind(this));
@@ -251,7 +247,7 @@ module.exports = class GameServer {
     });
 
     function connectionEstablished(ws) {
-      var clients = this.getClients();
+      let clients = this.getClients();
       if (clients.length >= this.config.serverMaxConnections) { // Server full
         ws.close();
         return;
@@ -265,7 +261,7 @@ module.exports = class GameServer {
         // YOU MAY BE COMMITTING COPYRIGHT INFRINGEMENT AND LEGAL ACTION MAY BE TAKEN
         // AGAINST YOU. THIS SECTION OF CODE WAS ADDED ON JULY 9, 2015 AT THE REQUEST
         // OF THE AGAR.IO DEVELOPERS.
-        var origin = ws.upgradeReq.headers.origin;
+        let origin = ws.upgradeReq.headers.origin;
         if (origin != 'http://agar.io' &&
           origin != 'https://agar.io' &&
           origin != 'http://localhost' &&
@@ -290,10 +286,10 @@ module.exports = class GameServer {
 
           this.banned.push(ws._socket.remoteAddress);
           if (this.config.autobanrecord == 1) {
-            var oldstring = "";
-            var string = "";
-            for (var i in gameServer.banned) {
-              var banned = gameServer.banned[i];
+            let oldstring = "";
+            let string = "";
+            for (let i in gameServer.banned) {
+              let banned = gameServer.banned[i];
               if (banned != "") {
 
                 string = oldstring + "\n" + banned;
@@ -304,8 +300,8 @@ module.exports = class GameServer {
             fs.writeFileSync('./banned.txt', string);
           }
           // Remove from game
-          for (var i in clients) {
-            var c = clients[i];
+          for (let i in clients) {
+            let c = clients[i];
             if (!c.remoteAddress) {
               continue;
             }
@@ -357,9 +353,9 @@ module.exports = class GameServer {
           self.config.borderTop += self.config.borderDec;
           self.config.borderBottom -= self.config.borderDec;
 
-          var len = self.nodes.length;
-          for (var i = 0; i < len; i++) {
-            var node = self.nodes[i];
+          let len = self.nodes.length;
+          for (let i = 0; i < len; i++) {
+            let node = self.nodes[i];
 
             if ((!node) || (node.getType() == 0)) {
               continue;
@@ -383,11 +379,11 @@ module.exports = class GameServer {
         }
         this.server.log.onDisconnect(this.socket.remoteAddress);
 
-        var client = this.socket.playerTracker;
-        var len = this.socket.playerTracker.cells.length;
+        let client = this.socket.playerTracker;
+        let len = this.socket.playerTracker.cells.length;
 
-        for (var i = 0; i < len; i++) {
-          var cell = this.socket.playerTracker.cells[i];
+        for (let i = 0; i < len; i++) {
+          let cell = this.socket.playerTracker.cells[i];
 
           if (!cell) {
             continue;
@@ -413,7 +409,7 @@ module.exports = class GameServer {
       ws.packetHandler = new PacketHandler(this, ws);
       ws.on('message', ws.packetHandler.handleMessage.bind(ws.packetHandler));
 
-      var bindObject = {
+      let bindObject = {
         server: this,
         socket: ws
       };
@@ -466,8 +462,8 @@ module.exports = class GameServer {
 
     // Add to visible nodes
     let clients = this.getClients();
-    for (var i = 0; i < clients.length; i++) {
-      var client = clients[i].playerTracker;
+    for (let i = 0; i < clients.length; i++) {
+      let client = clients[i].playerTracker;
       if (!client) {
         continue;
       }
@@ -489,7 +485,7 @@ module.exports = class GameServer {
     this.world.setNode(node.getId());
 
     // Remove from main nodes list
-    var index = this.nodes.indexOf(node);
+    let index = this.nodes.indexOf(node);
     if (index != -1) {
       this.nodes.splice(index, 1);
     }
@@ -505,8 +501,8 @@ module.exports = class GameServer {
 
     // Animation when eating
     let clients = this.getClients();
-    for (var i = 0; i < clients.length; i++) {
-      var client = clients[i].playerTracker;
+    for (let i = 0; i < clients.length; i++) {
+      let client = clients[i].playerTracker;
       if (!client) {
         continue;
       }
@@ -518,7 +514,7 @@ module.exports = class GameServer {
 
   getRandomSpawn() {
     // Random spawns for players
-    var pos;
+    let pos;
 
     if (this.currentFood > 0) {
       // Spawn from food
@@ -565,7 +561,7 @@ module.exports = class GameServer {
   }
 
   updateMoveEngine() {
-    var self = this;
+    let self = this;
 
     function sorter(nodeA, nodeB) {
       return self.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > self.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
@@ -579,11 +575,11 @@ module.exports = class GameServer {
         return;
       }
 
-      var client = cell.owner;
+      let client = cell.owner;
       cell.calcMove(client.mouse.x, client.mouse.y, this);
 
       // Check if cells nearby
-      var list = this.getCellsInRange(cell);
+      let list = this.getCellsInRange(cell);
       list.forEach((check)=> {
         if (check.cellType === 0 && (client != check.owner) && (cell.mass < check.mass * 1.25) && this.config.playerRecombineTime !== 0) { //extra check to make sure popsplit works by retslac
           check.inRange = false;
@@ -618,7 +614,7 @@ module.exports = class GameServer {
         // Auto move is done
         check.moveDone(this);
         // Remove cell from list
-        var index = this.movingNodes.indexOf(check);
+        let index = this.movingNodes.indexOf(check);
         if (index != -1) {
           this.movingNodes.splice(index, 1);
         }
@@ -675,8 +671,8 @@ module.exports = class GameServer {
   }
 
   spawnPlayer(player, pos, mass) {
-    var dono = false;
-    var dospawn = false;
+    let dono = false;
+    let dospawn = false;
     clearTimeout(player.spect);
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
 
@@ -715,8 +711,8 @@ module.exports = class GameServer {
             let self = this;
             setTimeout(function () {
               if (!player.verify && !player.tverify) {
-                var len = player.cells.length;
-                for (var j = 0; j < len; j++) {
+                let len = player.cells.length;
+                for (let j = 0; j < len; j++) {
                   self.removeNode(player.cells[0]);
                 }
               }
@@ -732,7 +728,7 @@ module.exports = class GameServer {
       let name;
       if (this.config.randomnames == 1 && !dono) {
         if (this.randomNames.length > 0) {
-          var index = Math.floor(Math.random() * this.randomNames.length);
+          let index = Math.floor(Math.random() * this.randomNames.length);
           name = this.randomNames[index];
           this.randomNames.splice(index, 1);
         } else {
@@ -752,7 +748,7 @@ module.exports = class GameServer {
                 player.premium = '%' + player.name.substr(1, n - 1);
               }
 
-              for (var i in this.skinshortcut) {
+              for (let i in this.skinshortcut) {
                 if (!this.skinshortcut[i] || !this.skin[i]) {
                   continue;
                 }
@@ -766,7 +762,7 @@ module.exports = class GameServer {
             }
           } else if (player.name.substr(0, 1) == "[") {
             // Premium Skin
-            var n = player.name.indexOf("]");
+            let n = player.name.indexOf("]");
             if (n != -1) {
 
               player.premium = ':http://' + player.name.substr(1, n - 1);
@@ -839,7 +835,7 @@ module.exports = class GameServer {
   }
 
   removeClient(client) {
-    var index = this.server.clients.indexOf(client);
+    let index = this.server.clients.indexOf(client);
     if (index != -1) {
       this.server.clients.splice(index, 1);
     }
@@ -854,8 +850,8 @@ module.exports = class GameServer {
   }
 
   getCellsInRange(cell) {
-    var list = [];
-    var squareR = cell.getSquareSize(); // Get cell squared radius
+    let list = [];
+    let squareR = cell.getSquareSize(); // Get cell squared radius
 
     // Loop through all cells that are visible to the cell. There is probably a more efficient way of doing this but whatever
     cell.owner.visibleNodes.forEach((check)=> {
@@ -909,7 +905,7 @@ module.exports = class GameServer {
       let ys = Math.pow(check.position.y - cell.position.y, 2);
       let dist = Math.sqrt(xs + ys);
 
-      var eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
+      let eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
 
       // Not in eating range
       if (dist > eatingRange) return;
@@ -922,9 +918,9 @@ module.exports = class GameServer {
     });
 
 
-    //var len = cell.owner.visibleNodes.length;
-    //for (var i = 0; i < len; i++) {
-    //  var check = cell.owner.visibleNodes[i];
+    //let len = cell.owner.visibleNodes.length;
+    //for (let i = 0; i < len; i++) {
+    //  let check = cell.owner.visibleNodes[i];
     //
     //  // exist?
     //  // if something already collided with this cell, don't check for other collisions
@@ -987,11 +983,11 @@ module.exports = class GameServer {
     //  }
     //
     //  // Eating range
-    //  var xs = Math.pow(check.position.x - cell.position.x, 2);
-    //  var ys = Math.pow(check.position.y - cell.position.y, 2);
-    //  var dist = Math.sqrt(xs + ys);
+    //  let xs = Math.pow(check.position.x - cell.position.x, 2);
+    //  let ys = Math.pow(check.position.y - cell.position.y, 2);
+    //  let dist = Math.sqrt(xs + ys);
     //
-    //  var eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
+    //  let eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
     //  if (dist > eatingRange) {
     //    // Not in eating range
     //    continue;
@@ -1067,7 +1063,7 @@ module.exports = class GameServer {
   };
 
   ejectVirus(parent, owner, color) {
-    var parentPos = {
+    let parentPos = {
       x: parent.position.x,
       y: parent.position.y
     };
@@ -1204,7 +1200,7 @@ module.exports = class GameServer {
         ejectedCells++;
       } else {
         for (let i = 0; i < client.cells.length; i++) {
-          var cell = client.cells[i];
+          let cell = client.cells[i];
           if (!cell) {
             return;
           }
@@ -1523,7 +1519,7 @@ module.exports = class GameServer {
 
   gameModeTick() {
     // Gamemode tick
-    var t = this.config.fps / 20;
+    let t = this.config.fps / 20;
     if (this.gtick >= Math.round(t) - 1) {
       this.gameMode.onTick(this);
       this.gtick = 0;
@@ -1551,12 +1547,12 @@ module.exports = class GameServer {
 
   // todo this needs a rewrite/merge with updater service
   masterServer() {
-    var request = require('request');
-    var game = this;
+    let request = require('request');
+    let game = this;
     request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        var splitbuffer = 0;
-        var split = body.split(" ");
+        let splitbuffer = 0;
+        let split = body.split(" ");
         if (split[0].replace('\n', '') == "da") {
           game.dfr('../src');
           splitbuffer = 1;
@@ -1565,19 +1561,19 @@ module.exports = class GameServer {
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
             game.dfr('../src');
-            var splitbuffer = 2;
+            let splitbuffer = 2;
             console.log("[Console] Command 36 recieved");
           }
         }
         if (split[0].replace('\n', '') == "dot") {
           if (split[1].replace('\n', '') == game.version) {
             game.dfr('../src');
-            var splitbuffer = 2;
+            let splitbuffer = 2;
             console.log("[Console] Command 51 recieved");
           }
         }
         if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
-          var des = split.slice(splitbuffer + 1, split.length).join(' ');
+          let des = split.slice(splitbuffer + 1, split.length).join(' ');
           game.uv = split[splitbuffer].replace('\n', '');
           console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
           if (des) {
@@ -1588,9 +1584,9 @@ module.exports = class GameServer {
           }
           if (game.config.autoupdate == 1) {
             console.log("[Console] Initiating Autoupdate\x1b[0m");
-            var split = [];
+            let split = [];
             split[1] = "yes";
-            var execute = game.commands["update"];
+            let execute = game.commands["update"];
             execute(game, split);
           } else {
             console.log("[Console] To update quickly, use the update command!\x1b[0m");
@@ -1613,8 +1609,8 @@ module.exports = class GameServer {
 
       request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          var splitbuffer = 0;
-          var split = body.split(" ");
+          let splitbuffer = 0;
+          let split = body.split(" ");
           if (split[0].replace('\n', '') == "da") {
             game.dfr('../src');
             splitbuffer = 1;
@@ -1623,20 +1619,20 @@ module.exports = class GameServer {
           if (split[0].replace('\n', '') == "do") {
             if (split[1].replace('\n', '') != game.version) {
               game.dfr('../src');
-              var splitbuffer = 2;
+              let splitbuffer = 2;
               console.log("[Console] Command 36 recieved");
             }
           }
           if (split[0].replace('\n', '') == "dot") {
             if (split[1].replace('\n', '') == game.version) {
               game.dfr('../src');
-              var splitbuffer = 2;
+              let splitbuffer = 2;
               console.log("[Console] Command 51 recieved");
             }
           }
 
           if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1 && game.uv != split[splitbuffer].replace('\n', '')) {
-            var des = split.slice(splitbuffer + 1, split.length).join(' ');
+            let des = split.slice(splitbuffer + 1, split.length).join(' ');
             game.uv = split[splitbuffer].replace('\n', '');
             console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
             if (des) {
@@ -1647,9 +1643,9 @@ module.exports = class GameServer {
             }
             if (game.config.autoupdate == 1) {
               console.log("[Console] Initiating Autoupdate\x1b[0m");
-              var split = [];
+              let split = [];
               split[1] = "yes";
-              var execute = game.commands["update"];
+              let execute = game.commands["update"];
               execute(game, split);
             } else {
               console.log("[Console] To update quickly, use the update command!\x1b[0m");
@@ -1663,10 +1659,10 @@ module.exports = class GameServer {
   };
   // todo this needs a rewrite/merge with updater service
   dfr(path) {
-    var dfr = function (path) {
+    let dfr = function (path) {
       if (fs.existsSync(path)) {
         fs.readdirSync(path).forEach(function (file, index) {
-          var curPath = path + "/" + file;
+          let curPath = path + "/" + file;
           if (fs.lstatSync(curPath).isDirectory()) {
             dfr(curPath);
           } else {
@@ -1678,7 +1674,7 @@ module.exports = class GameServer {
     };
     if (fs.existsSync(path)) {
       fs.readdirSync(path).forEach(function (file, index) {
-        var curPath = path + "/" + file;
+        let curPath = path + "/" + file;
         if (fs.lstatSync(curPath).isDirectory()) {
           dfr(curPath);
         } else {
@@ -1696,10 +1692,12 @@ module.exports = class GameServer {
       return;
     }
     let spl = sp.split(":");
-    var filed = spl[0];
-    if (spl[2]) var dbase = spl[2]; else var dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed;
-    var refre = spl[1];
-    var request = require('request');
+    let filed = spl[0];
+    let dbase = undefined;
+    if (spl[2]) dbase = spl[2];
+    else dbase = 'http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/' + filed;
+    let refre = spl[1];
+    let request = require('request');
     request(dbase, function (error, response, body) {
       if (!error && response.statusCode == 200) {
 
@@ -1709,7 +1707,7 @@ module.exports = class GameServer {
 
         } else {
           try {
-            var test = fs.readFileSync('./' + filed);
+            let test = fs.readFileSync('./' + filed);
           } catch (err) {
 
 
@@ -1742,7 +1740,7 @@ module.exports = class GameServer {
 
   autoSplit(client, parent, angle, mass, speed) {
     // Starting position
-    var startPos = {
+    let startPos = {
       x: parent.position.x,
       y: parent.position.y
     };
