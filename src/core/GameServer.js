@@ -29,11 +29,11 @@ module.exports = class GameServer {
     this.running = true;
 
     this._nodes = [];
-    this.movingNodes = [];
-    this.nodesPlayer = []; // Nodes controlled by players
-    this.nodesVirus = []; // Virus nodes
-    this.nodesEjected = []; // Ejected mass nodes
-    this.rnodes = [];
+    this._movingNodes = [];
+    this._nodesPlayer = []; // Nodes controlled by players
+    this._nodesVirus = []; // Virus nodes
+    this._nodesEjected = []; // Ejected mass nodes
+    this._rainbowNodes = [];
 
 
     this.clients = [];
@@ -503,17 +503,17 @@ module.exports = class GameServer {
 
   // moving nodes
   getMovingNodes() {
-    return this.movingNodes;
+    return this._movingNodes;
   }
   removeMovingNode(node){
-    let index = this.movingNodes.indexOf(node);
+    let index = this._movingNodes.indexOf(node);
     if (index != -1) {
-      this.movingNodes.splice(index, 1);
+      this._movingNodes.splice(index, 1);
     }
   }
 
   setAsMovingNode(node) {
-    this.movingNodes.push(node);
+    this._movingNodes.push(node);
   }
 
   // player nodes
@@ -526,42 +526,42 @@ module.exports = class GameServer {
   }
 
   getPlayerNodes() {
-    return this.nodesPlayer;
+    return this._nodesPlayer;
   }
 
   addPlayerNode(node) {
-    this.nodesPlayer.push(node);
+    this._nodesPlayer.push(node);
   }
 
   getNodesPlayer() {
-    return this.nodesPlayer;
+    return this._nodesPlayer;
   }
 
   addNodesPlayer(node) {
-    this.nodesPlayer.push(node);
+    this._nodesPlayer.push(node);
   }
 
   removeNodesPlayer(node) {
     // Remove from special player controlled node list
-    let index = this.nodesPlayer.indexOf(node);
+    let index = this._nodesPlayer.indexOf(node);
     if (index != -1) {
-      this.nodesPlayer.splice(index, 1);
+      this._nodesPlayer.splice(index, 1);
     }
   }
 
   // Virus Nodes
   getVirusNodes() {
-    return this.nodesVirus;
+    return this._nodesVirus;
   }
 
   addVirusNodes(node) {
-    this.nodesVirus.push(node)
+    this._nodesVirus.push(node)
   }
 
   removeVirusNode(node){
-    let index = this.nodesVirus.indexOf(node);
+    let index = this._nodesVirus.indexOf(node);
     if (index != -1) {
-      this.nodesVirus.splice(index, 1);
+      this._nodesVirus.splice(index, 1);
     } else {
       // todo do we really care?
       console.log("[Warning] Tried to remove a non existing moving virus!");
@@ -570,35 +570,35 @@ module.exports = class GameServer {
 
   // Ejected Nodes
   getEjectedNodes() {
-    return this.nodesEjected;
+    return this._nodesEjected;
   }
 
   addEjectedNodes(node) {
-    this.nodesEjected.push(node)
+    this._nodesEjected.push(node)
   }
   removeEjectedNode(node){
-    let index = this.nodesEjected.indexOf(node);
+    let index = this._nodesEjected.indexOf(node);
     if (index != -1) {
-      this.nodesEjected.splice(index, 1);
+      this._nodesEjected.splice(index, 1);
     }
   }
 
   clearEjectedNodes(){
-    this.nodesEjected = [];
+    this._nodesEjected = [];
   }
 
   // rainbow nodes
   getRainbowNodes(){
-    return this.rnodes;
+    return this._rainbowNodes;
   }
   addRainbowNode(node){
-    this.rnodes.push(node);
+    this._rainbowNodes.push(node);
   }
   setRainbowNode(index, node){
-    this.rnodes[index] = cell
+    this._rainbowNodes[index] = cell
   }
   clearRainbowNodes(){
-    this.rnodes = [];
+    this._rainbowNodes = [];
   }
 
   //***************** refactoring nodes end
