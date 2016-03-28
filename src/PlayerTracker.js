@@ -173,7 +173,6 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
     if (reCalcScore) {
         var s = 0;
         for (var i = 0; i < this.cells.length; i++) {
-            if (!this.cells[i]) return; // Error
             s += this.cells[i].mass;
             this.score = s;
         }
