@@ -892,9 +892,9 @@ module.exports = class GameServer {
   }
 
   removeClient(client) {
-    let index = this.server.clients.indexOf(client);
+    let index = this.clients.indexOf(client);
     if (index != -1) {
-      this.server.clients.splice(index, 1);
+      this.clients.splice(index, 1);
     }
   }
 
@@ -1765,14 +1765,12 @@ module.exports = class GameServer {
 
     this.getClients().some((client)=> {
       if (numToKick === removed) return true;
-      if (!client.remoteAddress) {
+      if (typeof client.remoteAddress == "undefined") {
         client.playerTracker.cells.forEach((cell)=>this.removeNode(cell));
-        try {
-          client.socket.close();
-        }
-        catch (err) { // todo I dont know why bots are throwing an error on socket.close
-          console.error('todo: Michael fix kickBots : err: ', err);
-        }
+        
+          client.playerTracker.socket.close();
+        
+        
         removed++;
       }
     });
