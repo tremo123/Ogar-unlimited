@@ -99,7 +99,7 @@ HungerGames.prototype.onPlayerDeath = function (gameServer) {
   config.borderBottom -= this.borderDec;
 
   // Remove all cells
-  let nodes = gameServer.getNodes();
+  let nodes = gameServer.getWorld().getNodes();
   for (var i = 0; i < nodes.length; i++) {
     var node = nodes[i];
 

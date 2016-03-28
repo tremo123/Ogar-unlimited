@@ -148,7 +148,7 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var safeMass = 500000;
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
-  let nodes = gameServer.getNodes();
+  let nodes = gameServer.getWorld().getNodes();
   for (var i in nodes) {
     var check = nodes[i];
     // Calculations

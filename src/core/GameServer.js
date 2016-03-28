@@ -355,7 +355,7 @@ module.exports = class GameServer {
           self.config.borderTop += self.config.borderDec;
           self.config.borderBottom -= self.config.borderDec;
 
-          self.getNodes().forEach((node)=>{
+          self.world.getNodes().forEach((node)=>{
             if ((!node) || (node.getType() == 0)) {
               return;
             }
@@ -432,10 +432,8 @@ module.exports = class GameServer {
   //***************** refactoring nodes start
   // basic nodes
 
-  getNodes() {
-    return this.world.getNodes();
-  }
-
+  // todo need to think about how to refactor this out to use the world.addNode or setNode
+  // todo for now leave it here
   addNode(node, type) {
     this.world.setNode(node.getId(), node, type);
 
@@ -473,16 +471,6 @@ module.exports = class GameServer {
 
   removeNode(node) {
     this.world.removeNode(node.getId());
-
-    //// Remove from main nodes list
-    //let index = this._nodes.indexOf(node);
-    //if (index != -1) {
-    //  this._nodes.splice(index, 1);
-    //}
-    //
-    //// Remove from moving cells list
-    //this.removeMovingNode(node);
-
     // Special on-remove actions
     node.onRemove(this);
 
@@ -505,15 +493,10 @@ module.exports = class GameServer {
   }
   removeMovingNode(node){
     this.world.removeMovingNode(node.getId());
-    //let index = this._movingNodes.indexOf(node);
-    //if (index != -1) {
-    //  this._movingNodes.splice(index, 1);
-    //}
   }
 
   setAsMovingNode(node) {
     this.world.setNode(node.getId(), node, "moving");
-    //this._movingNodes.push(node);
   }
 
   // player nodes
@@ -612,7 +595,7 @@ module.exports = class GameServer {
 
     if (this.currentFood > 0) {
       // Spawn from food
-      let nodes = this.getNodes();
+      let nodes = this.world.getNodes();
       nodes.some((node)=> {
         if (!node || node.inRange) {
           // Skip if food is about to be eaten/undefined
@@ -892,9 +875,9 @@ module.exports = class GameServer {
   }
 
   removeClient(client) {
-    let index = this.clients.indexOf(client);
+    let index = this.server.clients.indexOf(client);
     if (index != -1) {
-      this.clients.splice(index, 1);
+      this.server.clients.splice(index, 1);
     }
   }
 
@@ -1765,12 +1748,14 @@ module.exports = class GameServer {
 
     this.getClients().some((client)=> {
       if (numToKick === removed) return true;
-      if (typeof client.remoteAddress == "undefined") {
+      if (!client.remoteAddress) {
         client.playerTracker.cells.forEach((cell)=>this.removeNode(cell));
-        
-          client.playerTracker.socket.close();
-        
-        
+        try {
+          client.socket.close();
+        }
+        catch (err) { // todo I dont know why bots are throwing an error on socket.close
+          console.error('todo: Michael fix kickBots : err: ', err);
+        }
         removed++;
       }
     });

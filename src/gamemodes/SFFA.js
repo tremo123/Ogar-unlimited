@@ -63,7 +63,7 @@ SFFA.prototype.shrink = function (gameServer) {
   config.borderTop += this.borderDec;
   config.borderBottom -= this.borderDec;
 
-  let nodes = gameServer.getNodes();
+  let nodes = gameServer.getWorld().getNodes();
   for (var i = 0; i < nodes.length; i++) {
     var node = nodes[i];
 
@@ -110,7 +110,7 @@ SFFA.prototype.prepare = function (gameServer) {
   gameServer.config.borderTop = 0;
   gameServer.config.borderBottom = 7500;
 
-  let nodes = gameServer.getNodes();
+  let nodes = gameServer.getWorld().getNodes();
   for (var i = 0; i < nodes.length; i++) {
     var node = nodes[0];
 

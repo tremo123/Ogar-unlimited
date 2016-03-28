@@ -170,7 +170,7 @@ Rainbow.prototype.onChange = function () {
 Rainbow.prototype.onTick = function (gameServer) {
   var color, node;
   // Change color
-  let nodes = gameServer.getNodes();
+  let nodes = gameServer.getWorld().getNodes();
   for (var i in nodes) {
     node = nodes[i];
 

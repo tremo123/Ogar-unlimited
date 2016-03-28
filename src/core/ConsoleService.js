@@ -213,7 +213,7 @@ module.exports = class ConsoleService {
     let self = this;
     return function () {
       in_.question(">", function (str) {
-        if (this.gameServer.config.dev != 1) {
+        if (self.gameServer.config.dev != 1) {
         try {
           self.parseCommands(str);
         } catch (err) {

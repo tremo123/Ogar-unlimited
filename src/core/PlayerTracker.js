@@ -508,7 +508,7 @@ module.exports = class PlayerTracker {
 
     var newVisible = [];
 
-    this.gameServer.getNodes().forEach((node)=>{
+    this.gameServer.getWorld().getNodes().forEach((node)=>{
       if (!node) return;
 
       if (node.visibleCheck(this.viewBox, this.centerPos)) {
@@ -580,7 +580,7 @@ module.exports = class PlayerTracker {
 
       // Use calcViewBox's way of looking for nodes
       var newVisible = [];
-      this.gameServer.getNodes().forEach((node)=>{
+      this.gameServer.getWorld().getNodes().forEach((node)=>{
         if (!node) return;
 
         if (node.visibleCheck(this.viewBox, this.centerPos)) {
