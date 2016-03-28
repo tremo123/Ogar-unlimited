@@ -213,11 +213,15 @@ module.exports = class ConsoleService {
     let self = this;
     return function () {
       in_.question(">", function (str) {
+        if (this.gameServer.config.dev != 1) {
         try {
           self.parseCommands(str);
         } catch (err) {
           console.error("[Console] command: ", str, " failed with error!");
           console.error("[Console] error: ", err);
+        }
+        } else {
+          self.parseCommands(str); // dev mode, throw full error
         }
         // todo fix this
         return self.prompt(in_)(); // Too lazy to learn async
