@@ -239,7 +239,7 @@ The current available console commands are listed here. Command names are not ca
  - Name [Player ID] [New Name]
    * Changes the name of the player with the specified id with [New Name].
  - Playerlist
-   * Shows a list of connected players, their IP, player ID, the amount of cells they have, total mass, and their position. 
+   * Shows a list of connected players, their IP, player ID, the amount of cells they have, total mass, and their position.
  - Pause
    * Pauses/Unpauses the game.
  - Reload
