@@ -247,8 +247,8 @@ PlayerTracker.prototype.getScore = function(reCalcScore) {
 
 PlayerTracker.prototype.setColor = function(color) {
     this.color.r = color.r;
-    this.color.b = color.b;
     this.color.g = color.g;
+    this.color.b = color.b;
 };
 
 PlayerTracker.prototype.getTeam = function() {
@@ -383,10 +383,10 @@ PlayerTracker.prototype.update = function() {
     if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
         // Update map, it may have changed
         this.socket.sendPacket(new Packet.SetBorder(
-            this.gameServer.config.borderLeft,
-            this.gameServer.config.borderRight,
-            this.gameServer.config.borderTop,
-            this.gameServer.config.borderBottom
+            this.gameServer.config.borderLeft + this.scrambleX,
+            this.gameServer.config.borderRight + this.scrambleX,
+            this.gameServer.config.borderTop + this.scrambleY,
+            this.gameServer.config.borderBottom + this.scrambleY
         ));
     } else {
         // Send a border packet to fake the map size
@@ -403,7 +403,7 @@ PlayerTracker.prototype.update = function() {
     if (this.disconnect > -1) {
         // Player has disconnected... remove it when the timer hits -1
         this.disconnect--;
-        if (this.disconnect == -1) {
+        if (this.disconnect == -1 || this.cells.length == 0) {
             // Remove all client cells
             var len = this.cells.length;
             for (var i = 0; i < len; i++) {
