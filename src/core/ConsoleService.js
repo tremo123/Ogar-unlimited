@@ -217,8 +217,8 @@ module.exports = class ConsoleService {
         try {
           self.parseCommands(str);
         } catch (err) {
-          console.error("[Console] command: ", str, " failed with error!");
-          console.error("[Console] error: ", err);
+          console.log("[ERROR] Oh my, there seems to be an error with the command " + str);
+    console.log("[ERROR] Please alert AJS dev with this message:\n" + err);
         }
         } else {
           self.parseCommands(str); // dev mode, throw full error
