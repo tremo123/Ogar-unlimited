@@ -27,7 +27,7 @@ module.exports = class GeneratorService {
   }
 
   spawnFood() {
-    let f = new Entity.Food(this.gameServer.getNextNodeId(), null, utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop), this.config.foodMass, this.gameServer);
+    let f = new Entity.Food(this.gameServer.getWorld().getNextNodeId(), null, utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop), this.config.foodMass, this.gameServer);
     f.setColor(utilities.getRandomColor());
 
     this.gameServer.addNode(f);
@@ -57,7 +57,7 @@ module.exports = class GeneratorService {
         if (result) return;
 
         // Spawn if no cells are colliding
-        let v = new Entity.Virus(this.gameServer.getNextNodeId(), null, pos, this.config.virusStartMass);
+        let v = new Entity.Virus(this.gameServer.getWorld().getNextNodeId(), null, pos, this.config.virusStartMass);
         this.gameServer.addNode(v);
       }
     }

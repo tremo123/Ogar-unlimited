@@ -48,7 +48,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
   // every 20 shots
   if (this.stage % 20 === 0) {
     var moving = new MovingVirus(
-      gameServer.getNextNodeId(),
+      gameServer.getWorld().getNextNodeId(),
       null, {
         x: this.position.x,
         y: this.position.y
@@ -76,7 +76,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
           cell.mass -= gameServer.config.ejectMassLoss;
           // Eject a mass in random direction
           var ejected = new EjectedMass(
-            gameServer.getNextNodeId(),
+            gameServer.getWorld().getNextNodeId(),
             null, {
               x: cell.position.x,
               y: cell.position.y
@@ -132,7 +132,7 @@ Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
   };
 
   // Spawn food
-  var f = new EjectedMass(gameServer.getNextNodeId(), null, pos, gameServer.config.ejectMass);
+  var f = new EjectedMass(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.ejectMass);
   f.setColor(parentColor);
 
   gameServer.addNode(f);

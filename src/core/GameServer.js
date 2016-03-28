@@ -425,11 +425,12 @@ module.exports = class GameServer {
 
   }
 
+  getWorld(){
+    return this.world;
+  }
+
   //***************** refactoring nodes start
   // basic nodes
-  getNextNodeId() {
-    return this.world.getNewNodeId();
-  }
 
   getNodes() {
     return this.world.getNodes();
@@ -858,7 +859,7 @@ module.exports = class GameServer {
 
       // Spawn player and add to world
       if (!dospawn) {
-        let cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass, this);
+        let cell = new Entity.PlayerCell(this.world.getNextNodeId(), player, pos, mass, this);
         this.addNode(cell, "player");
       }
 
@@ -1042,7 +1043,7 @@ module.exports = class GameServer {
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusmass);
+    let newVirus = new Entity.Virus(this.world.getNextNodeId(), null, parentPos, this.config.virusmass);
     newVirus.setAngle(parent.getAngle());
     newVirus.setpar(owner);
     newVirus.mass = 10;
@@ -1153,8 +1154,8 @@ module.exports = class GameServer {
 
         // Create cell
         let ejected = undefined;
-        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
-        else ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
           ejected.setMoveEngineData(this.config.ejectvspeed, 20);
@@ -1209,8 +1210,8 @@ module.exports = class GameServer {
 
           // Create cell
           let ejected = undefined;
-          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
-          else ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+          else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
           ejected.setAngle(angle);
 
           if (this.config.ejectvirus == 1) {
@@ -1250,7 +1251,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -1266,7 +1267,7 @@ module.exports = class GameServer {
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.getNextNodeId(), null, parentPos, this.config.virusStartMass);
+    let newVirus = new Entity.Virus(this.world.getNextNodeId(), null, parentPos, this.config.virusStartMass);
     newVirus.setAngle(parent.getAngle());
     newVirus.setMoveEngineData(200, 20);
 
@@ -1315,7 +1316,7 @@ module.exports = class GameServer {
       cell.mass = newMass;
 
       // Create cell
-      let split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass, this);
+      let split = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, newMass, this);
       split.setAngle(angle);
 
       let splitSpeed = this.config.splitSpeed * Math.max(utilities.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
@@ -1722,7 +1723,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.restoreCollisionTicks = 25;
@@ -1749,7 +1750,7 @@ module.exports = class GameServer {
       angle += (Math.random() * .4) - .2;
 
       // Create cell
-      let ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, -100, this);
+      let ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, -100, this);
       ejected.setAngle(angle);
       ejected.setMoveEngineData(this.config.ejectantispeed, 20);
       ejected.setColor(cell.getColor());

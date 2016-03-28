@@ -15,7 +15,7 @@ module.exports = function (gameServer, split) {
           cell.mass -= gameServer.config.ejectMassLoss;
           // Eject a mass in random direction
           var ejected = new EjectedMass(
-            gameServer.getNextNodeId(),
+            gameServer.getWorld().getNextNodeId(),
             null, {
               x: cell.position.x,
               y: cell.position.y

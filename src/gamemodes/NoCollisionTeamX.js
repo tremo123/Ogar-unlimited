@@ -99,7 +99,7 @@ TeamX.prototype.spawnMotherCell = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
     gameServer.addNode(m);
   }
 };
@@ -419,7 +419,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   };
 
   // Spawn food
-  var f = new Food(gameServer.getNextNodeId(), null, pos, gameServer.config.foodMass);
+  var f = new Food(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.foodMass);
   f.setColor(gameServer.getRandomColor());
 
   gameServer.addNode(f);

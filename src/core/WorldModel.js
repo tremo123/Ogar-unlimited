@@ -52,6 +52,9 @@ module.exports = class WorldModel {
     }
     return this.lastNodeId++;
   }
+  getNextNodeId(){
+    return this.getNewNodeId();
+  }
 
   setNodeAsMoving(id, node) {
     this.movingNodes.set(id, node);

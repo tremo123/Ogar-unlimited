@@ -547,7 +547,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       var newMass = cell.mass / 2;
       cell.mass = newMass;
       // Create cell
-      var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass);
+      var split = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, newMass);
       split.setAngle(angle);
       split.setMoveEngineData(splitSpeed, 32, 0.85);
       split.calcMergeTime(this.config.playerRecombineTime);
@@ -577,7 +577,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 10);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -856,7 +856,7 @@ TeamZ.prototype.onTick = function (gameServer) {
   this.spawnHeroTimer++;
   if (this.spawnHeroTimer >= this.spawnHeroInterval) {
     this.spawnHeroTimer = 0;
-    var cell = new Hero(gameServer.getNextNodeId(), null);
+    var cell = new Hero(gameServer.getWorld().getNextNodeId(), null);
     while (!this.spawnDrug(gameServer, cell)); // collision detect algorithm needs enhancement
   }
 
@@ -864,7 +864,7 @@ TeamZ.prototype.onTick = function (gameServer) {
   this.spawnBrainTimer++;
   if (this.spawnBrainTimer >= this.spawnBrainInterval) {
     this.spawnBrainTimer = 0;
-    var cell = new Brain(gameServer.getNextNodeId(), null);
+    var cell = new Brain(gameServer.getWorld().getNextNodeId(), null);
     while (!this.spawnDrug(gameServer, cell)); // collision detect algorithm needs enhancement
   }
 };

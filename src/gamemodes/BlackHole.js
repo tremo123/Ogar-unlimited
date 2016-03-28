@@ -50,7 +50,7 @@ Blackhole.prototype.spawnMotherCell = function (gameServer) {
     // var pos =  gameServer.getRandomPosition();
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
     gameServer.addNode(m);
     console.log("Black Hole Spawned");
   }
@@ -182,7 +182,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   };
 
   // Spawn food
-  var f = new Food(gameServer.getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
+  var f = new Food(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
   f.setColor = {
     r: 10,
     b: 10,
