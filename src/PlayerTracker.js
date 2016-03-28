@@ -383,10 +383,10 @@ PlayerTracker.prototype.update = function() {
     if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
         // Update map, it may have changed
         this.socket.sendPacket(new Packet.SetBorder(
-            this.gameServer.config.borderLeft,
-            this.gameServer.config.borderRight,
-            this.gameServer.config.borderTop,
-            this.gameServer.config.borderBottom
+            this.gameServer.config.borderLeft + this.scrambleX,
+            this.gameServer.config.borderRight + this.scrambleX,
+            this.gameServer.config.borderTop + this.scrambleY,
+            this.gameServer.config.borderBottom + this.scrambleY
         ));
     } else {
         // Send a border packet to fake the map size
