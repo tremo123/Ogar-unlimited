@@ -403,7 +403,7 @@ PlayerTracker.prototype.update = function() {
     if (this.disconnect > -1) {
         // Player has disconnected... remove it when the timer hits -1
         this.disconnect--;
-        if (this.disconnect == -1) {
+        if (this.disconnect == -1 || this.cells.length == 0) {
             // Remove all client cells
             var len = this.cells.length;
             for (var i = 0; i < len; i++) {
