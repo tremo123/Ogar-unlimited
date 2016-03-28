@@ -507,19 +507,16 @@ module.exports = class PlayerTracker {
     this.viewBox.height = this.sightRangeY;
 
     var newVisible = [];
-    let nodes = this.gameServer.getNodes();
-    for (var i = 0; i < nodes.length; i++) {
-      let node = nodes[i];
 
-      if (!node) {
-        continue;
-      }
+    this.gameServer.getNodes().forEach((node)=>{
+      if (!node) return;
 
       if (node.visibleCheck(this.viewBox, this.centerPos)) {
         // Cell is in range of viewBox
         newVisible.push(node);
       }
-    }
+    });
+
     return newVisible;
   };
 
@@ -583,19 +580,15 @@ module.exports = class PlayerTracker {
 
       // Use calcViewBox's way of looking for nodes
       var newVisible = [];
-      let nodes = this.gameServer.getNodes();
-      for (var i = 0; i < nodes.length; i++) {
-        let node = nodes[i];
-
-        if (!node) {
-          continue;
-        }
+      this.gameServer.getNodes().forEach((node)=>{
+        if (!node) return;
 
         if (node.visibleCheck(this.viewBox, this.centerPos)) {
           // Cell is in range of viewBox
           newVisible.push(node);
         }
-      }
+      });
+
       var specZoom = Math.sqrt(100 * 150);
       specZoom = Math.pow(Math.min(40.5 / 150, 1.0), 0.4) * 0.6; // Constant zoom
       this.sendPosPacket(specZoom);

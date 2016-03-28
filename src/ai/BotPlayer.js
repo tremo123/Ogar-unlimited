@@ -240,8 +240,9 @@ module.exports = class BotPlayer extends PlayerTracker {
           if ((this.centerPos.x == this.mouse.x) && (this.centerPos.y == this.mouse.y)) {
             // Get a new position
             let nodes = this.gameServer.getNodes();
-            var index = Math.floor(Math.random() * nodes.length);
-            var randomNode = nodes[index];
+            let nodeKeys = nodes.keys();
+            var index = Math.floor(Math.random() * nodeKeys.length);
+            var randomNode = nodes.get(nodeKeys[index]);
             var pos = {
               x: 0,
               y: 0

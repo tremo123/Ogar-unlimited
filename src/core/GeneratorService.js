@@ -6,7 +6,6 @@ module.exports = class GeneratorService {
   constructor(gameServer) {
     this.gameServer = gameServer;
     this.config = gameServer.config;
-
   }
 
   init() {
@@ -40,17 +39,12 @@ module.exports = class GeneratorService {
       let virusNodes = this.gameServer.getVirusNodes();
       if (virusNodes.length < this.config.virusMinAmount) {
         // Spawns a virus
-        var pos = utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
-        var virusSquareSize = (this.config.virusStartMass * 100) >> 0;
+        let pos = utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+        let virusSquareSize = (this.config.virusStartMass * 100) >> 0;
 
         // Check for players
-        let nodesPlayer = this.gameServer.getNodesPlayer();
-        for (var i = 0; i < nodesPlayer.length; i++) {
-          let check = nodesPlayer[i];
-
-          if (check.mass < this.config.virusStartMass) {
-            continue;
-          }
+        let result = this.gameServer.getNodesPlayer().some((check)=>{
+          if (check.mass < this.config.virusStartMass) return false;
 
           var squareR = check.getSquareSize(); // squared Radius of checking player cell
 
@@ -58,11 +52,12 @@ module.exports = class GeneratorService {
           var dy = check.position.y - pos.y;
 
           if (dx * dx + dy * dy + virusSquareSize <= squareR)
-            return; // Collided
-        }
+            return true; // Collided
+        });
+        if (result) return;
 
         // Spawn if no cells are colliding
-        var v = new Entity.Virus(this.gameServer.getNextNodeId(), null, pos, this.config.virusStartMass);
+        let v = new Entity.Virus(this.gameServer.getNextNodeId(), null, pos, this.config.virusStartMass);
         this.gameServer.addNode(v);
       }
     }

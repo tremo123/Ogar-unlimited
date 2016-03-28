@@ -9,7 +9,7 @@ module.exports = class WorldModel {
   constructor() {
     this.lastNodeId = 2;    // todo why 2?
     this.nodes = new SortedMap();
-    this.movingNodes = new Set();
+    this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
   }
 
@@ -20,7 +20,7 @@ module.exports = class WorldModel {
         this.playerNodes.set(id, node);
         break;
       case "moving":
-        this.setNodeAsMoving(id);
+        this.setNodeAsMoving(id, node);
         break;
     }
   }
@@ -53,11 +53,12 @@ module.exports = class WorldModel {
     return this.lastNodeId++;
   }
 
-  setNodeAsMoving(id) {
-    this.movingNodes.add(id);
+  setNodeAsMoving(id, node) {
+    this.movingNodes.set(id, node);
   }
 
-  setNodeAsNotMoving(id) {
+  removeMovingNode(id) {
+
     this.movingNodes.delete(id);
   }
 

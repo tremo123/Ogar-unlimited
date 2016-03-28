@@ -355,12 +355,9 @@ module.exports = class GameServer {
           self.config.borderTop += self.config.borderDec;
           self.config.borderBottom -= self.config.borderDec;
 
-          let nodes = self.getNodes();
-          for (let i = 0; i < nodes.length; i++) {
-            let node = nodes[i];
-
+          self.getNodes().forEach((node)=>{
             if ((!node) || (node.getType() == 0)) {
-              continue;
+              return;
             }
 
             // Move
@@ -377,7 +374,7 @@ module.exports = class GameServer {
               self.removeNode(node);
               i--;
             }
-          }
+          });
         }
         this.server.log.onDisconnect(this.socket.remoteAddress);
 
@@ -435,16 +432,16 @@ module.exports = class GameServer {
   }
 
   getNodes() {
-    return this._nodes;
+    return this.world.getNodes();
   }
 
   addNode(node, type) {
     this.world.setNode(node.getId(), node, type);
 
-    this._nodes.push(node);
-    if (type === "moving") {
-      this.setAsMovingNode(node);
-    }
+    //this._nodes.push(node);
+    //if (type === "moving") {
+    //  this.setAsMovingNode(node);
+    //}
 
     // Adds to the owning player's screen
     if (node.owner) {
@@ -474,16 +471,16 @@ module.exports = class GameServer {
   }
 
   removeNode(node) {
-    this.world.setNode(node.getId());
+    this.world.removeNode(node.getId());
 
-    // Remove from main nodes list
-    let index = this._nodes.indexOf(node);
-    if (index != -1) {
-      this._nodes.splice(index, 1);
-    }
-
-    // Remove from moving cells list
-    this.removeMovingNode(node);
+    //// Remove from main nodes list
+    //let index = this._nodes.indexOf(node);
+    //if (index != -1) {
+    //  this._nodes.splice(index, 1);
+    //}
+    //
+    //// Remove from moving cells list
+    //this.removeMovingNode(node);
 
     // Special on-remove actions
     node.onRemove(this);
@@ -503,17 +500,19 @@ module.exports = class GameServer {
 
   // moving nodes
   getMovingNodes() {
-    return this._movingNodes;
+    return this.world.getMovingNodes();
   }
   removeMovingNode(node){
-    let index = this._movingNodes.indexOf(node);
-    if (index != -1) {
-      this._movingNodes.splice(index, 1);
-    }
+    this.world.removeMovingNode(node.getId());
+    //let index = this._movingNodes.indexOf(node);
+    //if (index != -1) {
+    //  this._movingNodes.splice(index, 1);
+    //}
   }
 
   setAsMovingNode(node) {
-    this._movingNodes.push(node);
+    this.world.setNode(node.getId(), node, "moving");
+    //this._movingNodes.push(node);
   }
 
   // player nodes
@@ -526,7 +525,8 @@ module.exports = class GameServer {
   }
 
   getPlayerNodes() {
-    return this._nodesPlayer;
+    return this.world.getPlayerNodes();
+    //return this._nodesPlayer;
   }
 
   addPlayerNode(node) {
@@ -534,19 +534,17 @@ module.exports = class GameServer {
   }
 
   getNodesPlayer() {
-    return this._nodesPlayer;
+    return this.world.getPlayerNodes();
+    //return this._nodesPlayer;
   }
 
   addNodesPlayer(node) {
-    this._nodesPlayer.push(node);
+    this.world.setNode(node.getId(), node, "player");
+    //this._nodesPlayer.push(node);
   }
 
   removeNodesPlayer(node) {
-    // Remove from special player controlled node list
-    let index = this._nodesPlayer.indexOf(node);
-    if (index != -1) {
-      this._nodesPlayer.splice(index, 1);
-    }
+    this.world.removeNode(node.getId());
   }
 
   // Virus Nodes
@@ -661,7 +659,7 @@ module.exports = class GameServer {
     }
 
     let nodes = this.getPlayerNodes();
-    nodes.sort(sorter);
+    nodes.sorted(sorter);
     nodes.forEach((cell)=> {
       // Do not move cells that have already been eaten or have collision turned off
       if (!cell) {
@@ -691,14 +689,6 @@ module.exports = class GameServer {
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
     this.getMovingNodes().forEach((check)=> {
-      // todo need to review this as it doesnt really make sense to remove a node that doesnt exist
-      //// Recycle unused nodes
-      //if (!check) {
-      //  this.removeMovingNode(check);
-      //  return;
-      //}
-
-
       if (check.moveEngineTicks > 0) {
         check.onAutoMove(this);
         // If the cell has enough move ticks, then move it
@@ -924,7 +914,7 @@ module.exports = class GameServer {
       // exist?
       // if something already collided with this cell, don't check for other collisions
       // Can't eat itself
-      if (typeof check === 'undefined' || check.inRange || cell.nodeId === check.nodeId) return;
+      if (!check || check.inRange || cell.getId() === check.getId()) return;
 
       // Can't eat cells that have collision turned off
       if ((cell.owner === check.owner) && (cell.ignoreCollision)) return;
@@ -983,88 +973,6 @@ module.exports = class GameServer {
       check.inRange = true;
     });
 
-
-    //let len = cell.owner.visibleNodes.length;
-    //for (let i = 0; i < len; i++) {
-    //  let check = cell.owner.visibleNodes[i];
-    //
-    //  // exist?
-    //  // if something already collided with this cell, don't check for other collisions
-    //  // Can't eat itself
-    //  if (typeof check === 'undefined' || check.inRange || cell.nodeId === check.nodeId) {
-    //    continue;
-    //  }
-    //
-    //  // Can't eat cells that have collision turned off
-    //  if ((cell.owner === check.owner) && (cell.ignoreCollision)) {
-    //    continue;
-    //  }
-    //
-    //  // AABB Collision
-    //  if (!check.collisionCheck2(squareR, cell.position)) {
-    //    continue;
-    //  }
-    //
-    //  // Cell type check - Cell must be bigger than this number times the mass of the cell being eaten
-    //  let multiplier = 1.25;
-    //
-    //  switch (check.getType()) {
-    //    case 1: // Food cell
-    //      list.push(check);
-    //      check.inRange = true; // skip future collision checks for this food
-    //      continue;
-    //    case 2: // Virus
-    //      multiplier = 1.33;
-    //      break;
-    //    case 5: // Beacon
-    //      // This cell cannot be destroyed
-    //      continue;
-    //    case 0: // Players
-    //      // Can't eat self if it's not time to recombine yet
-    //      if (check.owner == cell.owner) {
-    //        if (!cell.shouldRecombine || !check.shouldRecombine) {
-    //          if (!cell.owner.recombineinstant) continue;
-    //        }
-    //
-    //        multiplier = 1.00;
-    //      }
-    //      // Can't eat team members
-    //      if (this.gameMode.haveTeams) {
-    //        if (!check.owner) { // Error check
-    //          continue;
-    //        }
-    //
-    //        if ((check.owner != cell.owner) && (check.owner.getTeam() == cell.owner.getTeam())) {
-    //          continue;
-    //        }
-    //      }
-    //      break;
-    //    default:
-    //      break;
-    //  }
-    //
-    //  // Make sure the cell is big enough to be eaten.
-    //  if ((check.mass * multiplier) > cell.mass) {
-    //    continue;
-    //  }
-    //
-    //  // Eating range
-    //  let xs = Math.pow(check.position.x - cell.position.x, 2);
-    //  let ys = Math.pow(check.position.y - cell.position.y, 2);
-    //  let dist = Math.sqrt(xs + ys);
-    //
-    //  let eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
-    //  if (dist > eatingRange) {
-    //    // Not in eating range
-    //    continue;
-    //  }
-    //
-    //  // Add to list of cells nearby
-    //  list.push(check);
-    //
-    //  // Something is about to eat this cell; no need to check for other collisions with it
-    //  check.inRange = true;
-    //}
     return list;
   };
 

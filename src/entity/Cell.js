@@ -198,16 +198,11 @@ Cell.prototype.calcMovePhys = function (config) {
       totTravel = Math.min(totTravel + maxTravel, speed);
       var x1 = this.position.x + (totTravel * sin) + xd;
       var y1 = this.position.y + (totTravel * cos) + yd;
-      if (typeof this.gameServer != "undefined") {
-        let ejectedNodes = this.gameServer.getEjectedNodes();
-        for (var i = 0; i < ejectedNodes.length; i++) {
-          var cell = ejectedNodes[i];
-          if (this.nodeId == cell.nodeId) {
-            continue;
-          }
-          if (!this.simpleCollide(x1, y1, cell, collisionDist)) {
-            continue;
-          }
+      if (this.gameServer) {
+        this.gameServer.getEjectedNodes().forEach((cell)=>{
+          if (this.nodeId == cell.getId()) return;
+          if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
+
           var dist = this.getDist(x1, y1, cell.position.x, cell.position.y);
           if (dist < collisionDist) { // Collided
             var newDeltaY = cell.position.y - y1;
@@ -222,17 +217,20 @@ Cell.prototype.calcMovePhys = function (config) {
             yd += -ymove;
             if (cell.moveEngineTicks == 0) {
               cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
-              if (this.gameServer.getMovingNodes().indexOf(cell) === -1) {
-                this.gameServer.setAsMovingNode(cell);
-              }
+              this.gameServer.setAsMovingNode(cell);
+              //if (!this.gameServer.getMovingNodes().has(cell.getId())) {
+              //  this.gameServer.setAsMovingNode(cell.getId());
+              //}
             }
             if (this.moveEngineTicks == 0) {
               this.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
             }
           }
-        }
+        });
       }
     }
+
+    // todo what the hell is this?
     while (totTravel < speed);
     x1 = this.position.x + (speed * sin) + xd;
     y1 = this.position.y + (speed * cos) + yd;

@@ -93,7 +93,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
   for (var i = 0; i < this.owner.cells.length; i++) {
     var cell = this.owner.cells[i];
 
-    if ((this.nodeId == cell.nodeId) || (this.ignoreCollision) || (cell.ignoreCollision)) {
+    if ((this.getId() == cell.getId()) || (this.ignoreCollision) || (cell.ignoreCollision)) {
       // Don't collide with cell that has ignoreCollision on, when I have ignoreCollision on, or with yourself
       continue;
     }
