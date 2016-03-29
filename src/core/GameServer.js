@@ -1,7 +1,7 @@
 'use strict';
 const fs = require("fs");
 const WebSocket = require('ws');
-
+const Updater = require('./Updater.js');
 const utilities = require('./utilities.js');
 const Physics = require('./Physics.js');
 
@@ -49,6 +49,7 @@ module.exports = class GameServer {
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.bots = new BotLoader(this);
+    this.updater = new Updater(this);
     this.minions = new MinionLoader(this);
 
     // Config
