@@ -56,5 +56,6 @@ There's more to arrow function than that, but that is all most people need to kn
 
 I'm sure there's more but that is all I can think of for right now. Also, we should do this as a mark down md file. That was they can just click on it on github and it will be all nicely formatted for them.
 
-Please discuss. I am putting in 20ish hours a week on this project. I want to make it great. I want it to be polished!
+I am putting in 20ish hours a week on this project. I want to make it great. I want it to be polished!
+
 ------------------------------------------------
