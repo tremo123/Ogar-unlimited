@@ -5,6 +5,9 @@ module.exports = function (gameServer, args) {
     case 'hashFiles':
       gameServer.updater.hashFiles();
       break;
+    case 'devMode'
+      gameServer.config.dev = 1;
+      break;
     default:
       console.log('Unknown command.');
   }
