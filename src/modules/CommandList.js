@@ -73,6 +73,7 @@ Commands.list = {
     console.log("[Console] Kickrange  : kicks in a ID range");
     console.log("[Console] Killrange  : kills in a ID range");
     console.log("[Console] Verify     : EasyVerify command");
+    console.log("[Console] Hide       : Hides/unhides a player");
     console.log("[Console] Banrange   : Bans in a ID range");
     console.log("[Console] Merge      : Forces that player to merge");
     console.log("[Console] Nojoin     : Prevents the player from merging");
@@ -118,6 +119,7 @@ Commands.list = {
   enlarge: require('./commands/enlarge.js'),
   shrink: require('./commands/shrink.js'),
   colortext: require('./commands/colortext.js'),
+  hide: require('./commands/hide.js'),
   announce: require('./commands/announce.js'),
   //todo the second whitlelist over writes this one, it should likely be removed:
   // whitelist: require('./commands/whitelist.js'),
