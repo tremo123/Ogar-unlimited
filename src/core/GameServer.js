@@ -3,6 +3,7 @@ const fs = require("fs");
 const WebSocket = require('ws');
 
 const utilities = require('./utilities.js');
+const Physics = require('./Physics.js');
 
 const Gamemode = require('../gamemodes');
 const Packet = require('../packet');
@@ -1695,29 +1696,7 @@ module.exports = class GameServer {
   };
 
   ejecttMass(client) {
-    client.cells.forEach((cell)=> {
-      if (!cell) return;
-      let angle = utilities.getAngleFromClientToCell(client, cell);
-
-      // Get starting position
-      let size = cell.getSize() + 5;
-      let startPos = {
-        x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
-        y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
-      };
-
-      // Randomize angle
-      angle += (Math.random() * .4) - .2;
-
-      // Create cell
-      let ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, -100, this);
-      ejected.setAngle(angle);
-      ejected.setMoveEngineData(this.config.ejectantispeed, 20);
-      ejected.setColor(cell.getColor());
-
-      this.addNode(ejected, "moving");
-
-    });
+    Physics.ejectMass(client, this);
   };
 
   kickBots(numToKick) {
