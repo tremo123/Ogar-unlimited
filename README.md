@@ -1,6 +1,6 @@
 
 # Ogar unlimited - The Next Generation Ogar
-[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited)
+[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Circle CI](https://circleci.com/gh/AJS-development/Ogar-unlimited.svg?style=svg)](https://circleci.com/gh/AJS-development/Ogar-unlimited)
 
 A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
@@ -39,10 +39,7 @@ This Modified copy was created to help those who want to open their server to th
  22. range command for bulk commands
  23. easy verify system as anti bot mesure (gameserver.ini)
  24. mousefilter as a anti bot measure
- 25. do i really have to put highlight features here?
  
-(You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
-
 ### Note:
 Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
 
@@ -143,6 +140,8 @@ The current available console commands are listed here. Command names are not ca
    * explodes player
  - Blind [id]
    * Blinds/unblinds a player
+ - Hide [id]
+   * Hides/unhides a player
  - Split [ID] [Count]
    * Splits a player
  - Shrink [amount]
@@ -240,7 +239,7 @@ The current available console commands are listed here. Command names are not ca
  - Name [Player ID] [New Name]
    * Changes the name of the player with the specified id with [New Name].
  - Playerlist
-   * Shows a list of connected players, their IP, player ID, the amount of cells they have, total mass, and their position. 
+   * Shows a list of connected players, their IP, player ID, the amount of cells they have, total mass, and their position.
  - Pause
    * Pauses/Unpauses the game.
  - Reload
