@@ -5,7 +5,7 @@ module.exports = function (gameServer, args) {
     case 'hashFiles':
       gameServer.updater.hashFiles();
       break;
-    case 'devMode'
+    case 'devMode':
       gameServer.config.dev = 1;
       break;
     default:
