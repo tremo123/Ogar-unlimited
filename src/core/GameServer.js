@@ -468,7 +468,7 @@ module.exports = class GameServer {
       }
     }
   }
-
+  // todo need to think about how to refactor this out
   removeNode(node) {
     this.world.removeNode(node.getId());
     // Special on-remove actions
@@ -485,18 +485,6 @@ module.exports = class GameServer {
       // Remove from client
       client.nodeDestroyQueue.push(node);
     }
-  }
-
-  // moving nodes
-  getMovingNodes() {
-    return this.world.getMovingNodes();
-  }
-  removeMovingNode(node){
-    this.world.removeMovingNode(node.getId());
-  }
-
-  setAsMovingNode(node) {
-    this.world.setNode(node.getId(), node, "moving");
   }
 
   // player nodes
@@ -672,7 +660,7 @@ module.exports = class GameServer {
 
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    this.getMovingNodes().forEach((check)=> {
+    this.world.getMovingNodes().forEach((check)=> {
       if (check.moveEngineTicks > 0) {
         check.onAutoMove(this);
         // If the cell has enough move ticks, then move it
@@ -681,7 +669,7 @@ module.exports = class GameServer {
         // Auto move is done
         check.moveDone(this);
         // Remove cell from list
-        this.removeMovingNode(check);
+        this.world.removeMovingNode(check);
       }
     });
   }

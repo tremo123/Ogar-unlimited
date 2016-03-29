@@ -44,6 +44,9 @@ module.exports = class WorldModel {
     this.movingNodes.delete(id);
     this.playerNodes.delete(id);
   }
+  removeMovingNode(node){
+    this.movingNodes.delete(id);
+  }
 
   getNewNodeId() {
     // Resets integer

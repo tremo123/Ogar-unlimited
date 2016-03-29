@@ -29,8 +29,7 @@ module.exports = function (gameServer, split) {
             0.5 + 0.4 * Math.random()
           );
           ejected.setColor(cell.getColor());
-          gameServer.addNode(ejected);
-          gameServer.setAsMovingNode(ejected);
+          gameServer.addNode(ejected, "moving");
         }
         cell.mass = 10;
       }

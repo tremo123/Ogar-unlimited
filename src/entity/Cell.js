@@ -217,7 +217,7 @@ Cell.prototype.calcMovePhys = function (config) {
             yd += -ymove;
             if (cell.moveEngineTicks == 0) {
               cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
-              this.gameServer.setAsMovingNode(cell);
+              this.gameServer.getWorld().setNodeAsMoving(cell.getId(), cell);
               //if (!this.gameServer.getMovingNodes().has(cell.getId())) {
               //  this.gameServer.setAsMovingNode(cell.getId());
               //}

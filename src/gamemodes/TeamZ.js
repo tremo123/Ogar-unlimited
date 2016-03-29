@@ -564,8 +564,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       }
 
       // Add to moving cells list
-      this.setAsMovingNode(split);
-      this.addNode(split);
+      this.addNode(split, "moving");
     }
   };
 
@@ -595,8 +594,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
     }
 
     // Add to moving cells list
-    this.addNode(newCell);
-    this.setAsMovingNode(newCell);
+    this.addNode(newCell, "moving");
   };
 
   Virus.prototype.onConsume = function (consumer, gameServer) {

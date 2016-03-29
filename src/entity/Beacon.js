@@ -90,8 +90,8 @@ Beacon.prototype.feed = function (feeder, gameServer) {
             0.5 + 0.4 * Math.random()
           );
           ejected.setColor(cell.getColor());
-          gameServer.addNode(ejected);
-          gameServer.setAsMovingNode(ejected);
+          gameServer.addNode(ejected, "moving");
+          gameServer.getWorld().setNodeAsMoving(ejected.getId(), ejected);
         }
         cell.mass = 10;
       }
@@ -143,5 +143,5 @@ Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
   var dist = (Math.random() * 25) + 5; // Random distance
   f.setMoveEngineData(dist, 15);
 
-  gameServer.setAsMovingNode(f);
+  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
 };
