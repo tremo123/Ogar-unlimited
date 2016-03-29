@@ -1,7 +1,14 @@
-Rules for contribuing
+Rules for editing
 
 1. Test your changes
 2. Make sure to follow the rules designated by MichealLeeHobbs here
+
+Rules for pull requests
+
+1. Test your changes
+2. Listen well to hound bot
+3. Provide a description of what it does
+4. Make sure to follow the rules designated by MichealLeeHobbs here
 
 ------------------------------------------------
 This weekend I spent hours dealing with the results of poor coding practices. Nearly all of these appear to have come from the original Ogar project. However many of them have been copied in new work. We need to setup a Contributing and Style guide. This is a place where we could use some help as I do not have the time to build one at this time. As a minimal it should include the following:
