@@ -843,11 +843,6 @@ module.exports = class GameServer {
   }
 
   // getters/setters
-  setConsoleService(consoleService) {
-    this.consoleService = consoleService;
-    this.consoleService.isLiveConsole = this.config.liveConsole === 1;
-    this.consoleService.updateInterveral = this.config.consoleUpdateTime;
-  }
 
   getGameMode() {
     // todo why do we use Gamemode to return the game mode?
