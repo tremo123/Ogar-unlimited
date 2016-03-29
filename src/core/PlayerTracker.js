@@ -110,7 +110,7 @@ module.exports = class PlayerTracker {
       }
       // /SCRAMBLE
     }
-  
+  };
 
 //module.exports = PlayerTracker;
 
