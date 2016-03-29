@@ -1119,10 +1119,10 @@ module.exports = class GameServer {
         else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
-          ejected.setMoveEngineData(this.config.ejectvspeed, 20);
+           ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
           ejected.par = player;
         } else {
-          ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+           ejected.setMoveEngineData(this.config.ejectSpeed, 20, 0.85);
         }
 
         if (this.config.randomEjectMassColor === 1) {
@@ -1280,8 +1280,8 @@ module.exports = class GameServer {
       let split = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, newMass, this);
       split.setAngle(angle);
 
-      let splitSpeed = this.config.splitSpeed * Math.max(utilities.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed
-      split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
+      let splitSpeed = this.config.splitSpeed;
+      split.setMoveEngineData(splitSpeed, 40, 0.85); //vanilla agar.io = 130, 32, 0.85
       split.calcMergeTime(this.config.playerRecombineTime);
       split.ignoreCollision = true;
       split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
@@ -1684,7 +1684,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass, this);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.restoreCollisionTicks = 25;

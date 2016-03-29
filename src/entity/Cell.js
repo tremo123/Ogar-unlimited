@@ -10,6 +10,8 @@ function Cell(nodeId, owner, position, mass, gameServer) {
     g: Cell.virusi,
     b: 0
   };
+  this.name = '';
+  this.visible = true;
   this.position = position;
   this.mass = mass; // Starting mass of the cell
   this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
@@ -32,14 +34,36 @@ module.exports = Cell;
 Cell.prototype.getId = function () {
   return this.nodeId;
 };
-
+Cell.prototype.getVis = function() {
+     if (this.owner && !this.visible) {
+        return this.owner.visible;
+     } else {
+         return this.visible;
+     }
+  };
+Cell.prototype.setVis = function(state, so) {
+     if (!so && this.owner) {
+         this.owner.visible = state;
+     } else {
+         this.visible = state;
+     }
+     return true;
+  };
 Cell.prototype.getName = function () {
-  if (this.owner) {
-    return this.owner.name;
-  } else {
-    return "";
-  }
+   if (this.owner && !this.name) {
+         return this.owner.name;
+     } else {
+         return this.name;
+     }
 };
+Cell.prototype.setName = function(name, so) {
+    if (!so && this.owner) {
+         this.owner.name = name;
+     } else {
+         this.name = name;
+     }
+     return true;
+ };
 Cell.prototype.getPremium = function () {
   if (this.owner) {
     return this.owner.premium;
@@ -80,13 +104,13 @@ Cell.prototype.addMass = function (n) {
 
   } else {
 
-    if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
-      this.mass = (this.mass + n) / 2;
-      var randomAngle = Math.random() * 6.28; // Get random angle
-      this.owner.gameServer.newCellVirused(this.owner, this, randomAngle, this.mass, 350);
-    } else {
-      this.mass += n;
-      var th = this;
+        if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
+            this.mass = (this.mass + n) / 2;
+             var randomAngle = Math.random() * 6.28; // Get random angle
+             this.owner.gameServer.autoSplit(this.owner, this, randomAngle, this.mass, 350);
+         } else {
+             this.mass += n;
+             var th = this;
 
       setTimeout(function () {
         th.mass = Math.min(th.mass, th.owner.gameServer.config.playerMaxMass);

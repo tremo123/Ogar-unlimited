@@ -13,6 +13,7 @@ function MotherCell() { // Temporary - Will be in its own file if Zeach decides 
     b: 85 + Math.floor(30 * Math.random())
   };
   this.spiked = 1;
+  this.mass = 222;
 }
 
 module.exports = MotherCell;
@@ -27,17 +28,24 @@ MotherCell.prototype.update = function (gameServer) {
   this.mass += 0.25;
 
   // Spawn food
-  var maxFood = 10; // Max food spawned per tick
-  var i = 0; // Food spawn counter
-  while ((this.mass > gameServer.gameMode.motherCellMass) && (i < maxFood)) {
-    // Only spawn if food cap hasn been reached
-    if (gameServer.currentFood < gameServer.config.foodMaxAmount) {
-      this.spawnFood(gameServer);
-    }
-
-    // Incrementers
+  if (this.mass >= 222) {
+         var maxFoodSpawn = gameServer.config.foodMaxAmount * 10;
+         // Spawn food
+         var i = 0; // Food spawn counter
+         var maxFood = Math.random() * 2;
+         while (i < maxFood) {
+             if (this.mass === 222 && gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
+               this.spawnFood(gameServer);
+             }
+             // Only spawn if food cap hasn been reached
+             if (gameServer.currentFood < maxFoodSpawn && this.mass > 222) {
+                 this.spawnFood(gameServer);
+            }
+            // Incrementers
     this.mass--;
     i++;
+         }
+
   }
 };
 

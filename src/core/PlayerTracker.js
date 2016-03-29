@@ -15,6 +15,7 @@ module.exports = class PlayerTracker {
     this.disconnect = -1; // Disconnection
     this.name = "";
     this.gameServer = gameServer;
+    this.visible = true;
     this.socket = socket;
     this.blind = false;
     this.rainbowon = false;
@@ -86,30 +87,30 @@ module.exports = class PlayerTracker {
 
     // Gamemode function
     if (gameServer) {
-      // Find center
-      this.centerPos.x = (gameServer.config.borderLeft - gameServer.config.borderRight) / 2;
-      this.centerPos.y = (gameServer.config.borderTop - gameServer.config.borderBottom) / 2;
-      // Player id
-      this.pID = gameServer.getNewPlayerID();
-      // Gamemode function
-      gameServer.gameMode.onPlayerInit(this);
-
-      // SCRAMBLE
-      // Only scramble if enabled in config
-      if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
-
-        if (Math.round(Math.random()) == 0) { // value can sometimes be negative
-          this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
-          this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
-        } else {
-          this.scrambleX = Math.floor((1 << 15) * Math.random());
-          this.scrambleY = Math.floor((1 << 15) * Math.random());
-
-        }
+              // Find center
+         this.centerPos.x = (gameServer.config.borderLeft - gameServer.config.borderRight) / 2;
+         this.centerPos.y = (gameServer.config.borderTop - gameServer.config.borderBottom) / 2;
+         // Player id
+         this.pID = gameServer.getNewPlayerID();
+         // Gamemode function
+         gameServer.gameMode.onPlayerInit(this);
+ 
+         // SCRAMBLE
+        // Only scramble if enabled in config
+         if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+ 
+             if (Math.round(Math.random()) == 0) { // value can sometimes be negative
+                 this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
+                 this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
+             } else {
+                 this.scrambleX = Math.floor((1 << 15) * Math.random());
+                 this.scrambleY = Math.floor((1 << 15) * Math.random());
+  
+             }
       }
       // /SCRAMBLE
     }
-  }
+  };
 
 //module.exports = PlayerTracker;
 
@@ -326,7 +327,7 @@ module.exports = class PlayerTracker {
           // Add nodes to client's screen if client has not seen it already
           for (var i = 0; i < newVisible.length; i++) {
             var index = this.visibleNodes.indexOf(newVisible[i]);
-            if (index == -1 && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
+           if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
 
               updateNodes.push(newVisible[i]);
             }
@@ -343,7 +344,7 @@ module.exports = class PlayerTracker {
       // Add nodes to screen
       for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
         var node = this.nodeAdditionQueue[i];
-        if (!this.blind || (node.owner == this || node.cellType != 0)) {
+ if ((!this.blind || (node.owner == this || node.cellType != 0)) && (node.getVis() || node.owner == this)) {
           this.visibleNodes.push(node);
           updateNodes.push(node);
         }
@@ -353,7 +354,7 @@ module.exports = class PlayerTracker {
     // Update moving nodes
     for (var i = 0; i < this.visibleNodes.length; i++) {
       var node = this.visibleNodes[i];
-      if (node.sendUpdate() && (!this.blind || (node.owner == this || node.cellType != 0) )) {
+       if (node.sendUpdate() && (node.getVis() || node.owner == this) && (!this.blind || (node.owner == this || node.cellType != 0))) {
         // Sends an update if cell is moving
         updateNodes.push(node);
       }
@@ -385,19 +386,19 @@ module.exports = class PlayerTracker {
 
     if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
       // Update map, it may have changed
-      this.socket.sendPacket(new Packet.SetBorder(
-        this.gameServer.config.borderLeft,
-        this.gameServer.config.borderRight,
-        this.gameServer.config.borderTop,
-        this.gameServer.config.borderBottom
+  this.socket.sendPacket(new Packet.SetBorder(
+             this.gameServer.config.borderLeft + this.scrambleX,
+             this.gameServer.config.borderRight + this.scrambleX,
+             this.gameServer.config.borderTop + this.scrambleY,
+             this.gameServer.config.borderBottom + this.scrambleY
       ));
     } else {
       // Send a border packet to fake the map size
       this.socket.sendPacket(new Packet.SetBorder(
-        this.centerPos.x + this.socket.playerTracker.scrambleX - width,
-        this.centerPos.x + this.socket.playerTracker.scrambleX + width,
-        this.centerPos.y + this.socket.playerTracker.scrambleY - height,
-        this.centerPos.y + this.socket.playerTracker.scrambleY + height
+        this.centerPos.x + this.playerTracker.scrambleX - width,
+        this.centerPos.x + this.playerTracker.scrambleX + width,
+        this.centerPos.y + this.playerTracker.scrambleY - height,
+        this.centerPos.y + this.playerTracker.scrambleY + height
       ));
     }
 
@@ -406,7 +407,7 @@ module.exports = class PlayerTracker {
     if (this.disconnect > -1) {
       // Player has disconnected... remove it when the timer hits -1
       this.disconnect--;
-      if (this.disconnect == -1) {
+      if (this.disconnect == -1 || this.cells.length == 0) {
         // Remove all client cells
         var len = this.cells.length;
         for (var i = 0; i < len; i++) {
