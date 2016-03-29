@@ -354,8 +354,9 @@ function GameServer() {
 
 module.exports = GameServer;
 
-GameServer.prototype.start = function() {
+GameServer.prototype.start = function(version) {
     // Logging
+    this.version = version
     this.log.setup(this);
     ipcounts = [];
     // Gamemode configurations
