@@ -35,7 +35,7 @@ process.argv.forEach(function (val) {
 
 // Run Ogar
 var gameServer = new GameServer();
-gameServer.start();
+gameServer.start(Version);
 // Add command handler
 gameServer.commands = Commands.list;
 // Initialize the server console
