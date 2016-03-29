@@ -1280,7 +1280,7 @@ module.exports = class GameServer {
       let split = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, newMass, this);
       split.setAngle(angle);
 
-      let splitSpeed = this.config.splitSpeed
+      let splitSpeed = this.config.splitSpeed;
       split.setMoveEngineData(splitSpeed, 40, 0.85); //vanilla agar.io = 130, 32, 0.85
       split.calcMergeTime(this.config.playerRecombineTime);
       split.ignoreCollision = true;
