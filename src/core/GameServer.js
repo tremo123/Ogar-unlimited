@@ -843,12 +843,6 @@ module.exports = class GameServer {
   }
 
   // getters/setters
-
-  getGameMode() {
-    // todo why do we use Gamemode to return the game mode?
-    return Gamemode.get(this.config.serverGamemode);
-  }
-
   getClients() {
     return this.clients;
   }
