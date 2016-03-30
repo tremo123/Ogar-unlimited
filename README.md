@@ -39,6 +39,7 @@ This Modified copy was created to help those who want to open their server to th
  22. range command for bulk commands
  23. easy verify system as anti bot mesure (gameserver.ini)
  24. mousefilter as a anti bot measure
+ 25. plugins. Add gamemodes and commands easily! (See example plugin and template plugin)
  
 ### Note:
 Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
