@@ -237,12 +237,12 @@ module.exports = class ConfigService {
       fs.writeFileSync('./files.json', '');
     }
     console.log('Loading Config Files...');
-    let configFiles = glob.sync("./configs/*.ini");
+    let configFiles = glob.sync("./settings/*.ini");
     if (configFiles === []) {
-      console.log("[Game] No config files found, generating: src/config/config.ini");
+      console.log("[Game] No config files found, generating: src/settings/config.ini");
 
       // Create a new config
-      fs.writeFileSync('./config/config.ini', ini.stringify(this.config));
+      fs.writeFileSync('./settings/config.ini', ini.stringify(this.config));
     }
 
     configFiles.forEach((file)=> {
