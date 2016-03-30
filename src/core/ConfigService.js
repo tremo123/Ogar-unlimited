@@ -156,7 +156,7 @@ module.exports = class ConfigService {
     return this.plugins
     
   }
-  getPGameodes() {
+  getPGamemodes() {
   return this.pluginGamemodes;
   }
   getBanned() {
