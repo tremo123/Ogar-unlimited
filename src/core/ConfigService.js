@@ -138,7 +138,7 @@ module.exports = class ConfigService {
     this.botNames = [];
     this.skinShortCuts = [];
     this.skins = [];
-
+    this.plugins = [];
 
     this.loadConfig();
     this.loadBanned();
@@ -151,7 +151,10 @@ module.exports = class ConfigService {
   getConfig() {
     return this.config;
   }
-
+  getPlugin() {
+    return this.plugins
+    
+  }
   getBanned() {
     return this.banned;
   }
@@ -177,6 +180,22 @@ module.exports = class ConfigService {
   }
 
   loadConfig() {
+    try {
+      var files = fs.readdir('./plugins/');
+      for (var i in files) {
+      var plugin = require('./plugins/' + files[i]);
+        this.plugins[plugin.name] = plugin;
+        console.log("[Console] loaded plugin: " + plugin.name);
+      }
+      
+      
+    } catch () {
+      console.log("Failed to load plugins");
+      
+    }
+    
+    
+    
     try {
       var test = fs.readFileSync('./files.json', 'utf-8');
 
