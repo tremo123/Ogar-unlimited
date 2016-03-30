@@ -2,7 +2,7 @@
 module.exports = plugin;
 
 plugin.name = "tptoplayer;
-plugin.author = "andrews54757"
+plugin.author = "andrews54757";
 plugin.commandName = "tptoplayer";
 plugin.addToHelp = "tptoplayer : tps to a player";
 plugin.command = function(gameServer,split) {
