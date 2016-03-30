@@ -4,7 +4,7 @@ const Readline = require('readline');
 const VERSION = '11.8.5';
 const ControlServer = require('./core/ControlServer');
 let controlServer = new ControlServer(VERSION);
-
+throw error
 // Init variables
 let showConsole = true;
 
