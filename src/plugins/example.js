@@ -1,10 +1,20 @@
 'use strict';
 var plugin = [];
-plugin.name = "tptoplayer";
-plugin.author = "andrews54757";
-plugin.commandName = "tptoplayer";
-plugin.addToHelp = "tptoplayer : tps to a player";
-plugin.command = function(gameServer,split) {
+plugin.name = ""; // Name of plugin where it would be listed in
+plugin.author = "andrews54757"; // author
+plugin.command = []; // extra commands
+plugin.commandName = []; // extra commands
+plugin.commandName[0] = "tptoplayer";
+plugin.addToHelp[0] = "tptoplayer : tps to a player";
+plugin.gamemodeId = []; // todo with plugin gamemodes
+plugin.gamemode = []; // todo with plugin gamemodea
+plugin.version = '1.0.0';
+plugin.compatVersion = ''; // compatable with (todo)
+plugin.init = function () {
+  // init, Used to do stuff such as overriding things
+  
+}
+plugin.command[0] = function(gameServer,split) {
 
  var id = parseInt(split[1]);
  var idt = parseInt(split[2]);
