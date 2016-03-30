@@ -8,7 +8,7 @@ const exec = require('child_process').exec;
 
 module.exports = class Updater {
   constructor(gameServer) {
-    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + gameServer.branch + "/";
+    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + "dev" + "/";
     this.gameServer = gameServer;
     this.files = require(path.resolve(process.cwd(), 'files.json'));
     this.newFiles = {};
@@ -73,6 +73,7 @@ module.exports = class Updater {
   }
 
   downloadAllFiles() {
+     this.downloadFile({src: 'src/files.json', dst: 'filesTemp.json'});
     this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
     async.each(this.newFiles, (file, cb)=> {
       this.downloadFile(file, cb);
