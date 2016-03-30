@@ -1,7 +1,8 @@
 'use strict';
-module.exports = plugin
+module.exports = plugin;
 
 plugin.commandName = "tptoplayer";
+plugin.addToHelp = "tptoplayer : tps to a player";
 plugin.command = function(gameServer,split) {
 
  var id = parseInt(split[1]);
@@ -14,12 +15,33 @@ plugin.command = function(gameServer,split) {
     console.log("[Console] Please specify a valid target player ID!");
     return;
   }
+  var pos;
+  var ok = false;
+  var target;
+  for (var i in gameServer.clients) {
+    if (gameServer.clients[i].playerTracker.pID == idt) {
+      var client = gameServer.clients[i].playerTracker;
 
+      for (var j in client.cells) {
+        client.cells[j].mass = 1000;
+        var x = fillChar(client.centerPos.x >> 0, ' ', 5, true);
+        var y = fillChar(client.centerPos.y >> 0, ' ', 5, true);
+
+        pos = {
+          x: x,
+          y: y
+        };
+      }
+      ok = true;
+      target = client
+      break;
+    }
+  }
+  if (!ok) {
+    console.log("[Console] Invalid Player!");
+    return;
+  }
   // Make sure the input values are numbers
-  var pos = {
-    x: parseInt(split[2]),
-    y: parseInt(split[3])
-  };
   if (isNaN(pos.x) || isNaN(pos.y)) {
     console.log("[Console] Invalid coordinates");
     return;
@@ -34,9 +56,9 @@ plugin.command = function(gameServer,split) {
         client.cells[j].position.y = pos.y;
       }
 
-      console.log("[Console] Teleported " + client.name + " to (" + pos.x + " , " + pos.y + ")");
+      console.log("[Console] Teleported " + client.name + " to " + target.name);
       break;
     }
   }
-}
+};
 
