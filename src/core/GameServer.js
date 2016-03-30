@@ -53,11 +53,13 @@ module.exports = class GameServer {
     this.minions = new MinionLoader(this);
 
     // Config
+
     this.configService = new ConfigService();
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
-    this.plugins = this.configService.getPlugin();
     this.opbyip = this.configService.getOpByIp();
+    this.plugins = this.configService.getPlugin();
+    this.pluginCommands = this.configService.getPC();
     this.highscores = this.configService.getHighScores();
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
