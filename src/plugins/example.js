@@ -1,7 +1,6 @@
 'use strict';
-module.exports = plugin;
-
-plugin.name = "tptoplayer;
+var plugin = [];
+plugin.name = "tptoplayer";
 plugin.author = "andrews54757";
 plugin.commandName = "tptoplayer";
 plugin.addToHelp = "tptoplayer : tps to a player";
@@ -63,4 +62,5 @@ plugin.command = function(gameServer,split) {
     }
   }
 };
+module.exports = plugin;
 
