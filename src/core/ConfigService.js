@@ -140,7 +140,7 @@ module.exports = class ConfigService {
     this.skins = [];
     this.plugins = [];
     this.extraC = [];
-
+    this.pluginGamemodes = [];
     this.loadConfig();
     this.loadBanned();
     this.loadOpByIp();
@@ -155,6 +155,9 @@ module.exports = class ConfigService {
   getPlugin() {
     return this.plugins
     
+  }
+  getPGameodes() {
+  return this.pluginGamemodes;
   }
   getBanned() {
     return this.banned;
@@ -198,6 +201,11 @@ module.exports = class ConfigService {
             for (var j in plugin.commandName) {
           if (plugin.commandName[j] && plugin.command[j]) {
           this.extraC[plugin.commandName[j]] = plugin.command[j];
+            }
+            }
+            for (var j in plugin.gamemodeId) {
+          if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
+          this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
             }
             }
           
