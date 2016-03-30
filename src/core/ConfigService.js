@@ -193,7 +193,7 @@ module.exports = class ConfigService {
       for (var i in files) {
         
       var plugin = require('../plugins/' + files[i] + '/index.js');
-        this.plugins[files[i]] = plugin;
+        this.plugins[plugin.name] = plugin;
         plugin.init(this.gameServer);
         if (this.plugins) {
           if (plugin.commandName) {
