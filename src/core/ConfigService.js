@@ -181,18 +181,24 @@ module.exports = class ConfigService {
 
   loadConfig() {
     try {
-      var files = fs.readdir('./plugins/');
+      console.log("[Console] Loading plugins");
+      var files = fs.readdirSync('./plugins/');
       for (var i in files) {
-      var plugin = require('./plugins/' + files[i]);
+        
+        try {
+      var plugin = require('../plugins/' + files[i]);
         this.plugins[plugin.name] = plugin;
         console.log("[Console] loaded plugin: " + plugin.name);
+      } catch (e) {
+        console.log("[Console] Failed to load pluginfile " + files[i] + " Reason: " + e);
+        
       }
-      
-      
-    } catch () {
-      console.log("Failed to load plugins");
-      
+      }
+    } catch (e) {
+      console.log("[Console] Couldnt load plugins");
     }
+      
+    
     
     
     
