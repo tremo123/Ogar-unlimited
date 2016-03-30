@@ -1,3 +1,6 @@
+const ConfigService = require('./ConfigService.js');
+var configService = new ConfigService();
+var pGamemode = configService.getPGamemodes;
 module.exports = {
   Mode: require('./Mode'),
   FFA: require('./FFA'),
@@ -23,6 +26,7 @@ module.exports = {
   SFFA: require('./SFFA.js'),
 };
 
+var 
 var get = function (id) {
   var mode;
   switch (id) {
@@ -87,6 +91,11 @@ var get = function (id) {
       mode = new module.exports.Experimental2();
       break;
     default: // FFA is default
+    if (pGamemode[id]) {
+      mode = new pGamemode[id];
+      
+    }
+    
       mode = new module.exports.FFA();
       break;
   }
