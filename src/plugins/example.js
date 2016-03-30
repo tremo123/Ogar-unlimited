@@ -10,7 +10,7 @@ plugin.gamemodeId = []; // todo with plugin gamemodes
 plugin.gamemode = []; // todo with plugin gamemodea
 plugin.version = '1.0.0';
 plugin.compatVersion = ''; // compatable with (todo)
-plugin.init = function () {
+plugin.init = function (gameServer) {
   // init, Used to do stuff such as overriding things
   
 }
