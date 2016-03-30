@@ -248,7 +248,20 @@ module.exports = class ConsoleService {
     if (typeof execute !== 'undefined') {
       execute(this.gameServer, split);
     } else {
-      console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+      var ok = false;
+      if (this.gameServer.plugins) {
+        for (var i in this.gameServer.plugins) {
+          var plugin = this.gameServer.plugins[i];
+          if (plugin.commandName = first) {
+            var execute = plugin.command;
+            ok = true
+            execute(this.gameServer, split);
+          }
+          
+        }
+        
+      }
+      if (!ok) console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
     }
   }
 
