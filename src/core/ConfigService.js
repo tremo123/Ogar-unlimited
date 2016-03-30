@@ -15,7 +15,7 @@ module.exports = class ConfigService {
       anounceDelay: 70, // Announce delay
       anounceDuration: 8, // How long the announce lasts
       vps: 0,
-      dev:0,
+      dev: 0,
       ejectantispeed: 120, // Speed of ejected anti matter
       maxopvirus: 60, // Maximum amount of OP viruses
       skins: 1,
@@ -187,6 +187,39 @@ module.exports = class ConfigService {
   }
 
   loadConfig() {
+    if (this.config.dev == 1) {
+            console.log("[Console] Loading plugins in dev mode");
+      var files = fs.readdirSync('./plugins/');
+      for (var i in files) {
+        
+      var plugin = require('../plugins/' + files[i] + '/index.js');
+        this.plugins[files[i]] = plugin;
+        plugin.init(this.gameServer);
+        if (this.plugins) {
+          if (plugin.commandName) {
+            for (var j in plugin.commandName) {
+          if (plugin.commandName[j] && plugin.command[j]) {
+          this.extraC[plugin.commandName[j]] = plugin.command[j];
+            }
+            }
+            for (var j in plugin.gamemodeId) {
+          if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
+          this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
+            }
+            }
+          
+        }
+        
+      }
+      
+        console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
+        
+      }
+      
+    } else {
+    
+    
+    
     try {
       console.log("[Console] Loading plugins");
       var files = fs.readdirSync('./plugins/');
@@ -223,7 +256,7 @@ module.exports = class ConfigService {
     } catch (e) {
       console.log("[Console] Couldnt load plugins");
     }
-      
+    }
     
     
     
