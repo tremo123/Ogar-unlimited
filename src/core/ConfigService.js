@@ -205,7 +205,7 @@ module.exports = class ConfigService {
         
       }
       
-        console.log("[Console] loaded plugin: " + plugin.name);
+        console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
         
       } catch (e) {
         console.log("[Console] Failed to load pluginfile " + files[i] + " Reason: " + e);
