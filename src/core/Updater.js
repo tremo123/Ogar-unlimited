@@ -73,6 +73,7 @@ module.exports = class Updater {
   }
 
   downloadAllFiles() {
+    this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
     async.each(this.newFiles, (file, cb)=> {
       this.downloadFile(file, cb);
     }, handleError(this.gameServer));
