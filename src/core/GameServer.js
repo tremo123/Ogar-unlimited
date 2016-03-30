@@ -73,7 +73,7 @@ module.exports = class GameServer {
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 
     // Gamemodes
-    this.gameMode = Gamemode.get(this.config.serverGamemode);
+    this.gameMode = Gamemode.get(this.config.serverGamemode, this);
 
     //bound
     this.mainLoopBind = this.mainLoop.bind(this);
