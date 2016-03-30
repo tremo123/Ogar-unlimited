@@ -10,6 +10,7 @@ plugin.gamemode = [];
 plugin.name = ""; // Name of plugin where it would be listed in
 plugin.author = "andrews54757"; // author
 plugin.commandName[0] = "tptoplayer";
+plugin.description = "An example plugin"
 plugin.addToHelp[0] = "tptoplayer : tps to a player";
 plugin.command[0] = require("./tptoplayer.js");
 plugin.commandName[1] = "plugin"
