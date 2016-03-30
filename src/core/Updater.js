@@ -27,7 +27,6 @@ module.exports = class Updater {
           }
         });
         if (this.updatedFiles !== []) {
-          console.log("Updates detected. Type: 'update all' without quotes to download the latest updates!");
         }
       } else {
         console.warn("[Initialization] While initializing failed to download files.json");
@@ -73,11 +72,13 @@ module.exports = class Updater {
   }
 
   downloadAllFiles() {
-     this.downloadFile({src: 'src/files.json', dst: 'filesTemp.json'});
-    this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
+       this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
     async.each(this.newFiles, (file, cb)=> {
       this.downloadFile(file, cb);
     }, handleError(this.gameServer));
+  
+     
+  
   }
 
   downloadUpdatedFiles() {
