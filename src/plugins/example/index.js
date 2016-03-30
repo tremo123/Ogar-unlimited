@@ -11,8 +11,8 @@ plugin.gamemodeId = []; // todo with plugin gamemodes
 plugin.gamemode = []; // todo with plugin gamemodea
 plugin.version = '1.0.0';
 plugin.compatVersion = ''; // compatable with (todo)
-
-
+plugin.gamemodeId[0] = 80;
+plugin.gamemode[0] = require("./sffa.js");
 
 
 
