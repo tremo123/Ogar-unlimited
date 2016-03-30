@@ -108,7 +108,9 @@ Commands.list = {
       for (var i in gameServer.plugins) {
         var plugin = gameServer.plugins[i];
         if (plugin.addToHelp) {
-          console.log("[Console] "+ plugin.addToHelp);
+          for (var j in plugin.addToHelp) {
+          console.log("[Console] "+ plugin.addToHelp[j]);
+          }
         }
         
       }
