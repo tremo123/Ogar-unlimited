@@ -9,6 +9,7 @@ plugin.addToHelp = []; // dont touch
 // [General]
 plugin.name = ""; // Name of plugin
 plugin.author = ""; // author
+plugin.description = '';
 plugin.compatVersion = ''; // compatable with (todo)
 plugin.version = ''; // version
 
