@@ -104,6 +104,16 @@ Commands.list = {
     console.log("[Console] Rainbow    : Gives rainbow effect to a player");
     console.log("[Console] Update     : Updates server to the latest version");
     console.log("[Console] changelog  : Shows a changelog");
+    if (gameServer.plugins) {
+      for (var i in gameServer.plugins) {
+        var plugin = gameServer.plugins[i];
+        if (plugin.addToHelp) {
+          console.log("[Console] "+ plugin.addToHelp);
+        }
+        
+      }
+      
+    }
     console.log("[Console] ====================================================");
   },
   blind: require('./commands/blind.js'),
