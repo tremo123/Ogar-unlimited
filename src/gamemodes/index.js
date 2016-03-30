@@ -1,6 +1,4 @@
-const ConfigService = require('../core/ConfigService.js');
-var configService = new ConfigService();
-var pGamemode = configService.getPGamemodes();
+
 module.exports = {
   Mode: require('./Mode'),
   FFA: require('./FFA'),
@@ -26,7 +24,7 @@ module.exports = {
   SFFA: require('./SFFA.js'),
 };
 
-var get = function (id) {
+var get = function (id, gameServer) {
   var mode;
   switch (id) {
     case 1: // Teams
@@ -90,8 +88,8 @@ var get = function (id) {
       mode = new module.exports.Experimental2();
       break;
     default: // FFA is default
-    if (pGamemode[id]) {
-      mode = new pGamemode[id];
+    if (gameServer.pluginGamemodes[id]) {
+      mode = new gameServer.pluginGamemodes[id];
       
     } else {
     
