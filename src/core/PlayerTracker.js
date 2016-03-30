@@ -380,7 +380,7 @@ module.exports = class PlayerTracker {
       this.tickLeaderboard--;
     }
 
-    // Map obfuscation
+    // Map obfuscation 
     var width = this.viewBox.width;
     var height = this.viewBox.height;
 
@@ -395,10 +395,10 @@ module.exports = class PlayerTracker {
     } else {
       // Send a border packet to fake the map size
       this.socket.sendPacket(new Packet.SetBorder(
-        this.centerPos.x + this.playerTracker.scrambleX - width,
-        this.centerPos.x + this.playerTracker.scrambleX + width,
-        this.centerPos.y + this.playerTracker.scrambleY - height,
-        this.centerPos.y + this.playerTracker.scrambleY + height
+        this.centerPos.x + this.scrambleX - width,
+        this.centerPos.x + this.scrambleX + width,
+        this.centerPos.y + this.scrambleY - height,
+        this.centerPos.y + this.scrambleY + height
       ));
     }
 
