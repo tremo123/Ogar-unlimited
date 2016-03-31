@@ -293,13 +293,13 @@ module.exports = class ConfigService {
     });
 
     try {
-      var override = ini.parse(fs.readFileSync('./configs/override.ini', 'utf-8'));
+      var override = ini.parse(fs.readFileSync('./settings/override.ini', 'utf-8'));
       for (var o in override) {
         this.config[o] = override[o];
       }
     } catch (err) {
       console.log("[Game] Override not found... Generating new override");
-      fs.writeFileSync('./configs/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
+      fs.writeFileSync('./settings/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
 
     }
   }
