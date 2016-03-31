@@ -20,6 +20,7 @@ const Logger = require('../modules/log');
 const StatServer = require('./StatServer.js');
 const GeneratorService = require('./GeneratorService.js');
 const ConfigService = require('./ConfigService.js');
+const PluginLoader = require('./PluginLoader.js');
 
 module.exports = class GameServer {
   constructor(world, consoleService) {
@@ -59,13 +60,20 @@ module.exports = class GameServer {
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
-    this.plugins = this.configService.getPlugin();
-    this.pluginCommands = this.configService.getPC();
     this.highscores = this.configService.getHighScores();
-    this.pluginGamemodes = this.configService.getPGamemodes();
+  
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
     this.skin = this.configService.getSkins();
+
+    // plugins
+
+    this.pluginLoader = new PluginLoader();
+    this.pluginLoader.load(this);
+    this.pluginGamemodes = this.pluginLoader.getPGamemodes();
+    this.plugins = this.pluginLoader.getPlugin();
+    this.pluginCommands = this.pluginLoader.getPC();
+
 
     // services - must run after config with the exception of the config service
     this.consoleService = consoleService;
