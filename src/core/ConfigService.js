@@ -141,12 +141,7 @@ module.exports = class ConfigService {
     this.plugins = [];
     this.extraC = [];
     this.pluginGamemodes = [];
-    this.loadConfig();
-    this.loadBanned();
-    this.loadOpByIp();
-    this.loadHighScores();
-    this.loadBotNames();
-    this.loadCustomSkin();
+   
   }
 
   load() {
@@ -167,12 +162,14 @@ module.exports = class ConfigService {
   getPGamemodes() {
   return this.pluginGamemodes;
   }
+
+getPC() {
+    return this.extraC;
+  }
   getBanned() {
     return this.banned;
   }
-  getPC() {
-    return this.extraC;
-  }
+  
 
   getOpByIp() {
     return this.opByIp;
