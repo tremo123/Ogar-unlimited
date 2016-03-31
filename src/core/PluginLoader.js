@@ -13,6 +13,17 @@ this.extraC = [];
 
 
 }
+getPlugin() {
+    return this.plugins
+    
+  }
+  getPGamemodes() {
+  return this.pluginGamemodes;
+  }
+
+getPC() {
+    return this.extraC;
+  }
 
 load(gameServer) {
 this.gameServer = gameServer
