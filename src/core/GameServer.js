@@ -68,8 +68,8 @@ module.exports = class GameServer {
 
     // plugins
 
-    this.pluginLoader = new PluginLoader();
-    this.pluginLoader.load(this);
+    this.pluginLoader = new PluginLoader(this);
+    this.pluginLoader.load();
     this.pluginGamemodes = this.pluginLoader.getPGamemodes();
     this.plugins = this.pluginLoader.getPlugin();
     this.pluginCommands = this.pluginLoader.getPC();
