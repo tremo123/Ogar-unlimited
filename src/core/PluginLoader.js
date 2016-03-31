@@ -4,7 +4,7 @@ const ini = require('../modules/ini.js');
 const glob = require('glob');
 
 module.exports = class PluginLoader {
-constructor {
+constructor() {
 this.plugins = [];
 this.gameServer;
 this.pluginGamemodes = [];
