@@ -15,8 +15,9 @@
        
      }
      console.log("[Console] ------------------------------------------------");
-     
-     
+     } else if (split[1] == "reload") {
+gameServer.pluginLoader.load();
+     console.log("Reloaded plugins");
    } else {
      console.log("Please specify a command. Available commands: list")
    }
