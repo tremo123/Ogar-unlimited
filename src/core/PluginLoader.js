@@ -4,9 +4,9 @@ const ini = require('../modules/ini.js');
 const glob = require('glob');
 
 module.exports = class PluginLoader {
-constructor() {
+constructor(gameServer) {
 this.plugins = [];
-this.gameServer;
+this.gameServer = gameServer;
 this.pluginGamemodes = [];
 this.extraC = [];
 
@@ -25,8 +25,7 @@ getPC() {
     return this.extraC;
   }
 
-load(gameServer) {
-this.gameServer = gameServer
+load() {
      if (this.gameServer.config.dev == 1) {
             console.log("[Console] Loading plugins in dev mode");
       var files = fs.readdirSync('./plugins/');
