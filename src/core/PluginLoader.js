@@ -1,4 +1,22 @@
-     if (this.config.dev == 1) {
+'use strict';
+const fs = require("fs");
+const ini = require('../modules/ini.js');
+const glob = require('glob');
+
+module.exports = class PluginLoader {
+constructor {
+this.plugins = [];
+this.gameServer;
+this.pluginGamemodes = [];
+this.extraC = [];
+
+
+
+}
+
+load(gameServer) {
+this.gameServer = gameServer
+     if (this.gameServer.config.dev == 1) {
             console.log("[Console] Loading plugins in dev mode");
       var files = fs.readdirSync('./plugins/');
       for (var i in files) {
@@ -68,3 +86,10 @@
       console.log("[Console] Couldnt load plugins");
     }
     }
+
+
+
+
+
+}
+}
