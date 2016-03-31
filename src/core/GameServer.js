@@ -55,6 +55,7 @@ module.exports = class GameServer {
     // Config
 
     this.configService = new ConfigService();
+    this.configService.load();
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
