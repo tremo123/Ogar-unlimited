@@ -1,7 +1,7 @@
 'use strict';
 var Mode = require('../../gamemodes/Mode.js');
 
-function SFFA() {
+function SFFA() { // example plugin gamemode
   Mode.apply(this, Array.prototype.slice.call(arguments));
 
   this.ID = 80;
