@@ -140,6 +140,7 @@ Commands.list = {
             return;
         }
         var game = this;
+        var r = 0;
         console.log("[PCMD] Request Sent!");
         this.pcmd = setInterval(function() {
             console.log("[PCMD] Running command..");
