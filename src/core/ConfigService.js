@@ -149,6 +149,14 @@ module.exports = class ConfigService {
     this.loadCustomSkin();
   }
 
+  load() {
+ this.loadConfig();
+    this.loadBanned();
+    this.loadOpByIp();
+    this.loadHighScores();
+    this.loadBotNames();
+    this.loadCustomSkin();
+  }
   getConfig() {
     return this.config;
   }
