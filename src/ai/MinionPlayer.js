@@ -401,7 +401,7 @@ findNearbyVirus(cell, checkDist, list) {
     }
   }
   return false; // Returns a bool if no nearby viruses are found
-
+};
 checkPath(cell, check) {
   // Get angle of path
   var v1 = Math.atan2(cell.position.x - player.mouse.x, cell.position.y - player.mouse.y);
