@@ -468,8 +468,8 @@ GameServer.prototype.start = function(version) {
                 if (this.config.autobanrecord == 1) {
                     var oldstring = "";
                     var string = "";
-                    for (var i in gameServer.banned) {
-                        var banned = gameServer.banned[i];
+                    for (var i in this.banned) {
+                        var banned = this.banned[i];
                         if (banned != "") {
 
                             string = oldstring + "\n" + banned;
