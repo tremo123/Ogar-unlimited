@@ -138,10 +138,6 @@ module.exports = class ConfigService {
     this.botNames = [];
     this.skinShortCuts = [];
     this.skins = [];
-    this.plugins = [];
-    this.extraC = [];
-    this.pluginGamemodes = [];
-   
   }
 
   load() {
@@ -155,17 +151,7 @@ module.exports = class ConfigService {
   getConfig() {
     return this.config;
   }
-  getPlugin() {
-    return this.plugins
-    
-  }
-  getPGamemodes() {
-  return this.pluginGamemodes;
-  }
-
-getPC() {
-    return this.extraC;
-  }
+  
   getBanned() {
     return this.banned;
   }
@@ -192,78 +178,6 @@ getPC() {
   }
 
   loadConfig() {
-    if (this.config.dev == 1) {
-            console.log("[Console] Loading plugins in dev mode");
-      var files = fs.readdirSync('./plugins/');
-      for (var i in files) {
-        
-      var plugin = require('../plugins/' + files[i] + '/index.js');
-        this.plugins[plugin.name] = plugin;
-        plugin.init(this.gameServer);
-        if (this.plugins) {
-          if (plugin.commandName) {
-            for (var j in plugin.commandName) {
-          if (plugin.commandName[j] && plugin.command[j]) {
-          this.extraC[plugin.commandName[j]] = plugin.command[j];
-            }
-            }
-            for (var j in plugin.gamemodeId) {
-          if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
-          this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
-            }
-            }
-          
-        }
-        
-      }
-      
-        console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
-        
-      }
-      
-    } else {
-    
-    
-    
-    try {
-      console.log("[Console] Loading plugins");
-      var files = fs.readdirSync('./plugins/');
-      for (var i in files) {
-        
-        try {
-      var plugin = require('../plugins/' + files[i] + '/index.js');
-        this.plugins[files[i]] = plugin;
-        plugin.init(this.gameServer);
-        if (this.plugins) {
-          if (plugin.commandName) {
-            for (var j in plugin.commandName) {
-          if (plugin.commandName[j] && plugin.command[j]) {
-          this.extraC[plugin.commandName[j]] = plugin.command[j];
-            }
-            }
-            for (var j in plugin.gamemodeId) {
-          if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
-          this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
-            }
-            }
-          
-        }
-        
-      }
-      
-        console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
-        
-      } catch (e) {
-        console.log("[Console] Failed to load pluginfile " + files[i] + " Reason: " + e);
-        
-      }
-      }
-    } catch (e) {
-      console.log("[Console] Couldnt load plugins");
-    }
-    }
-    
-    
     
     
     try {
