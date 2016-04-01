@@ -1398,7 +1398,7 @@ module.exports = class GameServer {
           }
         }
         for (var i in this.plugins) {
-          if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond
+          if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
           
         }
         
