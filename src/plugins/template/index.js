@@ -30,6 +30,11 @@ plugin.init = function (gameServer) {
   
 }
 
+plugin.onSecond = function (gameServer) {
+  
+  // called every second
+}
+
 
 
 module.exports = plugin; // dont touch
