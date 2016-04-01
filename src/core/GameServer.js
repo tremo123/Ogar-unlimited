@@ -92,6 +92,7 @@ module.exports = class GameServer {
 
     // others
     this.branch = "dev";
+    this.customLBEnd = [];
     this.skinshortcut = [];
     this.gtick = 0;
     this.randomNames = [];
