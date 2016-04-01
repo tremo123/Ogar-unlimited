@@ -1320,7 +1320,6 @@ module.exports = class GameServer {
     // Update cells
     this.updateCells();
   };
-
   mainLoop() {
     // Timer
     let local = new Date();
@@ -1398,6 +1397,11 @@ module.exports = class GameServer {
             this.rrticks++;
           }
         }
+        for (var i in this.plugins) {
+          if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond
+          
+        }
+        
         // Update leaderboard with the gamemode's method
         this.leaderboard = [];
         this.gameMode.updateLB(this);
