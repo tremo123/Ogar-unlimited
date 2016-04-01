@@ -1401,7 +1401,7 @@ module.exports = class GameServer {
         // Update leaderboard with the gamemode's method
         this.leaderboard = [];
         this.gameMode.updateLB(this);
-        this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.gameMode.packetLB);
+        this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.gameMode.packetLB, this.customLBEnd);
 
         this.tickMain = 0; // Reset
         if (!this.gameMode.specByLeaderboard) {
