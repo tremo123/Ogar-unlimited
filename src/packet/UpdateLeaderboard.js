@@ -5,7 +5,7 @@ function UpdateLeaderboard(leaderboard, packetLB) {
 
 module.exports = UpdateLeaderboard;
 
-UpdateLeaderboard.prototype.build = function () {
+UpdateLeaderboard.prototype.build = function (ctxt) {
   // First, calculate the size
   var lb = this.leaderboard;
   var bufferSize = 5;
@@ -70,7 +70,7 @@ UpdateLeaderboard.prototype.build = function () {
 
         validElements++;
       }
-      var customtxt = [];
+      var customtxt = ctxt;
       var ok = true;
       var newcustomtxt = [];
       if (customtxt) {
