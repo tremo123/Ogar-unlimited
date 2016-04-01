@@ -1786,9 +1786,9 @@ GameServer.prototype.ejectMass = function(client) {
             else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
             ejected.setAngle(angle);
             if (this.config.ejectvirus == 1) {
-                ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
+                ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
             } else {
-                ejected.setMoveEngineData(this.config.ejectSpeed, 20, 0.85);
+                ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
             }
             if (this.config.ejectvirus == 1) {
                 ejected.par = player;
