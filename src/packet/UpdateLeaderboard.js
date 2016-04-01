@@ -1,11 +1,12 @@
-function UpdateLeaderboard(leaderboard, packetLB) {
+function UpdateLeaderboard(leaderboard, packetLB, ctxt) {
   this.leaderboard = leaderboard;
   this.packetLB = packetLB;
+  this.ctxt = ctxt
 }
 
 module.exports = UpdateLeaderboard;
 
-UpdateLeaderboard.prototype.build = function (ctxt) {
+UpdateLeaderboard.prototype.build = function () {
   // First, calculate the size
   var lb = this.leaderboard;
   var bufferSize = 5;
@@ -70,7 +71,7 @@ UpdateLeaderboard.prototype.build = function (ctxt) {
 
         validElements++;
       }
-      var customtxt = ctxt;
+      var customtxt = this.ctxt;
       var ok = true;
       var newcustomtxt = [];
       if (customtxt) {
