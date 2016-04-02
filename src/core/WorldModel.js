@@ -6,11 +6,17 @@ const SortedMap = require("collections/sorted-map");
 
 'use strict';
 module.exports = class WorldModel {
-  constructor() {
+  constructor(borderRight, borderLeft, borderBottom, borderTop) {
+    this.borderRight = borderRight;
+    this.borderLeft = borderLeft;
+    this.borderBottom = borderBottom;
+    this.borderTop = borderTop;
+
     this.lastNodeId = 2;    // todo why 2?
     this.nodes = new SortedMap();
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
+    this.virusNodes = SortedMap();
   }
 
   setNode(id, node, type) {
@@ -35,8 +41,51 @@ module.exports = class WorldModel {
     return this.nodes.get(id);
   }
 
-  getNodes() {
-    return this.nodes;
+  getNodes(type) {
+    let nodes = undefined;
+    switch (type) {
+      case 'node':
+        nodes = this.nodes;
+        break;
+      case 'moving':
+        nodes = this.movingNodes;
+        break;
+      case 'player':
+        nodes = this.playerNodes;
+        break;
+      case 'virus':
+        nodes = this.virusNodes;
+        break;
+      default:
+        nodes = this.nodes;
+    }
+    return nodes;
+  }
+
+  getNearestNodeToNode(node, type, radius) {
+    let nodes = this.getNodes(type);
+
+    // More like getNearbyVirus
+    let foundNode = undefined;
+    let r = (radius) ? radius : 100; // Checking radius
+
+    let topY = node.position.y - r;
+    let bottomY = node.position.y + r;
+
+    let leftX = node.position.x - r;
+    let rightX = node.position.x + r;
+
+    // Loop through all nodes on the map. There is probably a more efficient way of doing this
+    nodes.some((check)=> {
+      //if (typeof check === 'undefined') return false;
+      if (!check || !check.collisionCheck(bottomY, topY, rightX, leftX)) return false;
+
+      // Add to list of cells nearby
+      foundNode = check;
+      return true; // stop checking when a virus found
+    });
+    return foundNode;
+
   }
 
   removeNode(id) {
@@ -66,7 +115,6 @@ module.exports = class WorldModel {
   }
 
   removeMovingNode(id) {
-
     this.movingNodes.delete(id);
   }
 
@@ -77,6 +125,14 @@ module.exports = class WorldModel {
   getPlayerNodes() {
     return this.playerNodes;
   }
+
+  getRandomPosition() {
+    return {
+      x: Math.floor(Math.random() * (this.borderRight - this.borderLeft)) + this.borderLeft,
+      y: Math.floor(Math.random() * (this.borderBottom - this.borderTop)) + this.borderTop
+    }
+  }
+
 
 };
 

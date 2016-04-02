@@ -19,11 +19,10 @@ const MinionLoader = require('../ai/MinionLoader');
 const Logger = require('../modules/log');
 const StatServer = require('./StatServer.js');
 const GeneratorService = require('./GeneratorService.js');
-const ConfigService = require('./ConfigService.js');
 const PluginLoader = require('./PluginLoader.js');
 
 module.exports = class GameServer {
-  constructor(world, consoleService) {
+  constructor(world, consoleService, configService) {
     // fields
     this.world = world;
     //this.lastNodeId = 2;    // todo why 2?
@@ -55,7 +54,7 @@ module.exports = class GameServer {
 
     // Config
 
-    this.configService = new ConfigService();
+    this.configService = configService;
     this.configService.load();
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
@@ -458,6 +457,7 @@ module.exports = class GameServer {
     //  this.setAsMovingNode(node);
     //}
 
+    // todo this is a big problem for splitting up the processes
     // Adds to the owning player's screen
     if (node.owner) {
       node.setColor(node.owner.color);
@@ -468,6 +468,7 @@ module.exports = class GameServer {
     // Special on-add actions
     node.onAdd(this);
 
+    // todo this is a big problem for splitting up the processes
     // Add to visible nodes
     let clients = this.getClients();
     for (let i = 0; i < clients.length; i++) {
@@ -491,6 +492,7 @@ module.exports = class GameServer {
     // Special on-remove actions
     node.onRemove(this);
 
+    // todo this is a big problem for splitting up the processes
     // Animation when eating
     let clients = this.getClients();
     for (let i = 0; i < clients.length; i++) {
@@ -514,7 +516,7 @@ module.exports = class GameServer {
   }
 
   getPlayerNodes() {
-    return this.world.getPlayerNodes();
+    return this.getWorld().getPlayerNodes();
     //return this._nodesPlayer;
   }
 
@@ -604,7 +606,7 @@ module.exports = class GameServer {
 
     if (this.currentFood > 0) {
       // Spawn from food
-      let nodes = this.world.getNodes();
+      let nodes = this.getWorld().getNodes();
       nodes.some((node)=> {
         if (!node || node.inRange) {
           // Skip if food is about to be eaten/undefined
@@ -631,13 +633,14 @@ module.exports = class GameServer {
   }
 
   getRandomPosition() {
-    return utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+    return this.getWorld().getRandomPosition();
   }
 
   getRandomColor() {
     return utilities.getRandomColor();
   }
 
+  // todo change this out for a vector library
   static getDist(x1, y1, x2, y2) {
     return utilities.getDist(x1, y1, x2, y2);
   }
@@ -648,10 +651,10 @@ module.exports = class GameServer {
 
   updateMoveEngine() {
     function sorter(nodeA, nodeB) {
-      return GameServer.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > GameServer.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
+      return utilities.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > utilities.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
     }
 
-    let nodes = this.getPlayerNodes();
+    let nodes = this.getWorld().getPlayerNodes();
     nodes.sorted(sorter);
     nodes.forEach((cell)=> {
       // Do not move cells that have already been eaten or have collision turned off
@@ -681,7 +684,7 @@ module.exports = class GameServer {
 
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    this.world.getMovingNodes().forEach((check)=> {
+    this.getWorld().getMovingNodes().forEach((check)=> {
       if (check.moveEngineTicks > 0) {
         check.onAutoMove(this);
         // If the cell has enough move ticks, then move it
@@ -690,7 +693,7 @@ module.exports = class GameServer {
         // Auto move is done
         check.moveDone(this);
         // Remove cell from list
-        this.world.removeMovingNode(check);
+        this.getWorld().removeMovingNode(check);
       }
     });
   }
@@ -702,7 +705,7 @@ module.exports = class GameServer {
     }
 
     // Loop through all player cells
-    this.getPlayerNodes().forEach((cell)=> {
+    this.getWorld().getPlayerNodes().forEach((cell)=> {
       if (!cell) {
         return;
       }
@@ -959,26 +962,7 @@ module.exports = class GameServer {
   };
 
   getNearestVirus(cell) {
-    // More like getNearbyVirus
-    let virus = null;
-    let r = 100; // Checking radius
-
-    let topY = cell.position.y - r;
-    let bottomY = cell.position.y + r;
-
-    let leftX = cell.position.x - r;
-    let rightX = cell.position.x + r;
-
-    // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
-    this.getVirusNodes().some((check)=> {
-      //if (typeof check === 'undefined') return false;
-      if (!check || !check.collisionCheck(bottomY, topY, rightX, leftX)) return false;
-
-      // Add to list of cells nearby
-      virus = check;
-      return true; // stop checking when a virus found
-    });
-    return virus;
+    return this.getWorld().getNearestNodeToNode(cell, 'virus');
   };
 
   switchSpectator(player) {

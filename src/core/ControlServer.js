@@ -6,6 +6,7 @@ const WorldModel = require('./WorldModel');
 
 const GameServer = require('./GameServer');
 const ConsoleService = require('./ConsoleService.js');
+const ConfigService = require('./ConfigService.js');
 const Updater = require('./Updater.js');
 //let updater = new Updater(this);
 
@@ -16,14 +17,16 @@ module.exports = class ControlServer {
     //this.consoleStreams = {};
 
     // share data
-    this.world = new WorldModel();
+    this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
+    this.config = this.configService.getConfig();
+    this.world = new WorldModel(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
 
     // services
     this.consoleService = new ConsoleService(version);
     this.updater = new Updater(this);
 
     // servers
-    this.gameServer = new GameServer(this.world, this.consoleService);
+    this.gameServer = new GameServer(this.world, this.consoleService, this.configService);
 
     // configuration
     this.consoleService.setGameServer(this.gameServer);
