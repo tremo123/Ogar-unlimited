@@ -6,6 +6,7 @@ module.exports = class GeneratorService {
   constructor(gameServer) {
     this.gameServer = gameServer;
     this.config = gameServer.config;
+    this.interval = undefined;
   }
 
   init() {
@@ -15,7 +16,11 @@ module.exports = class GeneratorService {
   }
 
   start() {
+    this.interval = setInterval(this.update.bind(this), this.config.spawnInterval);
+  }
 
+  stop() {
+    clearInterval(this.interval);
   }
 
   update() {

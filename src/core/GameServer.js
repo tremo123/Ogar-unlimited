@@ -129,7 +129,6 @@ module.exports = class GameServer {
     this.troll = [];
     this.firstl = true;
     this.liveticks = 0;
-    this.run = true;
     this.op = [];
     this.pmsg = 0;
     this.pfmsg = 0;
@@ -214,6 +213,7 @@ module.exports = class GameServer {
     }, function () {
       // Spawn starting food
       this.generatorService.init();
+      this.generatorService.start();
 
       // Start Main Loop
       //setInterval(this.mainLoop.bind(this), 1);
@@ -438,6 +438,15 @@ module.exports = class GameServer {
 
   update(dt) {
 
+  }
+
+  pause(){
+    this.running = false;
+    this.generatorService.stop()
+  }
+  unpause(){
+    this.running = true;
+    this.generatorService.start()
   }
 
   getWorld() {
@@ -1283,10 +1292,10 @@ module.exports = class GameServer {
 
     if (this.tick >= 1000 / this.config.fps) {
       // Loop main functions
-      if (this.run) {
+      if (this.running) {
         // todo what is going on here?
         (this.cellTick(), 0);
-        (this.spawnTick(), 0);
+        //(this.spawnTick(), 0);
         (this.gameModeTick(), 0);
       }
 
@@ -1408,12 +1417,12 @@ module.exports = class GameServer {
       }
 
       if (this.config.autopause == 1) {
-        if ((!this.run) && (humans != 0) && (!this.overideauto)) {
+        if ((!this.running) && (humans != 0) && (!this.overideauto)) {
           console.log("[Autopause] Game Resumed!");
-          this.run = true;
-        } else if (this.run && humans == 0) {
+          this.unpause();
+        } else if (this.running && humans == 0) {
           console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
-          this.run = false;
+          this.pause();
           this.clearEjectedNodes();
           this.clearLeaderBoard();
         }
@@ -1437,17 +1446,6 @@ module.exports = class GameServer {
       this.gtick++;
     }
 
-  };
-
-  spawnTick() {
-    // Spawn food
-    this.tickSpawn++;
-    if (this.tickSpawn >= this.config.spawnInterval) {
-      // todo use dt
-      this.generatorService.update(); // Spawn food & viruses
-
-      this.tickSpawn = 0; // Reset
-    }
   };
 
   cellTick() {
