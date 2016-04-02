@@ -10,10 +10,17 @@ module.exports = class DataBaseConnector {
     this.db = new PouchDB(uri);
   }
 
-  onChange(event, callBack){
-    db.changes({
+  onChange(callBack){
+    this.db.changes({
       live: true,
       include_docs: true
     }).on('change', callBack);
+  }
+
+  put(data){
+    this.db.put(data)
+    .catch((error)=>{
+      console.log('[DataBaseConnector] error: ' + error + ' while attempting to put: ' + data);
+    });
   }
 };

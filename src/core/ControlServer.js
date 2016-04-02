@@ -58,6 +58,7 @@ module.exports = class ControlServer {
     this.gameServer.commands = this.consoleService.commands.list;
 
     // Run Ogar
+    this.gameServer.init();
     this.gameServer.start();
   }
 
@@ -93,8 +94,8 @@ module.exports = class ControlServer {
     this.servers['dataBase'] = dataBase;
     let self = this;
     dataBase.stdout.on('data', function (data) {
-      console.log('db stdout: ' + data);
       if (data.toString().match(/started/)) {
+        console.log('db stdout: ' + data);
         // todo we can set this up better.
         self.startPhase2();
       }

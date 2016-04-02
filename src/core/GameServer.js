@@ -21,10 +21,13 @@ const StatServer = require('./StatServer.js');
 const GeneratorService = require('./GeneratorService.js');
 const PluginLoader = require('./PluginLoader.js');
 
+const DataBaseConnector = require('./DataBaseConnector.js');
+
 module.exports = class GameServer {
   constructor(world, consoleService, configService) {
     // fields
     this.world = world;
+    this.dataBase = new DataBaseConnector('world');
     //this.lastNodeId = 2;    // todo why 2?
     this.lastPlayerId = 1;
     this.running = true;
@@ -193,6 +196,9 @@ module.exports = class GameServer {
 
   // init should only ever be called once.
   init() {
+    this.dataBase.onChange((data)=>{
+      //console.log('Data from dataBase: ' + JSON.stringify(data));
+    })
 
   }
 
