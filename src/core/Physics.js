@@ -26,7 +26,7 @@ module.exports = class Physics {
       angle += (Math.random() * .4) - .2;
 
       // Create cell
-      let ejected = new Entity.EjectedMass(gameServer.getWorld().getNextNodeId(), null, startPos, -100, this);
+      let ejected = new Entity.EjectedMass(world.getNextNodeId(), null, startPos, -100, gameServer);
       ejected.setAngle(angle);
       ejected.setMoveEngineData(this.config.ejectantispeed, 20);
       ejected.setColor(cell.getColor());
