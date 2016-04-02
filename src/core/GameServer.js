@@ -1208,6 +1208,7 @@ module.exports = class GameServer {
     }
   };
 
+  // todo this needs to be a plugin
   newCellVirused(client, parent, angle, mass, speed) {
     // Starting position
     let startPos = {
@@ -1225,7 +1226,7 @@ module.exports = class GameServer {
     // Add to moving cells list
     this.addNode(newCell, "moving");
   };
-
+  // todo this needs to be a plugin
   shootVirus(parent) {
     let parentPos = {
       x: parent.position.x,
@@ -1240,6 +1241,7 @@ module.exports = class GameServer {
     this.addNode(newVirus, "moving");
   };
 
+  // todo this needs to be a service or service plugin
   customLB(newLB, gameServer) {
     gameServer.gameMode.packetLB = 48;
     gameServer.gameMode.specByLeaderboard = false;
@@ -1256,6 +1258,7 @@ module.exports = class GameServer {
     return false;
   };
 
+  // todo physics?
   splitCells(client) {
     if (client.frozen || (!client.verify && this.config.verify === 1)) return;
 

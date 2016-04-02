@@ -1,4 +1,5 @@
 'use strict';
+let Physics = require('./Physics.js')
 module.exports = {
   getRandomColor: function () {
     var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
@@ -19,14 +20,12 @@ module.exports = {
     }
   },
   getDist: function (x1, y1, x2, y2) { // Use Pythagoras theorem
-    var deltaX = Math.abs(x1 - x2);
-    var deltaY = Math.abs(y1 - y2);
-    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    let from = {'x': x1, 'y': y1 };
+    let to = {'x': x2, 'y': y2};
+    return Physics.getDist(from, to);
   },
   getAngleFromClientToCell: function (client, cell) {
-    let deltaY = client.mouse.y - cell.position.y;
-    let deltaX = client.mouse.x - cell.position.x;
-    return Math.atan2(deltaX, deltaY);
+    return Physics.getAngleFromTo(client.mouse, cell.position);
   },
   log10: function (x) {
     return Math.log(x) / Math.LN10;
