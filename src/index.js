@@ -20,6 +20,13 @@ process.argv.forEach(function (val) {
   }
 });
 
+// There is no stopping an exit so clean up
+// NO ASYNC CODE HERE - only use SYNC or it will not happen
+process.on('exit', (code) => {
+  console.log("OgarUnlimited terminated with code: " + code);
+  controlServer.stop();
+});
+
 // init/start the control server
 controlServer.init();
 controlServer.start();

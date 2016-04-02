@@ -9,7 +9,9 @@
     "glob": "^7.0.3",
     "md5-file": "^2.0.4",
     "request": "latest",
-    "ws": "latest"
+    "ws": "latest",
+    "pouchdb": "latest",
+    "pouchdb-server": "^1.0.1"
   },
   "devDependencies": {},
   "scripts": {
