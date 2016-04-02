@@ -1,5 +1,5 @@
 'use strict';
-let Physics = require('./Physics.js')
+let Physics = require('./Physics.js');
 module.exports = {
   getRandomColor: function () {
     var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
