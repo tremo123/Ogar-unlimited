@@ -61,7 +61,7 @@ module.exports = class GameServer {
     this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
     this.highscores = this.configService.getHighScores();
-  
+
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
     this.skin = this.configService.getSkins();
@@ -371,7 +371,7 @@ module.exports = class GameServer {
           self.config.borderTop += self.config.borderDec;
           self.config.borderBottom -= self.config.borderDec;
 
-          self.world.getNodes().forEach((node)=>{
+          self.world.getNodes().forEach((node)=> {
             if ((!node) || (node.getType() == 0)) {
               return;
             }
@@ -441,7 +441,7 @@ module.exports = class GameServer {
 
   }
 
-  getWorld(){
+  getWorld() {
     return this.world;
   }
 
@@ -484,6 +484,7 @@ module.exports = class GameServer {
       }
     }
   }
+
   // todo need to think about how to refactor this out
   removeNode(node) {
     this.world.removeNode(node.getId());
@@ -544,7 +545,7 @@ module.exports = class GameServer {
     this._nodesVirus.push(node)
   }
 
-  removeVirusNode(node){
+  removeVirusNode(node) {
     let index = this._nodesVirus.indexOf(node);
     if (index != -1) {
       this._nodesVirus.splice(index, 1);
@@ -562,28 +563,32 @@ module.exports = class GameServer {
   addEjectedNodes(node) {
     this._nodesEjected.push(node)
   }
-  removeEjectedNode(node){
+
+  removeEjectedNode(node) {
     let index = this._nodesEjected.indexOf(node);
     if (index != -1) {
       this._nodesEjected.splice(index, 1);
     }
   }
 
-  clearEjectedNodes(){
+  clearEjectedNodes() {
     this._nodesEjected = [];
   }
 
   // rainbow nodes
-  getRainbowNodes(){
+  getRainbowNodes() {
     return this._rainbowNodes;
   }
-  addRainbowNode(node){
+
+  addRainbowNode(node) {
     this._rainbowNodes.push(node);
   }
-  setRainbowNode(index, node){
+
+  setRainbowNode(index, node) {
     this._rainbowNodes[index] = cell
   }
-  clearRainbowNodes(){
+
+  clearRainbowNodes() {
     this._rainbowNodes = [];
   }
 
@@ -1134,10 +1139,10 @@ module.exports = class GameServer {
         else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
-           ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
+          ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
           ejected.par = player;
         } else {
-           ejected.setMoveEngineData(this.config.ejectSpeed, 20, 0.85);
+          ejected.setMoveEngineData(this.config.ejectSpeed, 20, 0.85);
         }
 
         if (this.config.randomEjectMassColor === 1) {
@@ -1320,6 +1325,7 @@ module.exports = class GameServer {
     // Update cells
     this.updateCells();
   };
+
   mainLoop() {
     // Timer
     let local = new Date();
@@ -1399,9 +1405,9 @@ module.exports = class GameServer {
         }
         for (var i in this.plugins) {
           if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
-          
+
         }
-        
+
         // Update leaderboard with the gamemode's method
         this.leaderboard = [];
         this.gameMode.updateLB(this);

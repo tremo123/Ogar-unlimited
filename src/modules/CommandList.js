@@ -109,12 +109,12 @@ Commands.list = {
         var plugin = gameServer.plugins[i];
         if (plugin.addToHelp) {
           for (var j in plugin.addToHelp) {
-          console.log("[Console] "+ plugin.addToHelp[j]);
+            console.log("[Console] " + plugin.addToHelp[j]);
           }
         }
-        
+
       }
-      
+
     }
     console.log("[Console] ====================================================");
   },

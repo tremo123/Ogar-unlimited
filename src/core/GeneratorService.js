@@ -33,6 +33,7 @@ module.exports = class GeneratorService {
     this.gameServer.addNode(f);
     this.gameServer.currentFood++;
   };
+
   virusCheck() {
     // Checks if there are enough viruses on the map
     if (this.gameServer.spawnv == 1) {
@@ -43,7 +44,7 @@ module.exports = class GeneratorService {
         let virusSquareSize = (this.config.virusStartMass * 100) >> 0;
 
         // Check for players
-        let result = this.gameServer.getNodesPlayer().some((check)=>{
+        let result = this.gameServer.getNodesPlayer().some((check)=> {
           if (check.mass < this.config.virusStartMass) return false;
 
           var squareR = check.getSquareSize(); // squared Radius of checking player cell

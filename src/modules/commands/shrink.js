@@ -9,7 +9,7 @@ module.exports = function (gameServer, split) {
   gameServer.config.borderTop += borderDec;
   gameServer.config.borderBottom -= borderDec;
 
-  gameServer.getWorld().getNodes().forEach((node)=>{
+  gameServer.getWorld().getNodes().forEach((node)=> {
     if ((!node) || (node.getType() == 0)) return;
 
     // Move

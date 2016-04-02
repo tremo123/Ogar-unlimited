@@ -141,21 +141,22 @@ module.exports = class ConfigService {
   }
 
   load() {
- this.loadConfig();
+    this.loadConfig();
     this.loadBanned();
     this.loadOpByIp();
     this.loadHighScores();
     this.loadBotNames();
     this.loadCustomSkin();
   }
+
   getConfig() {
     return this.config;
   }
-  
+
   getBanned() {
     return this.banned;
   }
-  
+
 
   getOpByIp() {
     return this.opByIp;
@@ -178,8 +179,8 @@ module.exports = class ConfigService {
   }
 
   loadConfig() {
-    
-    
+
+
     try {
       var test = fs.readFileSync('./files.json', 'utf-8');
 

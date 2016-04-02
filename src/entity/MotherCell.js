@@ -29,22 +29,22 @@ MotherCell.prototype.update = function (gameServer) {
 
   // Spawn food
   if (this.mass >= 222) {
-         var maxFoodSpawn = gameServer.config.foodMaxAmount * 10;
-         // Spawn food
-         var i = 0; // Food spawn counter
-         var maxFood = Math.random() * 2;
-         while (i < maxFood) {
-             if (this.mass === 222 && gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
-               this.spawnFood(gameServer);
-             }
-             // Only spawn if food cap hasn been reached
-             if (gameServer.currentFood < maxFoodSpawn && this.mass > 222) {
-                 this.spawnFood(gameServer);
-            }
-            // Incrementers
-    this.mass--;
-    i++;
-         }
+    var maxFoodSpawn = gameServer.config.foodMaxAmount * 10;
+    // Spawn food
+    var i = 0; // Food spawn counter
+    var maxFood = Math.random() * 2;
+    while (i < maxFood) {
+      if (this.mass === 222 && gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
+        this.spawnFood(gameServer);
+      }
+      // Only spawn if food cap hasn been reached
+      if (gameServer.currentFood < maxFoodSpawn && this.mass > 222) {
+        this.spawnFood(gameServer);
+      }
+      // Incrementers
+      this.mass--;
+      i++;
+    }
 
   }
 };

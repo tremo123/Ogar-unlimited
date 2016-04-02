@@ -3,7 +3,7 @@ const Commands = require('../modules/CommandList');
 const EOL = require('os').EOL;
 
 module.exports = class ConsoleService {
-  constructor(version){
+  constructor(version) {
     this.gameServer = undefined;
     this.version = version;
     this.updateInterveral = 100;
@@ -15,6 +15,7 @@ module.exports = class ConsoleService {
     this.commands = Commands.list;
 
   }
+
   start() {
     console.log('Starting ConsoleService');
     if (this.gameServer === undefined) {
@@ -26,17 +27,20 @@ module.exports = class ConsoleService {
     }
     this.interveral = setInterval(this.update.bind(this), this.updateInterveral);
   }
+
   stop() {
     if (this.interveral) {
       clearInterval(this.interveral);
     }
 
   }
+
   update() {
     if (this.isLiveConsole) {
       this.liveConsole();
     }
   }
+
   // todo this needs a lot of work
   liveConsole() {
     if (this.gameServer.livestage == 0) {
@@ -214,12 +218,12 @@ module.exports = class ConsoleService {
     return function () {
       in_.question(">", function (str) {
         if (self.gameServer.config.dev != 1) {
-        try {
-          self.parseCommands(str);
-        } catch (err) {
-          console.log("[ERROR] Oh my, there seems to be an error with the command " + str);
-    console.log("[ERROR] Please alert AJS dev with this message:\n" + err);
-        }
+          try {
+            self.parseCommands(str);
+          } catch (err) {
+            console.log("[ERROR] Oh my, there seems to be an error with the command " + str);
+            console.log("[ERROR] Please alert AJS dev with this message:\n" + err);
+          }
         } else {
           self.parseCommands(str); // dev mode, throw full error
         }
@@ -251,9 +255,9 @@ module.exports = class ConsoleService {
       var execute = this.gameServer.pluginCommands[first];
       if (typeof execute !== 'undefined') {
         execute(this.gameServer, split);
-        
+
       } else {
-      console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+        console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
       }
     }
   }

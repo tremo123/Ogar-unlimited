@@ -1,4 +1,3 @@
-
 module.exports = {
   Mode: require('./Mode'),
   FFA: require('./FFA'),
@@ -88,13 +87,13 @@ var get = function (id, gameServer) {
       mode = new module.exports.Experimental2();
       break;
     default: // FFA is default
-    if (gameServer.pluginGamemodes[id]) {
-      mode = new gameServer.pluginGamemodes[id];
-      
-    } else {
-    
-      mode = new module.exports.FFA();
-    }
+      if (gameServer.pluginGamemodes[id]) {
+        mode = new gameServer.pluginGamemodes[id];
+
+      } else {
+
+        mode = new module.exports.FFA();
+      }
       break;
   }
   return mode;

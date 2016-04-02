@@ -10,7 +10,7 @@ module.exports = class Physics {
 
   // todo need to figure out how to use world and not gameServer
   // todo this will take some work/thinking
-  static ejectMass(player, world, gameServer){
+  static ejectMass(player, world, gameServer) {
     player.cells.forEach((cell)=> {
       if (!cell) return;
       let angle = utilities.getAngleFromClientToCell(client, cell);

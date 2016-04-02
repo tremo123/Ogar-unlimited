@@ -75,26 +75,26 @@ UpdateLeaderboard.prototype.build = function () {
       var ok = true;
       var newcustomtxt = [];
       if (customtxt) {
-for (var q in customtxt) {
-  if (ok === true) {
-    newcustomtxt[q] = customtxt[q];
-    ok = false;
-  } else {
-     newcustomtxt[q] = " " + customtxt[q];
-  }
-  
-}
-customtxt = newcustomtxt;
-}
-      for (var q in customtxt) {
-           if(customtxt[q]) {
-                 bufferSize += 4;
-                 bufferSize += customtxt[q].length * 2
-                 bufferSize += 2;
-                validElements++;
-             }
+        for (var q in customtxt) {
+          if (ok === true) {
+            newcustomtxt[q] = customtxt[q];
+            ok = false;
+          } else {
+            newcustomtxt[q] = " " + customtxt[q];
+          }
+
+        }
+        customtxt = newcustomtxt;
       }
- 
+      for (var q in customtxt) {
+        if (customtxt[q]) {
+          bufferSize += 4;
+          bufferSize += customtxt[q].length * 2
+          bufferSize += 2;
+          validElements++;
+        }
+      }
+
       var buf = new ArrayBuffer(bufferSize);
       var view = new DataView(buf);
 
@@ -129,17 +129,17 @@ customtxt = newcustomtxt;
 
         view.setUint16(offset, 0, true);
         offset += 2;
-      } 
+      }
       for (var q in customtxt) {
-      if(customtxt[q]) {
-                 view.setUint32(offset, 0, true);
-                 offset += 4;
-                 for (var j = 0; j < customtxt[q].length; j++) {
-                     view.setUint16(offset, customtxt[q].charCodeAt(j), true);
-                    offset += 2
-                }
-                view.setUint16(offset, 0, true);
-             }
+        if (customtxt[q]) {
+          view.setUint32(offset, 0, true);
+          offset += 4;
+          for (var j = 0; j < customtxt[q].length; j++) {
+            view.setUint16(offset, customtxt[q].charCodeAt(j), true);
+            offset += 2
+          }
+          view.setUint16(offset, 0, true);
+        }
       }
       return buf;
     case 50: // Teams-type Packet (Pie Chart)

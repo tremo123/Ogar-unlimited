@@ -41,7 +41,7 @@ module.exports = class StatServer {
 
   update() {
     var players = 0;
-    let clients =  this.gameServer.getClients();
+    let clients = this.gameServer.getClients();
     clients.forEach(function (client) {
       if (client.playerTracker && client.playerTracker.cells.length > 0)
         players++

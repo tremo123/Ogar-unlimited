@@ -60,7 +60,8 @@ FFA.prototype.onPlayerSpawn = function (gameServer, player) {
             x: e.position.x,
             y: e.position.y
           };
-          startMass = gameServer.config.playerStartMass;;
+          startMass = gameServer.config.playerStartMass;
+          ;
 
           var color = e.getColor();
           player.setColor({

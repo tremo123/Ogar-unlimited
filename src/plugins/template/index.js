@@ -25,16 +25,14 @@ plugin.gamemode[0] = ''; // gamemode location
 // [Functions]
 plugin.init = function (gameServer) {
   // init, Used to do stuff such as overriding things
-  
-  
-  
-}
+
+
+};
 
 plugin.onSecond = function (gameServer) {
-  
-  // called every second
-}
 
+  // called every second
+};
 
 
 module.exports = plugin; // dont touch

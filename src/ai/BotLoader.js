@@ -45,15 +45,18 @@ BotLoader.prototype.loadNames = function () {
   function filterEmpty(name) {
     return x != ''; // filter empty names
   }
+
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
     this.realrandomNames = fs.readFileSync("./realisticnames.txt", "utf8").split(/[\r\n]+/).filter(filterEmpty);
-  } catch (e) { /* Nothing, use the default names */ }
+  } catch (e) { /* Nothing, use the default names */
+  }
 
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
     this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(filterEmpty);
-  } catch (e) { /* Nothing, use the default names */ }
+  } catch (e) { /* Nothing, use the default names */
+  }
 
   this.nameIndex = 0;
 };

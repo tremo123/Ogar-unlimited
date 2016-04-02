@@ -1,16 +1,19 @@
 'use strict';
 module.exports = class LeaderBoard {
-  constructor(gameServer){
+  constructor(gameServer) {
     this.gameServer = gameServer;
 
   }
+
   init() {
 
   }
-  start(){
+
+  start() {
 
   }
-  update(dt){
+
+  update(dt) {
 
   }
 };

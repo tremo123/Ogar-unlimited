@@ -87,26 +87,26 @@ module.exports = class PlayerTracker {
 
     // Gamemode function
     if (gameServer) {
-              // Find center
-         this.centerPos.x = (gameServer.config.borderLeft - gameServer.config.borderRight) / 2;
-         this.centerPos.y = (gameServer.config.borderTop - gameServer.config.borderBottom) / 2;
-         // Player id
-         this.pID = gameServer.getNewPlayerID();
-         // Gamemode function
-         gameServer.gameMode.onPlayerInit(this);
- 
-         // SCRAMBLE
-        // Only scramble if enabled in config
-         if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
- 
-             if (Math.round(Math.random()) == 0) { // value can sometimes be negative
-                 this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
-                 this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
-             } else {
-                 this.scrambleX = Math.floor((1 << 15) * Math.random());
-                 this.scrambleY = Math.floor((1 << 15) * Math.random());
-  
-             }
+      // Find center
+      this.centerPos.x = (gameServer.config.borderLeft - gameServer.config.borderRight) / 2;
+      this.centerPos.y = (gameServer.config.borderTop - gameServer.config.borderBottom) / 2;
+      // Player id
+      this.pID = gameServer.getNewPlayerID();
+      // Gamemode function
+      gameServer.gameMode.onPlayerInit(this);
+
+      // SCRAMBLE
+      // Only scramble if enabled in config
+      if (gameServer.config.serverScrambleCoords == 1 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+
+        if (Math.round(Math.random()) == 0) { // value can sometimes be negative
+          this.scrambleX = Math.floor((1 << 15) * Math.random() * -1);
+          this.scrambleY = Math.floor((1 << 15) * Math.random() * -1);
+        } else {
+          this.scrambleX = Math.floor((1 << 15) * Math.random());
+          this.scrambleY = Math.floor((1 << 15) * Math.random());
+
+        }
       }
       // /SCRAMBLE
     }
@@ -123,10 +123,12 @@ module.exports = class PlayerTracker {
     }
     return biggest;
   };
+
   setName(name) {
     this.name = name;
 
   };
+
   newV() {
     this.vpass = Math.floor(Math.random() * 1000);
 
@@ -170,6 +172,7 @@ module.exports = class PlayerTracker {
     }
     return this.name;
   };
+
   /**
    * Returns the players score and updates the highscore if needed
    * @param reCalcScore
@@ -257,9 +260,11 @@ module.exports = class PlayerTracker {
   getTeam() {
     return this.team;
   };
+
   getPremium() {
     return this.premium;
   };
+
 // Functions
 
   update() {
@@ -327,7 +332,7 @@ module.exports = class PlayerTracker {
           // Add nodes to client's screen if client has not seen it already
           for (var i = 0; i < newVisible.length; i++) {
             var index = this.visibleNodes.indexOf(newVisible[i]);
-           if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
+            if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
 
               updateNodes.push(newVisible[i]);
             }
@@ -344,7 +349,7 @@ module.exports = class PlayerTracker {
       // Add nodes to screen
       for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
         var node = this.nodeAdditionQueue[i];
- if ((!this.blind || (node.owner == this || node.cellType != 0)) && (node.getVis() || node.owner == this)) {
+        if ((!this.blind || (node.owner == this || node.cellType != 0)) && (node.getVis() || node.owner == this)) {
           this.visibleNodes.push(node);
           updateNodes.push(node);
         }
@@ -354,7 +359,7 @@ module.exports = class PlayerTracker {
     // Update moving nodes
     for (var i = 0; i < this.visibleNodes.length; i++) {
       var node = this.visibleNodes[i];
-       if (node.sendUpdate() && (node.getVis() || node.owner == this) && (!this.blind || (node.owner == this || node.cellType != 0))) {
+      if (node.sendUpdate() && (node.getVis() || node.owner == this) && (!this.blind || (node.owner == this || node.cellType != 0))) {
         // Sends an update if cell is moving
         updateNodes.push(node);
       }
@@ -380,17 +385,17 @@ module.exports = class PlayerTracker {
       this.tickLeaderboard--;
     }
 
-    // Map obfuscation 
+    // Map obfuscation
     var width = this.viewBox.width;
     var height = this.viewBox.height;
 
     if (this.cells.length == 0 && this.gameServer.config.serverScrambleMinimaps >= 1) {
       // Update map, it may have changed
-  this.socket.sendPacket(new Packet.SetBorder(
-             this.gameServer.config.borderLeft + this.scrambleX,
-             this.gameServer.config.borderRight + this.scrambleX,
-             this.gameServer.config.borderTop + this.scrambleY,
-             this.gameServer.config.borderBottom + this.scrambleY
+      this.socket.sendPacket(new Packet.SetBorder(
+        this.gameServer.config.borderLeft + this.scrambleX,
+        this.gameServer.config.borderRight + this.scrambleX,
+        this.gameServer.config.borderTop + this.scrambleY,
+        this.gameServer.config.borderBottom + this.scrambleY
       ));
     } else {
       // Send a border packet to fake the map size
@@ -509,7 +514,7 @@ module.exports = class PlayerTracker {
 
     var newVisible = [];
 
-    this.gameServer.getWorld().getNodes().forEach((node)=>{
+    this.gameServer.getWorld().getNodes().forEach((node)=> {
       if (!node) return;
 
       if (node.visibleCheck(this.viewBox, this.centerPos)) {
@@ -581,7 +586,7 @@ module.exports = class PlayerTracker {
 
       // Use calcViewBox's way of looking for nodes
       var newVisible = [];
-      this.gameServer.getWorld().getNodes().forEach((node)=>{
+      this.gameServer.getWorld().getNodes().forEach((node)=> {
         if (!node) return;
 
         if (node.visibleCheck(this.viewBox, this.centerPos)) {

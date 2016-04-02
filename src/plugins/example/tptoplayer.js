@@ -1,7 +1,7 @@
- module.exports = function(gameServer,split) {
+module.exports = function (gameServer, split) {
 
- var id = parseInt(split[1]);
- var idt = parseInt(split[2]);
+  var id = parseInt(split[1]);
+  var idt = parseInt(split[2]);
   if (isNaN(id)) {
     console.log("[Console] Please specify a valid player ID!");
     return;
@@ -28,7 +28,7 @@
         };
       }
       ok = true;
-      target = client
+      target = client;
       break;
     }
   }
