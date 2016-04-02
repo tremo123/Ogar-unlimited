@@ -60,28 +60,28 @@ function prompt() {
 function parseCommands(str) {
   // Log the string
   try {
-  gameServer.log.onCommand(str);
+    gameServer.log.onCommand(str);
 
-  // Don't process ENTER
-  if (str === '')
-    return;
+    // Don't process ENTER
+    if (str === '')
+      return;
 
-  // Splits the string
-  var split = str.split(" ");
+    // Splits the string
+    var split = str.split(" ");
 
-  // Process the first string value
-  var first = split[0].toLowerCase();
+    // Process the first string value
+    var first = split[0].toLowerCase();
 
-  // Get command function
-  var execute = gameServer.commands[first];
-  if (typeof execute != 'undefined') {
-    execute(gameServer, split);
-  } else {
-    console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
-  }
+    // Get command function
+    var execute = gameServer.commands[first];
+    if (typeof execute != 'undefined') {
+      execute(gameServer, split);
+    } else {
+      console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+    }
   } catch (e) {
     console.log("[ERROR] Oh my, there seems to be an error with the command " + first);
     console.log("[ERROR] Please alert AJS dev with this message:\n" + e);
-    
+
   }
 }
