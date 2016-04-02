@@ -1,5 +1,6 @@
 'use strict';
 const utilities = require('./utilities.js');
+const Entity = require('../entity');
 
 /**
  * Static class with functions to handle physics.
@@ -36,6 +37,7 @@ module.exports = class Physics {
     });
   }
 
+  // todo needs more work, should work on anything we might want to split, player/bots/anything
   static splitCells(player, world, gameServer) {
     if (player.frozen || (!player.verify && gameServer.config.verify === 1)) return;
 

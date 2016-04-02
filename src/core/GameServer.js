@@ -1258,46 +1258,8 @@ module.exports = class GameServer {
     return false;
   };
 
-  // todo physics?
   splitCells(client) {
-    if (client.frozen || (!client.verify && this.config.verify === 1)) return;
-
-    let splitCells = 0; // How many cells have been split
-    client.cells.forEach((cell)=> {
-      if (!cell) return;
-      // Player cell limit
-      if (client.cells.length >= this.config.playerMaxCells) return;
-
-      if (cell.mass < this.config.playerMinMassSplit) return;
-
-      // Get angle
-      let angle = utilities.getAngleFromClientToCell(client, cell);
-      if (angle == 0) angle = Math.PI / 2;
-
-      // Get starting position
-      let startPos = {
-        x: cell.position.x,
-        y: cell.position.y
-      };
-      // Calculate mass and speed of splitting cell
-      let newMass = cell.mass / 2;
-      cell.mass = newMass;
-
-      // Create cell
-      let split = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, newMass, this);
-      split.setAngle(angle);
-
-      let splitSpeed = this.config.splitSpeed;
-      split.setMoveEngineData(splitSpeed, 40, 0.85); //vanilla agar.io = 130, 32, 0.85
-      split.calcMergeTime(this.config.playerRecombineTime);
-      split.ignoreCollision = true;
-      split.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
-
-      // Add to moving cells list
-      this.addNode(split, "moving");
-      splitCells++;
-    });
-    if (splitCells > 0) client.actionMult += 0.5; // Account anti-teaming
+    Physics.splitCells(client, this.getWorld(), this);
   };
 
   updateClients() {
