@@ -84,7 +84,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
         return;
       }
     }
-    if (this.owner.disconnect > -1 || this.owner.minioncontrol == false || this.gameServer.destroym) {
+    if (!this.owner || this.owner.disconnect > -1 || this.owner.minioncontrol == false || this.gameServer.destroym) {
       this.socket.close();
       return;
     }
