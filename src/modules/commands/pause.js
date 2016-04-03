@@ -1,11 +1,13 @@
 module.exports = function (gameServer, split) {
-  gameServer.run = !gameServer.run; // Switches the pause state
-  if (!gameServer.run) {
-    gameServer.overideauto = true;
-  } else {
+  if (!gameServer.running) {
+    gameServer.unpause();
     gameServer.overideauto = false;
+    
+  } else {
+    gameServer.overideauto = true;
+    gameServer.pause();
   }
 
-  var s = gameServer.run ? "Unpaused" : "Paused";
+  var s = gameServer.running ? "Unpaused" : "Paused";
   console.log("[Console] " + s + " the game.");
 };
