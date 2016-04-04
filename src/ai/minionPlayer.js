@@ -40,7 +40,7 @@ MinionPlayer.prototype.getLowestCell = function () {
 
   // Starting cell
   var lowest = this.cells[0];
-  for (i = 1; i < this.cells.length; i++) {
+  for (let i = 1; i < this.cells.length; i++) {
     if (lowest.mass > this.cells[i].mass) {
       lowest = this.cells[i];
     }
