@@ -29,7 +29,7 @@ module.exports = class Physics {
       // Create cell
       let ejected = new Entity.EjectedMass(world.getNextNodeId(), null, startPos, -100, gameServer);
       ejected.setAngle(angle);
-      ejected.setMoveEngineData(this.config.ejectantispeed, 20);
+      ejected.setMoveEngineData(gameServer.config.ejectantispeed, 20);
       ejected.setColor(cell.getColor());
 
       gameServer.addNode(ejected, "moving");
