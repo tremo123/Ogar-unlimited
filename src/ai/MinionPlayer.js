@@ -2,14 +2,15 @@
 var PlayerTracker = require('../core/PlayerTracker');
 
 module.exports = class MinionPlayer extends PlayerTracker {
-  constructor(gameServer, socket) {
-    super(gameServer, socket);
+  constructor(gameServer, socket, owner) {
+    super(gameServer, socket, owner);
     // PlayerTracker.apply(this, Array.prototype.slice.call(arguments));
-    //this.color = gameServer.getRandomColor();
+    this.color = gameServer.getRandomColor();
 
     // AI only
     this.gameState = 0;
     this.path = [];
+    this.owner = owner
 
     this.predators = []; // List of cells that can eat this bot
     this.threats = []; // List of cells that can eat this bot but are too far away
@@ -83,7 +84,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
         return;
       }
     }
-    if (this.owner.disconnect > -1 || this.owner.minioncontrol == false || this.gameServer.destroym) {
+    if (!this.owner || this.owner.disconnect > -1 || this.owner.minioncontrol == false || this.gameServer.destroym) {
       this.socket.close();
       return;
     }
