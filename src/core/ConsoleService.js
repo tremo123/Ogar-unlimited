@@ -43,6 +43,7 @@ module.exports = class ConsoleService {
 
   // todo this needs a lot of work
   liveConsole() {
+    let clients = this.gameServer.getWorld().getClients();
     if (this.gameServer.livestage == 0) {
       if (this.gameServer.liveticks > 80) {
         this.gameServer.livestage = 1;
@@ -50,13 +51,14 @@ module.exports = class ConsoleService {
         this.gameServer.liveticks = 0;
       }
       var players = 0;
-      this.gameServer.clients.forEach(function (client) {
+
+      clients.forEach(function (client) {
         if (client.playerTracker && client.playerTracker.cells.length > 0)
           players++
       });
       var line1 = "               Status                            ";
-      var line2 = "       Players:      " + this.gameServer.clients.length + "                           ";
-      var line3 = "       Spectators:   " + (this.gameServer.clients.length - players) + "                            ";
+      var line2 = "       Players:      " + clients.length + "                           ";
+      var line3 = "       Spectators:   " + (clients.length - players) + "                            ";
       var line4 = "       Alive:        " + players + "                          ";
       var line5 = "       Max Players:  " + this.gameServer.config.serverMaxConnections + "                        ";
       var line6 = "       Start Time:   " + this.gameServer.startTime + "                ";
@@ -67,11 +69,12 @@ module.exports = class ConsoleService {
         this.gameServer.livestage = 2;
       }
       var players = 0;
-      this.gameServer.clients.forEach(function (client) {
+
+      clients.forEach(function (client) {
         if (client.playerTracker && client.playerTracker.cells.length > 0)
           players++
       });
-      if (!this.gameServer.gameMode.haveTeams && this.gameServer.lleaderboard) {
+      if (!this.gameServer.getWorld().getGameMode().haveTeams && this.gameServer.lleaderboard) {
         if (this.gameServer.leaderboard.length <= 0) {
           var l1 = "No Players";
           var l2 = "Are Playing";

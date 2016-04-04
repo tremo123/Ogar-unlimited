@@ -1,19 +1,20 @@
 var fillChar = require('./fillChar.js');
 
 module.exports = function (gameServer, split) {
-  console.log("[Console] Showing " + gameServer.clients.length + " players: ");
+  var clients = gameServer.getWorld().getClients();
+  console.log("[Console] Showing " + clients.length + " players: ");
   console.log(" ID         | IP              | " + fillChar('NICK', ' ', gameServer.config.playerMaxNickLength) + " | CELLS | SCORE  | POSITION    "); // Fill space
   console.log(fillChar(' ', '-', ' ID         | IP              |  | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength));
-  for (var i = 0; i < gameServer.clients.length; i++) {
-    var client = gameServer.clients[i].playerTracker;
+  for (var i = 0; i < clients.length; i++) {
+    var client = clients[i].playerTracker;
 
     // ID with 3 digits length
     var id = fillChar((client.pID), ' ', 10, true);
 
     // Get ip (15 digits length)
     var ip = "BOT";
-    if (typeof gameServer.clients[i].remoteAddress != 'undefined') {
-      ip = gameServer.clients[i].remoteAddress;
+    if (typeof clients[i].remoteAddress != 'undefined') {
+      ip = clients[i].remoteAddress;
     }
     ip = fillChar(ip, ' ', 15);
 
@@ -29,7 +30,7 @@ module.exports = function (gameServer, split) {
         if (gameServer.getMode().specByLeaderboard) { // Get spec type
           nick = gameServer.leaderboard[client.spectatedPlayer].name;
         } else {
-          nick = gameServer.clients[client.spectatedPlayer].playerTracker.name;
+          nick = clients[client.spectatedPlayer].playerTracker.name;
         }
       } catch (e) {
         // Specating nobody

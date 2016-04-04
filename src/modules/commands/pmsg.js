@@ -26,17 +26,17 @@ module.exports = function (gameServer, split) {
   gameServer.pmsg = 1;
   pmsgt = setInterval(function () {
     gameServer.lleaderboard = false;
-    gameServer.gameMode.packetLB = 48;
-    gameServer.gameMode.specByLeaderboard = false;
-    gameServer.gameMode.updateLB = function (gameServer) {
+    gameServer.getWorld().getGameMode().packetLB = 48;
+    gameServer.getWorld().getGameMode().specByLeaderboard = false;
+    gameServer.getWorld().getGameMode().updateLB = function (gameServer) {
       gameServer.leaderboard = newLB
     };
     console.log("[PMSG] The message has been broadcast " + r + "/" + re);
-    var gm = GameMode.get(gameServer.gameMode.ID);
+    var gm = GameMode.get(gameServer.getWorld().getGameMode().ID);
     setTimeout(function () {
       // Replace functions
-      gameServer.gameMode.packetLB = gm.packetLB;
-      gameServer.gameMode.updateLB = gm.updateLB;
+      gameServer.getWorld().getGameMode().packetLB = gm.packetLB;
+      gameServer.getWorld().getGameMode().updateLB = gm.updateLB;
       setTimeout(function () {
         gameServer.lleaderboard = true;
       }, 2000);

@@ -77,7 +77,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     // todo see if this is leaking memory
     if (this.cells.length <= 0) {
       if (this.gameServer.config.botrespawn == 1) {
-        this.gameServer.gameMode.onPlayerSpawn(this.gameServer, this);
+        this.gameServer.getWorld().getGameMode().onPlayerSpawn(this.gameServer, this);
         if (this.cells.length == 0) {
           // If the bot cannot spawn any cells, then disconnect it
           this.socket.close();
@@ -123,7 +123,7 @@ module.exports = class BotPlayer extends PlayerTracker {
       switch (t) {
         case 0:
           // Cannot target teammates
-          if (this.gameServer.gameMode.haveTeams) {
+          if (this.gameServer.getWorld().getGameMode().haveTeams) {
             if (check.owner.team == this.team) {
               continue;
             }

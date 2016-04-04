@@ -16,7 +16,7 @@ module.exports = PlayerCell;
 PlayerCell.prototype = new Cell();
 
 // Main Functions
-PlayerCell.prototype.onAutoMove = function (gameServer) {
+PlayerCell.prototype.onAutoMove = function (world) {
   // Restore collision
   if (this.restoreCollisionTicks > 0) {
     this.restoreCollisionTicks--;
@@ -63,8 +63,8 @@ PlayerCell.prototype.calcMergeTime = function (base) {
 
 // Movement
 
-PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
-  var config = gameServer.config;
+PlayerCell.prototype.calcMove = function (x2, y2, world) {
+  var config = world.config;
   var r = this.getSize(); // Cell radius
 
   // Get angle
@@ -75,7 +75,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
   if (isNaN(angle)) {
     return;
   }
-  if (this.owner.frozen || (!this.owner.verify && this.owner.gameServer.config.verify == 1)) {
+  if (this.owner.frozen || (!this.owner.verify && this.config.verify == 1)) {
     return;
   }
 
@@ -107,7 +107,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
         continue;
       }
 
-      // Calculations
+      // Calculations - todo need better physics here should use real FMA physics - also move it to Physics.js
       if (dist < collisionDist) { // Collided
         // The moving cell pushes the colliding cell
         // Strength however depends on cell1 speed divided by cell2 speed
@@ -137,11 +137,11 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
 
   var xSave = this.position.x;
   var ySave = this.position.y;
-  gameServer.gameMode.onCellMove(x1, y1, this);
+  world.getGameMode().onCellMove(x1, y1, this);
   x1 += xd + (this.position.x - xSave);
   y1 += yd + (this.position.y - ySave);
 
-  gameServer.gameMode.onCellMove(x1, y1, this);
+  world.getGameMode().onCellMove(x1, y1, this);
 
   // Check to ensure we're not passing the world border (shouldn't get closer than a quarter of the cell's diameter)
   if (x1 < config.borderLeft + r / 2) {
@@ -167,27 +167,27 @@ PlayerCell.prototype.getEatingRange = function () {
   return this.getSize() * .4;
 };
 
-PlayerCell.prototype.onConsume = function (consumer, gameServer) {
-  if (!this.owner.verify && this.owner.gameServer.config.verify == 1) {
+PlayerCell.prototype.onConsume = function (consumer, world) {
+  if (!this.owner.verify && this.config.verify == 1) {
 
 
   } else {
     // Add an inefficiency for eating other players' cells
-    var factor = (consumer.owner === this.owner ? 1 : gameServer.config.massAbsorbedPercent / 100);
+    var factor = (consumer.owner === this.owner ? 1 : this.config.massAbsorbedPercent / 100);
     // Anti-bot measure
-    factor = (consumer.mass >= 625 && this.mass <= 17 && gameServer.config.playerBotGrowEnabled == 1) ? 0 : factor;
+    factor = (consumer.mass >= 625 && this.mass <= 17 && this.config.playerBotGrowEnabled == 1) ? 0 : factor;
     consumer.addMass(factor * this.mass);
   }
 };
 
-PlayerCell.prototype.onAdd = function (gameServer) {
+PlayerCell.prototype.onAdd = function (world) {
   // Add to special player node list
-  gameServer.addNodesPlayer(this);
+  //world.setNode(this.getId(), this, 'player'); <-- circular reference!!! ahhhhhhhhhhhhhhhhh
   // Gamemode actions
-  gameServer.gameMode.onCellAdd(this);
+  world.getGameMode().onCellAdd(this);
 };
 
-PlayerCell.prototype.onRemove = function (gameServer) {
+PlayerCell.prototype.onRemove = function (world) {
   var index;
   // Remove from player cell list
   index = this.owner.cells.indexOf(this);
@@ -195,13 +195,13 @@ PlayerCell.prototype.onRemove = function (gameServer) {
     this.owner.cells.splice(index, 1);
   }
   // Remove from special player controlled node list
-  gameServer.removeNodesPlayer(this);
+  //world.removeNode(this.getId());
 
   // Gamemode actions
-  gameServer.gameMode.onCellRemove(this);
+  world.getGameMode().onCellRemove(this);
 };
 
-PlayerCell.prototype.moveDone = function (gameServer) {
+PlayerCell.prototype.moveDone = function (world) {
   this.ignoreCollision = false;
 };
 

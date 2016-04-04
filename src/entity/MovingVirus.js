@@ -17,7 +17,7 @@ module.exports = MovingVirus;
 MovingVirus.prototype = new Virus();
 
 // Unlike original viruses, these don't grow and split.  They move
-MovingVirus.prototype.feed = function (feeder, gameServer) {
+MovingVirus.prototype.feed = function (feeder, world) {
   // Just a bunch of inelastic collision (momentum) equations
   var m1 = feeder.mass * 0.25; // * 0.25 because it gets a little crazy otherwise
   var m2 = this.mass;
@@ -35,19 +35,19 @@ MovingVirus.prototype.feed = function (feeder, gameServer) {
   this.setMoveEngineData(newSpeed, Infinity, 1);
 
   // Remove the feeder
-  gameServer.removeNode(feeder);
+  world.removeNode(feeder);
 };
 
-MovingVirus.prototype.onAutoMove = function (gameServer) {
+MovingVirus.prototype.onAutoMove = function (world) {
   // Called on each auto move engine tick
 };
 
-MovingVirus.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.movingVirusCount++;
-  gameServer.addVirusNodes(this);
+MovingVirus.prototype.onAdd = function (world) {
+  world.getGameMode().movingVirusCount++;
+  //gameServer.addVirusNodes(this);
 };
 
-MovingVirus.prototype.onRemove = function (gameServer) {
-  gameServer.gameMode.movingVirusCount--;
-  gameServer.removeVirusNode(this);
+MovingVirus.prototype.onRemove = function (world) {
+  world.getGameMode().movingVirusCount--;
+  //gameServer.removeVirusNode(this);
 };

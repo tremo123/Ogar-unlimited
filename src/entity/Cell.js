@@ -1,8 +1,10 @@
 'use strict';
+const Physics = require('../core/Physics.js');
+
 Cell.spi = 0;
 Cell.virusi = 255;
 Cell.recom = 0;
-function Cell(nodeId, owner, position, mass, gameServer) {
+function Cell(nodeId, owner, position, mass, world, config) {
   this.nodeId = nodeId;
   this.owner = owner; // playerTracker that owns this cell
   this.color = {
@@ -14,12 +16,14 @@ function Cell(nodeId, owner, position, mass, gameServer) {
   this.visible = true;
   this.position = position;
   this.mass = mass; // Starting mass of the cell
+  this.world = world;
+  this.config = config;
+
   this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
   this.spiked = Cell.spi; // If 1, then this cell has spikes around it
   this.wobbly = 0; // If 1 the cell has a very jiggly cell border
 
   this.killedBy; // Cell that ate this cell
-  this.gameServer = gameServer;
 
   this.moveEngineTicks = 0; // Amount of times to loop the movement function
   this.moveEngineSpeed = 0;
@@ -98,23 +102,22 @@ Cell.prototype.getSquareSize = function () {
 
 Cell.prototype.addMass = function (n) {
   var client = this.owner;
-  var gameServer = this.owner.gameServer;
-  if (!client.verify && gameServer.config.verify == 1) {
-
+  if (!client.verify && this.config.verify == 1) {
+    // todo why?
 
   } else {
 
-    if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
+    if (this.mass + n > this.config.playerMaxMass && this.owner.cells.length < this.config.playerMaxCells) {
 
       this.mass = (this.mass + n) / 2;
       var randomAngle = Math.random() * 6.28; // Get random angle
-      this.owner.gameServer.autoSplit(this.owner, this, randomAngle, this.mass, 350);
+      Physics.autoSplit(Entity.PlayerCell, this.owner, this, randomAngle, this.mass, 350, this.world, this.config.cRestoreTicks);
     } else {
       this.mass += n;
       var th = this;
 
       setTimeout(function () {
-        th.mass = Math.min(th.mass, th.owner.gameServer.config.playerMaxMass);
+        th.mass = Math.min(th.mass, this.config.playerMaxMass);
 
       }, 1000);
 
@@ -129,7 +132,7 @@ Cell.prototype.getSpeed = function () {
     return this.owner.customspeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
 
   } else {
-    return this.owner.gameServer.config.playerSpeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
+    return this.config.playerSpeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
   }
 };
 
@@ -223,8 +226,8 @@ Cell.prototype.calcMovePhys = function (config) {
       totTravel = Math.min(totTravel + maxTravel, speed);
       var x1 = this.position.x + (totTravel * sin) + xd;
       var y1 = this.position.y + (totTravel * cos) + yd;
-      if (this.gameServer) {
-        this.gameServer.getEjectedNodes().forEach((cell)=> {
+      if (this.world) {
+        this.world.getEjectedNodes().forEach((cell)=> {
           if (this.nodeId == cell.getId()) return;
           if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
 
@@ -242,7 +245,7 @@ Cell.prototype.calcMovePhys = function (config) {
             yd += -ymove;
             if (cell.moveEngineTicks == 0) {
               cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
-              this.gameServer.getWorld().setNodeAsMoving(cell.getId(), cell);
+              this.world.setNode(cell.getId(), cell, 'moving');
               //if (!this.gameServer.getMovingNodes().has(cell.getId())) {
               //  this.gameServer.setAsMovingNode(cell.getId());
               //}
@@ -301,23 +304,23 @@ Cell.prototype.sendUpdate = function () {
   return true;
 };
 
-Cell.prototype.onConsume = function (consumer, gameServer) {
+Cell.prototype.onConsume = function (consumer, world) {
   // Called when the cell is consumed
 };
 
-Cell.prototype.onAdd = function (gameServer) {
+Cell.prototype.onAdd = function (world) {
   // Called when this cell is added to the world
 };
 
-Cell.prototype.onRemove = function (gameServer) {
+Cell.prototype.onRemove = function (world) {
   // Called when this cell is removed
 };
 
-Cell.prototype.onAutoMove = function (gameServer) {
+Cell.prototype.onAutoMove = function (world) {
   // Called on each auto move engine tick
 };
 
-Cell.prototype.moveDone = function (gameServer) {
+Cell.prototype.moveDone = function (world) {
   // Called when this cell finished moving with the auto move engine
 };
 Cell.prototype.simpleCollide = function (x1, y1, check, d) {

@@ -19,18 +19,18 @@ module.exports = function (gameServer, split) {
 
   }
   gameServer.lleaderboard = false;
-  gameServer.gameMode.packetLB = 48;
-  gameServer.gameMode.specByLeaderboard = false;
-  gameServer.gameMode.updateLB = function (gameServer) {
+  gameServer.getWorld().getGameMode().packetLB = 48;
+  gameServer.getWorld().getGameMode().specByLeaderboard = false;
+  gameServer.getWorld().getGameMode().updateLB = function (gameServer) {
     gameServer.leaderboard = newLB
   };
   console.log("[ForceMSG] The message has been broadcast");
   setTimeout(function () {
-    var gm = GameMode.get(gameServer.gameMode.ID);
+    var gm = GameMode.get(gameServer.getWorld().getGameMode().ID);
 
     // Replace functions
-    gameServer.gameMode.packetLB = gm.packetLB;
-    gameServer.gameMode.updateLB = gm.updateLB;
+    gameServer.getWorld().getGameMode().packetLB = gm.packetLB;
+    gameServer.getWorld().getGameMode().updateLB = gm.updateLB;
 
     for (var i = 0; i < gameServer.clients.length; i++) {
       var client = gameServer.clients[i].playerTracker;

@@ -8,9 +8,9 @@ module.exports = function (gameServer, split) {
 
   // Clears the update leaderboard function and replaces it with our own
   gameServer.lleaderboard = false;
-  gameServer.gameMode.packetLB = 48;
-  gameServer.gameMode.specByLeaderboard = false;
-  gameServer.gameMode.updateLB = function (gameServer) {
+  gameServer.getWorld().getGameMode().packetLB = 48;
+  gameServer.getWorld().getGameMode().specByLeaderboard = false;
+  gameServer.getWorld().getGameMode().updateLB = function (gameServer) {
     gameServer.leaderboard = newLB
   };
   console.log("[Console] Successfully changed leaderboard values");

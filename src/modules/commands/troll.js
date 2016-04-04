@@ -23,7 +23,7 @@ module.exports = function (gameServer, split) {
         var mass = 15;
 
         // Spawn
-        var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, mass);
+        var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer);
         gameServer.addNode(v);
 
       }

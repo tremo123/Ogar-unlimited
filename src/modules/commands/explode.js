@@ -20,7 +20,9 @@ module.exports = function (gameServer, split) {
               x: cell.position.x,
               y: cell.position.y
             },
-            gameServer.config.ejectMass
+            gameServer.config.ejectMass,
+            gameServer.getWorld(),
+            gameServer.getConfig()
           );
           ejected.setAngle(6.28 * Math.random()); // Random angle [0, 2 * pi)
           ejected.setMoveEngineData(

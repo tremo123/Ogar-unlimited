@@ -548,7 +548,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       var newMass = cell.mass / 2;
       cell.mass = newMass;
       // Create cell
-      var split = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, newMass);
+      var split = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, newMass, gameServer);
       split.setAngle(angle);
       split.setMoveEngineData(splitSpeed, 32, 0.85);
       split.calcMergeTime(this.config.playerRecombineTime);
@@ -577,7 +577,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, gameServer);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 10);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -644,7 +644,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       consumer.mass -= splitMass;
     }
 
-    if (gameServer.gameMode.hasEatenHero(client))
+    if (gameServer.getWorld().getGameMode().hasEatenHero(client))
       consumer.recombineTicks = 0;
     else
       consumer.calcMergeTime(gameServer.config.playerRecombineTime);
@@ -1066,13 +1066,13 @@ Hero.prototype.getName = function () {
 Hero.prototype.calcMove = null;
 
 Hero.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.heroes.push(this);
+  //gameServer.getWorld().getGameMode().heroes.push(this);
 };
 
-Hero.prototype.onRemove = function (gameServer) {
-  var index = gameServer.gameMode.heroes.indexOf(this);
+Hero.prototype.onRemove = function (world) {
+  var index = world.getGameMode().heroes.indexOf(this);
   if (index != -1) {
-    gameServer.gameMode.heroes.splice(index, 1);
+    world.getGameMode().heroes.splice(index, 1);
   } else {
     console.log('[Warning] Tried to remove a non existing HERO node!');
   }
@@ -1096,12 +1096,12 @@ Hero.prototype.onConsume = function (consumer, gameServer) {
   var client = consumer.owner;
   consumer.addMass(this.mass); // delicious
 
-  if (gameServer.gameMode.isCrazy(client)) {
+  if (gameServer.getWorld().getGameMode().isCrazy(client)) {
     // Neutralize the Zombie effect
     client.cured = true;
   } else {
     // Become a hero
-    client.eatenHeroTimer = gameServer.gameMode.heroEffectDuration;
+    client.eatenHeroTimer = gameServer.getWorld().getGameMode().heroEffectDuration;
     client.heroColorFactor = 0;
 
     // Merge immediately
@@ -1137,13 +1137,13 @@ Brain.prototype.getName = function () {
 Brain.prototype.calcMove = null;
 
 Brain.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.brains.push(this);
+  //gameServer.getWorld().getGameMode().brains.push(this);
 };
 
-Brain.prototype.onRemove = function (gameServer) {
-  var index = gameServer.gameMode.brains.indexOf(this);
+Brain.prototype.onRemove = function (world) {
+  var index = world.getGameMode().brains.indexOf(this);
   if (index != -1) {
-    gameServer.gameMode.brains.splice(index, 1);
+    world.getGameMode().brains.splice(index, 1);
   } else {
     console.log('[Warning] Tried to remove a non existing BRAIN node!');
   }
@@ -1167,8 +1167,8 @@ Brain.prototype.onConsume = function (consumer, gameServer) {
   var client = consumer.owner;
   consumer.addMass(this.mass); // yummy!
 
-  client.eatenBrainTimer = gameServer.gameMode.brainEffectDuration;
+  client.eatenBrainTimer = gameServer.getWorld().getGameMode().brainEffectDuration;
 
   // Boost speed
-  gameServer.gameMode.boostSpeed(client);
+  gameServer.getWorld().getGameMode().boostSpeed(client);
 };

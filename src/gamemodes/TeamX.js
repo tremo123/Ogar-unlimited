@@ -352,7 +352,7 @@ MotherCell.prototype.update = function (gameServer) {
   // Spawn food
   var maxFood = 10; // Max food spawned per tick
   var i = 0; // Food spawn counter
-  while ((this.mass > gameServer.gameMode.motherCellMass) && (i < maxFood)) {
+  while ((this.mass > gameServer.getWorld().getGameMode().motherCellMass) && (i < maxFood)) {
     // Only spawn if food cap hasn been reached
     if (gameServer.currentFood < gameServer.config.foodMaxAmount) {
       this.spawnFood(gameServer);
@@ -436,12 +436,12 @@ MotherCell.prototype.spawnFood = function (gameServer) {
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function
 
 MotherCell.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.nodesMother.push(this); // Temporary
+  //gameServer.getWorld().getGameMode().nodesMother.push(this); // Temporary
 };
 
-MotherCell.prototype.onRemove = function (gameServer) {
-  var index = gameServer.gameMode.nodesMother.indexOf(this);
+MotherCell.prototype.onRemove = function (world) {
+  var index = world.getGameMode().nodesMother.indexOf(this);
   if (index != -1) {
-    gameServer.gameMode.nodesMother.splice(index, 1);
+    world.getGameMode().nodesMother.splice(index, 1);
   }
 };

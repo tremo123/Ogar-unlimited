@@ -8,8 +8,8 @@ function Food() {
   this.squareSize = (100 * this.mass) >> 0; // not being decayed -> calculate one time
   this.shouldSendUpdate = false;
 
-  if (this.gameServer.config.foodMassGrow &&
-    this.gameServer.config.foodMassGrowPossiblity > Math.floor(Math.random() * 101)) {
+  if (this.config.foodMassGrow &&
+    this.config.foodMassGrowPossiblity > Math.floor(Math.random() * 101)) {
     this.grow();
   }
 }
@@ -36,10 +36,10 @@ Food.prototype.grow = function () {
     this.squareSize = (100 * this.mass) >> 0;
     this.shouldSendUpdate = true;
 
-    if (this.mass < this.gameServer.config.foodMassLimit) {
+    if (this.mass < this.config.foodMassLimit) {
       this.grow();
     }
-  }.bind(this), this.gameServer.config.foodMassTimeout * 1000);
+  }.bind(this), this.config.foodMassTimeout * 1000);
 };
 
 Food.prototype.sendUpdate = function () {
@@ -54,11 +54,11 @@ Food.prototype.sendUpdate = function () {
   return true;
 };
 
-Food.prototype.onRemove = function (gameServer) {
-  gameServer.currentFood--;
+Food.prototype.onRemove = function (world) {
+
 };
 
-Food.prototype.onConsume = function (consumer, gameServer) {
+Food.prototype.onConsume = function (consumer) {
   consumer.addMass(this.mass);
 };
 

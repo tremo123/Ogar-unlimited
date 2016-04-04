@@ -2,6 +2,7 @@ var Cell = require('./Cell');
 var EjectedMass = require('./EjectedMass');
 var MotherCell = require('./MotherCell');
 var MovingVirus = require('./MovingVirus');
+const utilities = require('../core/utilities.js');
 
 function Beacon() {
   Cell.apply(this, Array.prototype.slice.call(arguments));
@@ -24,7 +25,7 @@ function Beacon() {
 module.exports = Beacon;
 Beacon.prototype = new Cell();
 
-Beacon.prototype.feed = function (feeder, gameServer) {
+Beacon.prototype.feed = function (feeder, world) {
   // Increase the stage ('voltage' if you will)
   if (Math.floor(Math.random * 100) > 50) {
     this.stage++;
@@ -36,11 +37,11 @@ Beacon.prototype.feed = function (feeder, gameServer) {
   this.mass = this.minMass + this.stage;
 
   // Spit out a nutrient
-  this.spawnFood(gameServer);
+  this.spawnFood(world);
 
   // Sometimes spit out a ejected mass
   if (Math.random() < 0.25) {
-    this.spawnEjected(gameServer, gameServer.getRandomColor());
+    this.spawnEjected(world, utilities.getRandomColor());
   }
 
   // Even more rarely spit out a moving virus
@@ -48,7 +49,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
   // every 20 shots
   if (this.stage % 20 === 0) {
     var moving = new MovingVirus(
-      gameServer.getWorld().getNextNodeId(),
+      world.getNextNodeId(),
       null, {
         x: this.position.x,
         y: this.position.y
@@ -57,8 +58,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
     );
     moving.angle = feeder.angle;
     moving.setMoveEngineData(20 + 10 * Math.random(), Infinity, 1);
-    gameServer.movingNodes.push(moving);
-    gameServer.addNode(moving);
+    world.setNode(moving.getId(), moving, 'moving');
   }
 
   if (this.stage >= this.maxStage) {
@@ -73,15 +73,17 @@ Beacon.prototype.feed = function (feeder, gameServer) {
       for (var i = 0; i < largest.cells.length; i++) {
         var cell = largest.cells[i];
         while (cell.mass > 10) {
-          cell.mass -= gameServer.config.ejectMassLoss;
+          cell.mass -= this.config.ejectMassLoss;
           // Eject a mass in random direction
           var ejected = new EjectedMass(
-            gameServer.getWorld().getNextNodeId(),
+            world.getNextNodeId(),
             null, {
               x: cell.position.x,
               y: cell.position.y
             },
-            gameServer.config.ejectMass
+            this.config.ejectMass,
+            this.world,
+            this.config
           );
           ejected.setAngle(6.28 * Math.random()); // Random angle [0, 2*pi)
           ejected.setMoveEngineData(
@@ -116,13 +118,13 @@ Beacon.prototype.feed = function (feeder, gameServer) {
 };
 
 Beacon.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.beacon = this;
+  gameServer.getWorld().getGameMode().beacon = this;
 };
 
 Beacon.prototype.abs = MotherCell.prototype.abs;
 Beacon.prototype.visibleCheck = MotherCell.prototype.visibleCheck;
 Beacon.prototype.spawnFood = MotherCell.prototype.spawnFood;
-Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
+Beacon.prototype.spawnEjected = function (world, parentColor) {
   // Get starting position
   var angle = Math.random() * 6.28; // (Math.PI * 2) ??? Precision is not our greatest concern here
   var r = this.getSize();
@@ -132,16 +134,15 @@ Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
   };
 
   // Spawn food
-  var f = new EjectedMass(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.ejectMass);
+  var f = new EjectedMass(world.getNextNodeId(), null, pos, world.config.ejectMass, world, this.config);
   f.setColor(parentColor);
 
-  gameServer.addNode(f);
-  gameServer.currentFood++;
+  world.setNode(f.getId(), f, 'food');
 
   // Move engine
   f.angle = angle;
   var dist = (Math.random() * 25) + 5; // Random distance
   f.setMoveEngineData(dist, 15);
 
-  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
+  world.setNode(f.getId(), f, 'moving');
 };

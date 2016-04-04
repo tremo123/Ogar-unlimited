@@ -52,7 +52,7 @@ module.exports = class StatServer {
       'alive': players,
       'spectators': clients.length - players,
       'max_players': this.gameServer.config.serverMaxConnections,
-      'gamemode': this.gameServer.gameMode.name,
+      'gamemode': this.gameServer.getWorld().getGameMode().name,
       'start_time': this.gameServer.startTime
     };
     this.stats = JSON.stringify(s);

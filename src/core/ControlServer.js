@@ -20,7 +20,7 @@ module.exports = class ControlServer {
     // share data
     this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
     this.config = this.configService.getConfig();
-    this.world = new WorldModel(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+    this.world = new WorldModel(this.config, this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
 
     // services
     this.consoleService = new ConsoleService(version);

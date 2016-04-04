@@ -29,40 +29,40 @@ EjectedMass.prototype.sendUpdate = function () {
   return this.moveEngineTicks != 0;
 };
 
-EjectedMass.prototype.onRemove = function (gameServer) {
+EjectedMass.prototype.onRemove = function (world) {
   // Remove from list of ejected mass
-  gameServer.removeEjectedNode(this);
+  //gameServer.removeEjectedNode(this);
 };
 
-EjectedMass.prototype.onConsume = function (consumer, gameServer) {
+EjectedMass.prototype.onConsume = function (consumer, world) {
   // Adds mass to consumer
   consumer.addMass(this.mass);
 };
 
-EjectedMass.prototype.onAutoMove = function (gameServer) {
+EjectedMass.prototype.onAutoMove = function (world) {
   // Check for a beacon if experimental
-  var beacon = gameServer.gameMode.beacon;
-  if (gameServer.gameMode.ID === 8 && beacon && this.collisionCheck2(beacon.getSquareSize(), beacon.position)) {
+  var beacon = world.getGameMode().beacon;
+  if (world.getGameMode().ID === 8 && beacon && this.collisionCheck2(beacon.getSquareSize(), beacon.position)) {
     // The beacon has been feed
-    beacon.feed(this, gameServer);
+    beacon.feed(this, world);
     return true;
   }
 
-  let virusNodes = gameServer.getVirusNodes();
-  if (virusNodes.length < gameServer.config.virusMaxAmount) {
+  let virusNodes = world.getNodes('virus');
+  if (virusNodes.length < world.config.virusMaxAmount) {
     // Check for viruses
-    var v = gameServer.getNearestVirus(this);
+    var v = world.getNearestNodeToNode(this, 'virus');
     if (v) { // Feeds the virus if it exists
-      v.feed(this, gameServer);
+      v.feed(this, world);
       return true;
     }
   }
 };
 
-EjectedMass.prototype.moveDone = function (gameServer) {
-  this.onAutoMove(gameServer);
+EjectedMass.prototype.moveDone = function (world) {
+  this.onAutoMove(world);
 };
 
 EjectedMass.prototype.onAdd = function (gameServer) {
-  gameServer.addEjectedNodes(this);
+  //gameServer.addEjectedNodes(this);
 };

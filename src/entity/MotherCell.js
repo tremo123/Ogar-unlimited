@@ -2,6 +2,7 @@
 var Cell = require('./Cell');
 var Virus = require('./Virus');
 var Food = require('./Food');
+const utilities = require('../core/utilities.js');
 
 function MotherCell() { // Temporary - Will be in its own file if Zeach decides to add this to vanilla
   Cell.apply(this, Array.prototype.slice.call(arguments));
@@ -23,23 +24,23 @@ MotherCell.prototype.getEatingRange = function () {
   return this.getSize() * 0.5;
 };
 
-MotherCell.prototype.update = function (gameServer) {
+MotherCell.prototype.update = function (world) {
   // Add mass
   this.mass += 0.25;
 
   // Spawn food
   if (this.mass >= 222) {
-    var maxFoodSpawn = gameServer.config.foodMaxAmount * 10;
+    var maxFoodSpawn = this.config.foodMaxAmount * 10;
     // Spawn food
     var i = 0; // Food spawn counter
     var maxFood = Math.random() * 2;
     while (i < maxFood) {
-      if (this.mass === 222 && gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
-        this.spawnFood(gameServer);
+      if (this.mass === 222 && world.getCurrentFood() < this.config.foodMaxAmount * 1.5) {
+        this.spawnFood(world);
       }
       // Only spawn if food cap hasn been reached
-      if (gameServer.currentFood < maxFoodSpawn && this.mass > 222) {
-        this.spawnFood(gameServer);
+      if (world.getCurrentFood() < maxFoodSpawn && this.mass > 222) {
+        this.spawnFood(world);
       }
       // Incrementers
       this.mass--;
@@ -49,12 +50,13 @@ MotherCell.prototype.update = function (gameServer) {
   }
 };
 
-MotherCell.prototype.checkEat = function (gameServer) {
+MotherCell.prototype.checkEat = function (world) {
   var safeMass = this.mass * .9;
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  let playerNodes = gameServer.getPlayerNodes();
+  let playerNodes = world.getPlayerNodes().toArray();
+  // todo convert this to a forEach loop so we dont have to convert it to an array
   for (var i in playerNodes) {
     var check = playerNodes[i];
 
@@ -73,13 +75,14 @@ MotherCell.prototype.checkEat = function (gameServer) {
 
       if (r > dist) {
         // Eats the cell
-        gameServer.removeNode(check);
+        world.removeNode(check);
         this.mass += check.mass;
       }
     }
   }
-  for (var i in gameServer.movingNodes) {
-    var check = gameServer.movingNodes[i];
+  var movingArray = world.getNodes('moving').toArray();
+  for (var i in movingArray) {
+    var check = movingArray[i];
 
 ///    	if ((check.getType() == 1) || (check.mass > safeMass)) {
 ///            // Too big to be consumed/ No player cells
@@ -99,7 +102,7 @@ MotherCell.prototype.checkEat = function (gameServer) {
       if (r > dist) {
 ///
         // Eat the cell
-        gameServer.removeNode(check);
+        world.removeNode(check);
         this.mass += check.mass;
       }
     }
@@ -111,7 +114,7 @@ MotherCell.prototype.abs = function (n) {
   return (n < 0) ? -n : n;
 };
 
-MotherCell.prototype.spawnFood = function (gameServer) {
+MotherCell.prototype.spawnFood = function (world) {
   // Get starting position
   var angle = Math.random() * 6.28; // (Math.PI * 2) ??? Precision is not our greatest concern here
   var r = this.getSize();
@@ -121,31 +124,32 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   };
 
   // Spawn food
-  var f = new Food(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
-  f.setColor(gameServer.getRandomColor());
+  var f = new Food(world.getNextNodeId(), null, pos, this.config.foodMass, world);
+  f.setColor(utilities.getRandomColor());
 
-  gameServer.addNode(f);
-  gameServer.currentFood++;
+  world.setNode(f.getId(), f, 'food');
 
   // Move engine
   f.angle = angle;
   var dist = (Math.random() * 10) + 22; // Random distance
   f.setMoveEngineData(dist, 15);
 
-  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
+  world.setNode(f.getId(), f, 'moving');
 };
 
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function
 
-MotherCell.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.nodesMother.push(this); // Temporary
+MotherCell.prototype.onAdd = function (world) {
+  //world.setNode(this.getId(), this, 'mothercell');
+  //gameServer.getWorld().getGameMode().nodesMother.push(this); // Temporary
 };
 
-MotherCell.prototype.onRemove = function (gameServer) {
-  var index = gameServer.gameMode.nodesMother.indexOf(this);
+MotherCell.prototype.onRemove = function (world) {
+  var index = world.getGameMode().nodesMother.indexOf(this);
   if (index != -1) {
-    gameServer.gameMode.nodesMother.splice(index, 1);
+    world.getGameMode().nodesMother.splice(index, 1);
   }
+
 };
 
 MotherCell.prototype.visibleCheck = function (box, centerPos) {

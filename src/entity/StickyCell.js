@@ -1,9 +1,11 @@
 'use strict';
 const utilities = require('../core/utilities.js');
+const Physics = require('../core/Physics.js');
 
 var Cell = require('./Cell');
 var Virus = require('./Virus');
 var MotherCell = require('./MotherCell');
+
 
 function StickyCell() {
   Cell.apply(this, Array.prototype.slice.call(arguments));
@@ -23,7 +25,7 @@ function StickyCell() {
 module.exports = StickyCell;
 StickyCell.prototype = new Cell();
 
-StickyCell.prototype.update = function (gameServer) {
+StickyCell.prototype.update = function (world) {
   if (this.acquired) {
     if (this.acquired.killedBy) {
       // Cell was killed and we need to free it
@@ -48,21 +50,19 @@ StickyCell.prototype.update = function (gameServer) {
     if (this.color.b > 55) this.color.b *= 0.999;
   }
   // Special virus mechanics
-  StickyCell.prototype.feed = function (feeder, gameServer) {
-    gameServer.removeNode(feeder);
+  StickyCell.prototype.feed = function (feeder, world) {
+    world.removeNode(feeder);
     // Pushes the virus
     this.setAngle(feeder.getAngle()); // Set direction if the virus explodes
     this.moveEngineTicks = 5; // Amount of times to loop the movement function
     this.moveEngineSpeed = 30;
 
-    var index = gameServer.movingNodes.indexOf(this);
-    if (index == -1) {
-      gameServer.movingNodes.push(this);
-    }
+    world.setNodes(this.getId(), this, 'moving');
+
   };
 
   // Look for victims
-  let playerNodes = gameServer.getPlayerNodes();
+  let playerNodes = world.getNodes('player').toArray();
   for (var i in playerNodes) {
     var check = playerNodes[i];
 
@@ -90,13 +90,13 @@ StickyCell.prototype.update = function (gameServer) {
   }
 };
 
-StickyCell.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.nodesSticky.push(this);
+StickyCell.prototype.onAdd = function (world) {
+  //gameServer.getWorld().getGameMode().nodesSticky.push(this);
 };
 
-StickyCell.prototype.onConsume = function (consumer, gameServer) {
+StickyCell.prototype.onConsume = function (consumer, world) {
   // Explode
-  this.virusOnConsume(consumer, gameServer);
+  this.virusOnConsume(consumer, world);
 
   // LOSE mass if it is attached to us, gain otherwise
   // (subtract twice because virusOnConsume already adds mass)
@@ -110,10 +110,10 @@ StickyCell.prototype.onConsume = function (consumer, gameServer) {
 
 StickyCell.prototype.virusOnConsume = Virus.prototype.onConsume;
 
-StickyCell.prototype.onRemove = function (gameServer) {
-  var index = gameServer.gameMode.nodesSticky.indexOf(this);
+StickyCell.prototype.onRemove = function (world) {
+  var index = world.getGameMode().nodesSticky.indexOf(this);
   if (index != -1) {
-    gameServer.gameMode.nodesSticky.splice(index, 1);
+    world.getGameMode().nodesSticky.splice(index, 1);
   }
 };
 

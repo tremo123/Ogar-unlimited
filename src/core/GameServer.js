@@ -40,8 +40,8 @@ module.exports = class GameServer {
     this._rainbowNodes = [];
 
 
-    this.clients = [];
-    this.currentFood = 0;
+    //this.clients = [];
+    //this.currentFood = 0;
 
     // inprogress
     this.whlist = [];
@@ -79,12 +79,12 @@ module.exports = class GameServer {
 
     // services - must run after config with the exception of the config service
     this.consoleService = consoleService;
-    this.generatorService = new GeneratorService(this);
+    this.generatorService = new GeneratorService(this, world, this.config);
     this.log = new Logger();
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 
     // Gamemodes
-    this.gameMode = Gamemode.get(this.config.serverGamemode, this);
+    //this.gameMode = Gamemode.get(this.config.serverGamemode, this);
 
     //bound
     this.mainLoopBind = this.mainLoop.bind(this);
@@ -209,7 +209,7 @@ module.exports = class GameServer {
 
     this.ipcounts = [];
     // Gamemode configurations
-    this.gameMode.onServerInit(this);
+    this.getWorld().getGameMode().onServerInit(this);
     this.masterServer();
 
     // Start the server
@@ -226,7 +226,7 @@ module.exports = class GameServer {
       setImmediate(this.mainLoopBind);
 
       console.log("[Game] Listening on port " + this.config.serverPort);
-      console.log("[Game] Current game mode is " + this.gameMode.name);
+      console.log("[Game] Current game mode is " + this.getWorld().getGameMode().name);
       Cell.spi = this.config.SpikedCells;
       Cell.virusi = this.config.viruscolorintense;
       Cell.recom = this.config.playerRecombineTime;
@@ -270,7 +270,7 @@ module.exports = class GameServer {
     });
 
     function connectionEstablished(ws) {
-      let clients = this.getClients();
+      let clients = this.getWorld().getClients();
       if (clients.length >= this.config.serverMaxConnections) { // Server full
         ws.close();
         return;
@@ -361,7 +361,6 @@ module.exports = class GameServer {
 
 
       }
-
       let self = this;
 
       function close(error) {
@@ -436,7 +435,6 @@ module.exports = class GameServer {
       ws.on('error', close.bind(bindObject));
       ws.on('close', close.bind(bindObject));
       this.addClient(ws);
-
     }
 
     this.statServer.start();
@@ -456,7 +454,9 @@ module.exports = class GameServer {
   }
 
   getWorld() {
-    return this.world;
+    // todo this is temp until I can finish setting up the db stuff
+    return this.generatorService.world;
+    //return this.world;
   }
 
   //***************** refactoring nodes start
@@ -465,7 +465,7 @@ module.exports = class GameServer {
   // todo need to think about how to refactor this out to use the world.addNode or setNode
   // todo for now leave it here
   addNode(node, type) {
-    this.world.setNode(node.getId(), node, type);
+    this.getWorld().setNode(node.getId(), node, type);
 
     //this._nodes.push(node);
     //if (type === "moving") {
@@ -474,51 +474,51 @@ module.exports = class GameServer {
 
     // todo this is a big problem for splitting up the processes
     // Adds to the owning player's screen
-    if (node.owner) {
-      node.setColor(node.owner.color);
-      node.owner.cells.push(node);
-      node.owner.socket.sendPacket(new Packet.AddNode(node));
-    }
-
-    // Special on-add actions
-    node.onAdd(this);
-
-    // todo this is a big problem for splitting up the processes
-    // Add to visible nodes
-    let clients = this.getClients();
-    for (let i = 0; i < clients.length; i++) {
-      let client = clients[i].playerTracker;
-      if (!client) {
-        continue;
-      }
-
-      // todo memory leak?
-      // client.nodeAdditionQueue is only used by human players, not bots
-      // for bots it just gets collected forever, using ever-increasing amounts of memory
-      if ('_socket' in client.socket && node.visibleCheck(client.viewBox, client.centerPos)) {
-        client.nodeAdditionQueue.push(node);
-      }
-    }
+    //if (node.owner) {
+    //  node.setColor(node.owner.color);
+    //  node.owner.cells.push(node);
+    //  node.owner.socket.sendPacket(new Packet.AddNode(node));
+    //}
+    //
+    //// Special on-add actions
+    //node.onAdd(this);
+    //
+    //// todo this is a big problem for splitting up the processes
+    //// Add to visible nodes
+    //let clients = this.getClients();
+    //for (let i = 0; i < clients.length; i++) {
+    //  let client = clients[i].playerTracker;
+    //  if (!client) {
+    //    continue;
+    //  }
+    //
+    //  // todo memory leak?
+    //  // client.nodeAdditionQueue is only used by human players, not bots
+    //  // for bots it just gets collected forever, using ever-increasing amounts of memory
+    //  if ('_socket' in client.socket && node.visibleCheck(client.viewBox, client.centerPos)) {
+    //    client.nodeAdditionQueue.push(node);
+    //  }
+    //}
   }
 
   // todo need to think about how to refactor this out
   removeNode(node) {
-    this.world.removeNode(node.getId());
+    this.getWorld().removeNode(node.getId());
     // Special on-remove actions
-    node.onRemove(this);
-
-    // todo this is a big problem for splitting up the processes
-    // Animation when eating
-    let clients = this.getClients();
-    for (let i = 0; i < clients.length; i++) {
-      let client = clients[i].playerTracker;
-      if (!client) {
-        continue;
-      }
-
-      // Remove from client
-      client.nodeDestroyQueue.push(node);
-    }
+    //node.onRemove(this);
+    //
+    //// todo this is a big problem for splitting up the processes
+    //// Animation when eating
+    //let clients = this.getClients();
+    //for (let i = 0; i < clients.length; i++) {
+    //  let client = clients[i].playerTracker;
+    //  if (!client) {
+    //    continue;
+    //  }
+    //
+    //  // Remove from client
+    //  client.nodeDestroyQueue.push(node);
+    //}
   }
 
   // player nodes
@@ -539,37 +539,38 @@ module.exports = class GameServer {
     this._nodesPlayer.push(node);
   }
 
+  getNearestNodeToNode(node, type, radius) {
+    return this.getWorld().getNearestNodeToNode(node, type, radius);
+  }
+  getNodes(type){
+    return this.getWorld().getNodes(type);
+  }
+
   getNodesPlayer() {
-    return this.world.getPlayerNodes();
+    return this.getWorld().getNodes('player');
     //return this._nodesPlayer;
   }
 
   addNodesPlayer(node) {
-    this.world.setNode(node.getId(), node, "player");
+    this.getWorld().setNode(node.getId(), node, "player");
     //this._nodesPlayer.push(node);
   }
 
   removeNodesPlayer(node) {
-    this.world.removeNode(node.getId());
+    this.getWorld().removeNode(node.getId());
   }
 
   // Virus Nodes
   getVirusNodes() {
-    return this._nodesVirus;
+    return this.getWorld().getNodes('virus');
   }
 
   addVirusNodes(node) {
-    this._nodesVirus.push(node)
+    this.getWorld().addNode(node, 'virus');
   }
 
   removeVirusNode(node) {
-    let index = this._nodesVirus.indexOf(node);
-    if (index != -1) {
-      this._nodesVirus.splice(index, 1);
-    } else {
-      // todo do we really care?
-      console.log("[Warning] Tried to remove a non existing moving virus!");
-    }
+    this.getWorld().removeNode(node);
   }
 
   // Ejected Nodes
@@ -602,7 +603,7 @@ module.exports = class GameServer {
   }
 
   setRainbowNode(index, node) {
-    this._rainbowNodes[index] = cell
+    this._rainbowNodes[index] = node
   }
 
   clearRainbowNodes() {
@@ -616,35 +617,7 @@ module.exports = class GameServer {
   }
 
   getRandomSpawn() {
-    // Random spawns for players
-    let pos;
-
-    if (this.currentFood > 0) {
-      // Spawn from food
-      let nodes = this.getWorld().getNodes();
-      nodes.some((node)=> {
-        if (!node || node.inRange) {
-          // Skip if food is about to be eaten/undefined
-          return false;
-        }
-
-        if (node.getType() == 1) {
-          pos = {
-            x: node.position.x,
-            y: node.position.y
-          };
-          this.removeNode(node);
-          return true;
-        }
-      });
-    }
-
-    if (!pos) {
-      // Get random spawn if no food cell is found
-      pos = this.getRandomPosition();
-    }
-
-    return pos;
+    return this.generatorService.getRandomSpawn();
   }
 
   getRandomPosition() {
@@ -661,7 +634,7 @@ module.exports = class GameServer {
   }
 
   getMode() {
-    return this.gameMode;
+    return this.getWorld().getGameMode();
   }
 
   updateMoveEngine() {
@@ -678,7 +651,7 @@ module.exports = class GameServer {
       }
 
       let client = cell.owner;
-      cell.calcMove(client.mouse.x, client.mouse.y, this);
+      cell.calcMove(client.mouse.x, client.mouse.y, this.getWorld());
 
       // Check if cells nearby
       let list = this.getCellsInRange(cell);
@@ -689,7 +662,7 @@ module.exports = class GameServer {
         }
 
         // Consume effect
-        check.onConsume(cell, this);
+        check.onConsume(cell, this.getWorld(), this);
 
         // Remove cell
         check.setKiller(cell);
@@ -706,7 +679,7 @@ module.exports = class GameServer {
         check.calcMovePhys(this.config);
       } else {
         // Auto move is done
-        check.moveDone(this);
+        check.moveDone(this.getWorld());
         // Remove cell from list
         this.getWorld().removeMovingNode(check);
       }
@@ -720,7 +693,7 @@ module.exports = class GameServer {
     }
 
     // Loop through all player cells
-    this.getWorld().getPlayerNodes().forEach((cell)=> {
+    this.getWorld().getNodes('player').forEach((cell)=> {
       if (!cell) {
         return;
       }
@@ -728,12 +701,12 @@ module.exports = class GameServer {
       let massDecay = 0;
       if (this.config.playerFastDecay == 1) {
         if (cell.mass < this.config.fastdecayrequire) {
-          massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05); // Normal decay
+          massDecay = 1 - (this.config.playerMassDecayRate * this.getWorld().getGameMode().decayMod * 0.05); // Normal decay
         } else {
-          massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod) * this.config.FDmultiplyer; // might need a better formula
+          massDecay = 1 - (this.config.playerMassDecayRate * this.getWorld().getGameMode().decayMod) * this.config.FDmultiplyer; // might need a better formula
         }
       } else {
-        massDecay = 1 - (this.config.playerMassDecayRate * this.gameMode.decayMod * 0.05);
+        massDecay = 1 - (this.config.playerMassDecayRate * this.getWorld().getGameMode().decayMod * 0.05);
       }
 
       // Recombining
@@ -770,7 +743,6 @@ module.exports = class GameServer {
       if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
         player.verify = true;
       }
-
       player.norecombine = false;
       player.frozen = false;
       if (this.config.verify == 1 && !player.verify) {
@@ -827,7 +799,6 @@ module.exports = class GameServer {
         }
         player.name = name;
       } else {
-
         if (this.config.skins == 1 && !dono) {
           if (player.name.substr(0, 1) == "<") {
             // Premium Skin
@@ -862,17 +833,15 @@ module.exports = class GameServer {
           }
         }
       }
-
       pos = (pos == null) ? this.getRandomSpawn() : pos;
       mass = (mass == null) ? this.config.playerStartMass : mass;
       mass = (player.spawnmass > mass) ? player.spawnmass : mass;
 
       // Spawn player and add to world
       if (!dospawn) {
-        let cell = new Entity.PlayerCell(this.world.getNextNodeId(), player, pos, mass, this);
-        this.addNode(cell, "player");
+        let cell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), player, pos, mass, this);
+        this.getWorld().setNode(cell.getId(), cell, "player");
       }
-
       // Set initial mouse coords
       player.mouse = {
         x: pos.x,
@@ -883,22 +852,19 @@ module.exports = class GameServer {
 
   // getters/setters
   getClients() {
-    return this.clients;
+    return this.getWorld().getClients();
   }
 
   addClient(client) {
-    this.clients.push(client);
+    this.getWorld().addClient(client);
   }
 
   removeClient(client) {
-    let index = this.server.clients.indexOf(client);
-    if (index != -1) {
-      this.server.clients.splice(index, 1);
-    }
+    this.getWorld().removeClient(client);
   }
 
   getCurrentFood() {
-    return this.currentFood;
+    return this.generatorService.getCurrentFood();
   }
 
   getConfig() {
@@ -945,7 +911,7 @@ module.exports = class GameServer {
             multiplier = 1.00;
           }
           // Can't eat team members
-          if (this.gameMode.haveTeams) {
+          if (this.getWorld().getGameMode().haveTeams) {
             if (!check.owner && (check.owner !== cell.owner) && (check.owner.getTeam() === cell.owner.getTeam())) {
               return;
             }
@@ -981,7 +947,7 @@ module.exports = class GameServer {
   };
 
   switchSpectator(player) {
-    if (this.gameMode.specByLeaderboard) {
+    if (this.getWorld().getGameMode().specByLeaderboard) {
       player.spectatedPlayer++;
       if (player.spectatedPlayer == this.leaderboard.length) {
         player.spectatedPlayer = 0;
@@ -990,26 +956,27 @@ module.exports = class GameServer {
       // Find next non-spectator with cells in the client list
       let oldPlayer = player.spectatedPlayer + 1;
       let count = 0;
-      while (player.spectatedPlayer != oldPlayer && count != this.clients.length) {
-        if (oldPlayer == this.clients.length) {
+      let clients = this.getWorld().getClients();
+      while (player.spectatedPlayer != oldPlayer && count != clients.length) {
+        if (oldPlayer == clients.length) {
           oldPlayer = 0;
           continue;
         }
 
-        if (!this.clients[oldPlayer]) {
+        if (!clients[oldPlayer]) {
           // Break out of loop in case client tries to spectate an undefined player
           player.spectatedPlayer = -1;
           break;
         }
 
-        if (this.clients[oldPlayer].playerTracker.cells.length > 0) {
+        if (clients[oldPlayer].playerTracker.cells.length > 0) {
           break;
         }
 
         oldPlayer++;
         count++;
       }
-      if (count == this.clients.length) {
+      if (count == clients.length) {
         player.spectatedPlayer = -1;
       } else {
         player.spectatedPlayer = oldPlayer;
@@ -1023,7 +990,7 @@ module.exports = class GameServer {
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.world.getNextNodeId(), null, parentPos, this.config.virusmass);
+    let newVirus = new Entity.Virus(this.getWorld().getNextNodeId(), null, parentPos, this.config.virusmass, this);
     newVirus.setAngle(parent.getAngle());
     newVirus.setpar(owner);
     newVirus.mass = 10;
@@ -1134,8 +1101,8 @@ module.exports = class GameServer {
 
         // Create cell
         let ejected = undefined;
-        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
-        else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        else ejected = new Entity.Virus(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
           ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
@@ -1190,8 +1157,8 @@ module.exports = class GameServer {
 
           // Create cell
           let ejected = undefined;
-          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
-          else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
+          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
+          else ejected = new Entity.Virus(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
           ejected.setAngle(angle);
 
           if (this.config.ejectvirus == 1) {
@@ -1232,14 +1199,15 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
     newCell.ignoreCollision = true; // Remove collision checks
     newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
-    this.addNode(newCell, "moving");
+    this.getWorld().setNode(newCell.getId(), newCell, "moving");
+    this.getWorld().setNode(newCell.getId(), newCell, "player");
   };
   // todo this needs to be a plugin
   shootVirus(parent) {
@@ -1248,7 +1216,7 @@ module.exports = class GameServer {
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.world.getNextNodeId(), null, parentPos, this.config.virusStartMass);
+    let newVirus = new Entity.Virus(this.getWorld().getNextNodeId(), null, parentPos, this.config.virusStartMass, this);
     newVirus.setAngle(parent.getAngle());
     newVirus.setMoveEngineData(200, 20);
 
@@ -1258,9 +1226,9 @@ module.exports = class GameServer {
 
   // todo this needs to be a service or service plugin
   customLB(newLB, gameServer) {
-    gameServer.gameMode.packetLB = 48;
-    gameServer.gameMode.specByLeaderboard = false;
-    gameServer.gameMode.updateLB = function (gameServer) {
+    gameServer.getWorld().getGameMode().packetLB = 48;
+    gameServer.getWorld().getGameMode().specByLeaderboard = false;
+    gameServer.getWorld().getGameMode().updateLB = function (gameServer) {
       gameServer.leaderboard = newLB
     };
   };
@@ -1274,11 +1242,12 @@ module.exports = class GameServer {
   };
 
   splitCells(client) {
-    Physics.splitCells(client, this.getWorld(), this);
+    Physics.splitCells(Entity.PlayerCell, client, this.getWorld());
   };
 
   updateClients() {
     this.getClients().forEach((client)=> {
+
       if (!client || !client.playerTracker) return;
       client.playerTracker.antiTeamTick();
       client.playerTracker.update();
@@ -1312,6 +1281,7 @@ module.exports = class GameServer {
       // Update cells/leaderboard loop
       this.tickMain++;
       let count = 0;
+/*
       this.getRainbowNodes().forEach((node)=> {
         if (!node) return;
         count++;
@@ -1329,12 +1299,11 @@ module.exports = class GameServer {
       });
 
       if (count <= 0) this.clearRainbowNodes();
-
+*/
       if (this.tickMain >= this.config.fps) { // 1 Second
         let a = [];
         let d = false;
-
-        this.getClients().forEach((client)=> {
+        this.getWorld().getClients().forEach((client)=> {
 
           if (client.remoteAddress && this.whlist.indexOf(client.remoteAddress) == -1 && !client.playerTracker.nospawn) {
             if (a[client.playerTracker.mouse] === undefined) {
@@ -1353,7 +1322,6 @@ module.exports = class GameServer {
             client.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
           }
         });
-
         if (d == false) this.mfre = false;
 
         let rNodes = this.getRainbowNodes();
@@ -1374,16 +1342,16 @@ module.exports = class GameServer {
 
         // Update leaderboard with the gamemode's method
         this.leaderboard = [];
-        this.gameMode.updateLB(this);
-        this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.gameMode.packetLB, this.customLBEnd);
+        this.getWorld().getGameMode().updateLB(this);
+        this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.getWorld().getGameMode().packetLB, this.customLBEnd);
 
         this.tickMain = 0; // Reset
-        if (!this.gameMode.specByLeaderboard) {
+        if (!this.getWorld().getGameMode().specByLeaderboard) {
           // Get client with largest score if gamemode doesn't have a leaderboard
           let largestClient = undefined;
           let largestClientScore = 0;
 
-          this.clients.forEach((client)=> {
+          this.getWorld().getClients.forEach((client)=> {
             let clientScore = client.playerTracker.getScore(true);
             if (clientScore > largestClientScore) {
               largestClient = client;
@@ -1446,7 +1414,7 @@ module.exports = class GameServer {
     // Gamemode tick
     let t = this.config.fps / 20;
     if (this.gtick >= Math.round(t) - 1) {
-      this.gameMode.onTick(this);
+      this.getWorld().getGameMode().onTick(this);
       this.gtick = 0;
     } else {
       this.gtick++;
@@ -1639,9 +1607,9 @@ module.exports = class GameServer {
 
   resetlb() {
     // Replace functions
-    let gm = Gamemode.get(this.gameMode.ID);
-    this.gameMode.packetLB = gm.packetLB;
-    this.gameMode.updateLB = gm.updateLB;
+    let gm = Gamemode.get(this.getWorld().getGameMode().ID);
+    this.getWorld().getGameMode().packetLB = gm.packetLB;
+    this.getWorld().getGameMode().updateLB = gm.updateLB;
   };
 
   anounce() {
@@ -1662,7 +1630,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass, this);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.restoreCollisionTicks = 25;
@@ -1674,7 +1642,7 @@ module.exports = class GameServer {
   };
 
   ejecttMass(client) {
-    Physics.ejectMass(client, this);
+    Physics.ejectMass(Entity.EjectedMass, client, this.getWorld(), this.config.ejectMass);
   };
 
   kickBots(numToKick) {

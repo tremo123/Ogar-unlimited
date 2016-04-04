@@ -2,11 +2,11 @@ var GameMode = require('../../gamemodes');
 
 module.exports = function (gameServer) {
   // Gets the current gamemode
-  var gm = GameMode.get(gameServer.gameMode.ID);
+  var gm = GameMode.get(gameServer.getWorld().getGameMode().ID);
 
   // Replace functions
-  gameServer.gameMode.packetLB = gm.packetLB;
-  gameServer.gameMode.updateLB = gm.updateLB;
+  gameServer.getWorld().getGameMode().packetLB = gm.packetLB;
+  gameServer.getWorld().getGameMode().updateLB = gm.updateLB;
   console.log("[Console] Successfully reset leaderboard");
   setTimeout(function () {
     gameServer.lleaderboard = true;

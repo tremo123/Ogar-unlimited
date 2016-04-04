@@ -20,19 +20,34 @@ Virus.prototype = new Cell();
 
 Virus.prototype.calcMove = null; // Only for player controlled movement
 
-Virus.prototype.feed = function (feeder, gameServer) {
+Virus.prototype.feed = function (feeder, world) {
   this.setAngle(feeder.getAngle()); // Set direction if the virus explodes
   this.mass += feeder.mass;
   this.fed++; // Increase feed count
-  gameServer.removeNode(feeder);
+  world.removeNode(feeder);
 
   // Check if the virus is going to explode
-  if (this.fed >= gameServer.config.virusFeedAmount) {
-    this.mass = gameServer.config.virusStartMass; // Reset mass
+  if (this.fed >= this.config.virusFeedAmount) {
+    this.mass = this.config.virusStartMass; // Reset mass
     this.fed = 0;
-    gameServer.shootVirus(this);
+    this.shootVirus(this, world);
   }
 
+};
+
+Virus.prototype.shootVirus = function (parent, world) {
+  let parentPos = {
+    x: parent.position.x,
+    y: parent.position.y
+  };
+
+  let newVirus = new Entity.Virus(world.getNextNodeId(), null, parentPos, this.config.virusStartMass, this);
+  newVirus.setAngle(parent.getAngle());
+  newVirus.setMoveEngineData(200, 20);
+
+  // Add to moving cells list
+  world.addNode(newVirus, "moving");
+  world.addNode(newVirus, "virus");
 };
 
 // Main Functions
@@ -44,7 +59,7 @@ Virus.prototype.setpar = function (par) {
   this.par = par;
 
 };
-Virus.prototype.onConsume = function (consumer, gameServer) {
+Virus.prototype.onConsume = function (consumer, world, gameServer) {
   var client = consumer.owner;
   if (client != this.par) {
     if (gameServer.troll[this.nodeId - 1] == 1) {
@@ -69,7 +84,7 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
     if (gameServer.troll[this.nodeId - 1] == 2) {
       var len = client.cells.length;
       for (var j = 0; j < len; j++) {
-        gameServer.removeNode(client.cells[0]);
+        world.removeNode(client.cells[0]);
 
       }
       var donot = 2;
@@ -80,7 +95,7 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
       var donot = 2;
       var len = client.cells.length;
       for (var j = 0; j < len; j++) {
-        gameServer.removeNode(client.cells[0]);
+        world.removeNode(client.cells[0]);
       }
       if (client.socket.remoteAddress) {
         client.nospawn = true;
@@ -94,24 +109,27 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
       for (var i = 0; i < client.cells.length; i++) {
         var cell = client.cells[i];
         while (cell.mass > 10) {
-          cell.mass -= gameServer.config.ejectMassLoss;
+          cell.mass -= this.config.ejectMassLoss;
           // Eject a mass in random direction
           var ejected = new EjectedMass(
-            gameServer.getWorld().getNextNodeId(),
+            world.getNextNodeId(),
             null, {
               x: cell.position.x,
               y: cell.position.y
             },
-            gameServer.config.ejectMass
+            this.config.ejectMass,
+            world,
+            this.config
           );
           ejected.setAngle(6.28 * Math.random()); // Random angle [0, 2*pi)
           ejected.setMoveEngineData(
-            Math.random() * gameServer.config.ejectSpeed,
+            Math.random() * this.config.ejectSpeed,
             35,
             0.5 + 0.4 * Math.random()
           );
           ejected.setColor(cell.getColor());
-          gameServer.addNode(ejected, "moving");
+          world.setNode(ejected.getId(), ejected, "moving");
+          world.setNode(ejected.getId(), ejected, "ejected");
         }
         cell.mass = 10;
         var donot = 2;
@@ -126,10 +144,10 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
       consumer.addMass(this.mass);
 
       var maxSplits = Math.round((0.00010271719068483477) * consumer.mass * consumer.mass - 0.03018601441250582 * consumer.mass + 10.188261351052049); // Maximum amount of splits
-      if (maxSplits > gameServer.config.playerMaxCells) {
-        maxSplits = gameServer.config.playerMaxCells;
+      if (maxSplits > this.config.playerMaxCells) {
+        maxSplits = this.config.playerMaxCells;
       }
-      var numSplits = gameServer.config.playerMaxCells - client.cells.length; // Get number of splits
+      var numSplits = this.config.playerMaxCells - client.cells.length; // Get number of splits
       numSplits = Math.min(numSplits, maxSplits);
       var splitMass = Math.min(consumer.mass / (numSplits + 1), 36); // Maximum size of new splits
 
@@ -178,7 +196,7 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
       donot = 0;
 
     } else {
-      consumer.calcMergeTime(gameServer.config.playerRecombineTime);
+      consumer.calcMergeTime(this.config.playerRecombineTime);
       client.actionMult += 0.6; // Account for anti-teaming
     }
     gameServer.troll[this.nodeId] = 0;
@@ -188,17 +206,17 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
   }
 };
 
-Virus.prototype.onAdd = function (gameServer) {
-  gameServer.addVirusNodes(this);
+Virus.prototype.onAdd = function (world) {
+  //gameServer.addVirusNodes(this);
 };
 
-Virus.prototype.onRemove = function (gameServer) {
-  gameServer.removeVirusNode(this)
+Virus.prototype.onRemove = function (world) {
+  //gameServer.removeVirusNode(this)
 };
-Virus.prototype.onAutoMove = function (gameServer) {
+Virus.prototype.onAutoMove = function (world) {
   var r = 100; // Checking radius
 
-  let ejectedNodes = gameServer.getEjectedNodes();
+  let ejectedNodes = world.getNodes('ejected').toArray();
   for (var i = 0; i < ejectedNodes.length; i++) {
     var check = ejectedNodes[i];
 
@@ -209,7 +227,7 @@ Virus.prototype.onAutoMove = function (gameServer) {
 
     if (this.collisionCheck(bottomY, topY, rightX, leftX)) {
       check.angle = this.angle; //make sure new virus shoots in same direction as this virus
-      this.feed(check, gameServer);
+      this.feed(check, world);
       i--;
       len--;
     }

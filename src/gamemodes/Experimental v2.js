@@ -222,7 +222,10 @@ Experimental2.prototype.onTick = function (gameServer) {
     this.beacon = new Beacon(gameServer.getWorld().getNextNodeId(),
       null,
       gameServer.getRandomPosition(),
-      this.beaconMass);
+      this.beaconMass,
+      gameServer.getWorld(),
+      gameServer.getConfig()
+    );
     gameServer.addNode(this.beacon);
   }
 

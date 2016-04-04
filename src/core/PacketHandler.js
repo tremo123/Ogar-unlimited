@@ -1,8 +1,10 @@
 var Packet = require('./../packet/index');
 
-function PacketHandler(gameServer, socket) {
+function PacketHandler(gameServer, socket, config, world) {
   this.gameServer = gameServer;
   this.socket = socket;
+  this.config = config;
+  this.world = world;
   // todo Detect protocol version - we can do something about it later
   this.protocol = 0;
 
@@ -44,7 +46,7 @@ PacketHandler.prototype.handleMessage = function (message) {
 
       // Set Nickname
       var nick = "";
-      var maxLen = this.gameServer.config.playerMaxNickLength * 2; // 2 bytes per char
+      var maxLen = this.config.playerMaxNickLength * 2; // 2 bytes per char
       for (var i = 1; i < view.byteLength && i <= maxLen; i += 2) {
         var charCode = view.getUint16(i, true);
         if (charCode == 0) {
@@ -61,12 +63,12 @@ PacketHandler.prototype.handleMessage = function (message) {
         // Make sure client has no cells
         this.gameServer.switchSpectator(this.socket.playerTracker);
         if (!this.socket.playerTracker.spectate) {
-          if (this.gameServer.config.kickspectate > 0 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
+          if (this.config.kickspectate > 0 && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
             this.socket.playerTracker.spect = setTimeout(function () {
               if (this.socket.playerTracker.spectate && this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1) {
                 this.socket.close();
               }
-            }.bind(this), this.gameServer.config.kickspectate * 1000);
+            }.bind(this), this.config.kickspectate * 1000);
           }
         }
 
@@ -103,7 +105,7 @@ PacketHandler.prototype.handleMessage = function (message) {
       if (view.byteLength == 5) {
         this.protocol = view.getUint32(1, true);
         // Send SetBorder packet first
-        var c = this.gameServer.config;
+        var c = this.config;
         this.socket.sendPacket(new Packet.SetBorder(
           c.borderLeft + this.socket.playerTracker.scrambleX, // Scramble
           c.borderRight + this.socket.playerTracker.scrambleX,
@@ -124,7 +126,7 @@ PacketHandler.prototype.setNickname = function (newNick) {
     client.setName(newNick);
 
     // If client has no cells... then spawn a player
-    this.gameServer.gameMode.onPlayerSpawn(this.gameServer, client);
+    this.world.getGameMode().onPlayerSpawn(this.gameServer, client);
 
     // Turn off spectate mode
     client.spectate = false;

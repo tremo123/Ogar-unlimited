@@ -3,6 +3,7 @@ var PlayerTracker = require('../core/PlayerTracker');
 
 module.exports = class MinionPlayer extends PlayerTracker {
   constructor(gameServer, socket) {
+    super(gameServer, socket);
     // PlayerTracker.apply(this, Array.prototype.slice.call(arguments));
     //this.color = gameServer.getRandomColor();
 
@@ -75,7 +76,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
     // Respawn if bot is dead
     if (this.cells.length <= 0) {
-      this.gameServer.gameMode.onPlayerSpawn(this.gameServer, this);
+      this.gameServer.getWorld().getGameMode().onPlayerSpawn(this.gameServer, this);
       if (this.cells.length == 0) {
         // If the bot cannot spawn any cells, then disconnect it
         this.socket.close();
@@ -122,7 +123,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
       switch (t) {
         case 0:
           // Cannot target teammates
-          if (this.gameServer.gameMode.haveTeams) {
+          if (this.gameServer.getWorld().getGameMode().haveTeams) {
             if (check.owner.team == this.team) {
               continue;
             }

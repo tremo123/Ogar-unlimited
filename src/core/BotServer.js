@@ -1,7 +1,7 @@
 'use strict';
 module.exports = class BotServer {
-  constructor(gameServer) {
-    this.gameServer = gameServer;
+  constructor(world) {
+    this.world = world;
 
   }
 

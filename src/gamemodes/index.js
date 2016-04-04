@@ -87,7 +87,10 @@ var get = function (id, gameServer) {
       mode = new module.exports.Experimental2();
       break;
     default: // FFA is default
-      if (gameServer.pluginGamemodes[id]) {
+      // todo gameServer.pluginGamemodes is temporary till I can figure out a better way to handle this problem
+      // todo plugins are broken till this gets fixed
+      // todo in the process of moving gameModes to the WorldModel as they need to be shared
+      if (gameServer.pluginGamemodes && gameServer.pluginGamemodes[id]) {
         mode = new gameServer.pluginGamemodes[id];
 
       } else {

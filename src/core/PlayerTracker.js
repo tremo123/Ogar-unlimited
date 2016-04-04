@@ -1,6 +1,7 @@
 'use strict';
 var Packet = require('../packet/index');
 const utilities = require('./utilities.js');
+const SortedMap = require("collections/sorted-map");
 
 // this creates circular decencies
 //var GameServer = require('../GameServer.js');
@@ -93,7 +94,7 @@ module.exports = class PlayerTracker {
       // Player id
       this.pID = gameServer.getNewPlayerID();
       // Gamemode function
-      gameServer.gameMode.onPlayerInit(this);
+      gameServer.getWorld().getGameMode().onPlayerInit(this);
 
       // SCRAMBLE
       // Only scramble if enabled in config
@@ -189,8 +190,9 @@ module.exports = class PlayerTracker {
       if (this.vt > 10) {
         this.vt = 0;
         var re = 0;
-        for (var i in this.gameServer.clients) {
-          var client = this.gameServer.clients[i].playerTracker;
+        var clients = this.gameServer.getClients();
+        for (var i in clients) {
+          var client = clients[i].playerTracker;
           if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) { // check to see if mouse's loxation is similar to others
             var ismi = true;
           } else {
@@ -200,9 +202,10 @@ module.exports = class PlayerTracker {
             re++;
           }
         }
+        var clients = this.gameServer.getClients();
         if (re > this.gameServer.config.mbchance) { // if there is over 5 duplicates
-          for (var i in this.gameServer.clients) {
-            var client = this.gameServer.clients[i].playerTracker;
+          for (var i in clients) {
+            var client = clients[i].playerTracker;
             if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) {
               var ismi = true;
             } else {
@@ -276,17 +279,17 @@ module.exports = class PlayerTracker {
     }
     // Actions buffer (So that people cant spam packets)
     if (this.socket.packetHandler.pressSpace) { // Split cell
-      this.gameServer.gameMode.pressSpace(this.gameServer, this);
+      this.gameServer.getWorld().getGameMode().pressSpace(this.gameServer, this);
       this.socket.packetHandler.pressSpace = false;
     }
 
     if (this.socket.packetHandler.pressW) { // Eject mass
-      this.gameServer.gameMode.pressW(this.gameServer, this);
+      this.gameServer.getWorld().getGameMode().pressW(this.gameServer, this);
       this.socket.packetHandler.pressW = false;
     }
 
     if (this.socket.packetHandler.pressQ) { // Q Press
-      this.gameServer.gameMode.pressQ(this.gameServer, this);
+      this.gameServer.getWorld().getGameMode().pressQ(this.gameServer, this);
       this.socket.packetHandler.pressQ = false;
     }
 
@@ -301,44 +304,68 @@ module.exports = class PlayerTracker {
       this.mergeOverrideDuration = 0;
     }
     // Remove nodes from visible nodes if possible
-    var d = 0;
-    while (d < this.nodeDestroyQueue.length) {
-      var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[d]);
+    this.nodeDestroyQueue.forEach((node)=> {
+      let index = this.visibleNodes.indexOf(node);
       if (index > -1) {
         this.visibleNodes.splice(index, 1);
-        d++; // Increment
-      } else {
-        // Node was never visible anyways
-        this.nodeDestroyQueue.splice(d, 1);
       }
-    }
+    });
+
+
+    //var d = 0;
+    //while (d < this.nodeDestroyQueue.length) {
+    //  var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[d]);
+    //  if (index > -1) {
+    //    this.visibleNodes.splice(index, 1);
+    //    d++; // Increment
+    //  } else {
+    //    // Node was never visible anyways
+    //    this.nodeDestroyQueue.splice(d, 1);
+    //  }
+    //}
 
     // Get visible nodes every 400 ms
     var nonVisibleNodes = []; // Nodes that are not visible
     if (this.tickViewBox <= 0) {
       var newVisible = this.calcViewBox();
       if (newVisible && newVisible.length) {
-        try { // Add a try block in any case
+        //try { // Add a try block in any case
 
-          // Compare and destroy nodes that are not seen
-          for (var i = 0; i < this.visibleNodes.length; i++) {
-            var index = newVisible.indexOf(this.visibleNodes[i]);
-            if (index == -1) {
-              // Not seen by the client anymore
-              nonVisibleNodes.push(this.visibleNodes[i]);
-            }
+        // Compare and destroy nodes that are not seen
+        this.visibleNodes.forEach((node)=>{
+          let index = newVisible.indexOf(node);
+          if (index == -1) {
+            // Not seen by the client anymore
+            nonVisibleNodes.push(node);
           }
+        });
 
-          // Add nodes to client's screen if client has not seen it already
-          for (var i = 0; i < newVisible.length; i++) {
-            var index = this.visibleNodes.indexOf(newVisible[i]);
-            if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
+        //for (var i = 0; i < this.visibleNodes.length; i++) {
+        //  let index = newVisible.indexOf(this.visibleNodes[i]);
+        //  if (index == -1) {
+        //    // Not seen by the client anymore
+        //    nonVisibleNodes.push(this.visibleNodes[i]);
+        //  }
+        //}
 
-              updateNodes.push(newVisible[i]);
-            }
+        // Add nodes to client's screen if client has not seen it already
+        newVisible.forEach((node)=>{
+          let index = this.visibleNodes.indexOf(node);
+          if (index == -1 && (node.getVis() || node.owner == this) && (!this.blind || (node.owner == this || node.cellType != 0))) {
+
+            updateNodes.push(node);
           }
-        } finally {
-        } // Catch doesn't work for some reason
+        });
+
+        //for (var i = 0; i < newVisible.length; i++) {
+        //  let index = this.visibleNodes.indexOf(newVisible[i]);
+        //  if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
+        //
+        //    updateNodes.push(newVisible[i]);
+        //  }
+        //}
+        //} finally {
+        //} // Catch doesn't work for some reason
 
         this.visibleNodes = newVisible;
         // Reset Ticks
@@ -347,8 +374,8 @@ module.exports = class PlayerTracker {
     } else {
       this.tickViewBox--;
       // Add nodes to screen
-      for (var i = 0; i < this.nodeAdditionQueue.length; i++) {
-        var node = this.nodeAdditionQueue[i];
+      for (let i = 0; i < this.nodeAdditionQueue.length; i++) {
+        let node = this.nodeAdditionQueue[i];
         if ((!this.blind || (node.owner == this || node.cellType != 0)) && (node.getVis() || node.owner == this)) {
           this.visibleNodes.push(node);
           updateNodes.push(node);
@@ -357,7 +384,7 @@ module.exports = class PlayerTracker {
     }
 
     // Update moving nodes
-    for (var i = 0; i < this.visibleNodes.length; i++) {
+    for (let i = 0; i < this.visibleNodes.length; i++) {
       var node = this.visibleNodes[i];
       if (node.sendUpdate() && (node.getVis() || node.owner == this) && (!this.blind || (node.owner == this || node.cellType != 0))) {
         // Sends an update if cell is moving
@@ -426,10 +453,7 @@ module.exports = class PlayerTracker {
         }
 
         // Remove from client list
-        var index = this.gameServer.clients.indexOf(this.socket);
-        if (index != -1) {
-          this.gameServer.clients.splice(index, 1);
-        }
+        this.gameServer.removeClient(this.socket);
       }
     }
   };
@@ -533,7 +557,7 @@ module.exports = class PlayerTracker {
       // TODO: Sort out switch between playerTracker.playerTracker.x and playerTracker.x problem.
       specPlayer = this.gameServer.largestClient;
       // Detect specByLeaderboard as player trackers are complicated
-      if (!this.gameServer.gameMode.specByLeaderboard && specPlayer && specPlayer.playerTracker) {
+      if (!this.gameServer.getWorld().getGameMode().specByLeaderboard && specPlayer && specPlayer.playerTracker) {
         // Get spectated player's location and calculate zoom amount
         var specZoom = Math.sqrt(100 * specPlayer.playerTracker.score);
         specZoom = Math.pow(Math.min(40.5 / specZoom, 1.0), 0.4) * 0.6;
@@ -545,7 +569,7 @@ module.exports = class PlayerTracker {
         this.sendCustomPosPacket(specPlayer.playerTracker.centerPos.x, specPlayer.playerTracker.centerPos.y, specZoom);
         return specPlayer.playerTracker.visibleNodes.slice(0, specPlayer.playerTracker.visibleNodes.length);
 
-      } else if (this.gameServer.gameMode.specByLeaderboard && specPlayer) {
+      } else if (this.gameServer.getWorld().getGameMode().specByLeaderboard && specPlayer) {
         // Get spectated player's location and calculate zoom amount
         var specZoom = Math.sqrt(100 * specPlayer.score);
         specZoom = Math.pow(Math.min(40.5 / specZoom, 1.0), 0.4) * 0.6;

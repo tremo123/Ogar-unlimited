@@ -3,32 +3,79 @@
 // among our processes.
 const Cell = require('../entity/Cell.js');
 const SortedMap = require("collections/sorted-map");
+const Packet = require('../packet');
+const Gamemode = require('../gamemodes');
 
 'use strict';
 module.exports = class WorldModel {
-  constructor(borderRight, borderLeft, borderBottom, borderTop) {
+  constructor(config, borderRight, borderLeft, borderBottom, borderTop) {
+    this.config = config;
     this.borderRight = borderRight;
     this.borderLeft = borderLeft;
     this.borderBottom = borderBottom;
     this.borderTop = borderTop;
 
     this.lastNodeId = 2;    // todo why 2?
+    this.nodeMaps = [];
+    this.nodeMaps['node'] = new SortedMap();
     this.nodes = new SortedMap();
     this.movingNodes = new SortedMap();
-    this.playerNodes = SortedMap();
-    this.virusNodes = SortedMap();
+    this.playerNodes = new SortedMap();
+    this.virusNodes = new SortedMap();
+
+    this.clients = []; // todo change this to a Map or SortedMap
+
+    // Gamemodes
+    this.gameMode = Gamemode.get(this.config.serverGamemode, this);
+    //this.pluginGamemodes = this.pluginLoader.getPGamemodes();
+  }
+
+  getGameMode() {
+    return this.gameMode;
+  }
+
+  changeGameMode(gameMode) {
+    this.gameMode = gameMode;
+  }
+
+  initNodeType(type) {
+    if (type === 'node') return;
+    this.nodeMaps[type] = new SortedMap();
   }
 
   setNode(id, node, type) {
-    this.nodes.set(id, node);
-    switch (type) {
-      case "player":
-        this.playerNodes.set(id, node);
-        break;
-      case "moving":
-        this.setNodeAsMoving(id, node);
-        break;
+    console.log('setNode ' + id + ' ' + type)
+    type = (type) ? type : 'node';
+    if (!this.nodeMaps[type]) {
+      this.nodeMaps[type] = new SortedMap();
     }
+    this.nodeMaps['node'].set(id, node);
+    this.nodeMaps[type].set(id, node);
+
+
+    // Adds to the owning player's screen
+    if (node.owner) {
+      node.setColor(node.owner.color);
+      node.owner.cells.push(node);
+      node.owner.socket.sendPacket(new Packet.AddNode(node));
+    }
+
+    // Special on-add actions
+    node.onAdd(this);
+
+    // todo Rewrite this - this is business logic in a model
+    // Add to visible nodes
+    this.clients.forEach((client)=> {
+      let tracker = client.playerTracker;
+      if (!tracker) return;
+
+      // todo memory leak?
+      // client.nodeAdditionQueue is only used by human players, not bots
+      // for bots it just gets collected forever, using ever-increasing amounts of memory
+      if ('_socket' in tracker.socket && node.visibleCheck(tracker.viewBox, tracker.centerPos)) {
+        tracker.nodeAdditionQueue.push(node);
+      }
+    });
   }
 
   addNode(node, type) {
@@ -38,28 +85,11 @@ module.exports = class WorldModel {
   }
 
   getNode(id) {
-    return this.nodes.get(id);
+    return this.nodeMaps['node'].get(id);
   }
 
   getNodes(type) {
-    let nodes = undefined;
-    switch (type) {
-      case 'node':
-        nodes = this.nodes;
-        break;
-      case 'moving':
-        nodes = this.movingNodes;
-        break;
-      case 'player':
-        nodes = this.playerNodes;
-        break;
-      case 'virus':
-        nodes = this.virusNodes;
-        break;
-      default:
-        nodes = this.nodes;
-    }
-    return nodes;
+    return this.nodeMaps[(type) ? type : 'node'];
   }
 
   getNearestNodeToNode(node, type, radius) {
@@ -88,14 +118,33 @@ module.exports = class WorldModel {
 
   }
 
-  removeNode(id) {
-    this.nodes.delete(id);
-    this.movingNodes.delete(id);
-    this.playerNodes.delete(id);
-  }
+  removeNode(id, type) {
+    if (isNaN(id)) id = id.getId();
 
-  removeMovingNode(node) {
-    this.movingNodes.delete(id);
+    type = (type) ? type : 'all';
+    type = (type === 'node') ? 'all' : type;
+
+    let node = this.nodeMaps['node'].get(id);
+    if (type == 'all') {
+      Object.keys(this.nodeMaps).forEach((key)=>this.nodeMaps[key].delete(id));
+
+      // todo Rewrite this - this is business logic in a model
+      // Animation when eating
+      let clients = this.getClients();
+      for (let i = 0; i < clients.length; i++) {
+        let client = clients[i].playerTracker;
+        if (!client) {
+          console.log('client is undefined?')
+          continue;
+        }
+
+        // Remove from client
+        client.nodeDestroyQueue.push(node);
+      }
+
+    } else {
+      this.nodeMaps[type].delete(id);
+    }
   }
 
   getNewNodeId() {
@@ -111,19 +160,19 @@ module.exports = class WorldModel {
   }
 
   setNodeAsMoving(id, node) {
-    this.movingNodes.set(id, node);
+    this.setNode(id, node, 'moving');
   }
 
   removeMovingNode(id) {
-    this.movingNodes.delete(id);
+    this.removeNode(id, 'moving');
   }
 
   getMovingNodes() {
-    return this.movingNodes;
+    return this.nodeMaps['moving'];
   }
 
   getPlayerNodes() {
-    return this.playerNodes;
+    return this.nodeMaps['player'];
   }
 
   getRandomPosition() {
@@ -133,6 +182,24 @@ module.exports = class WorldModel {
     }
   }
 
+  getClients() {
+    return this.clients;
+  }
 
+  addClient(client) {
+    return this.clients.push(client);
+  }
+
+  removeClient(client) {
+    let index = this.clients.indexOf(client);
+    if (index != -1) {
+      this.clients.splice(index, 1);
+    }
+  }
+
+  getWorld() {
+    // todo remove and fix this
+    return this;
+  }
 };
 

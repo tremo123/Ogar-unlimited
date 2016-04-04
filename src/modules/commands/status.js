@@ -14,5 +14,5 @@ module.exports = function (gameServer, split) {
   console.log("[Console] Players: " + humans + " Bots: " + bots);
   console.log("[Console] Server has been running for " + process.uptime() + " seconds.");
   console.log("[Console] Current memory usage: " + process.memoryUsage().heapUsed / 1000 + "/" + process.memoryUsage().heapTotal / 1000 + " kb");
-  console.log("[Console] Current game mode: " + gameServer.gameMode.name);
+  console.log("[Console] Current game mode: " + gameServer.getWorld().getGameMode().name);
 };

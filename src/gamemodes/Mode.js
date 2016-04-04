@@ -1,4 +1,5 @@
 // todo seems a bit buggy, some times crashes the server silently
+'use strict';
 
 var Entity = require('../entity');
 
@@ -99,9 +100,10 @@ Mode.prototype.pressW = function (gameServer, player) {
   // Called when the W key is pressed
   if (player.mi == 1 && player.minioncontrol) {
 
-    for (var i in gameServer.clients) {
-      var client = gameServer.clients[i].playerTracker;
-      if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
+    let clients = gameServer.getWorld().getClients();
+    for (var i in clients) {
+      var client = clients[i].playerTracker;
+      if ((typeof clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
         gameServer.ejectMass(client);
       }
     }
@@ -147,7 +149,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
           ejected.setAngle(angle);
           ejected.setMoveEngineData(160, 20);
 
@@ -191,7 +193,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 1;
           var color = {
@@ -252,7 +254,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
           ejected.setAngle(angle);
           var color = {
             r: 250,
@@ -285,11 +287,12 @@ Mode.prototype.pressW = function (gameServer, player) {
 };
 
 Mode.prototype.pressSpace = function (gameServer, player) {
+  let clients = gameServer.getWorld().getClients();
   // Called when the Space bar is pressed
   if (player.mi == 1 && player.minioncontrol) {
-    for (var i in gameServer.clients) {
-      var client = gameServer.clients[i].playerTracker;
-      if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
+    for (var i in clients) {
+      var client = clients[i].playerTracker;
+      if ((typeof clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
         gameServer.splitCells(client);
       }
     }
@@ -301,9 +304,10 @@ Mode.prototype.pressSpace = function (gameServer, player) {
       }
       gameServer.pop[player.pID] = 1;
       player.norecombine = false;
-      for (var j in player.cells) {
+      // todo what is this? commenting out the loop it doesn't make sense
+      //for (var j in player.cells) {
         player.recombineinstant = true;
-      }
+      //}
 
     } else if (gameServer.opc[player.pID] == 2 && gameServer.config.antimatter == 1) {
       if (gameServer.config.showopactions == 1) {
@@ -348,7 +352,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 3;
           var color = {
@@ -405,7 +409,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 4;
           var color = {
