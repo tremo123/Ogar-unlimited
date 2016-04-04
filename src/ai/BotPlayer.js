@@ -86,7 +86,7 @@ BotPlayer.prototype.update = function () { // Overrides the update function from
   }
 
   // Update
-  if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
+  if ((this.tickViewBox <= 0) && (this.gameServer.running)) {
     this.visibleNodes = this.calcViewBox();
     this.tickViewBox = this.gameServer.config.botupdate
   } else {
