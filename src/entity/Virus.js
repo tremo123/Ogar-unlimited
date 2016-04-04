@@ -199,6 +199,7 @@ Virus.prototype.onAutoMove = function (gameServer) {
   var r = 100; // Checking radius
 
   let ejectedNodes = gameServer.getEjectedNodes();
+  let len = 0;
   for (var i = 0; i < ejectedNodes.length; i++) {
     var check = ejectedNodes[i];
 
