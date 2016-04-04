@@ -9,7 +9,7 @@
     "name": "botnames",
     "src": "src/botnames.txt",
     "dst": "./botnames.txt",
-    "hash": "0fe31d0ccf396fb35f3c9eba737a7175"
+    "hash": "0fe31d0ccf396fb35f3c9eba737a717"
   },
   {
     "name": "realisticnames",
