@@ -1,6 +1,3 @@
-# APRILS FOOLS!, THERE IS NO UPDATE TODAY!
-
-
 # Ogar unlimited - The Next Generation Ogar
 [![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Circle CI](https://circleci.com/gh/AJS-development/Ogar-unlimited.svg?style=svg)](https://circleci.com/gh/AJS-development/Ogar-unlimited)
 
