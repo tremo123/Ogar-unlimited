@@ -40,7 +40,7 @@ MinionPlayer.prototype.getLowestCell = function () {
 
   // Starting cell
   var lowest = this.cells[0];
-  for (let i = 1; i < this.cells.length; i++) {
+  for (var i = 1; i < this.cells.length; i++) {
     if (lowest.mass > this.cells[i].mass) {
       lowest = this.cells[i];
     }
@@ -86,7 +86,7 @@ MinionPlayer.prototype.update = function () { // Overrides the update function f
 
 
   // Update
-  if ((this.tickViewBox <= 0) && (this.gameServer.running)) {
+  if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
     this.visibleNodes = this.calcViewBox();
     this.tickViewBox = this.gameServer.config.minionupdate
   } else {
