@@ -1674,7 +1674,7 @@ module.exports = class GameServer {
   };
 
   ejecttMass(client) {
-    Physics.ejectMass(client, this);
+    Physics.ejectMass(client, this.getWorld(),this);
   };
 
   kickBots(numToKick) {
