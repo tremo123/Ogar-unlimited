@@ -45,7 +45,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
     // Starting cell
     var lowest = this.cells[0];
-    for (i = 1; i < this.cells.length; i++) {
+    for (let i = 1; i < this.cells.length; i++) {
       if (lowest.mass > this.cells[i].mass) {
         lowest = this.cells[i];
       }
@@ -91,7 +91,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
 
     // Update
-    if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
+    if ((this.tickViewBox <= 0) && (this.gameServer.running)) {
       this.visibleNodes = this.calcViewBox();
       this.tickViewBox = this.gameServer.config.minionupdate
     } else {
