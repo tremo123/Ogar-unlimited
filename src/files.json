@@ -372,12 +372,6 @@
     "name": "/index.js"
   },
   {
-    "hash": "968d3896779aeec333eb3eff675711680ee68acc",
-    "src": "src/logs/console.log",
-    "dst": "./logs/console.log",
-    "name": "/console.log"
-  },
-  {
     "hash": "60382fb5378cd5196b5aadce22e15f750abe7711",
     "src": "src/modules/CommandList.js",
     "dst": "./modules/CommandList.js",
