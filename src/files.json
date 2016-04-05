@@ -11,6 +11,7 @@
     "dst": "./Start.bat",
     "name": "/Start.bat"
   },
+  {
     "hash": "7dc00f9647f8a3167c57a10dd5f694883981e33b",
     "src": "src/ai/BotLoader.js",
     "dst": "./ai/BotLoader.js",
