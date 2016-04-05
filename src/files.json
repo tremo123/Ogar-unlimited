@@ -1,6 +1,6 @@
 [
   {
-    "hash": "a6dcae873502b24b6a081928b1623ecd6ce8ca66",
+    "hash": "a6dcae873502b24b6a081928b1623ecd6ce8ca6",
     "src": "src/Install Dependencies (Windows).bat",
     "dst": "./Install Dependencies (Windows).bat",
     "name": "/Install Dependencies (Windows).bat"
