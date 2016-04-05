@@ -880,11 +880,5 @@
     "src": "src/settings/config.ini",
     "dst": "./settings/config.ini",
     "name": "/config.ini"
-  },
-  {
-    "hash": "aa34f5e269ab6fb1c01b322167acec5e73e1080b",
-    "src": "src/settings/override.ini",
-    "dst": "./settings/override.ini",
-    "name": "/override.ini"
   }
 ]
