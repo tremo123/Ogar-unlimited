@@ -18,7 +18,7 @@ module.exports = function (gameServer, split) {
     gameServer.pluginLoader.load();
     console.log("Reloaded plugins");
   } else {
-    console.log("Please specify a command. Available commands: list")
+    console.log("Please specify a command. Available commands: list, reload")
   }
 
 
