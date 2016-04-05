@@ -11,7 +11,6 @@
     "dst": "./Start.bat",
     "name": "/Start.bat"
   },
-  {
     "hash": "7dc00f9647f8a3167c57a10dd5f694883981e33b",
     "src": "src/ai/BotLoader.js",
     "dst": "./ai/BotLoader.js",
@@ -478,12 +477,6 @@
     "src": "src/modules/commands/delete.js",
     "dst": "./modules/commands/delete.js",
     "name": "/delete.js"
-  },
-  {
-    "hash": "9bf8e2d52132470264b186e29990e88a8916fbc2",
-    "src": "src/modules/commands/dev.js",
-    "dst": "./modules/commands/dev.js",
-    "name": "/dev.js"
   },
   {
     "hash": "1a03b82cc59903dd9808f28d7ed404e281078b73",
