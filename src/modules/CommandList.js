@@ -119,7 +119,6 @@ Commands.list = {
     console.log("[Console] ====================================================");
   },
   blind: require('./commands/blind.js'),
-  dev: require('./commands/dev.js'),
   pcmd: require('./commands/pcmd.js'),
   reset: require('./commands/reset.js'),
   delete: require('./commands/delete.js'),
