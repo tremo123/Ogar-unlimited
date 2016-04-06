@@ -1,3 +1,3 @@
-Description goes here
+Place your description here.
 
-type this afterwords "I have read the contributing guidelines and I understand it"
+Then type this afterwards "I have read and agreed to the contributing guidelines"
