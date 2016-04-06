@@ -16,9 +16,23 @@ module.exports = function (gameServer, split) {
     console.log("[Console] ------------------------------------------------");
   } else if (split[1] == "reload") {
     gameServer.pluginLoader.load();
-    console.log("Reloaded plugins");
+    console.log("[Console] Reloaded plugins");
+  } else if (split[1] == "delete") {
+    if(split[2]) {
+    gameServer.dfr('../plugins/' + split[2]);
+    console.log("[Console] Deleting Plugin " + split[2]);
+    
+    setTimeout(function() {
+      console.log("[Console] Reloading plugins");
+      gameServer.pluginLoader.load();
+      
+    }, 3000)
+    } else {
+      console.log("[Console] Please specify a plugin filename")
+      
+    }
   } else {
-    console.log("Please specify a command. Available commands: list, reload")
+    console.log("[Console] Please specify a command. Available commands: list, reload, delete")
   }
 
 
