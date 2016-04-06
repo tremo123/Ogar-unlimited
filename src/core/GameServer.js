@@ -893,7 +893,7 @@ module.exports = class GameServer {
   removeClient(client) {
     let index = this.getClients().indexOf(client);
     if (index != -1) {
-      this.server.clients.splice(index, 1);
+      this.getClients().splice(index, 1);
     }
   }
 
