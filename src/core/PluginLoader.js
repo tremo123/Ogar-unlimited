@@ -2,6 +2,7 @@
 const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
+const zlib = require('zlib');
 
 module.exports = class PluginLoader {
   constructor(gameServer) {
