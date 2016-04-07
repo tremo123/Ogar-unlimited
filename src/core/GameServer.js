@@ -24,7 +24,7 @@ const PluginLoader = require('./PluginLoader.js');
 const DataBaseConnector = require('./DataBaseConnector.js');
 
 module.exports = class GameServer {
-  constructor(world, consoleService, configService) {
+  constructor(world, consoleService, configService, version) {
     // fields
     this.world = world;
     this.dataBase = new DataBaseConnector('world');
@@ -105,7 +105,7 @@ module.exports = class GameServer {
     this.sbo = 1;
     this.ipCounts = [];
     this.minionleader = undefined;
-    this.version = "11.8.5";
+    this.version = version;
 
     this.destroym = false;
     this.lleaderboard = false;
