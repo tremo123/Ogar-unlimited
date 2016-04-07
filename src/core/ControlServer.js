@@ -27,7 +27,7 @@ module.exports = class ControlServer {
     this.updater = new Updater(this);
 
     // servers
-    this.gameServer = new GameServer(this.world, this.consoleService, this.configService);
+    this.gameServer = new GameServer(this.world, this.consoleService, this.configService , version);
 
     // configuration
     this.consoleService.setGameServer(this.gameServer);
