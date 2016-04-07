@@ -31,8 +31,55 @@ module.exports = function (gameServer, split) {
       console.log("[Console] Please specify a plugin filename")
       
     }
+  } else if (split[1] == "add") {
+    if (!split[3]) {
+      
+      console.log("[Console] Please specify a plugin filename");
+    }
+    
+    request(split[2], function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+         var files = body.split(/[\r\n]+/).filter(function (x) {
+            return x != ''; // filter empty
+          });
+          var filenames = [];
+          var src = [];
+          for (var i in files) {
+            var f = files[i].split("|");
+            filenames[i] = f[0];
+            src[i] = f[1];
+          }
+          var download = function(src,location) {
+            request(src, function (error, response, body) {
+      if (!error && response.statusCode == 200 && body != "") {
+        fs.writeFile(location , body, (err, res)=> {
+        });
+      } else {
+        console.log("[Console] Error: Couldnt download file into " + location);
+      }
+    });
+            
+            
+          };
+          for (var i in files) {
+            var f = files[i].split("|");
+            filenames[i] = f[0];
+            src[i] = f[1];
+            download(src[i],'./plugins/' + split[3] + '/' + filenames[i]);
+            
+          }
+          
+
+        } else {
+          console.log("[Update] Please put a valid url of the raw files.txt file");
+
+        }
+      });
+    
+    
+    
   } else {
-    console.log("[Console] Please specify a command. Available commands: list, reload, delete")
+    console.log("[Console] Please specify a command. Available commands: list, reload, delete, add")
   }
 
 
