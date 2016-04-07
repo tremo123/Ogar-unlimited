@@ -1,4 +1,5 @@
 const fs = require("fs");
+const request = require('request');
 // plugin command
 module.exports = function (gameServer, split) {
   if (split[1] == "list") {
