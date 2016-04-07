@@ -35,8 +35,22 @@ module.exports = function (gameServer, split) {
   } else if (split[1] == "add") {
     if (!split[3]) {
       
-      console.log("[Console] Please specify a plugin filename");
-      return;
+      console.log("[Console] SInce you did not specify a valid save-as file name, we will generate a random one");
+       var random  = function(howMany, chars) {
+    chars = chars 
+        || "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+    var rnd = crypto.randomBytes(howMany)
+        , value = new Array(howMany)
+        , len = chars.length;
+
+    for (var i = 0; i < howMany; i++) {
+        value[i] = chars[rnd[i] % len]
+    };
+
+    return value.join('');
+}
+    split[3] = random(7);
+    console.log("[COnsole] Generated random save as name for the plugin, Name: " + split[3]);
     }
     
     if (!split[2]) {
