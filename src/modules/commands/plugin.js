@@ -36,10 +36,12 @@ module.exports = function (gameServer, split) {
     if (!split[3]) {
       
       console.log("[Console] Please specify a plugin filename");
+      return;
     }
     if (!split[2]) {
       
       console.log("[Console] Please specify a plugins files.txt raw url");
+      return;
     }
     
     request(split[2], function (error, response, body) {
