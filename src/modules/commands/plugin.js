@@ -38,14 +38,15 @@ module.exports = function (gameServer, split) {
       console.log("[Console] Please specify a plugin filename");
       return;
     }
+    
     if (!split[2]) {
       
       console.log("[Console] Please specify a plugins files.txt raw url");
       return;
     }
-    
     request(split[2], function (error, response, body) {
         if (!error && response.statusCode == 200) {
+          console.log("[Console] Downloading...");
          var files = body.split(/[\r\n]+/).filter(function (x) {
             return x != ''; // filter empty
           });
@@ -68,15 +69,17 @@ module.exports = function (gameServer, split) {
             
             
           };
+          fs.mkdir('./plugins/' + split[3]);
           for (var i in files) {
             var f = files[i].split("|");
             filenames[i] = f[0];
             src[i] = f[1];
             download(src[i],'./plugins/' + split[3] + '/' + filenames[i]);
-            
-          }
           
-
+            console.log("[Console] downloading " + './plugins/' + split[3] + '/' + filenames[i])
+          }
+          console.log("[Console] Done, Reloading...");
+gameServer.pluginLoader.load();
         } else {
           console.log("[Update] Please put a valid url of the raw files.txt file");
 
