@@ -20,7 +20,7 @@ module.exports = class DataBaseConnector {
   put(data){
     this.db.put(data)
     .catch((error)=>{
-      console.log('[DataBaseConnector] error: ' + error + ' while attempting to put: ' + data);
+      // console.log('[DataBaseConnector] error: ' + error + ' while attempting to put: ' + data);
     });
   }
 };
