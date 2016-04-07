@@ -78,8 +78,13 @@ module.exports = function (gameServer, split) {
           
             console.log("[Console] downloading " + './plugins/' + split[3] + '/' + filenames[i])
           }
-          console.log("[Console] Done, Reloading...");
+          setTimeout(function() {
+            console.log("[Console] Done, Reloading...");
+          
 gameServer.pluginLoader.load();
+            
+          }, 2000);
+          
         } else {
           console.log("[Update] Please put a valid url of the raw files.txt file");
 
