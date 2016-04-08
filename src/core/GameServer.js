@@ -467,7 +467,7 @@ module.exports = class GameServer {
   addNode(node, type) {
     this.world.setNode(node.getId(), node, type);
 
-    //this._nodes.push(node);
+   this._nodes.push(node);
     //if (type === "moving") {
     //  this.setAsMovingNode(node);
     //}
