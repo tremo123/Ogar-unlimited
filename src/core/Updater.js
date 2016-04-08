@@ -8,7 +8,7 @@ const exec = require('child_process').exec;
 
 module.exports = class Updater {
   constructor(gameServer) {
-    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + "dev" + "/";
+    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + "master" + "/";
     this.gameServer = gameServer;
     this.files = require(path.resolve(process.cwd(), 'files.json'));
     this.newFiles = {};
