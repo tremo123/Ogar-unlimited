@@ -1,6 +1,7 @@
-function UpdateLeaderboard(leaderboard, packetLB) {
+function UpdateLeaderboard(leaderboard, packetLB, ctxt) {
   this.leaderboard = leaderboard;
   this.packetLB = packetLB;
+  this.ctxt = ctxt
 }
 
 module.exports = UpdateLeaderboard;
@@ -70,6 +71,29 @@ UpdateLeaderboard.prototype.build = function () {
 
         validElements++;
       }
+      var customtxt = this.ctxt;
+      var ok = true;
+      var newcustomtxt = [];
+      if (customtxt) {
+        for (var q in customtxt) {
+          if (ok === true) {
+            newcustomtxt[q] = customtxt[q];
+            ok = false;
+          } else {
+            newcustomtxt[q] = " " + customtxt[q];
+          }
+
+        }
+        customtxt = newcustomtxt;
+      }
+      for (var q in customtxt) {
+        if (customtxt[q]) {
+          bufferSize += 4;
+          bufferSize += customtxt[q].length * 2
+          bufferSize += 2;
+          validElements++;
+        }
+      }
 
       var buf = new ArrayBuffer(bufferSize);
       var view = new DataView(buf);
@@ -105,6 +129,17 @@ UpdateLeaderboard.prototype.build = function () {
 
         view.setUint16(offset, 0, true);
         offset += 2;
+      }
+      for (var q in customtxt) {
+        if (customtxt[q]) {
+          view.setUint32(offset, 0, true);
+          offset += 4;
+          for (var j = 0; j < customtxt[q].length; j++) {
+            view.setUint16(offset, customtxt[q].charCodeAt(j), true);
+            offset += 2
+          }
+          view.setUint16(offset, 0, true);
+        }
       }
       return buf;
     case 50: // Teams-type Packet (Pie Chart)

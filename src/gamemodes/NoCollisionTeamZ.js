@@ -1,3 +1,5 @@
+'use strict';
+const utilities = require('../core/utilities.js');
 var Mode = require('./Mode.js');
 var Cell = require('../entity/Cell.js');
 var Entity = require('../entity');
@@ -144,8 +146,9 @@ TeamZ.prototype.spawnDrug = function (gameServer, cell) { // spawn HERO or BRAIN
 
     // Check for players
     var collided = false;
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
       var r = check.getSize(); // Radius of checking player cell
 
       // Collision box
@@ -544,7 +547,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       var newMass = cell.mass / 2;
       cell.mass = newMass;
       // Create cell
-      var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass);
+      var split = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, newMass);
       split.setAngle(angle);
       split.setMoveEngineData(splitSpeed, 32, 0.85);
       split.calcMergeTime(this.config.playerRecombineTime);
@@ -560,8 +563,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       }
 
       // Add to moving cells list
-      this.setAsMovingNode(split);
-      this.addNode(split);
+      this.addNode(split, "moving");
     }
   };
 
@@ -574,7 +576,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
     };
 
     // Create cell
-    newCell = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, mass);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 10);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -591,8 +593,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
     }
 
     // Add to moving cells list
-    this.addNode(newCell);
-    this.setAsMovingNode(newCell);
+    this.addNode(newCell, "moving");
   };
 
   Virus.prototype.onConsume = function (consumer, gameServer) {
@@ -853,7 +854,7 @@ TeamZ.prototype.onTick = function (gameServer) {
   this.spawnHeroTimer++;
   if (this.spawnHeroTimer >= this.spawnHeroInterval) {
     this.spawnHeroTimer = 0;
-    var cell = new Hero(gameServer.getNextNodeId(), null);
+    var cell = new Hero(gameServer.getWorld().getNextNodeId(), null);
     while (!this.spawnDrug(gameServer, cell)); // collision detect algorithm needs enhancement
   }
 
@@ -861,7 +862,7 @@ TeamZ.prototype.onTick = function (gameServer) {
   this.spawnBrainTimer++;
   if (this.spawnBrainTimer >= this.spawnBrainInterval) {
     this.spawnBrainTimer = 0;
-    var cell = new Brain(gameServer.getNextNodeId(), null);
+    var cell = new Brain(gameServer.getWorld().getNextNodeId(), null);
     while (!this.spawnDrug(gameServer, cell)); // collision detect algorithm needs enhancement
   }
 };
@@ -937,7 +938,7 @@ TeamZ.prototype.onCellMove = function (x1, y1, cell) {
       }
 
       // First collision check passed... now more precise checking
-      dist = cell.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
+      let dist = utilities.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
 
       // Calculations
       if (dist < collisionDist) { // Collided

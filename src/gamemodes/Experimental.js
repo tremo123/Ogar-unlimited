@@ -1,3 +1,4 @@
+'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
 var Food = require('../entity/Food');
@@ -48,8 +49,9 @@ Experimental.prototype.spawnMotherCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
-      var check = gameServer.nodesPlayer[i];
+    let nodesPlayer = gameServer.getPlayerNodes();
+    for (var i = 0; i < nodesPlayer.length; i++) {
+      var check = nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -81,7 +83,7 @@ Experimental.prototype.spawnMotherCell = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
     gameServer.addNode(m);
   }
 };
@@ -111,6 +113,7 @@ Experimental.prototype.onServerInit = function (gameServer) {
   };
 
   // Override this
+  // TODO CRITICAL VERY BAD
   gameServer.getRandomSpawn = gameServer.getRandomPosition;
 };
 
@@ -134,5 +137,7 @@ Experimental.prototype.onChange = function (gameServer) {
   }
   // Add back default functions
   Virus.prototype.feed = VirusFeed;
+
+  // TODO CRITICAL VERY BAD
   gameServer.getRandomSpawn = require('../GameServer').prototype.getRandomSpawn;
 };

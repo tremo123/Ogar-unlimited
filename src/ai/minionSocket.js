@@ -1,4 +1,5 @@
 // A fake socket for bot players
+
 function MinionSocket(gameServer) {
   this.server = gameServer;
 }

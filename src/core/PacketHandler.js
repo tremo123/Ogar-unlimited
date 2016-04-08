@@ -1,4 +1,4 @@
-var Packet = require('./packet');
+var Packet = require('./../packet/index');
 
 function PacketHandler(gameServer, socket) {
   this.gameServer = gameServer;
@@ -68,7 +68,6 @@ PacketHandler.prototype.handleMessage = function (message) {
               }
             }.bind(this), this.gameServer.config.kickspectate * 1000);
           }
-
         }
 
         this.socket.playerTracker.spectate = true;

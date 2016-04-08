@@ -23,7 +23,7 @@ module.exports = {
   SFFA: require('./SFFA.js'),
 };
 
-var get = function (id) {
+var get = function (id, gameServer) {
   var mode;
   switch (id) {
     case 1: // Teams
@@ -87,7 +87,13 @@ var get = function (id) {
       mode = new module.exports.Experimental2();
       break;
     default: // FFA is default
-      mode = new module.exports.FFA();
+      if (gameServer.pluginGamemodes[id]) {
+        mode = new gameServer.pluginGamemodes[id];
+
+      } else {
+
+        mode = new module.exports.FFA();
+      }
       break;
   }
   return mode;

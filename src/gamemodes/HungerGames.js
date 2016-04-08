@@ -1,3 +1,4 @@
+'use strict';
 var Tournament = require('./Tournament');
 var Entity = require('../entity');
 
@@ -79,14 +80,14 @@ HungerGames.prototype.getPos = function () {
 };
 
 HungerGames.prototype.spawnFood = function (gameServer, mass, pos) {
-  var f = new Entity.Food(gameServer.getNextNodeId(), null, pos, mass, gameServer);
+  var f = new Entity.Food(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer);
   f.setColor(gameServer.getRandomColor());
   gameServer.addNode(f);
   gameServer.currentFood++;
 };
 
 HungerGames.prototype.spawnVirus = function (gameServer, pos) {
-  var v = new Entity.Virus(gameServer.getNextNodeId(), null, pos, gameServer.config.virusStartMass);
+  var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.virusStartMass);
   gameServer.addNode(v);
 };
 
@@ -98,9 +99,9 @@ HungerGames.prototype.onPlayerDeath = function (gameServer) {
   config.borderBottom -= this.borderDec;
 
   // Remove all cells
-  var len = gameServer.nodes.length;
-  for (var i = 0; i < len; i++) {
-    var node = gameServer.nodes[i];
+  let nodes = gameServer.getWorld().getNodes();
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
 
     if ((!node) || (node.getType() == 0)) {
       continue;
@@ -294,7 +295,7 @@ HungerGames.prototype.onServerInit = function (gameServer) {
 };
 
 HungerGames.prototype.onPlayerSpawn = function (gameServer, player) {
-  if (gameServer.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
+  if (gameServer.nospawn[player.socket.remoteAddress] != true) {
     // Only spawn players if the game hasnt started yet
     if ((this.gamePhase == 0) && (this.contenders.length < this.maxContenders)) {
       player.color = gameServer.getRandomColor(); // Random color

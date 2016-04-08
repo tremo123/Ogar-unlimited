@@ -1,3 +1,4 @@
+'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
 var Food = require('../entity/Food');
@@ -49,7 +50,7 @@ Blackhole.prototype.spawnMotherCell = function (gameServer) {
     // var pos =  gameServer.getRandomPosition();
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
     gameServer.addNode(m);
     console.log("Black Hole Spawned");
   }
@@ -147,8 +148,9 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var safeMass = 500000;
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
-  for (var i in gameServer.nodes) {
-    var check = gameServer.nodes[i];
+  let nodes = gameServer.getWorld().getNodes();
+  for (var i in nodes) {
+    var check = nodes[i];
     // Calculations
     var len = r - (check.getSize() / 2) >> 0;
     if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {
@@ -180,7 +182,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   };
 
   // Spawn food
-  var f = new Food(gameServer.getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
+  var f = new Food(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
   f.setColor = {
     r: 10,
     b: 10,
@@ -195,7 +197,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   var dist = (Math.random() * (gameServer.config.borderBottom / 20)) + 60; // Random distance
   f.setMoveEngineData(dist, 20);
 
-  gameServer.setAsMovingNode(f);
+  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
 };
 
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function
