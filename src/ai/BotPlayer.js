@@ -22,7 +22,7 @@ module.exports = class BotPlayer extends PlayerTracker {
 
     this.target;
     this.targetVirus; // Virus used to shoot into the target
-
+    this.updateIn = (Math.random() * 12) >> 0;
     this.ejectMass = 0; // Amount of times to eject mass
     this.oldPos = {
       x: 0,
@@ -92,7 +92,12 @@ module.exports = class BotPlayer extends PlayerTracker {
     // Update
     if ((this.tickViewBox <= 0) && (this.gameServer.running)) {
       this.visibleNodes = this.calcViewBox();
-      this.tickViewBox = this.gameServer.config.botupdate
+      if (this.gameServer.config.randomBotSmartness == 1) {
+        this.tickViewBox = this.updateIn;
+        
+      } else {
+      this.tickViewBox = this.gameServer.config.botupdate;
+      }
     } else {
       this.tickViewBox--;
       return;
