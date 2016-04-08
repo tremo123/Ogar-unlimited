@@ -1779,7 +1779,7 @@ GameServer.prototype.ejectMass = function (client) {
         cell.mass -= this.config.virusmassloss;
       }
       // Randomize angle
-      angle += (Math.random() * .4) - .2;
+      angle += (Math.random() * .6) - .3;
 
       // Create cell
       if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
@@ -1840,17 +1840,17 @@ GameServer.prototype.ejectMass = function (client) {
           cell.mass -= this.config.virusmassloss;
         }
         // Randomize angle
-        angle += (Math.random() * .4) - .2;
+        angle += (Math.random() * .6) - .3;
 
         // Create cell
         if (this.config.ejectvirus != 1) var ejected = new Entity.EjectedMass(this.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         else var ejected = new Entity.Virus(this.getNextNodeId(), null, startPos, this.config.ejectMass, this)
         ejected.setAngle(angle);
         if (this.config.ejectvirus == 1) {
-          ejected.setMoveEngineData(this.config.ejectvspeed, 20);
+          ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
 
         } else {
-          ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+          ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
         }
         if (this.config.ejectvirus == 1) {
           ejected.par = player;
