@@ -1101,15 +1101,15 @@ module.exports = class GameServer {
       if (this.config.ejectbiggest == 1) {
         let cell = client.getBiggestc();
         if (!cell) {
-          continue;
+          return;
         }
         if (this.config.ejectvirus != 1) {
           if (cell.mass < this.config.playerMinMassEject) {
-            continue;
+            return;
           }
         } else {
           if (cell.mass < this.config.playerminviruseject) {
-            continue;
+            return;
           }
 
         }
