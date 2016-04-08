@@ -50,12 +50,11 @@ Leap.prototype.pressSpace = function (gameServer, player) {
     var newMass = (cell.mass / 10) * 7;
     cell.mass = newMass;
     // Let's go
-    var split = new Entity.PlayerCell(gameServer.getNextNodeId(), player, startPos, newMass);
+    var split = new Entity.PlayerCell(gameServer.getWorld().getNextNodeId(), player, startPos, newMass);
     split.setAngle(angle);
     split.setMoveEngineData(splitSpeed, 32, 0.85);
     split.calcMergeTime(gameServer.config.playerRecombineTime);
-    gameServer.setAsMovingNode(split);
-    gameServer.addNode(split);
+    gameServer.addNode(split, "moving");
     gameServer.removeNode(cell);
   }
 };

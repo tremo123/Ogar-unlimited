@@ -1,3 +1,6 @@
+'use strict';
+const utilities = require('../core/utilities.js');
+
 var Cell = require('./Cell');
 var Virus = require('./Virus');
 var MotherCell = require('./MotherCell');
@@ -28,7 +31,7 @@ StickyCell.prototype.update = function (gameServer) {
 
     // Remain attached to the acquired victim
     var check = this.acquired;
-    var dist = check.getDist(check.position.x, check.position.y, this.position.x, this.position.y);
+    var dist = GameServer.getDist(check.position.x, check.position.y, this.position.x, this.position.y);
     var collisionDist = check.getSize() + this.radius;
 
     var dY = this.position.y - check.position.y;
@@ -59,8 +62,9 @@ StickyCell.prototype.update = function (gameServer) {
   };
 
   // Look for victims
-  for (var i in gameServer.nodesPlayer) {
-    var check = gameServer.nodesPlayer[i];
+  let playerNodes = gameServer.getPlayerNodes();
+  for (var i in playerNodes) {
+    var check = playerNodes[i];
 
     // Do boundary (non-absorbing) collision check
     var collisionDist = check.getSize() + this.radius;

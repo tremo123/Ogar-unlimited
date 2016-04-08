@@ -1,11 +1,11 @@
 #  Rules for editing
 
-1. Make sure to test your changes, Before opening a pull request.
-2. Make sure to follow the rules designated by Micheal Hobbs.
+1. Test your changes
+2. Make sure to follow the rules designated by Micheal Hobbs here
 
 #  Rules for pull requests
 
-1. Make sure to test your changes, Before opening a pull request.
+1. Test your changes
 2. Listen well to hound bot
 3. Provide a description of what it does
 4. Make sure to follow the rules designated by Micheal Hobbs here

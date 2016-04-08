@@ -1,4 +1,0 @@
-banned.txt
-opbyip.txt
-highscores.txt
-realisticnames.txt

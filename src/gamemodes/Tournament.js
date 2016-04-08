@@ -1,3 +1,4 @@
+'use strict';
 var Mode = require('./Mode');
 
 function Tournament() {
@@ -69,9 +70,9 @@ Tournament.prototype.getSpectate = function () {
 
 Tournament.prototype.prepare = function (gameServer) {
   // Remove all cells
-  var len = gameServer.nodes.length;
-  for (var i = 0; i < len; i++) {
-    var node = gameServer.nodes[0];
+  let nodes = gameServer.getWorld().getNodes();
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[0];
 
     if (!node) {
       continue;
@@ -128,7 +129,7 @@ Tournament.prototype.onServerInit = function (gameServer) {
 };
 
 Tournament.prototype.onPlayerSpawn = function (gameServer, player) {
-  if (gameServer.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
+  if (gameServer.nospawn[player.socket.remoteAddress] != true) {
     // Only spawn players if the game hasnt started yet
     if ((this.gamePhase == 0) && (this.contenders.length < this.maxContenders)) {
       player.color = gameServer.getRandomColor(); // Random color

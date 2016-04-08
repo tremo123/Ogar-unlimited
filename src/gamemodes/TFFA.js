@@ -1,3 +1,4 @@
+'use strict';
 var Mode = require('./Mode');
 
 function TFFA() {
@@ -51,9 +52,9 @@ TFFA.prototype.getSpectate = function () {
 
 TFFA.prototype.prepare = function (gameServer) {
   // Remove all cells
-  var len = gameServer.nodes.length;
-  for (var i = 0; i < len; i++) {
-    var node = gameServer.nodes[0];
+  var nodes = gameServer.getWorld().getNodes();
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[0];
 
     if (!node) {
       continue;
@@ -109,12 +110,13 @@ TFFA.prototype.onPlayerSpawn = function (gameServer, player) {
     var pos, startMass;
 
     // Check if there are ejected mass in the world.
-    if (gameServer.nodesEjected.length > 0) {
+    let nodesEjected = gameServer.getEjectedNodes();
+    if (nodesEjected.length > 0) {
       var index = Math.floor(Math.random() * 100) + 1;
       if (index <= gameServer.config.ejectSpawnPlayer) {
         // Get ejected cell
-        var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
-        var e = gameServer.nodesEjected[index];
+        var index = Math.floor(Math.random() * nodesEjected.length);
+        var e = nodesEjected[index];
 
         // Remove ejected mass
         gameServer.removeNode(e);
