@@ -15,6 +15,7 @@ module.exports = class ConfigService {
       anounceDelay: 70, // Announce delay
       anounceDuration: 8, // How long the announce lasts
       vps: 0,
+      randomBotSmartness: 0,
       dev: 0,
       ejectantispeed: 120, // Speed of ejected anti matter
       maxopvirus: 60, // Maximum amount of OP viruses
