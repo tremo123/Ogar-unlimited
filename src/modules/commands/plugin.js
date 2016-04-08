@@ -35,7 +35,7 @@ module.exports = function (gameServer, split) {
   } else if (split[1] == "add") {
     if (!split[3]) {
       
-      console.log("[Console] SInce you did not specify a valid save-as file name, we will generate a random one");
+      console.log("[Console] Since you did not specify a valid save-as file name, we will generate a random one");
        var random  = function(howMany, chars) {
     chars = chars 
         || "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
