@@ -1101,15 +1101,15 @@ module.exports = class GameServer {
       if (this.config.ejectbiggest == 1) {
         let cell = client.getBiggestc();
         if (!cell) {
-          return;
+          continue;
         }
         if (this.config.ejectvirus != 1) {
           if (cell.mass < this.config.playerMinMassEject) {
-            return;
+            continue;
           }
         } else {
           if (cell.mass < this.config.playerminviruseject) {
-            return;
+            continue;
           }
 
         }
@@ -1130,7 +1130,7 @@ module.exports = class GameServer {
           cell.mass -= this.config.virusmassloss;
         }
         // Randomize angle
-        angle += (Math.random() * .4) - .2;
+        angle += (Math.random() * .6) - .3;
 
         // Create cell
         let ejected = undefined;
@@ -1138,10 +1138,10 @@ module.exports = class GameServer {
         else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
-          ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
+          ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
           ejected.par = player;
         } else {
-          ejected.setMoveEngineData(this.config.ejectSpeed, 20, 0.85);
+          ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
         }
 
         if (this.config.randomEjectMassColor === 1) {
@@ -1157,15 +1157,15 @@ module.exports = class GameServer {
         for (let i = 0; i < client.cells.length; i++) {
           let cell = client.cells[i];
           if (!cell) {
-            return;
+            continue;
           }
           if (this.config.ejectvirus != 1) {
             if (cell.mass < this.config.playerMinMassEject) {
-              return;
+              continue;
             }
           } else {
             if (cell.mass < this.config.playerminviruseject) {
-              return;
+              continue;
             }
 
           }
@@ -1186,7 +1186,7 @@ module.exports = class GameServer {
             cell.mass -= this.config.virusmassloss;
           }
           // Randomize angle
-          angle += (Math.random() * .4) - .2;
+          angle += (Math.random() * .6) - .3;
 
           // Create cell
           let ejected = undefined;
@@ -1195,10 +1195,10 @@ module.exports = class GameServer {
           ejected.setAngle(angle);
 
           if (this.config.ejectvirus == 1) {
-            ejected.setMoveEngineData(this.config.ejectvspeed, 20);
+            ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
 
           } else {
-            ejected.setMoveEngineData(this.config.ejectSpeed, 20);
+            ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
           }
           if (this.config.ejectvirus == 1) {
             ejected.par = player;
