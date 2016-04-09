@@ -136,7 +136,7 @@ module.exports = class WorldModel {
       for (let i = 0; i < clients.length; i++) {
         let client = clients[i].playerTracker;
         if (!client) {
-          console.log('client is undefined?')
+          console.log('client is undefined?');
           continue;
         }
 
