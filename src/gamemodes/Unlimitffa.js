@@ -1,4 +1,3 @@
-'use strict';
 var Mode = require('./Mode');
 
 function unlimitffa() {
@@ -49,13 +48,12 @@ unlimitffa.prototype.onPlayerSpawn = function (gameServer, player) {
     var pos, startMass;
 
     // Check if there are ejected mass in the world.
-    let nodesEjected = gameServer.getEjectedNodes();
-    if (nodesEjected.length > 0) {
+    if (gameServer.nodesEjected.length > 0) {
       var index = Math.floor(Math.random() * 100) + 1;
       if (index <= gameServer.config.ejectSpawnPlayer) {
         // Get ejected cell
-        var index = Math.floor(Math.random() * nodesEjected.length);
-        var e = nodesEjected[index];
+        var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
+        var e = gameServer.nodesEjected[index];
 
         // Remove ejected mass
         gameServer.removeNode(e);

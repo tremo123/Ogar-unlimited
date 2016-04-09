@@ -1,12 +1,25 @@
 // Imports
-'use strict';
-const Readline = require('readline');
-const VERSION = '16.0.1';
-const ControlServer = require('./core/ControlServer');
-let controlServer = new ControlServer(VERSION);
-//throw error
+var Commands = require('./modules/CommandList');
+var GameServer = require('./GameServer');
+
+var Version = '11.9.0';
+
 // Init variables
-let showConsole = true;
+var showConsole = true;
+
+// Start msg
+console.log("\u001B[33m                                        _ _       _              _ ");
+console.log("                                       | (_)     (_)_           | |");
+console.log("  ___   ____  ____  ____    _   _ ____ | |_ ____  _| |_  ____ _ | |");
+console.log(" / _ \\ / _  |/ _  |/ ___)  | | | |  _ \\| | |    \\| |  _)/ _  ) || |");
+console.log("| |_| ( ( | ( ( | | |      | |_| | | | | | | | | | | |_( (/ ( (_| |");
+console.log(" \\___/ \\_|| |\\_||_|_|       \\____|_| |_|_|_|_|_|_|_|\\___)____)____|");
+console.log("      (_____|                                                      \u001B[0m");
+
+console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
+console.log("[Game] By The AJS development team\x1b[0m");
+console.log("[Game] Server version is " + Version);
+var request = require('request');
 
 // Handle arguments
 process.argv.forEach(function (val) {
@@ -20,22 +33,55 @@ process.argv.forEach(function (val) {
   }
 });
 
-// There is no stopping an exit so clean up
-// NO ASYNC CODE HERE - only use SYNC or it will not happen
-process.on('exit', (code) => {
-  console.log("OgarUnlimited terminated with code: " + code);
-  controlServer.stop();
-});
-
-// init/start the control server
-controlServer.init();
-controlServer.start();
-
+// Run Ogar
+var gameServer = new GameServer();
+gameServer.start(Version);
+// Add command handler
+gameServer.commands = Commands.list;
 // Initialize the server console
 if (showConsole) {
-  let streamsInterface = Readline.createInterface({
+  var readline = require('readline');
+  var in_ = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(controlServer.getConsoleService().prompt(streamsInterface), 100);
+  setTimeout(prompt, 100);
+}
+
+// Console functions
+
+function prompt() {
+  in_.question(">", function (str) {
+    parseCommands(str);
+    return prompt(); // Too lazy to learn async
+  });
+}
+
+function parseCommands(str) {
+  // Log the string
+  try {
+    gameServer.log.onCommand(str);
+
+    // Don't process ENTER
+    if (str === '')
+      return;
+
+    // Splits the string
+    var split = str.split(" ");
+
+    // Process the first string value
+    var first = split[0].toLowerCase();
+
+    // Get command function
+    var execute = gameServer.commands[first];
+    if (typeof execute != 'undefined') {
+      execute(gameServer, split);
+    } else {
+      console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+    }
+  } catch (e) {
+    console.log("[ERROR] Oh my, there seems to be an error with the command " + first);
+    console.log("[ERROR] Please alert AJS dev with this message:\n" + e);
+
+  }
 }

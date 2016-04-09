@@ -48,7 +48,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
   // every 20 shots
   if (this.stage % 20 === 0) {
     var moving = new MovingVirus(
-      gameServer.getWorld().getNextNodeId(),
+      gameServer.getNextNodeId(),
       null, {
         x: this.position.x,
         y: this.position.y
@@ -76,7 +76,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
           cell.mass -= gameServer.config.ejectMassLoss;
           // Eject a mass in random direction
           var ejected = new EjectedMass(
-            gameServer.getWorld().getNextNodeId(),
+            gameServer.getNextNodeId(),
             null, {
               x: cell.position.x,
               y: cell.position.y
@@ -90,8 +90,8 @@ Beacon.prototype.feed = function (feeder, gameServer) {
             0.5 + 0.4 * Math.random()
           );
           ejected.setColor(cell.getColor());
-          gameServer.addNode(ejected, "moving");
-          gameServer.getWorld().setNodeAsMoving(ejected.getId(), ejected);
+          gameServer.addNode(ejected);
+          gameServer.setAsMovingNode(ejected);
         }
         cell.mass = 10;
       }
@@ -120,8 +120,11 @@ Beacon.prototype.onAdd = function (gameServer) {
 };
 
 Beacon.prototype.abs = MotherCell.prototype.abs;
+
 Beacon.prototype.visibleCheck = MotherCell.prototype.visibleCheck;
+
 Beacon.prototype.spawnFood = MotherCell.prototype.spawnFood;
+
 Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
   // Get starting position
   var angle = Math.random() * 6.28; // (Math.PI * 2) ??? Precision is not our greatest concern here
@@ -132,7 +135,7 @@ Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
   };
 
   // Spawn food
-  var f = new EjectedMass(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.ejectMass);
+  var f = new EjectedMass(gameServer.getNextNodeId(), null, pos, gameServer.config.ejectMass);
   f.setColor(parentColor);
 
   gameServer.addNode(f);
@@ -143,5 +146,5 @@ Beacon.prototype.spawnEjected = function (gameServer, parentColor) {
   var dist = (Math.random() * 25) + 5; // Random distance
   f.setMoveEngineData(dist, 15);
 
-  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
+  gameServer.setAsMovingNode(f);
 };

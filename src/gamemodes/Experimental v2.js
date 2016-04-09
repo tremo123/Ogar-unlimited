@@ -1,4 +1,3 @@
-'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Cell = require('../entity/Cell');
 var MotherCell = require('../entity/MotherCell');
@@ -68,9 +67,8 @@ Experimental2.prototype.spawnMotherCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
-    for (var i = 0; i < nodesPlayer.length; i++) {
-      var check = nodesPlayer[i];
+    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
+      var check = gameServer.nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -102,7 +100,7 @@ Experimental2.prototype.spawnMotherCell = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getNextNodeId(), null, pos, this.motherCellMass);
     gameServer.addNode(m);
   }
 };
@@ -114,9 +112,8 @@ Experimental2.prototype.spawnMovingVirus = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
-    for (var i = 0; i < nodesPlayer.length; i++) {
-      var check = nodesPlayer[i];
+    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
+      var check = gameServer.nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -148,7 +145,7 @@ Experimental2.prototype.spawnMovingVirus = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new MovingVirus(gameServer.getWorld().getNextNodeId(),
+    var m = new MovingVirus(gameServer.getNextNodeId(),
       null,
       pos,
       this.movingVirusMass + Math.floor(50 * Math.random())
@@ -165,9 +162,8 @@ Experimental2.prototype.spawnStickyCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
-    for (var i = 0; i < nodesPlayer.length; i++) {
-      var check = nodesPlayer[i];
+    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
+      var check = gameServer.nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -199,7 +195,7 @@ Experimental2.prototype.spawnStickyCell = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new StickyCell(gameServer.getWorld().getNextNodeId(), null, pos, this.stickyMass);
+    var m = new StickyCell(gameServer.getNextNodeId(), null, pos, this.stickyMass);
     //gameServer.movingNodes.push(m);
     gameServer.addNode(m);
   }
@@ -219,7 +215,7 @@ Experimental2.prototype.onServerInit = function (gameServer) {
 Experimental2.prototype.onTick = function (gameServer) {
   // Create a beacon if one doesn't exist
   if (!this.beacon) {
-    this.beacon = new Beacon(gameServer.getWorld().getNextNodeId(),
+    this.beacon = new Beacon(gameServer.getNextNodeId(),
       null,
       gameServer.getRandomPosition(),
       this.beaconMass);

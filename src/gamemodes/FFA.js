@@ -1,4 +1,3 @@
-'use strict';
 var Mode = require('./Mode');
 
 function FFA() {
@@ -36,20 +35,19 @@ FFA.prototype.leaderboardAddSort = function (player, leaderboard) {
 
 FFA.prototype.onPlayerSpawn = function (gameServer, player) {
   // Random color
-  if (gameServer.nospawn[player.socket.remoteAddress] != true) {
+  if (gameServer.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
     player.color = gameServer.getRandomColor();
 
     // Set up variables
     var pos, startMass;
 
     // Check if there are ejected mass in the world.
-    let nodesEjected = gameServer.getEjectedNodes();
-    if (nodesEjected.length > 0) {
+    if (gameServer.nodesEjected.length > 0) {
       var index = Math.floor(Math.random() * 100) + 1;
       if (index <= gameServer.config.ejectSpawnPlayer) {
         // Get ejected cell
-        var index = Math.floor(Math.random() * nodesEjected.length);
-        var e = nodesEjected[index];
+        var index = Math.floor(Math.random() * gameServer.nodesEjected.length);
+        var e = gameServer.nodesEjected[index];
 
         if (e.moveEngineTicks == 0) {
           // Remove ejected mass
@@ -61,7 +59,6 @@ FFA.prototype.onPlayerSpawn = function (gameServer, player) {
             y: e.position.y
           };
           startMass = gameServer.config.playerStartMass;
-          ;
 
           var color = e.getColor();
           player.setColor({
@@ -84,13 +81,12 @@ FFA.prototype.onServerInit = function (gameServer) {
 FFA.prototype.updateLB = function (gameServer) {
   var lb = gameServer.leaderboard;
   // Loop through all clients
-  var clients = gameServer.getClients();
-  for (var i = 0; i < clients.length; i++) {
-    if (typeof clients[i] == "undefined") {
+  for (var i = 0; i < gameServer.clients.length; i++) {
+    if (typeof gameServer.clients[i] == "undefined") {
       continue;
     }
 
-    var player = clients[i].playerTracker;
+    var player = gameServer.clients[i].playerTracker;
     var playerScore = player.getScore(true);
     if (player.cells.length <= 0) {
       continue;

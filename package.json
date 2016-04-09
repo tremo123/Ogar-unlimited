@@ -4,14 +4,8 @@
   "description": "Open source Agar.io server",
   "main": "src/index.js",
   "dependencies": {
-    "async": "^1.5.2",
-    "collections": "^3.0.0",
-    "glob": "^7.0.3",
-    "md5-file": "^2.0.4",
-    "request": "latest",
     "ws": "latest",
-    "pouchdb": "latest",
-    "pouchdb-server": "^1.0.1"
+    "request": "latest"
   },
   "devDependencies": {},
   "scripts": {

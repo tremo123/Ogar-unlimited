@@ -1,5 +1,3 @@
-// todo seems a bit buggy, some times crashes the server silently
-
 var Entity = require('../entity');
 
 function Mode() {
@@ -146,7 +144,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           angle += (Math.random() * .4) - .2;
 
           // Create cell
-          var nodeid = gameServer.getWorld().getNextNodeId();
+          var nodeid = gameServer.getNextNodeId();
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           ejected.setMoveEngineData(160, 20);
@@ -190,7 +188,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           angle += (Math.random() * .4) - .2;
 
           // Create cell
-          var nodeid = gameServer.getWorld().getNextNodeId();
+          var nodeid = gameServer.getNextNodeId();
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 1;
@@ -251,7 +249,7 @@ Mode.prototype.pressW = function (gameServer, player) {
           angle += (Math.random() * .4) - .2;
 
           // Create cell
-          var nodeid = gameServer.getWorld().getNextNodeId();
+          var nodeid = gameServer.getNextNodeId();
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           var color = {
@@ -347,7 +345,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           angle += (Math.random() * .4) - .2;
 
           // Create cell
-          var nodeid = gameServer.getWorld().getNextNodeId();
+          var nodeid = gameServer.getNextNodeId();
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 3;
@@ -404,7 +402,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
           angle += (Math.random() * .4) - .2;
 
           // Create cell
-          var nodeid = gameServer.getWorld().getNextNodeId();
+          var nodeid = gameServer.getNextNodeId();
           var ejected = new Entity.Virus(nodeid, null, startPos, 15);
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 4;

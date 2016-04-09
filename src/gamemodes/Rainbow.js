@@ -1,4 +1,3 @@
-'use strict';
 var FFA = require('./FFA'); // Base gamemode
 var Food = require('../entity/Food');
 var FoodUp = require('../entity/Food').prototype.sendUpdate;
@@ -170,9 +169,8 @@ Rainbow.prototype.onChange = function () {
 Rainbow.prototype.onTick = function (gameServer) {
   var color, node;
   // Change color
-  let nodes = gameServer.getWorld().getNodes();
-  for (var i in nodes) {
-    node = nodes[i];
+  for (var i in gameServer.nodes) {
+    node = gameServer.nodes[i];
 
     if (!node) {
       continue;

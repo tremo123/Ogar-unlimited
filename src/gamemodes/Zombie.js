@@ -1,5 +1,3 @@
-'use strict';
-const utilities = require('../core/utilities.js');
 var Mode = require('./Mode');
 
 function Zombie() {
@@ -123,7 +121,7 @@ Zombie.prototype.onCellMove = function (x1, y1, cell) {
       }
 
       // First collision check passed... now more precise checking
-      let dist = utilities.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
+      dist = cell.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
 
       // Calculations
       if (dist < collisionDist) { // Collided

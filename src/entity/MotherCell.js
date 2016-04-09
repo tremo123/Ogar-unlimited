@@ -1,4 +1,3 @@
-'use strict';
 var Cell = require('./Cell');
 var Virus = require('./Virus');
 var Food = require('./Food');
@@ -26,8 +25,6 @@ MotherCell.prototype.getEatingRange = function () {
 MotherCell.prototype.update = function (gameServer) {
   // Add mass
   this.mass += 0.25;
-
-  // Spawn food
   if (this.mass >= 222) {
     var maxFoodSpawn = gameServer.config.foodMaxAmount * 10;
     // Spawn food
@@ -41,11 +38,11 @@ MotherCell.prototype.update = function (gameServer) {
       if (gameServer.currentFood < maxFoodSpawn && this.mass > 222) {
         this.spawnFood(gameServer);
       }
+
       // Incrementers
       this.mass--;
       i++;
     }
-
   }
 };
 
@@ -54,9 +51,8 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  let playerNodes = gameServer.getPlayerNodes();
-  for (var i in playerNodes) {
-    var check = playerNodes[i];
+  for (var i in gameServer.nodesPlayer) {
+    var check = gameServer.nodesPlayer[i];
 
     if (check.mass > safeMass) {
       // Too big to be consumed
@@ -81,8 +77,8 @@ MotherCell.prototype.checkEat = function (gameServer) {
   for (var i in gameServer.movingNodes) {
     var check = gameServer.movingNodes[i];
 
-///    	if ((check.getType() == 1) || (check.mass > safeMass)) {
-///            // Too big to be consumed/ No player cells
+    ///    	if ((check.getType() == 1) || (check.mass > safeMass)) {
+    ///            // Too big to be consumed/ No player cells
     if ((check.getType() == 0) || (check.getType() == 1) || (check.mass > safeMass)) {
       // Too big to be consumed / No player cells / No food cells
       continue;
@@ -91,13 +87,13 @@ MotherCell.prototype.checkEat = function (gameServer) {
     // Calculations
     var len = r >> 0;
     if ((this.abs(this.position.x - check.position.x) < len) && (this.abs(this.position.y - check.position.y) < len)) {
-///
+      ///
       // A second, more precise check
       var xs = Math.pow(check.position.x - this.position.x, 2);
       var ys = Math.pow(check.position.y - this.position.y, 2);
       var dist = Math.sqrt(xs + ys);
       if (r > dist) {
-///
+        ///
         // Eat the cell
         gameServer.removeNode(check);
         this.mass += check.mass;
@@ -121,7 +117,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   };
 
   // Spawn food
-  var f = new Food(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
+  var f = new Food(gameServer.getNextNodeId(), null, pos, gameServer.config.foodMass, gameServer);
   f.setColor(gameServer.getRandomColor());
 
   gameServer.addNode(f);
@@ -132,7 +128,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   var dist = (Math.random() * 10) + 22; // Random distance
   f.setMoveEngineData(dist, 15);
 
-  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
+  gameServer.setAsMovingNode(f);
 };
 
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function

@@ -1,4 +1,3 @@
-'use strict';
 var Mode = require('./Mode');
 
 function SFFA() {
@@ -63,9 +62,9 @@ SFFA.prototype.shrink = function (gameServer) {
   config.borderTop += this.borderDec;
   config.borderBottom -= this.borderDec;
 
-  let nodes = gameServer.getWorld().getNodes();
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[i];
+  var len = gameServer.nodes.length;
+  for (var i = 0; i < len; i++) {
+    var node = gameServer.nodes[i];
 
     if ((!node) || (node.getType() == 0)) {
       continue;
@@ -109,10 +108,9 @@ SFFA.prototype.prepare = function (gameServer) {
   gameServer.config.borderRight = 7500;
   gameServer.config.borderTop = 0;
   gameServer.config.borderBottom = 7500;
-
-  let nodes = gameServer.getWorld().getNodes();
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[0];
+  var len = gameServer.nodes.length;
+  for (var i = 0; i < len; i++) {
+    var node = gameServer.nodes[0];
 
     if (!node) {
       continue;

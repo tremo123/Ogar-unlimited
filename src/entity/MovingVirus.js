@@ -1,4 +1,3 @@
-'use strict';
 var Virus = require('./Virus');
 
 function MovingVirus() {
@@ -44,10 +43,17 @@ MovingVirus.prototype.onAutoMove = function (gameServer) {
 
 MovingVirus.prototype.onAdd = function (gameServer) {
   gameServer.gameMode.movingVirusCount++;
-  gameServer.addVirusNodes(this);
+  gameServer.nodesVirus.push(this);
 };
 
 MovingVirus.prototype.onRemove = function (gameServer) {
   gameServer.gameMode.movingVirusCount--;
-  gameServer.removeVirusNode(this);
+
+  var index = gameServer.nodesVirus.indexOf(this);
+  if (index != -1) {
+    gameServer.nodesVirus.splice(index, 1);
+  } else {
+    console.log("[Warning] Tried to remove a non existing moving virus!");
+  }
+
 };

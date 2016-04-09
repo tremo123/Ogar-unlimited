@@ -1,7 +1,7 @@
-'use strict';
 Cell.spi = 0;
 Cell.virusi = 255;
 Cell.recom = 0;
+
 function Cell(nodeId, owner, position, mass, gameServer) {
   this.nodeId = nodeId;
   this.owner = owner; // playerTracker that owns this cell
@@ -10,9 +10,9 @@ function Cell(nodeId, owner, position, mass, gameServer) {
     g: Cell.virusi,
     b: 0
   };
-  this.name = '';
-  this.visible = true;
   this.position = position;
+  this.visible = true;
+  this.name = '';
   this.mass = mass; // Starting mass of the cell
   this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
   this.spiked = Cell.spi; // If 1, then this cell has spikes around it
@@ -30,10 +30,6 @@ function Cell(nodeId, owner, position, mass, gameServer) {
 module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
-
-Cell.prototype.getId = function () {
-  return this.nodeId;
-};
 Cell.prototype.getVis = function () {
   if (this.owner && !this.visible) {
     return this.owner.visible;
@@ -41,6 +37,7 @@ Cell.prototype.getVis = function () {
     return this.visible;
   }
 };
+
 Cell.prototype.setVis = function (state, so) {
   if (!so && this.owner) {
     this.owner.visible = state;
@@ -74,8 +71,8 @@ Cell.prototype.getPremium = function () {
 
 Cell.prototype.setColor = function (color) {
   this.color.r = color.r;
-  this.color.b = color.b;
   this.color.g = color.g;
+  this.color.b = color.b;
 };
 
 Cell.prototype.getColor = function () {
@@ -105,9 +102,7 @@ Cell.prototype.addMass = function (n) {
   } else {
 
     if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
-
-      this.mass = this.mass + n
-      this.mass = this.mass/2;
+      this.mass = (this.mass + n) / 2;
       var randomAngle = Math.random() * 6.28; // Get random angle
       this.owner.gameServer.autoSplit(this.owner, this, randomAngle, this.mass, 350);
     } else {
@@ -224,39 +219,40 @@ Cell.prototype.calcMovePhys = function (config) {
       totTravel = Math.min(totTravel + maxTravel, speed);
       var x1 = this.position.x + (totTravel * sin) + xd;
       var y1 = this.position.y + (totTravel * cos) + yd;
-      if (this.gameServer) {
-        this.gameServer.getEjectedNodes().forEach((cell)=> {
-          if (this.nodeId == cell.getId()) return;
-          if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
-
+      if (typeof this.gameServer != "undefined") {
+        for (var i = 0; i < this.gameServer.nodesEjected.length; i++) {
+          var cell = this.gameServer.nodesEjected[i];
+          if (this.nodeId == cell.nodeId) {
+            continue;
+          }
+          if (!this.simpleCollide(x1, y1, cell, collisionDist)) {
+            continue;
+          }
           var dist = this.getDist(x1, y1, cell.position.x, cell.position.y);
           if (dist < collisionDist) { // Collided
             var newDeltaY = cell.position.y - y1;
             var newDeltaX = cell.position.x - x1;
             var newAngle = Math.atan2(newDeltaX, newDeltaY);
             var move = (collisionDist - dist + 5) / 2; //move cells each halfway until they touch
-            let xmove = move * Math.sin(newAngle);
-            let ymove = move * Math.cos(newAngle);
+            xmove = move * Math.sin(newAngle);
+            ymove = move * Math.cos(newAngle);
             cell.position.x += xmove >> 0;
             cell.position.y += ymove >> 0;
             xd += -xmove;
             yd += -ymove;
             if (cell.moveEngineTicks == 0) {
               cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
-              this.gameServer.getWorld().setNodeAsMoving(cell.getId(), cell);
-              //if (!this.gameServer.getMovingNodes().has(cell.getId())) {
-              //  this.gameServer.setAsMovingNode(cell.getId());
-              //}
+              if (this.gameServer.movingNodes.indexOf(cell) == -1) {
+                this.gameServer.setAsMovingNode(cell);
+              }
             }
             if (this.moveEngineTicks == 0) {
               this.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
             }
           }
-        });
+        }
       }
     }
-
-      // todo what the hell is this?
     while (totTravel < speed);
     x1 = this.position.x + (speed * sin) + xd;
     y1 = this.position.y + (speed * cos) + yd;

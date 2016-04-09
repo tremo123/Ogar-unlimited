@@ -1,4 +1,3 @@
-'use strict';
 var Mode = require('./Mode');
 
 function Unlimitpvp() {
@@ -72,9 +71,9 @@ Unlimitpvp.prototype.getSpectate = function () {
 
 Unlimitpvp.prototype.prepare = function (gameServer) {
   // Remove all cells
-  let nodes = gameServer.getWorld().getNodes();
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[0];
+  var len = gameServer.nodes.length;
+  for (var i = 0; i < len; i++) {
+    var node = gameServer.nodes[0];
 
     if (!node) {
       continue;

@@ -1,4 +1,3 @@
-'use strict';
 var Teams = require('./NoCollisionTeams.js');
 var Cell = require('../entity/Cell.js');
 var Food = require('../entity/Food.js');
@@ -65,9 +64,8 @@ TeamX.prototype.spawnMotherCell = function (gameServer) {
     var pos = gameServer.getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
-    for (var i = 0; i < nodesPlayer.length; i++) {
-      var check = nodesPlayer[i];
+    for (var i = 0; i < gameServer.nodesPlayer.length; i++) {
+      var check = gameServer.nodesPlayer[i];
 
       var r = check.getSize(); // Radius of checking player cell
 
@@ -99,7 +97,7 @@ TeamX.prototype.spawnMotherCell = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getNextNodeId(), null, pos, this.motherCellMass);
     gameServer.addNode(m);
   }
 };
@@ -369,9 +367,8 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  let nodesPlayer = gameServer.getPlayerNodes();
-  for (var i in nodesPlayer) {
-    var check = nodesPlayer[i];
+  for (var i in gameServer.nodesPlayer) {
+    var check = gameServer.nodesPlayer[i];
 
     if (check.mass > safeMass) {
       // Too big to be consumed
@@ -419,7 +416,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   };
 
   // Spawn food
-  var f = new Food(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.foodMass);
+  var f = new Food(gameServer.getNextNodeId(), null, pos, gameServer.config.foodMass);
   f.setColor(gameServer.getRandomColor());
 
   gameServer.addNode(f);
@@ -430,7 +427,7 @@ MotherCell.prototype.spawnFood = function (gameServer) {
   var dist = (Math.random() * 10) + 22; // Random distance
   f.setMoveEngineData(dist, 15);
 
-  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
+  gameServer.setAsMovingNode(f);
 };
 
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function

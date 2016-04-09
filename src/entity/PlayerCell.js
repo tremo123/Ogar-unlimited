@@ -93,7 +93,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
   for (var i = 0; i < this.owner.cells.length; i++) {
     var cell = this.owner.cells[i];
 
-    if ((this.getId() == cell.getId()) || (this.ignoreCollision) || (cell.ignoreCollision)) {
+    if ((this.nodeId == cell.nodeId) || (this.ignoreCollision) || (cell.ignoreCollision)) {
       // Don't collide with cell that has ignoreCollision on, when I have ignoreCollision on, or with yourself
       continue;
     }
@@ -182,7 +182,7 @@ PlayerCell.prototype.onConsume = function (consumer, gameServer) {
 
 PlayerCell.prototype.onAdd = function (gameServer) {
   // Add to special player node list
-  gameServer.addNodesPlayer(this);
+  gameServer.nodesPlayer.push(this);
   // Gamemode actions
   gameServer.gameMode.onCellAdd(this);
 };
@@ -195,8 +195,10 @@ PlayerCell.prototype.onRemove = function (gameServer) {
     this.owner.cells.splice(index, 1);
   }
   // Remove from special player controlled node list
-  gameServer.removeNodesPlayer(this);
-
+  index = gameServer.nodesPlayer.indexOf(this);
+  if (index != -1) {
+    gameServer.nodesPlayer.splice(index, 1);
+  }
   // Gamemode actions
   gameServer.gameMode.onCellRemove(this);
 };

@@ -1,4 +1,3 @@
-'use strict';
 var Cell = require('./Cell');
 
 function EjectedMass() {
@@ -31,7 +30,10 @@ EjectedMass.prototype.sendUpdate = function () {
 
 EjectedMass.prototype.onRemove = function (gameServer) {
   // Remove from list of ejected mass
-  gameServer.removeEjectedNode(this);
+  var index = gameServer.nodesEjected.indexOf(this);
+  if (index != -1) {
+    gameServer.nodesEjected.splice(index, 1);
+  }
 };
 
 EjectedMass.prototype.onConsume = function (consumer, gameServer) {
@@ -48,8 +50,7 @@ EjectedMass.prototype.onAutoMove = function (gameServer) {
     return true;
   }
 
-  let virusNodes = gameServer.getVirusNodes();
-  if (virusNodes.length < gameServer.config.virusMaxAmount) {
+  if (gameServer.nodesVirus.length < gameServer.config.virusMaxAmount) {
     // Check for viruses
     var v = gameServer.getNearestVirus(this);
     if (v) { // Feeds the virus if it exists
@@ -64,5 +65,5 @@ EjectedMass.prototype.moveDone = function (gameServer) {
 };
 
 EjectedMass.prototype.onAdd = function (gameServer) {
-  gameServer.addEjectedNodes(this);
+  gameServer.nodesEjected.push(this);
 };

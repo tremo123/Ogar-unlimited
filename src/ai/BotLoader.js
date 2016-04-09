@@ -1,9 +1,7 @@
-'use strict';
 // Project imports
 var BotPlayer = require('./BotPlayer');
 var FakeSocket = require('./FakeSocket');
-var PacketHandler = require('../core/PacketHandler');
-var fs = require("fs"); // Import the util library
+var PacketHandler = require('../PacketHandler');
 
 function BotLoader(gameServer) {
   this.gameServer = gameServer;
@@ -21,7 +19,6 @@ BotLoader.prototype.getName = function () {
       this.realrandomNames.splice(index, 1);
     } else {
       name = "bot" + ++this.nameIndex;
-      this.loadNames();
     }
 
   } else {
@@ -32,7 +29,6 @@ BotLoader.prototype.getName = function () {
       this.randomNames.splice(index, 1);
     } else {
       name = "bot" + ++this.nameIndex;
-      this.loadNames();
     }
   }
 
@@ -44,35 +40,42 @@ BotLoader.prototype.loadNames = function () {
   this.realrandomNames = [];
 
   // Load names
-  function filterEmpty(name) {
-    return x != ''; // filter empty names
-  }
 
-  // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
+    var fs = require("fs"); // Import the util library
+
+    // Read and parse the names - filter out whitespace-only names
+    // todo should we use readFileSync? likely doesn't matter here as this looks to be call on sever start
     this.realrandomNames = fs.readFileSync("./realisticnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
       return x != ''; // filter empty names
     });
-  } catch (e) { /* Nothing, use the default names */
+  } catch (e) {
+    // Nothing, use the default names
   }
 
-  // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
+
   try {
+    var fs = require("fs"); // Import the util library
+
+    // Read and parse the names - filter out whitespace-only names
+    // fs.readFileSync is only used during server start
     this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
       return x != ''; // filter empty names
     });
-  } catch (e) { /* Nothing, use the default names */
+  } catch (e) {
+    // Nothing, use the default names
   }
 
   this.nameIndex = 0;
 };
 
 BotLoader.prototype.addBot = function () {
-  let s = new FakeSocket(this.gameServer);
+  var s = new FakeSocket(this.gameServer);
   s.playerTracker = new BotPlayer(this.gameServer, s);
   s.packetHandler = new PacketHandler(this.gameServer, s);
+
   // Add to client list
-  this.gameServer.addClient(s);
+  this.gameServer.clients.push(s);
 
   // Add to world
   s.packetHandler.setNickname(this.getName());
