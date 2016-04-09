@@ -26,7 +26,7 @@ module.exports = class GameServer {
   constructor(world, consoleService, configService, version) {
     // fields
     this.world = world;
-    this.dataBase = new DataBaseConnector('world');
+
     //this.lastNodeId = 2;    // todo why 2?
     this.lastPlayerId = 1;
     this.running = true;
