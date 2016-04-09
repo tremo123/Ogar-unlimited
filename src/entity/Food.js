@@ -62,12 +62,3 @@ Food.prototype.onConsume = function (consumer, gameServer) {
   consumer.addMass(this.mass);
 };
 
-Food.prototype.toJSON = function () {
-  return {
-    _id: this.nodeId.toString(),
-    type: 'food', // <-- todo there should be a way get this from the class name
-    position: this.position,
-    mass: this.mass,
-    color: this.color
-  }
-};
