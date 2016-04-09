@@ -253,7 +253,7 @@ module.exports = class BotPlayer extends PlayerTracker {
               pos.y = randomNode.position.y;
             } else {
               // Not a food/ejected cell
-              pos = this.gameServer.getRandomPosition();
+              pos = this.gameServer.getWorld().getRandomPosition();
             }
 
             // Set bot's mouse coords to this location

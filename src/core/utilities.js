@@ -13,12 +13,6 @@ module.exports = {
       g: colorRGB[2]
     };
   },
-  getRandomPosition: function (borderRight, borderLeft, borderBottom, borderTop) {
-    return {
-      x: Math.floor(Math.random() * (borderRight - borderLeft)) + borderLeft,
-      y: Math.floor(Math.random() * (borderBottom - borderTop)) + borderTop
-    }
-  },
   getDist: function (x1, y1, x2, y2) { // Use Pythagoras theorem
     let from = {'x': x1, 'y': y1 };
     let to = {'x': x2, 'y': y2};
@@ -29,5 +23,14 @@ module.exports = {
   },
   log10: function (x) {
     return Math.log(x) / Math.LN10;
+  },
+  announce(topScore, topUserName) {
+    let newLB = [];
+    newLB[0] = "HighScore:";
+    newLB[1] = this.topscore;
+    newLB[2] = "  By  ";
+    newLB[3] = this.topusername;
+
+    return newLB;
   }
 };

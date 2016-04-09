@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (gameServer, split) {
   let count = 0;
-  gameServer.getPlayerNodes().forEach((node)=> {
+  gameServer.getWorld().getNodes('player').forEach((node)=> {
     gameServer.removeNode(node);
     count++;
   });

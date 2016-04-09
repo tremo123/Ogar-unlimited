@@ -46,10 +46,10 @@ Experimental.prototype.spawnMotherCell = function (gameServer) {
   // Checks if there are enough mother cells on the map
   if (this.nodesMother.length < this.motherMinAmount) {
     // Spawns a mother cell
-    var pos = gameServer.getRandomPosition();
+    var pos = gameServer.getWorld().getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
+    let nodesPlayer = gameServer.getWorld().getNodes('player').toArray();
     for (var i = 0; i < nodesPlayer.length; i++) {
       var check = nodesPlayer[i];
 
@@ -114,7 +114,7 @@ Experimental.prototype.onServerInit = function (gameServer) {
 
   // Override this
   // TODO CRITICAL VERY BAD
-  gameServer.getRandomSpawn = gameServer.getRandomPosition;
+  gameServer.getRandomSpawn = gameServer.getWorld().getRandomPosition;
 };
 
 Experimental.prototype.onTick = function (gameServer) {

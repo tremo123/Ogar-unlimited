@@ -4,6 +4,7 @@ const WebSocket = require('ws');
 const Updater = require('./Updater.js');
 const utilities = require('./utilities.js');
 const Physics = require('./Physics.js');
+const Colors = require('./Colors.js');
 
 const Gamemode = require('../gamemodes');
 const Packet = require('../packet');
@@ -28,26 +29,13 @@ module.exports = class GameServer {
     // fields
     this.world = world;
     this.dataBase = new DataBaseConnector('world');
-    //this.lastNodeId = 2;    // todo why 2?
+
     this.lastPlayerId = 1;
     this.running = true;
-
-    this._nodes = [];
-    this._movingNodes = [];
-    this._nodesPlayer = []; // Nodes controlled by players
-    this._nodesVirus = []; // Virus nodes
-    this._nodesEjected = []; // Ejected mass nodes
-    this._rainbowNodes = [];
-
-
-    //this.clients = [];
-    //this.currentFood = 0;
 
     // inprogress
     this.whlist = [];
     this.nospawn = [];
-
-    this.ipCounts = [];
 
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
@@ -56,7 +44,6 @@ module.exports = class GameServer {
     this.minions = new MinionLoader(this);
 
     // Config
-
     this.configService = configService;
     this.configService.load();
     this.config = this.configService.getConfig();
@@ -69,13 +56,11 @@ module.exports = class GameServer {
     this.skin = this.configService.getSkins();
 
     // plugins
-
     this.pluginLoader = new PluginLoader(this);
     this.pluginLoader.load();
     this.pluginGamemodes = this.pluginLoader.getPGamemodes();
     this.plugins = this.pluginLoader.getPlugin();
     this.pluginCommands = this.pluginLoader.getPC();
-
 
     // services - must run after config with the exception of the config service
     this.consoleService = consoleService;
@@ -147,7 +132,6 @@ module.exports = class GameServer {
 
     this.banned = [];
 
-
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.largestClient = undefined;
@@ -160,38 +144,7 @@ module.exports = class GameServer {
     this.tickSpawn = 0; // Used with spawning food
     this.mainLoopBind = this.mainLoop.bind(this);
 
-    // @formatter:off
-    this.colors = [
-      {'r': 255, 'g': 0,   'b': 0  }, // Red
-      {'r': 255, 'g': 32,  'b': 0  },
-      {'r': 255, 'g': 64,  'b': 0  },
-      {'r': 255, 'g': 96,  'b': 0  },
-      {'r': 255, 'g': 128, 'b': 0  }, // Orange
-      {'r': 255, 'g': 160, 'b': 0  },
-      {'r': 255, 'g': 192, 'b': 0  },
-      {'r': 255, 'g': 224, 'b': 0  },
-      {'r': 255, 'g': 255, 'b': 0  }, // Yellow
-      {'r': 192, 'g': 255, 'b': 0  },
-      {'r': 128, 'g': 255, 'b': 0  },
-      {'r': 64,  'g': 255, 'b': 0  },
-      {'r': 0,   'g': 255, 'b': 0  }, // Green
-      {'r': 0,   'g': 192, 'b': 64 },
-      {'r': 0,   'g': 128, 'b': 128},
-      {'r': 0,   'g': 64,  'b': 192},
-      {'r': 0,   'g': 0,   'b': 255}, // Blue
-      {'r': 18,  'g': 0,   'b': 192},
-      {'r': 37,  'g': 0,   'b': 128},
-      {'r': 56,  'g': 0,   'b': 64 },
-      {'r': 75,  'g': 0,   'b': 130}, // Indigo
-      {'r': 92,  'g': 0,   'b': 161},
-      {'r': 109, 'g': 0,   'b': 192},
-      {'r': 126, 'g': 0,   'b': 223},
-      {'r': 143, 'g': 0,   'b': 255}, // Purple
-      {'r': 171, 'g': 0,   'b': 192},
-      {'r': 199, 'g': 0,   'b': 128},
-      {'r': 227, 'g': 0,   'b': 64 }
-    ];
-    // @formatter:on
+    this.colors = Colors;
   }
 
   // init should only ever be called once.
@@ -203,7 +156,6 @@ module.exports = class GameServer {
   }
 
   start() {
-
     // Logging
     this.log.setup(this);
 
@@ -216,58 +168,12 @@ module.exports = class GameServer {
     this.socketServer = new WebSocket.Server({
       port: (this.config.vps === 1) ? process.env.PORT : this.config.serverPort,
       perMessageDeflate: false
-    }, function () {
-      // Spawn starting food
-      this.generatorService.init();
-      this.generatorService.start();
-
-      // Start Main Loop
-      //setInterval(this.mainLoop.bind(this), 1);
-      setImmediate(this.mainLoopBind);
-
-      console.log("[Game] Listening on port " + this.config.serverPort);
-      console.log("[Game] Current game mode is " + this.getWorld().getGameMode().name);
-      Cell.spi = this.config.SpikedCells;
-      Cell.virusi = this.config.viruscolorintense;
-      Cell.recom = this.config.playerRecombineTime;
-      if (this.config.anounceHighScore === 1) {
-        this.consoleService.execCommand("announce", "");
-      }
-
-      // Player bots (Experimental)
-      if (this.config.serverBots > 0) {
-        for (let i = 0; i < this.config.serverBots; i++) {
-          this.bots.addBot();
-        }
-        console.log("[Game] Loaded " + this.config.serverBots + " player bots");
-      }
-      if (this.config.restartmin != 0) {
-        let split = [];
-        split[1] = this.config.restartmin;
-
-        this.consoleService.execCommand("restart", split);
-
-      }
-      let game = this; // <-- todo what is this?
-    }.bind(this));
+    }, this.socketServerStart.bind(this));
 
     this.socketServer.on('connection', connectionEstablished.bind(this));
 
     // Properly handle errors because some people are too lazy to read the readme
-    this.socketServer.on('error', function err(e) {
-      switch (e.code) {
-        case "EADDRINUSE":
-          console.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
-          break;
-        case "EACCES":
-          console.log("[Error] Please make sure you are running Ogar with root privileges.");
-          break;
-        default:
-          console.log("[Error] Unhandled error code: " + e.code);
-          break;
-      }
-      process.exit(1); // Exits the program
-    });
+    this.socketServer.on('error', this.socketServerOnError(error));
 
     function connectionEstablished(ws) {
       let clients = this.getWorld().getClients();
@@ -285,12 +191,7 @@ module.exports = class GameServer {
         // AGAINST YOU. THIS SECTION OF CODE WAS ADDED ON JULY 9, 2015 AT THE REQUEST
         // OF THE AGAR.IO DEVELOPERS.
         let origin = ws.upgradeReq.headers.origin;
-        if (origin != 'http://agar.io' &&
-          origin != 'https://agar.io' &&
-          origin != 'http://localhost' &&
-          origin != 'https://localhost' &&
-          origin != 'http://127.0.0.1' &&
-          origin != 'https://127.0.0.1') {
+        if (!this.isValidOrigin(origin)) {
           ws.close();
           return;
         }
@@ -320,7 +221,7 @@ module.exports = class GameServer {
               }
             }
 
-            fs.writeFileSync('./banned.txt', string);
+            fs.writeFile('./banned.txt', string);
           }
           // Remove from game
           for (let i in clients) {
@@ -425,7 +326,7 @@ module.exports = class GameServer {
       this.log.onConnect(ws.remoteAddress); // Log connections
 
       ws.playerTracker = new PlayerTracker(this, ws);
-      ws.packetHandler = new PacketHandler(this, ws);
+      ws.packetHandler = new PacketHandler(this, ws, this.config, this.getWorld());
       ws.on('message', ws.packetHandler.handleMessage.bind(ws.packetHandler));
 
       let bindObject = {
@@ -459,8 +360,6 @@ module.exports = class GameServer {
     //return this.world;
   }
 
-  //***************** refactoring nodes start
-  // basic nodes
 
   // todo need to think about how to refactor this out to use the world.addNode or setNode
   // todo for now leave it here
@@ -521,107 +420,12 @@ module.exports = class GameServer {
     //}
   }
 
-  // player nodes
-  getNewPlayerID() {
-    // Resets integer
-    if (this.lastPlayerId > 2147483647) {
-      this.lastPlayerId = 1;
-    }
-    return this.lastPlayerId++;
-  }
-
-  getPlayerNodes() {
-    return this.getWorld().getPlayerNodes();
-    //return this._nodesPlayer;
-  }
-
-  addPlayerNode(node) {
-    this._nodesPlayer.push(node);
-  }
-
   getNearestNodeToNode(node, type, radius) {
     return this.getWorld().getNearestNodeToNode(node, type, radius);
   }
-  getNodes(type){
-    return this.getWorld().getNodes(type);
-  }
-
-  getNodesPlayer() {
-    return this.getWorld().getNodes('player');
-    //return this._nodesPlayer;
-  }
-
-  addNodesPlayer(node) {
-    this.getWorld().setNode(node.getId(), node, "player");
-    //this._nodesPlayer.push(node);
-  }
-
-  removeNodesPlayer(node) {
-    this.getWorld().removeNode(node.getId());
-  }
-
-  // Virus Nodes
-  getVirusNodes() {
-    return this.getWorld().getNodes('virus');
-  }
-
-  addVirusNodes(node) {
-    this.getWorld().addNode(node, 'virus');
-  }
-
-  removeVirusNode(node) {
-    this.getWorld().removeNode(node);
-  }
-
-  // Ejected Nodes
-  getEjectedNodes() {
-    return this._nodesEjected;
-  }
-
-  addEjectedNodes(node) {
-    this._nodesEjected.push(node)
-  }
-
-  removeEjectedNode(node) {
-    let index = this._nodesEjected.indexOf(node);
-    if (index != -1) {
-      this._nodesEjected.splice(index, 1);
-    }
-  }
-
-  clearEjectedNodes() {
-    this._nodesEjected = [];
-  }
-
-  // rainbow nodes
-  getRainbowNodes() {
-    return this._rainbowNodes;
-  }
-
-  addRainbowNode(node) {
-    this._rainbowNodes.push(node);
-  }
-
-  setRainbowNode(index, node) {
-    this._rainbowNodes[index] = node
-  }
-
-  clearRainbowNodes() {
-    this._rainbowNodes = [];
-  }
-
-  //***************** refactoring nodes end
 
   clearLeaderBoard() {
     this.leaderboard = [];
-  }
-
-  getRandomSpawn() {
-    return this.generatorService.getRandomSpawn();
-  }
-
-  getRandomPosition() {
-    return this.getWorld().getRandomPosition();
   }
 
   getRandomColor() {
@@ -639,10 +443,10 @@ module.exports = class GameServer {
 
   updateMoveEngine() {
     function sorter(nodeA, nodeB) {
-      return utilities.getDist(nodeA.position.x, nodeA.position.y, nodeA.owner.mouse.x, nodeA.owner.mouse.y) > utilities.getDist(nodeB.position.x, nodeB.position.y, nodeB.owner.mouse.x, nodeB.owner.mouse.y);
+      return Physics.getDist(nodeA.position, nodeA.owner.mouse) > Physics.getDist(nodeB.position, nodeB.owner.mouse);
     }
 
-    let nodes = this.getWorld().getPlayerNodes();
+    let nodes = this.getWorld().getNodes('player');
     nodes.sorted(sorter);
     nodes.forEach((cell)=> {
       // Do not move cells that have already been eaten or have collision turned off
@@ -833,13 +637,13 @@ module.exports = class GameServer {
           }
         }
       }
-      pos = (pos == null) ? this.getRandomSpawn() : pos;
+      pos = (pos == null) ? this.generatorService.getRandomSpawn() : pos;
       mass = (mass == null) ? this.config.playerStartMass : mass;
       mass = (player.spawnmass > mass) ? player.spawnmass : mass;
 
       // Spawn player and add to world
       if (!dospawn) {
-        let cell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), player, pos, mass, this);
+        let cell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), player, pos, mass, this.getWorld(), this.config);
         this.getWorld().setNode(cell.getId(), cell, "player");
       }
       // Set initial mouse coords
@@ -1199,7 +1003,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this.getWorld(), this.config);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -1282,7 +1086,8 @@ module.exports = class GameServer {
       this.tickMain++;
       let count = 0;
 /*
-      this.getRainbowNodes().forEach((node)=> {
+      let rainbowNodes = this.getWorld().getNodes('rainbow');
+        rainbowNodes.forEach((node)=> {
         if (!node) return;
         count++;
 
@@ -1298,7 +1103,7 @@ module.exports = class GameServer {
         node.rainbow += this.config.rainbowspeed;
       });
 
-      if (count <= 0) this.clearRainbowNodes();
+      if (count <= 0) this.getWorld().getNodes('rainbow').clear();
 */
       if (this.tickMain >= this.config.fps) { // 1 Second
         let a = [];
@@ -1319,17 +1124,17 @@ module.exports = class GameServer {
           }
           // todo likely do not need the client check as it was not included above - this is most likely defensive programming
           if (client && client.playerTracker.rainbowon) {
-            client.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
+            client.cells.forEach((cell)=>this.getWorld().setNode(cell.nodeId, cell, 'rainbow'));
           }
         });
         if (d == false) this.mfre = false;
 
-        let rNodes = this.getRainbowNodes();
+        let rNodes = this.getWorld().getNodes('rainbow');
         if (rNodes.length > 0) {
 
           if (this.rrticks > 40) {
             this.rrticks = 0;
-            this.clearRainbowNodes();
+            this.getWorld().getNodes('rainbow').clear();
 
           } else {
             this.rrticks++;
@@ -1397,7 +1202,7 @@ module.exports = class GameServer {
         } else if (this.running && humans == 0) {
           console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
           this.pause();
-          this.clearEjectedNodes();
+          this.getWorld().getNodes('ejected').clear();
           this.clearLeaderBoard();
         }
       }
@@ -1613,32 +1418,12 @@ module.exports = class GameServer {
   };
 
   anounce() {
-    let newLB = [];
-    newLB[0] = "Highscore:";
-    newLB[1] = this.topscore;
-    newLB[2] = "  By  ";
-    newLB[3] = this.topusername;
-
+    let newLB = utilities.announce(this.topscore, this.topusername)
     this.customLB(this.config.anounceDuration * 1000, newLB, this);
   };
 
   autoSplit(client, parent, angle, mass, speed) {
-    // Starting position
-    let startPos = {
-      x: parent.position.x,
-      y: parent.position.y
-    };
-
-    // Create cell
-    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this);
-    newCell.setAngle(angle);
-    newCell.setMoveEngineData(speed, 15);
-    newCell.restoreCollisionTicks = 25;
-    newCell.calcMergeTime(this.config.playerRecombineTime);
-    newCell.ignoreCollision = true; // Remove collision checks
-    newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
-    // Add to moving cells list
-    this.addNode(newCell, "moving");
+    Physics.autoSplit(Entity.PlayerCell, client, parent, angle, mass, speed, this.getWorld(), this.config.cRestoreTicks);
   };
 
   ejecttMass(client) {
@@ -1662,6 +1447,64 @@ module.exports = class GameServer {
       }
     });
     return removed;
+  }
+
+  isValidOrigin(origin) {
+    return !(origin != 'http://agar.io' &&
+    origin != 'https://agar.io' &&
+    origin != 'http://localhost' &&
+    origin != 'https://localhost' &&
+    origin != 'http://127.0.0.1' &&
+    origin != 'https://127.0.0.1');
+  }
+
+  socketServerOnError(error) {
+    switch (error.code) {
+      case "EADDRINUSE":
+        console.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
+        break;
+      case "EACCES":
+        console.log("[Error] Please make sure you are running Ogar with root privileges.");
+        break;
+      default:
+        console.log("[Error] Unhandled error code: " + error.code);
+        break;
+    }
+    process.exit(1); // Exits the program
+  }
+
+  socketServerStart() {
+    // Spawn starting food
+    this.generatorService.init();
+    this.generatorService.start();
+
+    // Start Main Loop
+    //setInterval(this.mainLoop.bind(this), 1);
+    setImmediate(this.mainLoopBind);
+
+    console.log("[Game] Listening on port " + this.config.serverPort);
+    console.log("[Game] Current game mode is " + this.getWorld().getGameMode().name);
+    Cell.spi = this.config.SpikedCells;
+    Cell.virusi = this.config.viruscolorintense;
+    Cell.recom = this.config.playerRecombineTime;
+    if (this.config.anounceHighScore === 1) {
+      this.consoleService.execCommand("announce", "");
+    }
+
+    // Player bots (Experimental)
+    if (this.config.serverBots > 0) {
+      for (let i = 0; i < this.config.serverBots; i++) {
+        this.bots.addBot();
+      }
+      console.log("[Game] Loaded " + this.config.serverBots + " player bots");
+    }
+    if (this.config.restartmin != 0) {
+      let split = [];
+      split[1] = this.config.restartmin;
+
+      this.consoleService.execCommand("restart", split);
+
+    }
   }
 };
 

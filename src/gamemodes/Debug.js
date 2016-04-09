@@ -16,7 +16,8 @@ Debug.prototype = new FFA();
 
 Debug.prototype.testPath = function (gameServer, player) {
   var cell = player.cells[0];
-  var check = gameServer.getVirusNodes()[0];
+  // todo not sure what is going on here and the below line will likely not work.
+  var check = gameServer.getWorld().getNodes('virus')[0];
 
   var v1 = Math.atan2(cell.position.x - player.mouse.x, cell.position.y - player.mouse.y);
 

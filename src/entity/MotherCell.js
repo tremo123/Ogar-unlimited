@@ -55,7 +55,7 @@ MotherCell.prototype.checkEat = function (world) {
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  let playerNodes = world.getPlayerNodes().toArray();
+  let playerNodes = world.getNodes('player').toArray();
   // todo convert this to a forEach loop so we dont have to convert it to an array
   for (var i in playerNodes) {
     var check = playerNodes[i];

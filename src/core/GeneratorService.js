@@ -18,6 +18,7 @@ module.exports = class GeneratorService {
     this.world.initNodeType('ejected');
     this.world.initNodeType('virus');
     this.world.initNodeType('food');
+    this.world.initNodeType('rainbow');
 
 
     for (var i = 0; i < this.config.foodStartAmount; i++) {
@@ -42,7 +43,8 @@ module.exports = class GeneratorService {
   }
 
   spawnFood() {
-    let f = new Entity.Food(this.world.getNextNodeId(), null, this.world.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop), this.config.foodMass, this.world);
+    let pos = this.world.getRandomPosition();
+    let f = new Entity.Food(this.world.getNextNodeId(), null, pos, this.config.foodMass, this.world, this.config);
     f.setColor(utilities.getRandomColor());
 
     this.dataBase.put(f.toJSON());
@@ -56,11 +58,11 @@ module.exports = class GeneratorService {
       let virusNodes = this.world.getNodes('virus');
       if (virusNodes.length < this.config.virusMinAmount) {
         // Spawns a virus
-        let pos = this.world.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+        let pos = this.world.getRandomPosition();
         let virusSquareSize = (this.config.virusStartMass * 100) >> 0;
 
         // Check for players
-        let result = this.world.getPlayerNodes().some((check)=> {
+        let result = this.world.getNodes('player').some((check)=> {
           if (check.mass < this.config.virusStartMass) return false;
 
           var squareR = check.getSquareSize(); // squared Radius of checking player cell

@@ -102,6 +102,7 @@ Cell.prototype.getSquareSize = function () {
 
 Cell.prototype.addMass = function (n) {
   var client = this.owner;
+  let self = this;
   if (!client.verify && this.config.verify == 1) {
     // todo why?
 
@@ -109,8 +110,8 @@ Cell.prototype.addMass = function (n) {
 
     if (this.mass + n > this.config.playerMaxMass && this.owner.cells.length < this.config.playerMaxCells) {
 
-      this.mass = this.mass + n
-      this.mass = this.mass/2;
+      this.mass = this.mass + n;
+      this.mass = this.mass / 2;
       var randomAngle = Math.random() * 6.28; // Get random angle
       Physics.autoSplit(Entity.PlayerCell, this.owner, this, randomAngle, this.mass, 350, this.world, this.config.cRestoreTicks);
     } else {
@@ -118,7 +119,7 @@ Cell.prototype.addMass = function (n) {
       var th = this;
 
       setTimeout(function () {
-        th.mass = Math.min(th.mass, this.config.playerMaxMass);
+        th.mass = Math.min(th.mass, self.config.playerMaxMass);
 
       }, 1000);
 
@@ -228,7 +229,7 @@ Cell.prototype.calcMovePhys = function (config) {
       var x1 = this.position.x + (totTravel * sin) + xd;
       var y1 = this.position.y + (totTravel * cos) + yd;
       if (this.world) {
-        this.world.getEjectedNodes().forEach((cell)=> {
+        this.world.getNodes('ejected').forEach((cell)=> {
           if (this.nodeId == cell.getId()) return;
           if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
 

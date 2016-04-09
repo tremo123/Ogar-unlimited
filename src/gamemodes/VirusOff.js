@@ -42,7 +42,7 @@ VirusOff.prototype.onPlayerSpawn = function (gameServer, player) {
   var pos, startMass;
 
   // Check if there are ejected mass in the world.
-  let nodesEjected = gameServer.getEjectedNodes();
+  let nodesEjected = gameServer.getWorld().getNodes('ejected');
   if (nodesEjected.length > 0) {
     var index = Math.floor(Math.random() * 100) + 1;
     if (index <= gameServer.config.ejectSpawnPlayer) {

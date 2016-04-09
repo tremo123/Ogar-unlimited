@@ -62,10 +62,10 @@ TeamX.prototype.spawnMotherCell = function (gameServer) {
   // Checks if there are enough mother cells on the map
   if (this.nodesMother.length < this.motherMinAmount) {
     // Spawns a mother cell
-    var pos = gameServer.getRandomPosition();
+    var pos = gameServer.getWorld().getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
+    let nodesPlayer = gameServer.getWorld().getNodes('player').toArray();
     for (var i = 0; i < nodesPlayer.length; i++) {
       var check = nodesPlayer[i];
 
@@ -262,7 +262,7 @@ TeamX.prototype.onServerInit = function (gameServer) {
     GS_getRandomSpawn = gameServer.getRandomSpawn;
 
   // Override this
-  gameServer.getRandomSpawn = gameServer.getRandomPosition;
+  gameServer.getRandomSpawn = gameServer.getWorld().getRandomPosition;
   gameServer.getRandomColor = function () {
     var colorRGB = [0xFF, 0x07, (Math.random() * 256) >> 0];
     colorRGB.sort(function () {
@@ -369,7 +369,7 @@ MotherCell.prototype.checkEat = function (gameServer) {
   var r = this.getSize(); // The box area that the checked cell needs to be in to be considered eaten
 
   // Loop for potential prey
-  let nodesPlayer = gameServer.getPlayerNodes();
+  let nodesPlayer = gameServer.getWorld().getNodes('player').toArray();
   for (var i in nodesPlayer) {
     var check = nodesPlayer[i];
 

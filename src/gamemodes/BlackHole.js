@@ -47,7 +47,7 @@ Blackhole.prototype.spawnMotherCell = function (gameServer) {
       x: gameServer.config.borderRight / 2,
       y: gameServer.config.borderBottom / 2
     };
-    // var pos =  gameServer.getRandomPosition();
+    // var pos =  gameServer.getWorld().getRandomPosition();
 
     // Spawn if no cells are colliding
     var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
@@ -73,7 +73,7 @@ Blackhole.prototype.onServerInit = function (gameServer) {
   };
 
   // Override this
-  gameServer.getRandomSpawn = gameServer.getRandomPosition;
+  gameServer.getRandomSpawn = gameServer.getWorld().getRandomPosition;
 };
 
 Blackhole.prototype.onTick = function (gameServer) {

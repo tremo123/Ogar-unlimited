@@ -3,12 +3,7 @@ var Packet = require('../packet/index');
 const utilities = require('./utilities.js');
 const SortedMap = require("collections/sorted-map");
 
-// this creates circular decencies
-//var GameServer = require('../GameServer.js');
 var fs = require("fs");
-
-//var PlayerTracker = function() {};
-//module.exports = PlayerTracker;
 
 module.exports = class PlayerTracker {
   constructor(gameServer, socket, owner) {
@@ -92,7 +87,7 @@ module.exports = class PlayerTracker {
       this.centerPos.x = (gameServer.config.borderLeft - gameServer.config.borderRight) / 2;
       this.centerPos.y = (gameServer.config.borderTop - gameServer.config.borderBottom) / 2;
       // Player id
-      this.pID = gameServer.getNewPlayerID();
+      this.pID = gameServer.getWorld().getNewNodeId();
       // Gamemode function
       gameServer.getWorld().getGameMode().onPlayerInit(this);
 
@@ -666,5 +661,3 @@ module.exports = class PlayerTracker {
     return Math.atan2(deltaX, deltaY);
   };
 };
-
-//module.exports.PlayerTracker = PlayerTracker;

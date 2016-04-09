@@ -18,10 +18,10 @@ module.exports = class WorldModel {
     this.lastNodeId = 2;    // todo why 2?
     this.nodeMaps = [];
     this.nodeMaps['node'] = new SortedMap();
-    this.nodes = new SortedMap();
-    this.movingNodes = new SortedMap();
-    this.playerNodes = new SortedMap();
-    this.virusNodes = new SortedMap();
+
+//    this.nodes = new SortedMap();
+//    this.movingNodes = new SortedMap();
+
 
     this.clients = []; // todo change this to a Map or SortedMap
 
@@ -169,10 +169,6 @@ module.exports = class WorldModel {
 
   getMovingNodes() {
     return this.nodeMaps['moving'];
-  }
-
-  getPlayerNodes() {
-    return this.nodeMaps['player'];
   }
 
   getRandomPosition() {

@@ -65,10 +65,10 @@ Experimental2.prototype.spawnMotherCell = function (gameServer) {
   // Checks if there are enough mother cells on the map
   if (this.nodesMother.length < this.motherMinAmount) {
     // Spawns a mother cell
-    var pos = gameServer.getRandomPosition();
+    var pos = gameServer.getWorld().getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
+    let nodesPlayer = gameServer.getWorld().getNodes('player').toArray();
     for (var i = 0; i < nodesPlayer.length; i++) {
       var check = nodesPlayer[i];
 
@@ -111,10 +111,10 @@ Experimental2.prototype.spawnMovingVirus = function (gameServer) {
   // Checks if there are enough moving viruses on the map
   if (this.movingVirusCount < this.movingVirusMinAmount) {
     // Spawns a mother cell
-    var pos = gameServer.getRandomPosition();
+    var pos = gameServer.getWorld().getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
+    let nodesPlayer = gameServer.getWorld().getNodes('player').toArray();
     for (var i = 0; i < nodesPlayer.length; i++) {
       var check = nodesPlayer[i];
 
@@ -162,10 +162,10 @@ Experimental2.prototype.spawnStickyCell = function (gameServer) {
   // Checks if there are enough mother cells on the map
   if (this.nodesSticky.length < this.stickyMinAmount) {
     // Spawns a mother cell
-    var pos = gameServer.getRandomPosition();
+    var pos = gameServer.getWorld().getRandomPosition();
 
     // Check for players
-    let nodesPlayer = gameServer.getPlayerNodes();
+    let nodesPlayer = gameServer.getWorld().getNodes('player').toArray();
     for (var i = 0; i < nodesPlayer.length; i++) {
       var check = nodesPlayer[i];
 
@@ -213,7 +213,7 @@ Experimental2.prototype.onServerInit = function (gameServer) {
   gameServer.lleaderboard = true;
 
   // Override this
-  gameServer.getRandomSpawn = gameServer.getRandomPosition;
+  gameServer.getRandomSpawn = gameServer.getWorld().getRandomPosition;
 };
 
 Experimental2.prototype.onTick = function (gameServer) {
@@ -221,7 +221,7 @@ Experimental2.prototype.onTick = function (gameServer) {
   if (!this.beacon) {
     this.beacon = new Beacon(gameServer.getWorld().getNextNodeId(),
       null,
-      gameServer.getRandomPosition(),
+      gameServer.getWorld().getRandomPosition(),
       this.beaconMass,
       gameServer.getWorld(),
       gameServer.getConfig()
