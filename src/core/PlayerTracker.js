@@ -87,7 +87,7 @@ module.exports = class PlayerTracker {
       this.centerPos.x = (gameServer.config.borderLeft - gameServer.config.borderRight) / 2;
       this.centerPos.y = (gameServer.config.borderTop - gameServer.config.borderBottom) / 2;
       // Player id
-      this.pID = gameServer.getWorld().getNewNodeId();
+      this.pID = gameServer.getWorld().getNextPlayerId();
       // Gamemode function
       gameServer.getWorld().getGameMode().onPlayerInit(this);
 

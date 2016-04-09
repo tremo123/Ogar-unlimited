@@ -84,7 +84,7 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "8cba1ff73f6b421cae14c7c038064b65",
+    "hash": "1888bd33f0dfe39005465f9837f5a626",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
@@ -120,7 +120,7 @@
     "name": "PlayerServer.js"
   },
   {
-    "hash": "a698da8bfc0de50af4f574d7c9577eef",
+    "hash": "b4b435bd88e958ed8cebf7e57f3c37c8",
     "src": "src/core/PlayerTracker.js",
     "dst": "./core/PlayerTracker.js",
     "name": "PlayerTracker.js"
@@ -144,7 +144,7 @@
     "name": "Updater.js"
   },
   {
-    "hash": "c91ba7134100b2f4767238d714653a5b",
+    "hash": "1aacd19bf0cae0743df508cf3131f338",
     "src": "src/core/WorldModel.js",
     "dst": "./core/WorldModel.js",
     "name": "WorldModel.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "8ee84d771be2c3468166dba07c9815d5",
+    "hash": "a2ab9ce8535d8a0030d71708626517d7",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
