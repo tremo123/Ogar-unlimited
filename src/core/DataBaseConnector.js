@@ -17,10 +17,17 @@ module.exports = class DataBaseConnector {
     }).on('change', callBack);
   }
 
-  put(data){
+  put(data, cb){
+    let rev = undefined;
     this.db.put(data)
+      .then((res)=>{
+        if (typeof cb === 'function') {
+          cb(res);
+        }
+      })
     .catch((error)=>{
-      // console.log('[DataBaseConnector] error: ' + error + ' while attempting to put: ' + data);
+      console.log('[DataBaseConnector] error: ' + error + ' while attempting to put: ' + data);
     });
+    return rev;
   }
 };

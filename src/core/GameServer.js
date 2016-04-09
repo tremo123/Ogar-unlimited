@@ -45,11 +45,15 @@ module.exports = class GameServer {
 
     // Config
     this.configService = configService;
-    this.configService.load();
+    //this.configService.load();
+
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
     this.highscores = this.configService.getHighScores();
+
+    this.opbyip.push('127.0.0.1');
+    this.configService.setOpByIp(this.opbyip);
 
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
@@ -151,7 +155,7 @@ module.exports = class GameServer {
   init() {
     this.dataBase.onChange((data)=>{
       //console.log('Data from dataBase: ' + JSON.stringify(data));
-    })
+    });
 
   }
 

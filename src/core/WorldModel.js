@@ -46,7 +46,6 @@ module.exports = class WorldModel {
   }
 
   setNode(id, node, type) {
-    console.log('setNode ' + id + ' ' + type)
     type = (type) ? type : 'node';
     if (!this.nodeMaps[type]) {
       this.nodeMaps[type] = new SortedMap();

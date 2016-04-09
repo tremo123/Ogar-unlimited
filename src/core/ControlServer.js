@@ -16,21 +16,11 @@ module.exports = class ControlServer {
     // fields
     //this.consoleStreams = {};
     this.servers = [];
-
-    // share data
-    this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
-    this.config = this.configService.getConfig();
-    this.world = new WorldModel(this.config, this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+    this.version = version;
 
     // services
-    this.consoleService = new ConsoleService(version);
+    this.consoleService = new ConsoleService(this.version);
     this.updater = new Updater(this);
-
-    // servers
-    this.gameServer = new GameServer(this.world, this.consoleService, this.configService , version);
-
-    // configuration
-    this.consoleService.setGameServer(this.gameServer);
 
   }
 
@@ -51,6 +41,18 @@ module.exports = class ControlServer {
   }
 
   startPhase2() {
+    // share data
+    this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
+    this.configService.load();
+    this.config = this.configService.getConfig();
+    this.world = new WorldModel(this.config, this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+
+    // servers
+    this.gameServer = new GameServer(this.world, this.consoleService, this.configService , this.version);
+
+    // configuration
+    this.consoleService.setGameServer(this.gameServer);
+
     this.consoleService.start();
 
     // Add command handler

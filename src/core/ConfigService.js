@@ -2,9 +2,11 @@
 const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
+const DataBaseConnector = require('./DataBaseConnector.js');
 
 module.exports = class ConfigService {
   constructor() {
+    this.revisions = {};
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
       consoleUpdateTime: 100,
       autoban: 0, // Auto bans a player if they are cheating
@@ -138,8 +140,25 @@ module.exports = class ConfigService {
     this.botNames = [];
     this.skinShortCuts = [];
     this.skins = [];
+
+    this.dataBase = new DataBaseConnector('config');
+    this.dataBase.onChange((data)=>{
+      this.onDbChange(data);
+
+      if (data.doc.id === 'opByIp'){
+        console.log('Data from dataBase: ' + JSON.stringify(data, null, 4));
+      }
+
+    });
   }
 
+  onDbChange(data){
+    this[data.doc.id] = JSON.parse(data.doc.data);
+    this.revisions[data.doc.id] = data.doc._rev;
+  }
+
+  // todo less make this go away and become part of the constructor
+  // todo need to make this smarter ie if there is already a DB up with data then dont load
   load() {
     this.loadConfig();
     this.loadBanned();
@@ -149,41 +168,79 @@ module.exports = class ConfigService {
     this.loadCustomSkin();
   }
 
+  syncChanges(what) {
+    console.log(what);
+    console.log(this.revisions);
+
+    this.dataBase.put({_id: what, _rev: this.revisions[what], data: JSON.stringify(this[what])}, (res)=>{this.revisions[what] = res.rev; console.log(res)});
+  }
+
   getConfig() {
     return this.config;
+  }
+
+  setConfig(data) {
+    this.config = data;
+    this.syncChanges('config');
   }
 
   getBanned() {
     return this.banned;
   }
 
+  setBanned(data) {
+    this.banned = data;
+    this.syncChanges('banned');
+  }
 
   getOpByIp() {
     return this.opByIp;
+  }
+
+  setOpByIp(data) {
+    this.opByIp = data;
+    setTimeout(this.syncChanges.bind(this), 500, 'opByIp');
   }
 
   getHighScores() {
     return this.highScores;
   }
 
+  setHighScores(data) {
+    this.highScores = data;
+    this.syncChanges('highScores');
+  }
+
   getBotNames() {
     return this.botNames;
+  }
+
+  setBotNames(data) {
+    this.botNames = data;
+    this.syncChanges('botNames');
   }
 
   getSkinShortCuts() {
     return this.skinShortCuts;
   }
 
+  setSkinShortCuts(data) {
+    this.skinShortCuts = data;
+    this.syncChanges('skinShortCuts');
+  }
+
   getSkins() {
     return this.skins;
   }
 
+  setSkins(data) {
+    this.skins = data;
+    this.syncChanges('skins');
+  }
+
   loadConfig() {
-
-
     try {
-      var test = fs.readFileSync('./files.json', 'utf-8');
-
+      let test = fs.readFileSync('./files.json', 'utf-8');
     } catch (err) {
       console.log("[Game] files.json not found... Generating new files.json");
       // todo we need a real generator function for this, it shouldn't be an empty file
@@ -222,6 +279,8 @@ module.exports = class ConfigService {
       fs.writeFileSync('./settings/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
 
     }
+
+    this.dataBase.put({_id: 'config', data: JSON.stringify(this.config)}, (res)=>this.revisions.config = res.rev);
   }
 
   loadBanned() {
@@ -234,9 +293,11 @@ module.exports = class ConfigService {
       console.log("[Game] Banned.txt not found... Generating new banned.txt");
       fs.writeFileSync('./banned.txt', '');
     }
+    this.dataBase.put({_id: 'banned', data: JSON.stringify(this.banned)}, (res)=>this.revisions.banned = res.rev);
   }
 
   loadOpByIp() {
+    console.log('Loading ./opbyip.txt');
     try {
       this.opByIp = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
@@ -245,6 +306,7 @@ module.exports = class ConfigService {
       console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
       fs.writeFileSync('./opbyip.txt', '');
     }
+    this.dataBase.put({_id: 'opByIp', data: JSON.stringify(this.opByIp)}, (res)=>this.revisions.opByIp = res.rev);
   }
 
   loadHighScores() {
@@ -256,6 +318,7 @@ module.exports = class ConfigService {
       console.log("[Game] highscores.txt not found... Generating new highscores.txt");
       fs.writeFileSync('./highscores.txt', '');
     }
+    this.dataBase.put({_id: 'highScores', data: JSON.stringify(this.highScores)}, (res)=>this.revisions.highScores = res.rev);
   }
 
   loadBotNames() {
@@ -268,6 +331,7 @@ module.exports = class ConfigService {
       console.log('botnames.txt not found using default names');
       // Nothing, use the default names
     }
+    this.dataBase.put({_id: 'botNames', data: JSON.stringify(this.botNames)}, (res)=>this.revisions.botNames = res.rev);
   }
 
   // todo this needs maintenance
@@ -300,6 +364,7 @@ module.exports = class ConfigService {
     } catch (e) {
       console.warn("[Console] Failed to load/download customskins.txt")
     }
-
+    this.dataBase.put({_id: 'skinShortCuts', data: JSON.stringify(this.skinShortCuts)}, (res)=>this.revisions.skinShortCuts = res.rev);
+    this.dataBase.put({_id: 'skins', data: JSON.stringify(this.skins)}, (res)=>this.revisions.skins = res.rev);
   }
 };
