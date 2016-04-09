@@ -21,7 +21,6 @@ const StatServer = require('./StatServer.js');
 const GeneratorService = require('./GeneratorService.js');
 const PluginLoader = require('./PluginLoader.js');
 
-const DataBaseConnector = require('./DataBaseConnector.js');
 
 module.exports = class GameServer {
   constructor(world, consoleService, configService, version) {
@@ -196,9 +195,7 @@ module.exports = class GameServer {
 
   // init should only ever be called once.
   init() {
-    this.dataBase.onChange((data)=>{
-      //console.log('Data from dataBase: ' + JSON.stringify(data));
-    })
+  
 
   }
 
