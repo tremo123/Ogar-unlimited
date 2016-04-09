@@ -78,12 +78,6 @@
     "name": "ControlServer.js"
   },
   {
-    "hash": "3656c1aa0f28348b04a15c9cf604c23dca90bc86",
-    "src": "src/core/DataBaseConnector.js",
-    "dst": "./core/DataBaseConnector.js",
-    "name": "DataBaseConnector.js"
-  },
-  {
     "hash": "068b221df94197722cc88cbdd11a03336ad431e3",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
