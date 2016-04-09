@@ -1,14 +1,12 @@
 'use strict';
 var utilities = require('./utilities.js');
 var Entity = require('../entity');
-const DataBaseConnector = require('./DataBaseConnector.js');
 
 module.exports = class GeneratorService {
   constructor(gameServer) {
     this.gameServer = gameServer;
     this.config = gameServer.config;
     this.interval = undefined;
-    this.dataBase = new DataBaseConnector('world');
   }
 
   init() {
