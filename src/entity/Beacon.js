@@ -54,7 +54,9 @@ Beacon.prototype.feed = function (feeder, world) {
         x: this.position.x,
         y: this.position.y
       },
-      125 // mass
+      125, // mass
+      world,
+      this.config
     );
     moving.angle = feeder.angle;
     moving.setMoveEngineData(20 + 10 * Math.random(), Infinity, 1);

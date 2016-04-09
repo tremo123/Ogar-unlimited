@@ -149,7 +149,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer.getWorld(), gameServer.getConfig());
           ejected.setAngle(angle);
           ejected.setMoveEngineData(160, 20);
 
@@ -193,7 +193,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer.getWorld(), gameServer.getConfig());
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 1;
           var color = {
@@ -254,7 +254,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer.getWorld(), gameServer.getConfig());
           ejected.setAngle(angle);
           var color = {
             r: 250,
@@ -352,7 +352,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer.getWorld(), gameServer.getConfig());
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 3;
           var color = {
@@ -409,7 +409,7 @@ Mode.prototype.pressSpace = function (gameServer, player) {
 
           // Create cell
           var nodeid = gameServer.getWorld().getNextNodeId();
-          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer);
+          var ejected = new Entity.Virus(nodeid, null, startPos, 15, gameServer.getWorld(), gameServer.getConfig());
           ejected.setAngle(angle);
           gameServer.troll[nodeid] = 4;
           var color = {

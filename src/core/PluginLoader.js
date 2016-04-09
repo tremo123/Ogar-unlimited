@@ -108,4 +108,4 @@ module.exports = class PluginLoader {
 
 
   }
-}
+};

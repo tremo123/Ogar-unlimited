@@ -54,6 +54,7 @@ BotLoader.prototype.loadNames = function () {
       return x != ''; // filter empty names
     });
   } catch (e) { /* Nothing, use the default names */
+    console.log('realisticnames.txt not found using default names.')
   }
 
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
@@ -62,13 +63,14 @@ BotLoader.prototype.loadNames = function () {
       return x != ''; // filter empty names
     });
   } catch (e) { /* Nothing, use the default names */
+    console.log('botnames.txt not found using default names.')
   }
 
   this.nameIndex = 0;
 };
 
 BotLoader.prototype.addBot = function () {
-  let s = new FakeSocket(this.gameServer);
+  let s = new FakeSocket(this.gameServer.getWorld());
   s.playerTracker = new BotPlayer(this.gameServer, s);
   s.packetHandler = new PacketHandler(this.gameServer, s, this.gameServer.config, this.gameServer.getWorld());
   // Add to client list

@@ -51,7 +51,7 @@ module.exports = class Updater {
       // write to file pretty because this file will be edited by humans :D
       fs.writeFileSync('files.json', JSON.stringify(files, null, 2));
     } catch (err) {
-      console.error(err);
+      console.error('Updater error: ' + err);
     }
   }
 

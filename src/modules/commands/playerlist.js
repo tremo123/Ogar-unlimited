@@ -35,6 +35,7 @@ module.exports = function (gameServer, split) {
       } catch (e) {
         // Specating nobody
         nick = "";
+        console.log('playerlist.js error: ' + e)
       }
       nick = (nick == "") ? "An unnamed cell" : nick;
       data = fillChar("SPECTATING: " + nick, '-', ' | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength, true);

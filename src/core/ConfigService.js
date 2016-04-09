@@ -265,6 +265,7 @@ module.exports = class ConfigService {
         return x != ''; // filter empty names
       });
     } catch (e) {
+      console.log('botnames.txt not found using default names');
       // Nothing, use the default names
     }
   }

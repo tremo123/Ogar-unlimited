@@ -119,6 +119,7 @@ Commands.list = {
     }
     console.log("[Console] ====================================================");
   },
+  debug: require('./commands/debug.js'),
   plugin: require('./commands/plugin.js'),
   blind: require('./commands/blind.js'),
   pcmd: require('./commands/pcmd.js'),

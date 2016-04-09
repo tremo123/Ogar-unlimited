@@ -83,7 +83,7 @@ Experimental.prototype.spawnMotherCell = function (gameServer) {
     }
 
     // Spawn if no cells are colliding
-    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass);
+    var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass, gameServer.getWorld(), gameServer.getConfig());
     gameServer.addNode(m);
   }
 };

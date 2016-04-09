@@ -12,7 +12,7 @@
     "name": "Start.bat"
   },
   {
-    "hash": "ad1aa7548ff08d5eb262678586d1eb1e",
+    "hash": "77840d3b9fac36e11a9fa0d362ae322f",
     "src": "src/ai/BotLoader.js",
     "dst": "./ai/BotLoader.js",
     "name": "BotLoader.js"
@@ -24,13 +24,13 @@
     "name": "BotPlayer.js"
   },
   {
-    "hash": "843eec1a07be4cf46d990d0d0d3ace02",
+    "hash": "d2db5d807fc6b0fdd0037458d057f483",
     "src": "src/ai/FakeSocket.js",
     "dst": "./ai/FakeSocket.js",
     "name": "FakeSocket.js"
   },
   {
-    "hash": "f6c5a0f05d39bfd5f10ba4ad0d63f070",
+    "hash": "f31d67a9ae7ba4ab1a5ed76811accc9e",
     "src": "src/ai/MinionLoader.js",
     "dst": "./ai/MinionLoader.js",
     "name": "MinionLoader.js"
@@ -60,7 +60,7 @@
     "name": "BotServer.js"
   },
   {
-    "hash": "8e20b1f68b8ad6bc61c0ce65630d2404",
+    "hash": "7b244c03cd43965f0c1352791eca1fbe",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
     "name": "ConfigService.js"
@@ -84,13 +84,13 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "4baab170ecf1c849ec1a608e988010b5",
+    "hash": "1888bd33f0dfe39005465f9837f5a626",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
   },
   {
-    "hash": "cb809a908a256946b368ff666416c971",
+    "hash": "992f551baa2f1d7ef7c3394fedb402eb",
     "src": "src/core/GeneratorService.js",
     "dst": "./core/GeneratorService.js",
     "name": "GeneratorService.js"
@@ -108,7 +108,7 @@
     "name": "PacketHandler.js"
   },
   {
-    "hash": "668c665121b4a1c733efc19880af54ee",
+    "hash": "984760f0d91a515887ed0d34bea0cae0",
     "src": "src/core/Physics.js",
     "dst": "./core/Physics.js",
     "name": "Physics.js"
@@ -120,13 +120,13 @@
     "name": "PlayerServer.js"
   },
   {
-    "hash": "23006995c287ef39a5c98bf982e0cb9e",
+    "hash": "a698da8bfc0de50af4f574d7c9577eef",
     "src": "src/core/PlayerTracker.js",
     "dst": "./core/PlayerTracker.js",
     "name": "PlayerTracker.js"
   },
   {
-    "hash": "a1ef9ad0e006b1f0e47057fbc9e3b544",
+    "hash": "b8b578645041db6eea8c981c8f95f694",
     "src": "src/core/PluginLoader.js",
     "dst": "./core/PluginLoader.js",
     "name": "PluginLoader.js"
@@ -138,7 +138,7 @@
     "name": "StatServer.js"
   },
   {
-    "hash": "4862c981cf9986de8bffa9410035ce04",
+    "hash": "edb235fdfe3a947625b5e55172f1e5e5",
     "src": "src/core/Updater.js",
     "dst": "./core/Updater.js",
     "name": "Updater.js"
@@ -156,13 +156,13 @@
     "name": "utilities.js"
   },
   {
-    "hash": "ddef55e40df6a9839ab077fff7d7db1c",
+    "hash": "0710846a4ae4ef018dda19d8f38cc23c",
     "src": "src/entity/Beacon.js",
     "dst": "./entity/Beacon.js",
     "name": "Beacon.js"
   },
   {
-    "hash": "04831bc3930485fbd8aba0e8b41bdc6c",
+    "hash": "c826d61a850fb70dee9a0e15f65378f3",
     "src": "src/entity/Cell.js",
     "dst": "./entity/Cell.js",
     "name": "Cell.js"
@@ -180,7 +180,7 @@
     "name": "Food.js"
   },
   {
-    "hash": "d632c4a05cd26e495498fe64af1f4a05",
+    "hash": "ccb529eefbd08a1bef32a7286725f1fb",
     "src": "src/entity/MotherCell.js",
     "dst": "./entity/MotherCell.js",
     "name": "MotherCell.js"
@@ -204,7 +204,7 @@
     "name": "StickyCell.js"
   },
   {
-    "hash": "096a8aa634205cbd8b7ec655c44507e5",
+    "hash": "13b3d983de18b57be5f944cadbd2d8ae",
     "src": "src/entity/Virus.js",
     "dst": "./entity/Virus.js",
     "name": "Virus.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "ac950068824e72b5571824ab1570bf4f",
+    "hash": "45840bc7e1e078b6c269267b04cf60e3",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
@@ -228,7 +228,7 @@
     "name": "AFFA.js"
   },
   {
-    "hash": "70394f83be6c0c11a2cb3893401dfbd0",
+    "hash": "bd6af016a67b7f858f3ffc6a87032a3b",
     "src": "src/gamemodes/BlackHole.js",
     "dst": "./gamemodes/BlackHole.js",
     "name": "BlackHole.js"
@@ -240,13 +240,13 @@
     "name": "Debug.js"
   },
   {
-    "hash": "6cd2b5cc86f1e0a2aa87ff72f4312a5e",
+    "hash": "c5c7642be4d70c28593276d3a15d94f1",
     "src": "src/gamemodes/Experimental%20v2.js",
     "dst": "./gamemodes/Experimental v2.js",
     "name": "Experimental v2.js"
   },
   {
-    "hash": "4378f6c51f9372c1cec15bd8652c69a5",
+    "hash": "d35f7d58429bf234426c7c35a1eb0e0d",
     "src": "src/gamemodes/Experimental.js",
     "dst": "./gamemodes/Experimental.js",
     "name": "Experimental.js"
@@ -258,7 +258,7 @@
     "name": "FFA.js"
   },
   {
-    "hash": "d882eb793774d880271ae4f6ea5a6e80",
+    "hash": "6d4bb8224d4ce550c4b4d73d8ee14b11",
     "src": "src/gamemodes/HungerGames.js",
     "dst": "./gamemodes/HungerGames.js",
     "name": "HungerGames.js"
@@ -270,13 +270,13 @@
     "name": "Leap.js"
   },
   {
-    "hash": "cdf7b510ab7fbacdfbac210fb8f1be65",
+    "hash": "bb20d8285550387b3cf53d2d0a2b817b",
     "src": "src/gamemodes/Mode.js",
     "dst": "./gamemodes/Mode.js",
     "name": "Mode.js"
   },
   {
-    "hash": "7a3b54c44c8b028d5510c4640fbd7a63",
+    "hash": "87ce92d3de11209124472a8da1ba384a",
     "src": "src/gamemodes/NoCollisionTeamX.js",
     "dst": "./gamemodes/NoCollisionTeamX.js",
     "name": "NoCollisionTeamX.js"
@@ -312,7 +312,7 @@
     "name": "TFFA.js"
   },
   {
-    "hash": "c7fb7d9de1f491c6e34744f4289187b1",
+    "hash": "65656d23145f50df71e36e6899291da0",
     "src": "src/gamemodes/TeamX.js",
     "dst": "./gamemodes/TeamX.js",
     "name": "TeamX.js"
@@ -372,7 +372,7 @@
     "name": "index.js"
   },
   {
-    "hash": "a7ccd7a8115bfaab24241b84b67cfd8c",
+    "hash": "0a0bcbf98ca221f5c570a92edee2b65e",
     "src": "src/modules/CommandList.js",
     "dst": "./modules/CommandList.js",
     "name": "CommandList.js"
@@ -510,7 +510,7 @@
     "name": "fmsg.js"
   },
   {
-    "hash": "d31846f919e9e7f4eec68a424ca8e39a",
+    "hash": "720cc90369f64b580fd0ae95a81a6962",
     "src": "src/modules/commands/food.js",
     "dst": "./modules/commands/food.js",
     "name": "food.js"
@@ -648,7 +648,7 @@
     "name": "pfmsg.js"
   },
   {
-    "hash": "f81ea1600863e15f8ced8cf4f3c6af39",
+    "hash": "60e773c7184bf46132ee732c7f409a9e",
     "src": "src/modules/commands/playerlist.js",
     "dst": "./modules/commands/playerlist.js",
     "name": "playerlist.js"
@@ -768,7 +768,7 @@
     "name": "tp.js"
   },
   {
-    "hash": "7b21d7a7cf71717d491202aec26ef3cd",
+    "hash": "d014cee680cda62ff7003c19fc8f1e24",
     "src": "src/modules/commands/troll.js",
     "dst": "./modules/commands/troll.js",
     "name": "troll.js"
@@ -798,7 +798,7 @@
     "name": "verify.js"
   },
   {
-    "hash": "4b1ddd32c15e0161c4f7ad653e96517e",
+    "hash": "0b6688148ecb81ef2e756badd03f33b9",
     "src": "src/modules/commands/virus.js",
     "dst": "./modules/commands/virus.js",
     "name": "virus.js"
@@ -816,7 +816,7 @@
     "name": "whitelist2.js"
   },
   {
-    "hash": "16c0c025dcac9f7192c2f9887c2358fd",
+    "hash": "f2d0dc2b798d5c12af017c8dd5adaa90",
     "src": "src/modules/ini.js",
     "dst": "./modules/ini.js",
     "name": "ini.js"

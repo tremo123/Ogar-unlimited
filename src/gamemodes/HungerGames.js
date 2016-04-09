@@ -80,14 +80,14 @@ HungerGames.prototype.getPos = function () {
 };
 
 HungerGames.prototype.spawnFood = function (gameServer, mass, pos) {
-  var f = new Entity.Food(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer);
+  var f = new Entity.Food(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer.getWorld(), gameServer.config);
   f.setColor(gameServer.getRandomColor());
   gameServer.addNode(f);
   gameServer.currentFood++;
 };
 
 HungerGames.prototype.spawnVirus = function (gameServer, pos) {
-  var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.virusStartMass, gameServer);
+  var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, gameServer.config.virusStartMass, gameServer.getWorld(), gameServer.getConfig());
   gameServer.addNode(v);
 };
 

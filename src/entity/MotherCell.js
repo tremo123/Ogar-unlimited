@@ -124,7 +124,7 @@ MotherCell.prototype.spawnFood = function (world) {
   };
 
   // Spawn food
-  var f = new Food(world.getNextNodeId(), null, pos, this.config.foodMass, world);
+  var f = new Food(world.getNextNodeId(), null, pos, this.config.foodMass, world, world.config);
   f.setColor(utilities.getRandomColor());
 
   world.setNode(f.getId(), f, 'food');

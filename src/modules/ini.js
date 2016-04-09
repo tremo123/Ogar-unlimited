@@ -158,6 +158,7 @@ function unsafe(val, doUnesc) {
     try {
       val = JSON.parse(val);
     } catch (_) {
+      console.log('failed to parse: ' + val);
     }
   } else {
     // walk the val to find the first not-escaped ; character

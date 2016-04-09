@@ -18,7 +18,7 @@ module.exports = function (gameServer, split) {
   }
 
   // Spawn
-  var f = new Entity.Food(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer);
+  var f = new Entity.Food(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer.getWorld(), gameServer.config);
   f.setColor(gameServer.getRandomColor());
   gameServer.addNode(f);
   gameServer.currentFood++;

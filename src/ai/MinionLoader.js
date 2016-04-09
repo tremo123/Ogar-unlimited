@@ -28,7 +28,7 @@ MinionLoader.prototype.loadNames = function () {
       return x != ''; // filter empty names
     });
   } catch (e) {
-    // Nothing, use the default names
+    console.log('botnames.txt not found using default names.');
   }
 
   this.nameIndex = 0;

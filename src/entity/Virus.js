@@ -41,7 +41,7 @@ Virus.prototype.shootVirus = function (parent, world) {
     y: parent.position.y
   };
 
-  let newVirus = new Entity.Virus(world.getNextNodeId(), null, parentPos, this.config.virusStartMass, this);
+  let newVirus = new Entity.Virus(world.getNextNodeId(), null, parentPos, this.config.virusStartMass, world, this.config);
   newVirus.setAngle(parent.getAngle());
   newVirus.setMoveEngineData(200, 20);
 

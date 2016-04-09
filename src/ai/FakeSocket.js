@@ -1,7 +1,7 @@
 // A fake socket for bot players
 
-function FakeSocket(gameServer) {
-  this.server = gameServer;
+function FakeSocket(world) {
+  this.world = world;
 }
 module.exports = FakeSocket;
 
@@ -18,8 +18,8 @@ FakeSocket.prototype.close = function (error) {
     if (!cell) {
       continue;
     }
-    this.server.removeNode(cell);
+    this.world.removeNode(cell);
   }
-  this.server.removeClient(this);
+  this.world.removeClient(this);
 
 };

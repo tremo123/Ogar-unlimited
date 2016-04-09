@@ -1,5 +1,5 @@
 'use strict';
-const utilities = require('./utilities.js');
+//const utilities = require('./utilities.js');
 //const Entity = require('../entity');
 
 /**
@@ -25,9 +25,9 @@ module.exports = class Physics {
       angle += (Math.random() * .4) - .2;
 
       // Create cell
-      let ejected = new newType(world.getNextNodeId(), null, startPos, -100, world);
+      let ejected = new newType(world.getNextNodeId(), null, startPos, -100, world, world.config);
       ejected.setAngle(angle);
-      ejected.setMoveEngineData(gameServer.config.ejectantispeed, 20);
+      ejected.setMoveEngineData(world.config.ejectantispeed, 20);
       ejected.setColor(cell.getColor());
 
       world.setNode(ejected.getId(), ejected, "moving");
@@ -62,7 +62,7 @@ module.exports = class Physics {
       cell.mass = newMass;
 
       // Create cell
-      let split = new newType(world.getNextNodeId(), player, startPos, newMass, world);
+      let split = new newType(world.getNextNodeId(), player, startPos, newMass, world, world.config);
       split.setAngle(angle);
 
       let splitSpeed = world.config.splitSpeed;
@@ -88,7 +88,7 @@ module.exports = class Physics {
     };
 
     // Create cell
-    let newCell = new newType(world.getNextNodeId(), client, startPos, mass, world);
+    let newCell = new newType(world.getNextNodeId(), client, startPos, mass, world, world.config);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.restoreCollisionTicks = 25;

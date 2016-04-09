@@ -173,7 +173,7 @@ module.exports = class GameServer {
     this.socketServer.on('connection', connectionEstablished.bind(this));
 
     // Properly handle errors because some people are too lazy to read the readme
-    this.socketServer.on('error', this.socketServerOnError(error));
+    this.socketServer.on('error', this.socketServerOnError.bind(this));
 
     function connectionEstablished(ws) {
       let clients = this.getWorld().getClients();
@@ -335,7 +335,7 @@ module.exports = class GameServer {
       };
       ws.on('error', close.bind(bindObject));
       ws.on('close', close.bind(bindObject));
-      this.addClient(ws);
+      this.getWorld().addClient(ws);
     }
 
     this.statServer.start();
@@ -478,7 +478,7 @@ module.exports = class GameServer {
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
     this.getWorld().getMovingNodes().forEach((check)=> {
       if (check.moveEngineTicks > 0) {
-        check.onAutoMove(this);
+        check.onAutoMove(this.getWorld());
         // If the cell has enough move ticks, then move it
         check.calcMovePhys(this.config);
       } else {
@@ -643,8 +643,11 @@ module.exports = class GameServer {
 
       // Spawn player and add to world
       if (!dospawn) {
-        let cell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), player, pos, mass, this.getWorld(), this.config);
+        console.log('Spawn player test 1')
+        let cell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), player, pos, mass, this.getWorld(), this.getConfig());
+        console.log('Spawn player test 2')
         this.getWorld().setNode(cell.getId(), cell, "player");
+        console.log('Spawn player test 3')
       }
       // Set initial mouse coords
       player.mouse = {
@@ -794,7 +797,7 @@ module.exports = class GameServer {
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.getWorld().getNextNodeId(), null, parentPos, this.config.virusmass, this);
+    let newVirus = new Entity.Virus(this.getWorld().getNextNodeId(), null, parentPos, this.config.virusmass, this.getWorld(), this.getConfig());
     newVirus.setAngle(parent.getAngle());
     newVirus.setpar(owner);
     newVirus.mass = 10;
@@ -905,8 +908,8 @@ module.exports = class GameServer {
 
         // Create cell
         let ejected = undefined;
-        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
-        else ejected = new Entity.Virus(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
+        if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this.getWorld(), this.config);
+        else ejected = new Entity.Virus(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this.getWorld(), this.config);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
           ejected.setMoveEngineData(this.config.ejectvspeed, 20, 0.85);
@@ -916,7 +919,7 @@ module.exports = class GameServer {
         }
 
         if (this.config.randomEjectMassColor === 1) {
-          ejected.setColor(this.getRandomColor());
+          ejected.setColor(utilities.getRandomColor());
         } else {
           ejected.setColor(cell.getColor());
         }
@@ -961,8 +964,8 @@ module.exports = class GameServer {
 
           // Create cell
           let ejected = undefined;
-          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
-          else ejected = new Entity.Virus(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this);
+          if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this.getWorld(), this.getConfig());
+          else ejected = new Entity.Virus(this.getWorld().getNextNodeId(), null, startPos, this.config.ejectMass, this.getWorld(), this.getConfig());
           ejected.setAngle(angle);
 
           if (this.config.ejectvirus == 1) {
@@ -977,7 +980,7 @@ module.exports = class GameServer {
           }
 
           if (this.config.randomEjectMassColor == 1) {
-            ejected.setColor(this.getRandomColor());
+            ejected.setColor(utilities.getRandomColor());
           } else {
             ejected.setColor(cell.getColor());
           }
@@ -1003,7 +1006,7 @@ module.exports = class GameServer {
     };
 
     // Create cell
-    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this.getWorld(), this.config);
+    let newCell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), client, startPos, mass, this.getWorld(), this.getConfig());
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
     newCell.calcMergeTime(this.config.playerRecombineTime);
@@ -1020,7 +1023,7 @@ module.exports = class GameServer {
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.getWorld().getNextNodeId(), null, parentPos, this.config.virusStartMass, this);
+    let newVirus = new Entity.Virus(this.getWorld().getNextNodeId(), null, parentPos, this.config.virusStartMass, this.getWorld(), this.getConfig());
     newVirus.setAngle(parent.getAngle());
     newVirus.setMoveEngineData(200, 20);
 

@@ -76,7 +76,7 @@ module.exports = class GeneratorService {
         if (result) return;
 
         // Spawn if no cells are colliding
-        let v = new Entity.Virus(this.world.getNextNodeId(), null, pos, this.config.virusStartMass, this);
+        let v = new Entity.Virus(this.world.getNextNodeId(), null, pos, this.config.virusStartMass, this.world, this.config);
         this.world.setNode(v.getId(), v, 'virus');
       }
     }
