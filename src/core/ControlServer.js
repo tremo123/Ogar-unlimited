@@ -41,7 +41,7 @@ module.exports = class ControlServer {
     this.updater.init();
   }
 
-  /**
+  /** 
    * Starts the control server which will start and monitor other servers
    */
   start() {
