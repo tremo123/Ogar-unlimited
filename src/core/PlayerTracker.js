@@ -268,12 +268,7 @@ module.exports = class PlayerTracker {
 // Functions
 
   update() {
-    if (this.movePacketTriggered) {
-      this.movePacketTriggered = false;
-      this.shouldMoveCells = true;
-    } else {
-      this.shouldMoveCells = false;
-    }
+ 
     // Actions buffer (So that people cant spam packets)
     if (this.socket.packetHandler.pressSpace) { // Split cell
       this.gameServer.gameMode.pressSpace(this.gameServer, this);
