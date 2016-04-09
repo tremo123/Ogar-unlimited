@@ -1,7 +1,7 @@
 // Imports
 'use strict';
 const Readline = require('readline');
-const VERSION = '11.9.0';
+const VERSION = '16.0.1';
 const ControlServer = require('./core/ControlServer');
 let controlServer = new ControlServer(VERSION);
 //throw error
