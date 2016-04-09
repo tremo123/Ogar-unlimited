@@ -15,7 +15,9 @@ module.exports = class WorldModel {
     this.borderBottom = borderBottom;
     this.borderTop = borderTop;
 
-    this.lastNodeId = 2;    // todo why 2?
+    // id's are shared: player 1-10000, all other nodes 10001-2147483647
+    this.lastPlayerId = 1;
+    this.lastNodeId = 10001;
     this.nodeMaps = [];
     this.nodeMaps['node'] = new SortedMap();
 
@@ -147,10 +149,17 @@ module.exports = class WorldModel {
     }
   }
 
+  getNextPlayerId() {
+    if (this.lastPlayerId > 10000) {
+      this.lastPlayerId = 1;
+    }
+    return this.lastPlayerId++;
+  }
+
   getNewNodeId() {
     // Resets integer
     if (this.lastNodeId > 2147483647) {
-      this.lastNodeId = 1;
+      this.lastNodeId = 10001;
     }
     return this.lastNodeId++;
   }
