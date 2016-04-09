@@ -1,776 +1,902 @@
 [
   {
-    "name": "package.json",
-    "src": "package.json",
-    "dst": "../package.json",
-    "hash": "abc642a65e235e6f1c1e93d18cd29252"
+    "hash": "e98a40d326074bd0ced2e2311df9eb679ac55fd7",
+    "src": "src/Install Dependencies (Windows).bat",
+    "dst": "./Install Dependencies (Windows).bat",
+    "name": "Install Dependencies (Windows).bat"
   },
   {
-    "name": "botnames",
-    "src": "src/botnames.txt",
-    "dst": "./botnames.txt",
-    "hash": "0fe31d0ccf396fb35f3c9eba737a7175"
+    "hash": "05181757cdc88ab78f7f1ac8d79e7154c673cf80",
+    "src": "src/Start.bat",
+    "dst": "./Start.bat",
+    "name": "Start.bat"
   },
   {
-    "name": "realisticnames",
-    "src": "src/realisticnames.txt",
-    "dst": "./realisticnames.txt",
-    "hash": "db1406bd19689edd8bedb6060a050529"
-  },
-  {
-    "name": "customskins",
-    "src": "src/customskins.txt",
-    "dst": "./customskins.txt",
-    "hash": "74452da39452c2963d3cfe7ecf64c728"
-  },
-  {
-    "name": "GameServer",
-    "src": "src/GameServer.js",
-    "dst": "./GameServer.js",
-    "hash": "ae40790a19e532d3cf03fe45b9d6b7ba"
-  },
-  {
-    "name": "PlayerTracker",
-    "src": "src/PlayerTracker.js",
-    "dst": "./PlayerTracker.js",
-    "hash": "5cfdc7775c09f9628e801cd6b9131dc6"
-  },
-  {
-    "name": "PacketHandler",
-    "src": "src/PacketHandler.js",
-    "dst": "./PacketHandler.js",
-    "hash": "de5e5b92033b35fc9092dc2fff40df6d"
-  },
-  {
-    "name": "gameserver",
-    "src": "src/configs/gameserver.ini",
-    "dst": "./configs/gameserver.ini",
-    "hash": "187ddb18eb5f55776b052a64dd381ace"
-  },
-  {
-    "name": "packet:AddNode",
-    "src": "src/packet/AddNode.js",
-    "dst": "./packet/AddNode.js",
-    "hash": "e70f2e8229a41bd1dada4e4b00ea9ec1"
-  },
-  {
-    "name": "packet:ClearNodes",
-    "src": "src/packet/ClearNodes.js",
-    "dst": "./packet/ClearNodes.js",
-    "hash": "91aa517fa72629d6ce510f6a0325a70b"
-  },
-  {
-    "name": "packet:UpdateLeaderboard",
-    "src": "src/packet/UpdateLeaderboard.js",
-    "dst": "./packet/UpdateLeaderboard.js",
-    "hash": "b5d2f3df5bf629ba7c589cbaf385ee78"
-  },
-  {
-    "name": "packet:UpdateNodes",
-    "src": "src/packet/UpdateNodes.js",
-    "dst": "./packet/UpdateNodes.js",
-    "hash": "e36b2f917aeca9d41843e3ada1686076"
-  },
-  {
-    "name": "packet:index",
-    "src": "src/packet/index.js",
-    "dst": "./packet/index.js",
-    "hash": "58e92b37172c85966ae714d6de4fbc38"
-  },
-  {
-    "name": "ai:BotLoader",
+    "hash": "2425dd04b4f56872e5d3e44eb44a9fccf0160ea7",
     "src": "src/ai/BotLoader.js",
     "dst": "./ai/BotLoader.js",
-    "hash": "057757f751927a27410a55fa8e3b737f"
+    "name": "BotLoader.js"
   },
   {
-    "name": "ai:BotPlayer",
+    "hash": "84e68d1bf7c9c3c449078e9cc5fc68b3799de9db",
     "src": "src/ai/BotPlayer.js",
     "dst": "./ai/BotPlayer.js",
-    "hash": "103ce5efccb0d9b80e2c518472a5f920"
+    "name": "BotPlayer.js"
   },
   {
-    "name": "ai:MinionLoader",
-    "src": "src/ai/minionLoader.js",
-    "dst": "./ai/minionLoader.js",
-    "hash": "732dea50525e88f96333cec9c510eb75"
-  },
-  {
-    "name": "ai:MinionPlayer",
-    "src": "src/ai/minionPlayer.js",
-    "dst": "./ai/minionPlayer.js",
-    "hash": "633347233568ff91dbd4972583845e82"
-  },
-  {
-    "name": "ai:MinionSocket",
-    "src": "src/ai/minionSocket.js",
-    "dst": "./ai/minionSocket.js",
-    "hash": "37dc35d4f8a5e898d0a7999c8cbdfd3f"
-  },
-  {
-    "name": "ai:FakeSocket",
+    "hash": "ca3fc1b734792272000290fdac14f854939bba5d",
     "src": "src/ai/FakeSocket.js",
     "dst": "./ai/FakeSocket.js",
-    "hash": "d53d767cb98f5cc079a6a3b4a83dd8f4"
+    "name": "FakeSocket.js"
   },
   {
-    "name": "ai:Readme",
-    "src": "src/ai/Readme.txt",
-    "dst": "./ai/Readme.txt",
-    "hash": "0be54fb49f3ec97d39556ccfc2e95946"
+    "hash": "b58fc428f43607a24ec3f2e45b0013b51a32a666",
+    "src": "src/ai/MinionLoader.js",
+    "dst": "./ai/MinionLoader.js",
+    "name": "MinionLoader.js"
   },
   {
-    "name": "entity:Beacon",
+    "hash": "6a7cc6097a1ad84a7a9a62a632aabba1e83363fa",
+    "src": "src/ai/MinionPlayer.js",
+    "dst": "./ai/MinionPlayer.js",
+    "name": "MinionPlayer.js"
+  },
+  {
+    "hash": "755cc4015ecce4c155c081770cb9a827a2161d03",
+    "src": "src/ai/minionSocket.js",
+    "dst": "./ai/minionSocket.js",
+    "name": "minionSocket.js"
+  },
+  {
+    "hash": "30bf498caaa2ccf65fe411d6df9c6b7c496194d7",
+    "src": "src/build.js",
+    "dst": "./build.js",
+    "name": "build.js"
+  },
+  {
+    "hash": "d39c90e4bfe24c0a03a99fba5a779be0877dc9b3",
+    "src": "src/core/BotServer.js",
+    "dst": "./core/BotServer.js",
+    "name": "BotServer.js"
+  },
+  {
+    "hash": "1b7a0deb1408b949f252d011ee7fa09fc17a4c49",
+    "src": "src/core/ConfigService.js",
+    "dst": "./core/ConfigService.js",
+    "name": "ConfigService.js"
+  },
+  {
+    "hash": "5cb90768c41a6b9e4e6a6768a2a8b379b082b0fb",
+    "src": "src/core/ConsoleService.js",
+    "dst": "./core/ConsoleService.js",
+    "name": "ConsoleService.js"
+  },
+  {
+    "hash": "0b3ad605c6ee196d9af0a0085a230e7693292b13",
+    "src": "src/core/ControlServer.js",
+    "dst": "./core/ControlServer.js",
+    "name": "ControlServer.js"
+  },
+  {
+    "hash": "3656c1aa0f28348b04a15c9cf604c23dca90bc86",
+    "src": "src/core/DataBaseConnector.js",
+    "dst": "./core/DataBaseConnector.js",
+    "name": "DataBaseConnector.js"
+  },
+  {
+    "hash": "068b221df94197722cc88cbdd11a03336ad431e3",
+    "src": "src/core/GameServer.js",
+    "dst": "./core/GameServer.js",
+    "name": "GameServer.js"
+  },
+  {
+    "hash": "1f0471c6323f120823b6e493686c0e44d824085c",
+    "src": "src/core/GeneratorService.js",
+    "dst": "./core/GeneratorService.js",
+    "name": "GeneratorService.js"
+  },
+  {
+    "hash": "69b8164a483fff55a3bdc345ca5e4aa695732d51",
+    "src": "src/core/LeaderBoardService.js",
+    "dst": "./core/LeaderBoardService.js",
+    "name": "LeaderBoardService.js"
+  },
+  {
+    "hash": "6a2f9daa601e9f7053f0bd238c7217572447460f",
+    "src": "src/core/PacketHandler.js",
+    "dst": "./core/PacketHandler.js",
+    "name": "PacketHandler.js"
+  },
+  {
+    "hash": "6a0b1e58debbe0d962d0cb04bedcc8a39b8a311a",
+    "src": "src/core/Physics.js",
+    "dst": "./core/Physics.js",
+    "name": "Physics.js"
+  },
+  {
+    "hash": "e9aaeff058eca5819e94e5a8bde58b7ac8d57139",
+    "src": "src/core/PlayerServer.js",
+    "dst": "./core/PlayerServer.js",
+    "name": "PlayerServer.js"
+  },
+  {
+    "hash": "3f7f0f1724f69d5698f16cfde1b7510ca20823ae",
+    "src": "src/core/PlayerTracker.js",
+    "dst": "./core/PlayerTracker.js",
+    "name": "PlayerTracker.js"
+  },
+  {
+    "hash": "fc4917b62bb84ad3cb9006d6a3f86883e23f470f",
+    "src": "src/core/PluginLoader.js",
+    "dst": "./core/PluginLoader.js",
+    "name": "PluginLoader.js"
+  },
+  {
+    "hash": "d40d1f7f1640ae980e8bfcb51d02137a2c24fa17",
+    "src": "src/core/StatServer.js",
+    "dst": "./core/StatServer.js",
+    "name": "StatServer.js"
+  },
+  {
+    "hash": "d378ddfa15bf349f337368275e1138e4432d314f",
+    "src": "src/core/Updater.js",
+    "dst": "./core/Updater.js",
+    "name": "Updater.js"
+  },
+  {
+    "hash": "7d194757e8611bf5926698eb363b5ab2f9e81d96",
+    "src": "src/core/WorldModel.js",
+    "dst": "./core/WorldModel.js",
+    "name": "WorldModel.js"
+  },
+  {
+    "hash": "7734d5a73c78ab2b4e6eea51174cef7f4cd95fa9",
+    "src": "src/core/utilities.js",
+    "dst": "./core/utilities.js",
+    "name": "utilities.js"
+  },
+  {
+    "hash": "4fbf0b0373dffe4b30ae1470ceafdb1d383c0d8e",
     "src": "src/entity/Beacon.js",
     "dst": "./entity/Beacon.js",
-    "hash": "3667dd468144a08e9da5b00d38084fe8"
+    "name": "Beacon.js"
   },
   {
-    "name": "entity:Cell",
+    "hash": "9264fcde085f24875e614e29a0b340d986d6785a",
     "src": "src/entity/Cell.js",
     "dst": "./entity/Cell.js",
-    "hash": "6ef1c2a6f59b8bb43085f60cf99a33dc"
+    "name": "Cell.js"
   },
   {
-    "name": "entity:EjectedMass",
+    "hash": "bd333c60e4313aa50d344652eccd9d5e15b0a8d3",
     "src": "src/entity/EjectedMass.js",
     "dst": "./entity/EjectedMass.js",
-    "hash": "9f2cd8f068e34be42ca7d9c6d0b31cb8"
+    "name": "EjectedMass.js"
   },
   {
-    "name": "entity:Food",
+    "hash": "7b34c08ae7805e0acbda858e4841a2bc6bf24bdf",
     "src": "src/entity/Food.js",
     "dst": "./entity/Food.js",
-    "hash": "ef0963f976d0c8dfa9ebc3482ef27139"
+    "name": "Food.js"
   },
   {
-    "name": "entity:MotherCell",
+    "hash": "d845fb32269de4926a09095203b67818f2ff3510",
     "src": "src/entity/MotherCell.js",
     "dst": "./entity/MotherCell.js",
-    "hash": "0b1330fad43b1db2817b67537250cbf6"
+    "name": "MotherCell.js"
   },
   {
-    "name": "entity:MovingVirus",
+    "hash": "34c187d314ed8e4b336864e540e9f38e917bc9e4",
     "src": "src/entity/MovingVirus.js",
     "dst": "./entity/MovingVirus.js",
-    "hash": "065f8bb15f5c4f95ff6b150af949694f"
+    "name": "MovingVirus.js"
   },
   {
-    "name": "entity:PlayerCell",
+    "hash": "4a4b6e661a26288feb828e4e4d88893e6acbecee",
     "src": "src/entity/PlayerCell.js",
     "dst": "./entity/PlayerCell.js",
-    "hash": "d6caa430af7328a801ff10f3bfd77b7a"
+    "name": "PlayerCell.js"
   },
   {
-    "name": "entity:StickyCell",
+    "hash": "77d5c0a646691b75ad3634cb0e45542fec122135",
     "src": "src/entity/StickyCell.js",
     "dst": "./entity/StickyCell.js",
-    "hash": "6609f25c36f9b1118115dba2ad02cef2"
+    "name": "StickyCell.js"
   },
   {
-    "name": "entity:Virus",
+    "hash": "edd32fb1e92b95393d2e1211628b508bde750d59",
     "src": "src/entity/Virus.js",
     "dst": "./entity/Virus.js",
-    "hash": "2c3eda3db92aba6bc965da4f11fca3b9"
+    "name": "Virus.js"
   },
   {
-    "name": "entity:index",
+    "hash": "886a6fd5521bcb51b8f611da625aef0e299619df",
     "src": "src/entity/index.js",
     "dst": "./entity/index.js",
-    "hash": "5cfd3a05d0f6836a093afcc90225330f"
+    "name": "index.js"
   },
   {
-    "name": "gamemodes:BlackHole",
+    "hash": "14bf252f729179a410dedf131507b8fb03ef4870",
+    "src": "src/files.json",
+    "dst": "./files.json",
+    "name": "files.json"
+  },
+  {
+    "hash": "56ff149fbccfcfb5a22bf4fe6be655dc25b377c3",
+    "src": "src/gamemodes/AFFA.js",
+    "dst": "./gamemodes/AFFA.js",
+    "name": "AFFA.js"
+  },
+  {
+    "hash": "79c9e9693944f23286ff935071ddd74953e2f9fc",
     "src": "src/gamemodes/BlackHole.js",
     "dst": "./gamemodes/BlackHole.js",
-    "hash": "ea85692d8bd9629cc6fd31fff0398d83"
+    "name": "BlackHole.js"
   },
   {
-    "name": "gamemodes:Debug",
+    "hash": "bfdeb1e00106543cee0ee24487c4b5c3c96149b7",
     "src": "src/gamemodes/Debug.js",
     "dst": "./gamemodes/Debug.js",
-    "hash": "8e6dfd4765246390a6fe62b9c708c868"
+    "name": "Debug.js"
   },
   {
-    "name": "gamemodes:Experimental v2",
+    "hash": "0fcc68c5cd2dfb02023a082833c8b8519dd07c0c",
     "src": "src/gamemodes/Experimental%20v2.js",
     "dst": "./gamemodes/Experimental v2.js",
-    "hash": "f0900189046d1704b3b3f45a18357a14"
+    "name": "Experimental v2.js"
   },
   {
-    "name": "gamemodes:Experimental",
+    "hash": "e901ec3d3433dee66e4d2499ab0c40732f5ae08e",
     "src": "src/gamemodes/Experimental.js",
     "dst": "./gamemodes/Experimental.js",
-    "hash": "f14e2230c66dde9401c632d8ff4eccff"
+    "name": "Experimental.js"
   },
   {
-    "name": "gamemodes:FFA",
+    "hash": "c5176994bfe04a1239533fb5d5457b4dc1385e0c",
     "src": "src/gamemodes/FFA.js",
     "dst": "./gamemodes/FFA.js",
-    "hash": "fa4f5069b73edfd9ef31feb5bd317d9a"
+    "name": "FFA.js"
   },
   {
-    "name": "gamemodes:HungerGames",
+    "hash": "ac0d2bc5602af4d08b7cd922e15e756e7b60ff78",
     "src": "src/gamemodes/HungerGames.js",
     "dst": "./gamemodes/HungerGames.js",
-    "hash": "8825386eadedf92f5aad4c13f73914a6"
+    "name": "HungerGames.js"
   },
   {
-    "name": "gamemodes:Leap",
+    "hash": "65bca82a049b12457c36df89f8e85f685af86523",
     "src": "src/gamemodes/Leap.js",
     "dst": "./gamemodes/Leap.js",
-    "hash": "b4f21ce0fabbd8d45d178864e68c5783"
+    "name": "Leap.js"
   },
   {
-    "name": "gamemodes:Mode",
+    "hash": "c49e80dd3cf9f7a2a78e35a140a9e23b1b8b14f4",
     "src": "src/gamemodes/Mode.js",
     "dst": "./gamemodes/Mode.js",
-    "hash": "60940f33f1144a755742429d6108bac8"
+    "name": "Mode.js"
   },
   {
-    "name": "gamemodes:NoCollisionTeamX",
+    "hash": "1d9195c7632b4ee9059ee1eae972721e779adf55",
     "src": "src/gamemodes/NoCollisionTeamX.js",
     "dst": "./gamemodes/NoCollisionTeamX.js",
-    "hash": "525597f693dce33aba71f36537b6d8ce"
+    "name": "NoCollisionTeamX.js"
   },
   {
-    "name": "gamemodes:NoCollisionTeamZ",
+    "hash": "a929721093826f6166851779c133ce2a1f7f3b65",
     "src": "src/gamemodes/NoCollisionTeamZ.js",
     "dst": "./gamemodes/NoCollisionTeamZ.js",
-    "hash": "5c58d37ee022a0060095e09d20fa6ebe"
+    "name": "NoCollisionTeamZ.js"
   },
   {
-    "name": "gamemodes:NoCollisionTeams",
+    "hash": "cccb7fa9e396c800725f6602df89624393714db9",
     "src": "src/gamemodes/NoCollisionTeams.js",
     "dst": "./gamemodes/NoCollisionTeams.js",
-    "hash": "91ffe079f1ef19744b621f782535879b"
+    "name": "NoCollisionTeams.js"
   },
   {
-    "name": "gamemodes:Rainbow",
+    "hash": "573d0fe30c0db88b2092c65e28cd201b4e600e02",
     "src": "src/gamemodes/Rainbow.js",
     "dst": "./gamemodes/Rainbow.js",
-    "hash": "8d50c466a8db8dcb3b19ad10c9ef9bb4"
+    "name": "Rainbow.js"
   },
   {
-    "name": "gamemodes:SFFA",
+    "hash": "e5c5c73d49bd9831532274dd2b2b1ada7ffbef40",
     "src": "src/gamemodes/SFFA.js",
     "dst": "./gamemodes/SFFA.js",
-    "hash": "260ea7513bdfbdf9094a1c19f83690dc"
+    "name": "SFFA.js"
   },
   {
-    "name": "gamemodes:TFFA",
+    "hash": "c734071a9adfc3186b6ffe299205336c2a001d45",
     "src": "src/gamemodes/TFFA.js",
     "dst": "./gamemodes/TFFA.js",
-    "hash": "3e88c696298657a665a9b518f3d841f6"
+    "name": "TFFA.js"
   },
   {
-    "name": "gamemodes:TeamZ",
-    "src": "src/gamemodes/TeamZ.js",
-    "dst": "./gamemodes/TeamZ.js",
-    "hash": "466e5c10c84e4aa1b315dd7eba42a244"
-  },
-  {
-    "name": "gamemodes:TeamX",
+    "hash": "d712eb93d37830c91dc1de5dbe43dca074f8ce16",
     "src": "src/gamemodes/TeamX.js",
     "dst": "./gamemodes/TeamX.js",
-    "hash": "ba6c2dc46c3025294daa0190d7c14baa"
+    "name": "TeamX.js"
   },
   {
-    "name": "gamemodes:Teams",
+    "hash": "d920559d95848e9bd092a89949098a1dc1db0d04",
+    "src": "src/gamemodes/TeamZ.js",
+    "dst": "./gamemodes/TeamZ.js",
+    "name": "TeamZ.js"
+  },
+  {
+    "hash": "e8c2a30007df30ce6c8922f85215f8178f68dd7b",
     "src": "src/gamemodes/Teams.js",
     "dst": "./gamemodes/Teams.js",
-    "hash": "2433f0ed2d0833273e4910cbbd251139"
+    "name": "Teams.js"
   },
   {
-    "name": "gamemodes:Tournament",
+    "hash": "a3aead277022ba0efd528e671426cf98a525a6fc",
     "src": "src/gamemodes/Tournament.js",
     "dst": "./gamemodes/Tournament.js",
-    "hash": "ab759c986a82ef5ffebff566ab675788"
+    "name": "Tournament.js"
   },
   {
-    "name": "gamemodes:Unlimitffa",
+    "hash": "c0104534a018e3ce3321d7169c86d8f8f35d3d53",
     "src": "src/gamemodes/Unlimitffa.js",
     "dst": "./gamemodes/Unlimitffa.js",
-    "hash": "7fd85b75a20b453edcb4a13a861f1f07"
+    "name": "Unlimitffa.js"
   },
   {
-    "name": "gamemodes:Unlimitpvp",
+    "hash": "c71a174a3aca0a1e1b40c71d9cc6869ed62f73e8",
     "src": "src/gamemodes/Unlimitpvp.js",
     "dst": "./gamemodes/Unlimitpvp.js",
-    "hash": "7e2e98e4392121755ef7376662627ed8"
+    "name": "Unlimitpvp.js"
   },
   {
-    "name": "gamemodes:VirusOff",
+    "hash": "af699c7f06d9246073bfeb6132a0a631f869ae28",
     "src": "src/gamemodes/VirusOff.js",
     "dst": "./gamemodes/VirusOff.js",
-    "hash": "e85a4cb93c8bcadb05509832b885b9e2"
+    "name": "VirusOff.js"
   },
   {
-    "name": "gamemodes:Zombie",
+    "hash": "c2b07b825ed7419fcc2a4b74f391ad8b7fad6033",
     "src": "src/gamemodes/Zombie.js",
     "dst": "./gamemodes/Zombie.js",
-    "hash": "dd6e4b500ae971f17e72623e516a2ece"
+    "name": "Zombie.js"
   },
   {
-    "name": "modules:CommandList",
+    "hash": "5dfb7a8bf1141231bea6baa1c6a3f8d077b6a73e",
+    "src": "src/gamemodes/index.js",
+    "dst": "./gamemodes/index.js",
+    "name": "index.js"
+  },
+  {
+    "hash": "bd46e4b83280a82dbdaebf0caec2898fa74fe830",
+    "src": "src/index.js",
+    "dst": "./index.js",
+    "name": "index.js"
+  },
+  {
+    "hash": "bc61389a5961a4c3934dcea3384a425055341691",
     "src": "src/modules/CommandList.js",
     "dst": "./modules/CommandList.js",
-    "hash": "295611a64dda023ef4276c398737abc6"
+    "name": "CommandList.js"
   },
   {
-    "name": "modules:ini",
-    "src": "src/modules/ini.js",
-    "dst": "./modules/ini.js",
-    "hash": "16c0c025dcac9f7192c2f9887c2358fd"
-  },
-  {
-    "name": "modules:log",
-    "src": "src/modules/log.js",
-    "dst": "./modules/log.js",
-    "hash": "b4c1b63317ae4f730f0df9871e71073c"
-  },
-  {
-    "name": "modules:commands:addbot.js",
+    "hash": "01998e7105b1d6c1420283370e5eb8ffe71f266c",
     "src": "src/modules/commands/addbot.js",
     "dst": "./modules/commands/addbot.js",
-    "hash": "2063f830bb787681f734f4212d358ff9"
+    "name": "addbot.js"
   },
   {
-    "name": "modules:commands:announce.js",
+    "hash": "56dc885255b9b55df8e3c1f599daf7b0a5f9ff15",
     "src": "src/modules/commands/announce.js",
     "dst": "./modules/commands/announce.js",
-    "hash": "0dd68309d93d0c8528ce5fe2820ee528"
+    "name": "announce.js"
   },
   {
-    "name": "modules:commands:ban.js",
+    "hash": "52290965ddff4887875584b7170dc68c26570bbd",
     "src": "src/modules/commands/ban.js",
     "dst": "./modules/commands/ban.js",
-    "hash": "9b8529335c6e3d0a9b395a193d20096d"
+    "name": "ban.js"
   },
   {
-    "name": "modules:commands:banlist.js",
+    "hash": "03bb659301c01df31332f0165db2c79747bb0831",
     "src": "src/modules/commands/banlist.js",
     "dst": "./modules/commands/banlist.js",
-    "hash": "4ff8f22584a57040569713f7c2d747c6"
+    "name": "banlist.js"
   },
   {
-    "name": "modules:commands:banrange.js",
+    "hash": "36b7eef1043bd96a5ccef287442f5c6b30d5ebc8",
     "src": "src/modules/commands/banrange.js",
     "dst": "./modules/commands/banrange.js",
-    "hash": "fb0d938ed4854986356959494999e742"
+    "name": "banrange.js"
   },
   {
-    "name": "modules:commands:board.js",
+    "hash": "481bca779c544aab8c8a95783719a1bd356172b1",
+    "src": "src/modules/commands/blind.js",
+    "dst": "./modules/commands/blind.js",
+    "name": "blind.js"
+  },
+  {
+    "hash": "cb41219f7bcc886f27eb88793f16025054f31b29",
     "src": "src/modules/commands/board.js",
     "dst": "./modules/commands/board.js",
-    "hash": "cf05e477870399e2622155f593c1d8c1"
+    "name": "board.js"
   },
   {
-    "name": "modules:commands:boardreset.js",
+    "hash": "8abcf39f7a2db3bad958369e4485aabae5ab042a",
     "src": "src/modules/commands/boardreset.js",
     "dst": "./modules/commands/boardreset.js",
-    "hash": "71c3711bb6df1839aa4d35fac995e50d"
+    "name": "boardreset.js"
   },
   {
-    "name": "modules:commands:change.js",
+    "hash": "db12ff2e80f888f90ed38b9952027feaddcaf31c",
     "src": "src/modules/commands/change.js",
     "dst": "./modules/commands/change.js",
-    "hash": "ca7dfbc5a926406ff3317cda20d2b44e"
+    "name": "change.js"
   },
   {
-    "name": "modules:commands:changelog.js",
+    "hash": "4d1b90ec526dd56cd0140e9d338c7697ef86f84b",
     "src": "src/modules/commands/changelog.js",
     "dst": "./modules/commands/changelog.js",
-    "hash": "cc900e057de0a117922b58fa7165ef53"
+    "name": "changelog.js"
   },
   {
-    "name": "modules:commands:clearban.js",
-    "src": "src/modules/commands/clearban.js",
-    "dst": "./modules/commands/clearban.js",
-    "hash": "42a368ec31c304b6ca5a6dc850a4f4eb"
-  },
-  {
-    "name": "modules:commands:clear.js",
+    "hash": "67b8c5ef65150c0aa28b4397a62467e1865c76e9",
     "src": "src/modules/commands/clear.js",
     "dst": "./modules/commands/clear.js",
-    "hash": "ed6948f1fa6d18aaa5be4f35e0e25b5d"
+    "name": "clear.js"
   },
   {
-    "name": "modules:commands:clearwhitelist.js",
+    "hash": "3e89be62f542b3039ace68034e773df35673b108",
+    "src": "src/modules/commands/clearban.js",
+    "dst": "./modules/commands/clearban.js",
+    "name": "clearban.js"
+  },
+  {
+    "hash": "522fcf40e9e7f271a0e9924f60f47c22c6742913",
     "src": "src/modules/commands/clearwhitelist.js",
     "dst": "./modules/commands/clearwhitelist.js",
-    "hash": "1b1538e928655d5cf95f3c040c036fc0"
+    "name": "clearwhitelist.js"
   },
   {
-    "name": "modules:commands:color.js",
+    "hash": "1ac269d2bca78dcd0e0d5eed25ad7017ec76dbb5",
     "src": "src/modules/commands/color.js",
     "dst": "./modules/commands/color.js",
-    "hash": "7dbe62468e51e879f99bcf370952bdc1"
+    "name": "color.js"
   },
   {
-    "name": "modules:commands:colortext.js",
+    "hash": "63092cf9a84e2a2a9013df7c63385d8432544d23",
     "src": "src/modules/commands/colortext.js",
     "dst": "./modules/commands/colortext.js",
-    "hash": "bb105be1aee0eeff7d67212b06b4d873"
+    "name": "colortext.js"
   },
   {
-    "name": "modules:commands:delete.js",
+    "hash": "1c0d5b731b39008d1ab7722777c0432128dd3e5d",
     "src": "src/modules/commands/delete.js",
     "dst": "./modules/commands/delete.js",
-    "hash": "d94d21eb4d3cc7a8524c9dd779104ef7"
+    "name": "delete.js"
   },
   {
-    "name": "modules:commands:dop.js",
+    "hash": "15f5c77c00d06430eb49a5ad587a5b4be33fb8f7",
     "src": "src/modules/commands/dop.js",
     "dst": "./modules/commands/dop.js",
-    "hash": "2b3e0d5e4bf5915d2baaf2f6f5ca7c45"
+    "name": "dop.js"
   },
   {
-    "name": "modules:commands:enlarge.js",
+    "hash": "59b2e81942823f067f493cf93dc9d0d501f7de43",
     "src": "src/modules/commands/enlarge.js",
     "dst": "./modules/commands/enlarge.js",
-    "hash": "ded1301bbd1215a567a01ce18166b483"
+    "name": "enlarge.js"
   },
   {
-    "name": "modules:commands:exit.js",
+    "hash": "30f0abbf622383053e9d2c00acd0ecbc77cd3ffa",
     "src": "src/modules/commands/exit.js",
     "dst": "./modules/commands/exit.js",
-    "hash": "ec1836c75bca0b9f621e9a627bbea44b"
+    "name": "exit.js"
   },
   {
-    "name": "modules:commands:explode.js",
+    "hash": "85b45f62bd9d4cc1e6ffb4d249215d7665a41246",
     "src": "src/modules/commands/explode.js",
     "dst": "./modules/commands/explode.js",
-    "hash": "658d1ec7865e2782deb7f9fbff4fa50b"
+    "name": "explode.js"
   },
   {
-    "name": "modules:commands:fillChar.js",
+    "hash": "2f1c1189e9b517c28865bccc38e087631092ca54",
     "src": "src/modules/commands/fillChar.js",
     "dst": "./modules/commands/fillChar.js",
-    "hash": "b9d44135590026b7e922bf3489a7b3a6"
+    "name": "fillChar.js"
   },
   {
-    "name": "modules:commands:fmsg.js",
+    "hash": "1111b765ed24c10952bc8d62ebe9cb223d49b808",
     "src": "src/modules/commands/fmsg.js",
     "dst": "./modules/commands/fmsg.js",
-    "hash": "7ad50fc0659f52c9271dad258d25e3a8"
+    "name": "fmsg.js"
   },
   {
-    "name": "modules:commands:food.js",
+    "hash": "8473a070795d78618070bcd7c33a88a2a9c84c81",
     "src": "src/modules/commands/food.js",
     "dst": "./modules/commands/food.js",
-    "hash": "bfdb2e1657a4d1638472361b758fb9e7"
+    "name": "food.js"
   },
   {
-    "name": "modules:commands:freeze.js",
+    "hash": "044d4ae227d66d048996522fe27f88c90066c746",
     "src": "src/modules/commands/freeze.js",
     "dst": "./modules/commands/freeze.js",
-    "hash": "434ed2c0e61b4b3d714aece0a45cc148"
+    "name": "freeze.js"
   },
   {
-    "name": "modules:commands:gamemode.js",
+    "hash": "543fdd802428fa81dd6bcf0b5aff29b825488560",
     "src": "src/modules/commands/gamemode.js",
     "dst": "./modules/commands/gamemode.js",
-    "hash": "a76191f83211725484f1d50aa53355e9"
+    "name": "gamemode.js"
   },
   {
-    "name": "modules:commands:highscore.js",
+    "hash": "6335c2882d8d257d6668afb446dcfb3442072fe8",
+    "src": "src/modules/commands/hide.js",
+    "dst": "./modules/commands/hide.js",
+    "name": "hide.js"
+  },
+  {
+    "hash": "f0c47813d98077bec3a6f6c924e6d21080b27ed4",
     "src": "src/modules/commands/highscore.js",
     "dst": "./modules/commands/highscore.js",
-    "hash": "1eef961fce4971b7848ce1d049bc7541"
+    "name": "highscore.js"
   },
   {
-    "name": "modules:commands:kickbots.js",
-    "src": "src/modules/commands/kickbots.js",
-    "dst": "./modules/commands/kickbots.js",
-    "hash": "d5e857c6be1f30843bbff418cd56264d"
-  },
-  {
-    "name": "modules:commands:kick.js",
+    "hash": "14e6465c3e145c3502f1ce8f9b2d07b6786c8e81",
     "src": "src/modules/commands/kick.js",
     "dst": "./modules/commands/kick.js",
-    "hash": "9ee409ca93726ee490b3798d25305d40"
+    "name": "kick.js"
   },
   {
-    "name": "modules:commands:kickrange.js",
+    "hash": "1658aa650a0ed364cb554e19d375e320e2ace20e",
+    "src": "src/modules/commands/kickbots.js",
+    "dst": "./modules/commands/kickbots.js",
+    "name": "kickbots.js"
+  },
+  {
+    "hash": "3df33cd255bab5623466484ee3bdd08bc7805b0b",
     "src": "src/modules/commands/kickrange.js",
     "dst": "./modules/commands/kickrange.js",
-    "hash": "0292a174c986ccfd6542250f6b804290"
+    "name": "kickrange.js"
   },
   {
-    "name": "modules:commands:killall.js",
-    "src": "src/modules/commands/killall.js",
-    "dst": "./modules/commands/killall.js",
-    "hash": "b6d25b61bdfd840c0a8cbe81077cd48f"
-  },
-  {
-    "name": "modules:commands:killbots.js",
-    "src": "src/modules/commands/killbots.js",
-    "dst": "./modules/commands/killbots.js",
-    "hash": "0f0dbe6fe240d277e736d87917650c49"
-  },
-  {
-    "name": "modules:commands:kill.js",
+    "hash": "71fc9c898e807728d68a5e01c32d6b27cd1c9a59",
     "src": "src/modules/commands/kill.js",
     "dst": "./modules/commands/kill.js",
-    "hash": "292f7ca67b26fa1bd7799a3457fcc542"
+    "name": "kill.js"
   },
   {
-    "name": "modules:commands:killrange.js",
+    "hash": "8d8ffd77aba1135b1be16cde93bdf7634e8bc1d3",
+    "src": "src/modules/commands/killall.js",
+    "dst": "./modules/commands/killall.js",
+    "name": "killall.js"
+  },
+  {
+    "hash": "75410098418bcb7d883436ed43c41dc45fa89a53",
+    "src": "src/modules/commands/killbots.js",
+    "dst": "./modules/commands/killbots.js",
+    "name": "killbots.js"
+  },
+  {
+    "hash": "c1772aec7830b87542effa5754e398e3d4bdfe89",
     "src": "src/modules/commands/killrange.js",
     "dst": "./modules/commands/killrange.js",
-    "hash": "6163a7fdbc1f65389ff910bc53758ccc"
+    "name": "killrange.js"
   },
   {
-    "name": "modules:commands:mass.js",
+    "hash": "08d56aaa6c6bdc286677d201f0345d7356e8ab85",
     "src": "src/modules/commands/mass.js",
     "dst": "./modules/commands/mass.js",
-    "hash": "2038889ce0e3e141e324743ed5291a80"
+    "name": "mass.js"
   },
   {
-    "name": "modules:commands:merge.js",
+    "hash": "cd3fd390772cc2f08cd62b0452732723c1a58012",
     "src": "src/modules/commands/merge.js",
     "dst": "./modules/commands/merge.js",
-    "hash": "0ee2fafec874626e9ca7451390839003"
+    "name": "merge.js"
   },
   {
-    "name": "modules:commands:minion.js",
+    "hash": "45cb4087a83a3d10d234fa020e96fec47d391dc5",
     "src": "src/modules/commands/minion.js",
     "dst": "./modules/commands/minion.js",
-    "hash": "e69e213b0a5637c27bbcd0aeb0b0c83c"
+    "name": "minion.js"
   },
   {
-    "name": "modules:commands:msg.js",
+    "hash": "0e14bcb5e903ad70e2a8d8ca3b3b744f18b0ad92",
     "src": "src/modules/commands/msg.js",
     "dst": "./modules/commands/msg.js",
-    "hash": "9d8596013121b901098d8ae91a5e0a1f"
+    "name": "msg.js"
   },
   {
-    "name": "modules:commands:name.js",
+    "hash": "cc4900c06d775c7a533560e03c8b840fa5382897",
     "src": "src/modules/commands/name.js",
     "dst": "./modules/commands/name.js",
-    "hash": "4387ef6eb23fd196b0335736ae2f0bd0"
+    "name": "name.js"
   },
   {
-    "name": "modules:commands:nojoin.js",
+    "hash": "7f56bfb52e5b8acd0ea961337f7f63a3c1d6eb07",
     "src": "src/modules/commands/nojoin.js",
     "dst": "./modules/commands/nojoin.js",
-    "hash": "0685044d7041375f58fc690e6b3f7c94"
+    "name": "nojoin.js"
   },
   {
-    "name": "modules:commands:opbyip.js",
-    "src": "src/modules/commands/opbyip.js",
-    "dst": "./modules/commands/opbyip.js",
-    "hash": "98188ccc938d1bb2769eccd48be0aa4b"
-  },
-  {
-    "name": "modules:commands:op.js",
+    "hash": "f06f064c73e9c64379617b7522a89dc49c661a30",
     "src": "src/modules/commands/op.js",
     "dst": "./modules/commands/op.js",
-    "hash": "8a1fa1a59889d36eba2af36f4d3dce1d"
+    "name": "op.js"
   },
   {
-    "name": "modules:commands:pause.js",
+    "hash": "0b4972eef63abca7742e094530c026ce7dfcf6a1",
+    "src": "src/modules/commands/opbyip.js",
+    "dst": "./modules/commands/opbyip.js",
+    "name": "opbyip.js"
+  },
+  {
+    "hash": "665811c40ba3f2d06f6a2dc32f330b2b3e75055b",
     "src": "src/modules/commands/pause.js",
     "dst": "./modules/commands/pause.js",
-    "hash": "dd43e04bade3786534aac2462ce60e02"
+    "name": "pause.js"
   },
   {
-    "name": "modules:commands:pcmd.js",
+    "hash": "f4ac189e6d652810eac58d13f1400c52fc465822",
     "src": "src/modules/commands/pcmd.js",
     "dst": "./modules/commands/pcmd.js",
-    "hash": "d1ca7c55e9ffef886f035674b033643a"
+    "name": "pcmd.js"
   },
   {
-    "name": "modules:commands:pfmsg.js",
+    "hash": "e5bd0d8dce9b158795f19f94ee52667e8ef1bb6b",
     "src": "src/modules/commands/pfmsg.js",
     "dst": "./modules/commands/pfmsg.js",
-    "hash": "eda9320aa8a486277e75e27b7cc616f8"
+    "name": "pfmsg.js"
   },
   {
-    "name": "modules:commands:playerlist.js",
+    "hash": "5385d3e3a6cc8e7ae03b472fa0ee32af1e1187e5",
     "src": "src/modules/commands/playerlist.js",
     "dst": "./modules/commands/playerlist.js",
-    "hash": "18728fa7b344e7d652ad902594884e07"
+    "name": "playerlist.js"
   },
   {
-    "name": "modules:commands:pmsg.js",
+    "hash": "f853f683acec944fc951715716cc8faea117d627",
+    "src": "src/modules/commands/plugin.js",
+    "dst": "./modules/commands/plugin.js",
+    "name": "plugin.js"
+  },
+  {
+    "hash": "439c6dc99d3fb82317d6c6f4dc1ab3bca697066c",
     "src": "src/modules/commands/pmsg.js",
     "dst": "./modules/commands/pmsg.js",
-    "hash": "26f93d19ff33b31482e23516c951cb0f"
+    "name": "pmsg.js"
   },
   {
-    "name": "modules:commands:rainbow.js",
+    "hash": "1cf96a8258cd305cf8bd50b50316a860404c3a1d",
     "src": "src/modules/commands/rainbow.js",
     "dst": "./modules/commands/rainbow.js",
-    "hash": "35655bba7546434c954dc6ca29bff1b9"
+    "name": "rainbow.js"
   },
   {
-    "name": "modules:commands:range.js",
+    "hash": "0b7e5cd0aaf6bb802743a421a100b62417750fcc",
     "src": "src/modules/commands/range.js",
     "dst": "./modules/commands/range.js",
-    "hash": "296c2612bbc9c0a9ea096e15d64f7074"
+    "name": "range.js"
   },
   {
-    "name": "modules:commands:reload.js",
+    "hash": "f41f107f2bde34e59fdf6f2a8c5f6e9b0a8831ba",
     "src": "src/modules/commands/reload.js",
     "dst": "./modules/commands/reload.js",
-    "hash": "75ecbe8956e1bb11d0f59f43f073efd1"
+    "name": "reload.js"
   },
   {
-    "name": "modules:commands:resetateam.js",
-    "src": "src/modules/commands/resetateam.js",
-    "dst": "./modules/commands/resetateam.js",
-    "hash": "33e91c307a10fd9854c1545635fccbc8"
-  },
-  {
-    "name": "modules:commands:reset.js",
+    "hash": "4cf2173dbbbe05b3639de3a84f6a8279177a4c25",
     "src": "src/modules/commands/reset.js",
     "dst": "./modules/commands/reset.js",
-    "hash": "6c4ce7849af4723059d5be64d741a67d"
+    "name": "reset.js"
   },
   {
-    "name": "modules:commands:resetvirus.js",
+    "hash": "2d06e85ed382d81c9ec57cad2369e6b8682c03b0",
+    "src": "src/modules/commands/resetateam.js",
+    "dst": "./modules/commands/resetateam.js",
+    "name": "resetateam.js"
+  },
+  {
+    "hash": "3f7a7c35296f234eaa979133684d40a8d980c4da",
     "src": "src/modules/commands/resetvirus.js",
     "dst": "./modules/commands/resetvirus.js",
-    "hash": "a508ae29e51d99b0ed54df2df7f872ab"
+    "name": "resetvirus.js"
   },
   {
-    "name": "modules:commands:restart.js",
+    "hash": "d777eb934fe5169d415fc53a84a5009689097cb0",
     "src": "src/modules/commands/restart.js",
     "dst": "./modules/commands/restart.js",
-    "hash": "b521cb86950d4651a38ec11a45930bff"
+    "name": "restart.js"
   },
   {
-    "name": "modules:commands:rop.js",
+    "hash": "3a16c25165ecb1772c6f9730ee0d44431abfa30f",
     "src": "src/modules/commands/rop.js",
     "dst": "./modules/commands/rop.js",
-    "hash": "629b20be60873ad604cef462df746177"
+    "name": "rop.js"
   },
   {
-    "name": "modules:commands:shrink.js",
+    "hash": "f4c3ee407000ce3f8cfec7a574b68104de14d8c7",
     "src": "src/modules/commands/shrink.js",
     "dst": "./modules/commands/shrink.js",
-    "hash": "66046e37b56b061d906570b315655b80"
+    "name": "shrink.js"
   },
   {
-    "name": "modules:commands:spawnmass.js",
+    "hash": "4956d0ce3a34e16b9b362f64845a6e2b23d0b376",
     "src": "src/modules/commands/spawnmass.js",
     "dst": "./modules/commands/spawnmass.js",
-    "hash": "bca0e337f61c107efe7f5c3dbda77e02"
+    "name": "spawnmass.js"
   },
   {
-    "name": "modules:commands:speed.js",
+    "hash": "d656f3189e3d795347be8933946ed82fcea38ede",
     "src": "src/modules/commands/speed.js",
     "dst": "./modules/commands/speed.js",
-    "hash": "b3ffddce1440f6002e7616090733a517"
+    "name": "speed.js"
   },
   {
-    "name": "modules:commands:spfmsg.js",
+    "hash": "7146004ce9f399c23b8baaea5ca7f426c86dc84d",
     "src": "src/modules/commands/spfmsg.js",
     "dst": "./modules/commands/spfmsg.js",
-    "hash": "a5c7374ddd0c109c975fabe0172a4dea"
+    "name": "spfmsg.js"
   },
   {
-    "name": "modules:commands:split.js",
+    "hash": "c40faab21d13f9362a5d1e70aeab49ff8cfeeaca",
     "src": "src/modules/commands/split.js",
     "dst": "./modules/commands/split.js",
-    "hash": "d37a7de7c9d2e4494efc2fb09e9d9f02"
+    "name": "split.js"
   },
   {
-    "name": "modules:commands:spmsg.js",
+    "hash": "2f725af47a3083ac0d6679917ec59b26bd855ab4",
     "src": "src/modules/commands/spmsg.js",
     "dst": "./modules/commands/spmsg.js",
-    "hash": "e619791b44c865e1b786e16be1dbf3f3"
+    "name": "spmsg.js"
   },
   {
-    "name": "modules:commands:status.js",
+    "hash": "d0e07a58115536ec8872aa0b6e528addff8b7576",
     "src": "src/modules/commands/status.js",
     "dst": "./modules/commands/status.js",
-    "hash": "78ecc8a1f93542a61773eba8c32294f1"
+    "name": "status.js"
   },
   {
-    "name": "modules:commands:team.js",
+    "hash": "5b6769811c72daf6fe3a19bcf3480f99ada7d3a9",
     "src": "src/modules/commands/team.js",
     "dst": "./modules/commands/team.js",
-    "hash": "2c9c94e4c08ae0a5b4530124f2645fa4"
+    "name": "team.js"
   },
   {
-    "name": "modules:commands:tp.js",
+    "hash": "1c79087fbd787794a6d792f023f3ea10cfeaafd9",
     "src": "src/modules/commands/tp.js",
     "dst": "./modules/commands/tp.js",
-    "hash": "a8156585b6e0b4d2a965c6c7c953dea3"
+    "name": "tp.js"
   },
   {
-    "name": "modules:commands:troll.js",
+    "hash": "3a84022206144991f0b329c1ecb05a6636167572",
     "src": "src/modules/commands/troll.js",
     "dst": "./modules/commands/troll.js",
-    "hash": "52fa8b95dc933f81f643899d6e43c844"
+    "name": "troll.js"
   },
   {
-    "name": "modules:commands:unban.js",
+    "hash": "73520085873c7ffd735b08c017cbae1ff153aac7",
     "src": "src/modules/commands/unban.js",
     "dst": "./modules/commands/unban.js",
-    "hash": "f083a4e8623b8094d764afa0ef10d693"
+    "name": "unban.js"
   },
   {
-    "name": "modules:commands:unwhitelist.js",
+    "hash": "268ab2c4da9ae6d29d7ee42eca930a83f3d7f530",
     "src": "src/modules/commands/unwhitelist.js",
     "dst": "./modules/commands/unwhitelist.js",
-    "hash": "b78782f8cbf4533a0e92aba199c4153b"
+    "name": "unwhitelist.js"
   },
   {
-    "name": "modules:commands:update.js",
+    "hash": "0e9d1a9683ac51599a1e4787fcebe5914359778d",
     "src": "src/modules/commands/update.js",
     "dst": "./modules/commands/update.js",
-    "hash": "6135f907dabb14fb1fda5bf2ac1a6215"
+    "name": "update.js"
   },
   {
-    "name": "modules:commands:verify.js",
+    "hash": "08604e5573fe8f8cfebac3bec3ec917c18b398c5",
     "src": "src/modules/commands/verify.js",
     "dst": "./modules/commands/verify.js",
-    "hash": "a803e83342da3b4eaf13464742ef5546"
+    "name": "verify.js"
   },
   {
-    "name": "modules:commands:virus.js",
+    "hash": "043663fc3f4da6c2f2f3d02c7d289fa251628084",
     "src": "src/modules/commands/virus.js",
     "dst": "./modules/commands/virus.js",
-    "hash": "ec74138c21b2c564433436e445092e26"
+    "name": "virus.js"
   },
   {
-    "name": "modules:commands:whitelist2.js",
-    "src": "src/modules/commands/whitelist2.js",
-    "dst": "./modules/commands/whitelist2.js",
-    "hash": "f06caa02e36af088b76b48b9214cef58"
-  },
-  {
-    "name": "modules:commands:whitelist.js",
+    "hash": "c91c363dc3be90f5386d795aff9d2b0426766116",
     "src": "src/modules/commands/whitelist.js",
     "dst": "./modules/commands/whitelist.js",
-    "hash": "0c98c3c8db3e4525bb5ce7b1de62b0fe"
+    "name": "whitelist.js"
   },
   {
-    "name": "README",
+    "hash": "2128fdd596708b0488d9a8d225459e6bb27fcdd7",
+    "src": "src/modules/commands/whitelist2.js",
+    "dst": "./modules/commands/whitelist2.js",
+    "name": "whitelist2.js"
+  },
+  {
+    "hash": "c9f00c0350ac798a0cd60e5121b2a1543197b4b5",
+    "src": "src/modules/ini.js",
+    "dst": "./modules/ini.js",
+    "name": "ini.js"
+  },
+  {
+    "hash": "adce7ecc7e617a6a1eadeb58bf467fad9cff3299",
+    "src": "src/modules/log.js",
+    "dst": "./modules/log.js",
+    "name": "log.js"
+  },
+  {
+    "hash": "e1d61158dd806ab620a3f8be861191e90ebb1f48",
+    "src": "src/packet/AddNode.js",
+    "dst": "./packet/AddNode.js",
+    "name": "AddNode.js"
+  },
+  {
+    "hash": "35dae1e6aa711510b4a4bfec6e7f50614f369a59",
+    "src": "src/packet/ClearNodes.js",
+    "dst": "./packet/ClearNodes.js",
+    "name": "ClearNodes.js"
+  },
+  {
+    "hash": "3fe8a8c51d63a5d014e067841179cb4934c9bdf4",
+    "src": "src/packet/DrawLine.js",
+    "dst": "./packet/DrawLine.js",
+    "name": "DrawLine.js"
+  },
+  {
+    "hash": "681793b37b6d4ae62317161b07bfb5512bb0b2d9",
+    "src": "src/packet/SetBorder.js",
+    "dst": "./packet/SetBorder.js",
+    "name": "SetBorder.js"
+  },
+  {
+    "hash": "bd5af5e69d7bf801f8efd26fa47c781580a93e60",
+    "src": "src/packet/UpdateLeaderboard.js",
+    "dst": "./packet/UpdateLeaderboard.js",
+    "name": "UpdateLeaderboard.js"
+  },
+  {
+    "hash": "3724f4cda9c21968727b5f98ed602ea1298062d3",
+    "src": "src/packet/UpdateNodes.js",
+    "dst": "./packet/UpdateNodes.js",
+    "name": "UpdateNodes.js"
+  },
+  {
+    "hash": "edc18f58bf40e26518d660f8cc15f1c1c0a745ee",
+    "src": "src/packet/UpdatePosition.js",
+    "dst": "./packet/UpdatePosition.js",
+    "name": "UpdatePosition.js"
+  },
+  {
+    "hash": "6a9f5eeea203139ed46d59cde8f7aff248105d52",
+    "src": "src/packet/index.js",
+    "dst": "./packet/index.js",
+    "name": "index.js"
+  },
+  {
+    "hash": "87ff1c7c9b735f936f9bd86f8df78aa3e4a9186b",
+    "src": "src/settings/advConfig.ini",
+    "dst": "./settings/advConfig.ini",
+    "name": "advConfig.ini"
+  },
+  {
+    "hash": "ad3909d22e294cfc41e4a16f7151b5e5c9d29dc0",
+    "src": "src/settings/config.ini",
+    "dst": "./settings/config.ini",
+    "name": "config.ini"
+  },
+  {
+    "hash": "1ee81edf76ec82beab271c058e0c934f2a55ce64",
     "src": "README.md",
     "dst": "../README.md",
-    "hash": "9c37b482d4c098efe455dcf6936733df"
+    "name": "Readme"
   },
   {
-    "name": "Newfeatures",
-    "src": "Newfeatures.md",
-    "dst": "../Newfeatures.md",
-    "hash": "71ffe475ec4f257d5962ba5a8388d887"
-  },
-  {
-    "name": "files",
-    "src": "files.txt",
-    "dst": "../files.txt",
-    "hash": "8abd8f74c590536e23c166e232264aab"
-  },
-  {
-    "name": "LICENSE",
-    "src": "LICENSE.md",
-    "dst": "../LICENSE.md",
-    "hash": "3227a02aab317c20d332fb70fb67849c"
+    "hash": "0d471d0c07ab7220a56d8a07213b5620206e53e4",
+    "src": "package.json",
+    "dst": "../package.json",
+    "name": "package.json"
   }
 ]

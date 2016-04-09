@@ -11,8 +11,8 @@ module.exports = function (gameServer, split) {
     return;
   }
   var id = parseInt(split[1]);
-  var name = split[2];
-  var add = parseInt(split[3]);
+  var name = split[3];
+  var add = parseInt(split[2]);
   gameServer.minion = true;
 
   if (isNaN(id)) {

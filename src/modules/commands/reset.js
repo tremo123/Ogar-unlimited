@@ -7,5 +7,5 @@ module.exports = function (gameServer, split) {
       gameServer.getWorld().removeNode(nodes[i]);
     }
   }
-  console.log("[Console] Reseted game");
+  console.log("[Console] Reset the game");
 };

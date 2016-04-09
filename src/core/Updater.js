@@ -59,7 +59,7 @@ module.exports = class Updater {
     let url = this.url + file.src;
     console.log('[Downloading] ' + url + ' to: ' + file.dst);
     request(url, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode == 200 && body != "") {
         fs.writeFile(file.dst, body, (err, res)=> {
           if (typeof callback === "function") {
             callback(err, res);

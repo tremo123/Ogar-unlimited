@@ -13,7 +13,7 @@ module.exports = class StatServer {
 
   start() {
     // Do not start the server if the port is negative
-    if (this.port < 1) {
+    if (this.port < 1 || this.gameServer.config.vps == 1) {
       return;
     }
     // init stats

@@ -55,6 +55,7 @@ Commands.list = {
     console.log("[Console] food       : spawn food at specified Location");
     console.log("[Console] Freeze     : Freezes a player");
     console.log("[Console] spawnmass  : sets players spawn mass");
+    console.log("[Console] plugin     : Manage plugins ");
     console.log("[Console] Pcmd       : Periodical commands");
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
@@ -118,8 +119,8 @@ Commands.list = {
     }
     console.log("[Console] ====================================================");
   },
+  plugin: require('./commands/plugin.js'),
   blind: require('./commands/blind.js'),
-  dev: require('./commands/dev.js'),
   pcmd: require('./commands/pcmd.js'),
   reset: require('./commands/reset.js'),
   delete: require('./commands/delete.js'),

@@ -229,7 +229,6 @@ Virus.prototype.onAutoMove = function (world) {
       check.angle = this.angle; //make sure new virus shoots in same direction as this virus
       this.feed(check, world);
       i--;
-      len--;
     }
   }
 };

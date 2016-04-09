@@ -21,6 +21,7 @@ BotLoader.prototype.getName = function () {
       this.realrandomNames.splice(index, 1);
     } else {
       name = "bot" + ++this.nameIndex;
+      this.loadNames();
     }
 
   } else {
@@ -31,6 +32,7 @@ BotLoader.prototype.getName = function () {
       this.randomNames.splice(index, 1);
     } else {
       name = "bot" + ++this.nameIndex;
+      this.loadNames();
     }
   }
 
@@ -48,13 +50,17 @@ BotLoader.prototype.loadNames = function () {
 
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
-    this.realrandomNames = fs.readFileSync("./realisticnames.txt", "utf8").split(/[\r\n]+/).filter(filterEmpty);
+    this.realrandomNames = fs.readFileSync("./realisticnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      return x != ''; // filter empty names
+    });
   } catch (e) { /* Nothing, use the default names */
   }
 
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
-    this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(filterEmpty);
+    this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      return x != ''; // filter empty names
+    });
   } catch (e) { /* Nothing, use the default names */
   }
 
