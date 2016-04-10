@@ -49,7 +49,6 @@ module.exports = class GameServer {
     this.banned = this.configService.registerListner('banned', (banned)=>this.banned = banned);
     this.opbyip = this.configService.registerListner('opbyip', (opbyip)=>this.opbyip = opbyip);
     this.highscores = this.configService.registerListner('highscores', (highscores)=>this.highscores = highscores);
-
     this.randomNames = this.configService.registerListner('botnames', (botnames)=>this.randomNames = botnames);
     this.skinshortcut = this.configService.registerListner('skinshortcuts', (skinshortcuts)=>this.skinshortcut = skinshortcuts);
     this.skin = this.configService.registerListner('skins', (skins)=>this.skin = skins);
@@ -67,29 +66,18 @@ module.exports = class GameServer {
     this.log = new Logger();
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 
-    // Gamemodes
-    //this.gameMode = Gamemode.get(this.config.serverGamemode, this);
-
     //bound
     this.mainLoopBind = this.mainLoop.bind(this);
-
-    // config services
-    // Services config
 
     // others
     this.branch = "dev";
     this.customLBEnd = [];
-    this.skinshortcut = [];
     this.gtick = 0;
-    this.randomNames = [];
     this.uv = "";
-    this.highscores = undefined;
-    this.skin = [];
-    //this.opbyip = [];
+
     this.sbo = 1;
     this.ipCounts = [];
     this.minionleader = undefined;
-    this.version = "11.8.5";
 
     this.destroym = false;
     this.lleaderboard = false;
@@ -129,7 +117,7 @@ module.exports = class GameServer {
     };
 
 
-    this.banned = [];
+
 
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
