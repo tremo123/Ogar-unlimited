@@ -52,6 +52,10 @@ Experimental.prototype.spawnMotherCell = function (gameServer) {
     let nodesPlayer = gameServer.getPlayerNodes();
     for (var i = 0; i < nodesPlayer.length; i++) {
       var check = nodesPlayer[i];
+if (!check) {
+  continue;
+}
+
 
       var r = check.getSize(); // Radius of checking player cell
 
