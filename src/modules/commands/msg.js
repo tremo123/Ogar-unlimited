@@ -15,7 +15,7 @@ module.exports = function (gameServer, split) {
   };
   console.log("[MSG] The message has been broadcast");
   setTimeout(function () {
-    var gm = GameMode.get(gameServer.gameMode.ID);
+    var gm = GameMode.get(gameServer.gameMode.ID, gameServer);
 
     // Replace functions
     gameServer.gameMode.packetLB = gm.packetLB;
