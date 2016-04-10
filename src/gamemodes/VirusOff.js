@@ -108,6 +108,6 @@ VirusOff.prototype.updateLB = function (gameServer) {
 };
 VirusOff.prototype.onServerInit = function (gameServer) {
   gameServer.lleaderboard = true;
-  gameServer.spawnv = 0;
+  gameServer.config.spawnVirus = false;
 
 };

@@ -45,8 +45,6 @@ module.exports = class GameServer {
 
     // Config
     this.configService = configService;
-    //this.configService.load();
-
     this.config = this.configService.registerListner('config', (config)=>this.config = config);
     this.banned = this.configService.registerListner('banned', (banned)=>this.banned = banned);
     this.opbyip = this.configService.registerListner('opbyip', (opbyip)=>this.opbyip = opbyip);
@@ -65,7 +63,7 @@ module.exports = class GameServer {
 
     // services - must run after config with the exception of the config service
     this.consoleService = consoleService;
-    this.generatorService = new GeneratorService(this, world, this.config);
+    this.generatorService = new GeneratorService(world);
     this.log = new Logger();
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 

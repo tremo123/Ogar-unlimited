@@ -2,14 +2,18 @@
 var utilities = require('./utilities.js');
 var Entity = require('../entity');
 const DataBaseConnector = require('./DataBaseConnector.js');
+const ConfigService = require('./ConfigService.js');
 
 module.exports = class GeneratorService {
-  constructor(gameServer, world, config) {
-    this.gameServer = gameServer;
+  constructor(world) {
+    // Config
+    this.configService = new ConfigService();
+    this.config = this.configService.registerListner('config', (config)=>this.config = config);
+
+
     this.interval = undefined;
     this.dataBase = new DataBaseConnector('world');
     this.world = world; // todo this is temp
-    this.config = config;
   }
 
   init() {
@@ -53,32 +57,32 @@ module.exports = class GeneratorService {
   };
 
   virusCheck() {
+    if (!this.config.spawnVirus) return;
+
     // Checks if there are enough viruses on the map
-    if (this.gameServer.spawnv == 1) {
-      let virusNodes = this.world.getNodes('virus');
-      if (virusNodes.length < this.config.virusMinAmount) {
-        // Spawns a virus
-        let pos = this.world.getRandomPosition();
-        let virusSquareSize = (this.config.virusStartMass * 100) >> 0;
+    let virusNodes = this.world.getNodes('virus');
+    if (virusNodes.length < this.config.virusMinAmount) {
+      // Spawns a virus
+      let pos = this.world.getRandomPosition();
+      let virusSquareSize = (this.config.virusStartMass * 100) >> 0;
 
-        // Check for players
-        let result = this.world.getNodes('player').some((check)=> {
-          if (check.mass < this.config.virusStartMass) return false;
+      // Check for players
+      let result = this.world.getNodes('player').some((check)=> {
+        if (check.mass < this.config.virusStartMass) return false;
 
-          var squareR = check.getSquareSize(); // squared Radius of checking player cell
+        var squareR = check.getSquareSize(); // squared Radius of checking player cell
 
-          var dx = check.position.x - pos.x;
-          var dy = check.position.y - pos.y;
+        var dx = check.position.x - pos.x;
+        var dy = check.position.y - pos.y;
 
-          if (dx * dx + dy * dy + virusSquareSize <= squareR)
-            return true; // Collided
-        });
-        if (result) return;
+        if (dx * dx + dy * dy + virusSquareSize <= squareR)
+          return true; // Collided
+      });
+      if (result) return;
 
-        // Spawn if no cells are colliding
-        let v = new Entity.Virus(this.world.getNextNodeId(), null, pos, this.config.virusStartMass, this.world, this.config);
-        this.world.setNode(v.getId(), v, 'virus');
-      }
+      // Spawn if no cells are colliding
+      let v = new Entity.Virus(this.world.getNextNodeId(), null, pos, this.config.virusStartMass, this.world, this.config);
+      this.world.setNode(v.getId(), v, 'virus');
     }
   };
 
