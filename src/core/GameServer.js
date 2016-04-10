@@ -528,7 +528,7 @@ module.exports = class GameServer {
   }
 
   getPlayerNodes() {
-    return this.getWorld().getPlayerNodes();
+    return this._nodesPlayer;
     //return this._nodesPlayer;
   }
 
