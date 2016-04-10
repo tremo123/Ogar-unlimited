@@ -32,7 +32,7 @@ module.exports = function (gameServer, split) {
       gameServer.leaderboard = newLB
     };
     console.log("[PMSG] The message has been broadcast " + r + "/" + re);
-    var gm = GameMode.get(gameServer.gameMode.ID);
+    var gm = GameMode.get(gameServer.gameMode.ID, gameServer);
     setTimeout(function () {
       // Replace functions
       gameServer.gameMode.packetLB = gm.packetLB;
