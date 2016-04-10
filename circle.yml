@@ -1,3 +1,5 @@
 machine:
+  pre:
+    - cd src
   node:
     version: 5.9.0
