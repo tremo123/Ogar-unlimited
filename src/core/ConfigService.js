@@ -186,6 +186,7 @@ module.exports = class ConfigService {
 
   registerListner(what, func){
     this.listeners[what].push(func);
+    return this[what];
   }
 
   syncChanges(what) {

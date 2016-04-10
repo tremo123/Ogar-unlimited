@@ -11,8 +11,7 @@ const ConfigService = require('./ConfigService.js');
 module.exports = class WorldModel {
   constructor(config, borderRight, borderLeft, borderBottom, borderTop) {
     this.configService = new ConfigService();
-    this.config = this.configService.getConfig();
-    this.configService.registerListner('config', (newConfig)=>this.config = newConfig);
+    this.config = this.configService.registerListner('config', (newConfig)=>this.config = newConfig);
 
     // id's are shared: player 1-10000, all other nodes 10001-2147483647
     this.lastPlayerId = 1;
