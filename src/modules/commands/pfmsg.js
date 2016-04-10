@@ -37,7 +37,7 @@ module.exports = function (gameServer, split) {
       var client = gameServer.clients[i].playerTracker;
       n[i] = client.name;
 
-      if (client.pID == i + 1) {
+      if (client) {
         client.name = "Look At Leaderboard";
       }
 
@@ -45,7 +45,7 @@ module.exports = function (gameServer, split) {
     gameServer.overideauto = true;
     gameServer.run = false;
     console.log("[PFMSG] The message has been broadcast " + r + "/" + re);
-    var gm = GameMode.get(gameServer.gameMode.ID);
+    var gm = GameMode.get(gameServer.gameMode.ID, gameServer);
     setTimeout(function () {
       // Replace functions
       gameServer.gameMode.packetLB = gm.packetLB;
@@ -53,7 +53,7 @@ module.exports = function (gameServer, split) {
       for (var i = 0; i < gameServer.clients.length; i++) {
         var client = gameServer.clients[i].playerTracker;
 
-        if (client.pID == i + 1) {
+        if (client) {
           client.name = n[i];
         }
 
