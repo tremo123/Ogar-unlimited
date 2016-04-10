@@ -1,7 +1,7 @@
 var Commands = require('./modules/CommandList');
-var GameServer = require('./core/GameServer');
+var ControlServer = require('./core/ControlServer');
 
-var gameServer = new GameServer();
+var ControlServer = new ControlServer();
 
 setTimeout(function () {
   process.exit(0);
