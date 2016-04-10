@@ -11,6 +11,15 @@ const request = require('request');
 
 module.exports = class ConfigService {
   constructor() {
+    this.listeners = {
+      config: [],
+      banned: [],
+      opbyip: [],
+      highscore: [],
+      botnames: [],
+      skinshortcuts: [],
+      skins: []
+    };
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
       consoleUpdateTime: 100,
       autoban: 0, // Auto bans a player if they are cheating
@@ -139,20 +148,20 @@ module.exports = class ConfigService {
       playerBotGrowEnabled: 1, // If 0, eating a cell with less than 17 mass while cell has over 625 wont gain any mass
     }; // end of this.config
     this.banned = [];
-    this.opByIp = [];
-    this.highScores = '';
-    this.botNames = [];
-    this.skinShortCuts = [];
+    this.opbyip = [];
+    this.highscores = '';
+    this.botnames = [];
+    this.skinshortcuts = [];
     this.skins = [];
 
     this.dataBase = new DataBaseConnector('config');
+
     this.dataBase.onChange((data)=>{
       this.onDbChange(data);
 
       if (data.doc.id === 'opbyip'){
         console.log('Data from dataBase: ' + JSON.stringify(data, null, 4));
       }
-
     });
 
     this.loadOrGetFromDb('config', this.loadConfig.bind(this));
@@ -164,7 +173,19 @@ module.exports = class ConfigService {
   }
 
   onDbChange(data){
-    this[data.doc.id] = data.doc.data;
+    this[data.doc._id] = data.doc.data;
+    this.listeners[data.doc._id].forEach((func)=>{
+      try {
+        func(data.doc.data);
+      } catch (error) {
+        console.error('[ConfigService.onDbChange] Failed to call listener for: ' + data.doc.id + ' error: ' + error);
+      }
+
+    })
+  }
+
+  registerListner(what, func){
+    this.listeners[what].push(func);
   }
 
   syncChanges(what) {
@@ -320,28 +341,28 @@ module.exports = class ConfigService {
     let file = BASE_DIR + '/opbyip.txt';
     console.log('Loading ' + file);
     try {
-      this.opByIp = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.opbyip = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
     } catch (err) {
       console.log("[Game] " + file + " not found... Generating new opbyip.txt");
       fs.writeFileSync(file, '');
     }
-    this.dataBase.put({_id: 'opByIp', data: this.opByIp});
+    this.dataBase.put({_id: 'opbyip', data: this.opbyip});
   }
 
   loadHighScores() {
     let file = BASE_DIR + '/highscores.txt';
     try {
       // todo fixme
-      this.highScores = fs.readFileSync(file, 'utf-8');
-      this.highScores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
+      this.highscores = fs.readFileSync(file, 'utf-8');
+      this.highscores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
       fs.writeFileSync(file, this.highscores);
     } catch (err) {
       console.log("[Game] " + file + " not found... Generating new highscores.txt");
       fs.writeFileSync(file, '');
     }
-    this.syncChanges('highScores');
+    this.syncChanges('highscores');
   }
 
   loadBotNames() {
@@ -349,14 +370,14 @@ module.exports = class ConfigService {
     console.log('Loading ' + file);
     try {
       // Read and parse the names - filter out whitespace-only names
-      this.botNames = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.botnames = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
     } catch (e) {
       console.log(file + ' not found using default names');
       // Nothing, use the default names
     }
-    this.syncChanges('botNames');
+    this.syncChanges('botnames');
   }
 
   // todo this needs maintenance
@@ -384,7 +405,7 @@ module.exports = class ConfigService {
       if (this.config.customskins == 1) {
         for (var i in loadskins) {
           var custom = loadskins[i].split(" ");
-          this.skinShortCuts[i] = custom[0];
+          this.skinshortcuts[i] = custom[0];
           this.skins[i] = custom[1];
         }
       }

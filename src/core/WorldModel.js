@@ -5,15 +5,14 @@ const Cell = require('../entity/Cell.js');
 const SortedMap = require("collections/sorted-map");
 const Packet = require('../packet');
 const Gamemode = require('../gamemodes');
+const ConfigService = require('./ConfigService.js');
 
 'use strict';
 module.exports = class WorldModel {
   constructor(config, borderRight, borderLeft, borderBottom, borderTop) {
-    this.config = config;
-    this.borderRight = borderRight;
-    this.borderLeft = borderLeft;
-    this.borderBottom = borderBottom;
-    this.borderTop = borderTop;
+    this.configService = new ConfigService();
+    this.config = this.configService.getConfig();
+    this.configService.registerListner('config', (newConfig)=>this.config = newConfig);
 
     // id's are shared: player 1-10000, all other nodes 10001-2147483647
     this.lastPlayerId = 1;
@@ -181,8 +180,8 @@ module.exports = class WorldModel {
 
   getRandomPosition() {
     return {
-      x: Math.floor(Math.random() * (this.borderRight - this.borderLeft)) + this.borderLeft,
-      y: Math.floor(Math.random() * (this.borderBottom - this.borderTop)) + this.borderTop
+      x: Math.floor(Math.random() * (this.config.borderRight - this.config.borderLeft)) + this.config.borderLeft,
+      y: Math.floor(Math.random() * (this.config.borderBottom - this.config.borderTop)) + this.config.borderTop
     }
   }
 

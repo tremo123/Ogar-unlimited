@@ -60,7 +60,7 @@
     "name": "BotServer.js"
   },
   {
-    "hash": "31a7d21256f380dcbf59ecc6b280039d",
+    "hash": "cbe05467bf0bae4884e35117b7fef955",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
     "name": "ConfigService.js"
@@ -144,7 +144,7 @@
     "name": "Updater.js"
   },
   {
-    "hash": "e08e79dbb45a78cb19b7df6af04dc360",
+    "hash": "71fc7a3cad19cdb72bb1e42248fe0a67",
     "src": "src/core/WorldModel.js",
     "dst": "./core/WorldModel.js",
     "name": "WorldModel.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "70968a780bbce16a716f9b8619453768",
+    "hash": "71a44bb31b88b2ad314c89fea697314d",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
