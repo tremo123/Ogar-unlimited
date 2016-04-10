@@ -47,14 +47,14 @@ module.exports = class GameServer {
     this.configService = configService;
     //this.configService.load();
 
-    this.config = this.configService.getConfig();
-    this.banned = this.configService.getBanned();
-    this.opbyip = this.configService.getOpByIp();
-    this.highscores = this.configService.getHighScores();
+    this.config = this.configService.registerListner('config', (config)=>this.config = config);
+    this.banned = this.configService.registerListner('banned', (banned)=>this.banned = banned);
+    this.opbyip = this.configService.registerListner('opbyip', (opbyip)=>this.opbyip = opbyip);
+    this.highscores = this.configService.registerListner('highscore', (highscores)=>this.highscores = highscores);
 
-    this.randomNames = this.configService.getBotNames();
-    this.skinshortcut = this.configService.getSkinShortCuts();
-    this.skin = this.configService.getSkins();
+    this.randomNames = this.configService.registerListner('botnames', (botnames)=>this.randomNames = botnames);
+    this.skinshortcut = this.configService.registerListner('skinshortcuts', (skinshortcuts)=>this.skinshortcut = skinshortcuts);
+    this.skin = this.configService.registerListner('skins', (skins)=>this.skin = skins);
 
     // plugins
     this.pluginLoader = new PluginLoader(this);
