@@ -48,7 +48,7 @@ module.exports = class GameServer {
     this.config = this.configService.registerListner('config', (config)=>this.config = config);
     this.banned = this.configService.registerListner('banned', (banned)=>this.banned = banned);
     this.opbyip = this.configService.registerListner('opbyip', (opbyip)=>this.opbyip = opbyip);
-    this.highscores = this.configService.registerListner('highscore', (highscores)=>this.highscores = highscores);
+    this.highscores = this.configService.registerListner('highscores', (highscores)=>this.highscores = highscores);
 
     this.randomNames = this.configService.registerListner('botnames', (botnames)=>this.randomNames = botnames);
     this.skinshortcut = this.configService.registerListner('skinshortcuts', (skinshortcuts)=>this.skinshortcut = skinshortcuts);
@@ -85,7 +85,7 @@ module.exports = class GameServer {
     this.uv = "";
     this.highscores = undefined;
     this.skin = [];
-    this.opbyip = [];
+    //this.opbyip = [];
     this.sbo = 1;
     this.ipCounts = [];
     this.minionleader = undefined;

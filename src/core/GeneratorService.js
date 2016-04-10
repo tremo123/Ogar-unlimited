@@ -51,7 +51,7 @@ module.exports = class GeneratorService {
     let f = new Entity.Food(this.world.getNextNodeId(), null, pos, this.config.foodMass, this.world, this.config);
     f.setColor(utilities.getRandomColor());
 
-    this.dataBase.put(f.toJSON());
+    //this.dataBase.put(f.toJSON());
 
     this.world.setNode(f.getId(), f, 'food');
   };

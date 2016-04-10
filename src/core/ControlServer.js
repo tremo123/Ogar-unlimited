@@ -40,12 +40,21 @@ module.exports = class ControlServer {
   start() {
     // start the in memory DataBase
     this.startDB();
+
+    // todo we can set this up better.
+    setTimeout(this.startPhase2.bind(this), 2000);
+    setTimeout(this.startPhase3.bind(this), 4000);
+    //();
   }
 
   startPhase2() {
     // share data
     this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
-    this.config = this.configService.getConfig();
+  }
+
+  startPhase3() {
+    // share data
+    this.config = this.configService.registerListner('config', (config)=>this.config = config);
     this.world = new WorldModel(this.config, this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
 
     // servers
@@ -100,8 +109,6 @@ module.exports = class ControlServer {
     dataBase.stdout.on('data', function (data) {
       if (data.toString().match(/started/)) {
         console.log('db stdout: ' + data);
-        // todo we can set this up better.
-        self.startPhase2();
       }
     });
     dataBase.stderr.on('data', function (data) {

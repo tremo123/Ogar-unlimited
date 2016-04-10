@@ -19,15 +19,22 @@ module.exports = class DataBaseConnector {
 
   put(data) {
     this.db.put(data)
-      .catch(this.handleError);
+      .catch(this.handleError.bind(this));
   }
 
   update(data) {
     let self = this;
     this.db.get(data._id).then((doc)=> {
-      console.log('doc rev: ' + doc._rev)
-      return self.db.put(data, 'data._id', doc._rev);
-    }).catch(this.handleError);
+      console.log('doc rev: ' + doc._rev);
+      return self.db.put(data);
+    }).catch((error)=>{
+      if (error.status === 404) {
+        this.put(data);
+      } else {
+        this.handleError(error)
+      }
+
+    });
   }
 
   get(what, cb) {
@@ -41,9 +48,6 @@ module.exports = class DataBaseConnector {
 
   handleError(error) {
     switch (error.status) {
-      case 404:
-        this.put(data);
-        break;
       case 409:
         console.log('[DataBaseConnector] conflict error: ' + error + ' while attempting to update: ' + what + ' data: ' + data + ' rev: ' + rev);
         break;

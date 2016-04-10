@@ -60,7 +60,7 @@
     "name": "BotServer.js"
   },
   {
-    "hash": "cbe05467bf0bae4884e35117b7fef955",
+    "hash": "88188f670727ee20e2d67793f7ed6360",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
     "name": "ConfigService.js"
@@ -72,25 +72,25 @@
     "name": "ConsoleService.js"
   },
   {
-    "hash": "d7ca9dfe0e95998fbd7934dcd65706f6",
+    "hash": "e9b43e2f54b38000b9efd815919a0e24",
     "src": "src/core/ControlServer.js",
     "dst": "./core/ControlServer.js",
     "name": "ControlServer.js"
   },
   {
-    "hash": "a0ad590adaa6e29b519ee937886a3234",
+    "hash": "b09e737a23c842d7fd86653a73640e1a",
     "src": "src/core/DataBaseConnector.js",
     "dst": "./core/DataBaseConnector.js",
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "6c64b8028346fa376e843e43906387b7",
+    "hash": "ebc31900aeb52c2686139f3e743ef6ae",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
   },
   {
-    "hash": "992f551baa2f1d7ef7c3394fedb402eb",
+    "hash": "55a512a336dd599df2409bbf89616634",
     "src": "src/core/GeneratorService.js",
     "dst": "./core/GeneratorService.js",
     "name": "GeneratorService.js"
@@ -144,7 +144,7 @@
     "name": "Updater.js"
   },
   {
-    "hash": "71fc7a3cad19cdb72bb1e42248fe0a67",
+    "hash": "c28d818327eed1e93946d5bdbce44572",
     "src": "src/core/WorldModel.js",
     "dst": "./core/WorldModel.js",
     "name": "WorldModel.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "71a44bb31b88b2ad314c89fea697314d",
+    "hash": "e067a6fc94353bb99b9f033d6c3c5c79",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
@@ -348,7 +348,7 @@
     "name": "Unlimitpvp.js"
   },
   {
-    "hash": "623ead6483f5c4196829c7c11ac06416",
+    "hash": "3bf71a3c7c8dbad7706998b10aa0e983",
     "src": "src/gamemodes/VirusOff.js",
     "dst": "./gamemodes/VirusOff.js",
     "name": "VirusOff.js"

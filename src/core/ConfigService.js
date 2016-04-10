@@ -15,7 +15,7 @@ module.exports = class ConfigService {
       config: [],
       banned: [],
       opbyip: [],
-      highscore: [],
+      highscores: [],
       botnames: [],
       skinshortcuts: [],
       skins: []
@@ -168,7 +168,7 @@ module.exports = class ConfigService {
     this.loadOrGetFromDb('config', this.loadConfig.bind(this));
     this.loadOrGetFromDb('banned', this.loadBanned.bind(this));
     this.loadOrGetFromDb('opbyip', this.loadOpByIp.bind(this));
-    this.loadOrGetFromDb('highscore', this.loadHighScores.bind(this));
+    this.loadOrGetFromDb('highscores', this.loadHighScores.bind(this));
     this.loadOrGetFromDb('botnames', this.loadBotNames.bind(this));
     this.loadOrGetFromDb(['skinshortcuts', 'skins'], this.loadCustomSkin.bind(this));
   }
