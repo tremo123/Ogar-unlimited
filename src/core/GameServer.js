@@ -973,9 +973,36 @@ module.exports = class GameServer {
     return list;
   };
 
-  getNearestVirus(cell) {
-    return this.getWorld().getNearestNodeToNode(cell, 'virus');
-  };
+ getNearestVirus(cell) {
+  // More like getNearbyVirus
+  var virus = null;
+  var r = 100; // Checking radius
+
+  var topY = cell.position.y - r;
+  var bottomY = cell.position.y + r;
+
+  var leftX = cell.position.x - r;
+  var rightX = cell.position.x + r;
+
+  // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
+  var len = this._nodesVirus.length;
+  for (var i = 0; i < len; i++) {
+    var check = this._nodesVirus[i];
+
+    if (typeof check === 'undefined') {
+      continue;
+    }
+
+    if (!check.collisionCheck(bottomY, topY, rightX, leftX)) {
+      continue;
+    }
+
+    // Add to list of cells nearby
+    virus = check;
+    break; // stop checking when a virus found
+  }
+  return virus;
+};
 
   switchSpectator(player) {
     if (this.gameMode.specByLeaderboard) {
