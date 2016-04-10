@@ -45,7 +45,7 @@ module.exports = function (gameServer, split) {
         gameServer.leaderboard = newLB
       };
       setTimeout(function () {
-        var gm = GameMode.get(gameServer.gameMode.ID);
+        var gm = GameMode.get(gameServer.gameMode.ID, gameServer);
 
         // Replace functions
         gameServer.gameMode.packetLB = gm.packetLB;
