@@ -1,12 +1,16 @@
 'use strict';
+const utilities = require('./utilities.js');
+const BASE_DIR = utilities.getBaseDir(__dirname);
+
 const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
 const DataBaseConnector = require('./DataBaseConnector.js');
+const request = require('request');
+
 
 module.exports = class ConfigService {
   constructor() {
-    this.revisions = {};
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
       consoleUpdateTime: 100,
       autoban: 0, // Auto bans a player if they are cheating
@@ -145,34 +149,26 @@ module.exports = class ConfigService {
     this.dataBase.onChange((data)=>{
       this.onDbChange(data);
 
-      if (data.doc.id === 'opByIp'){
+      if (data.doc.id === 'opbyip'){
         console.log('Data from dataBase: ' + JSON.stringify(data, null, 4));
       }
 
     });
+
+    this.loadOrGetFromDb('config', this.loadConfig.bind(this));
+    this.loadOrGetFromDb('banned', this.loadBanned.bind(this));
+    this.loadOrGetFromDb('opbyip', this.loadOpByIp.bind(this));
+    this.loadOrGetFromDb('highscore', this.loadHighScores.bind(this));
+    this.loadOrGetFromDb('botnames', this.loadBotNames.bind(this));
+    this.loadOrGetFromDb(['skinshortcuts', 'skins'], this.loadCustomSkin.bind(this));
   }
 
   onDbChange(data){
-    this[data.doc.id] = JSON.parse(data.doc.data);
-    this.revisions[data.doc.id] = data.doc._rev;
-  }
-
-  // todo less make this go away and become part of the constructor
-  // todo need to make this smarter ie if there is already a DB up with data then dont load
-  load() {
-    this.loadConfig();
-    this.loadBanned();
-    this.loadOpByIp();
-    this.loadHighScores();
-    this.loadBotNames();
-    this.loadCustomSkin();
+    this[data.doc.id] = data.doc.data;
   }
 
   syncChanges(what) {
-    console.log(what);
-    console.log(this.revisions);
-
-    this.dataBase.put({_id: what, _rev: this.revisions[what], data: JSON.stringify(this[what])}, (res)=>{this.revisions[what] = res.rev; console.log(res)});
+    this.dataBase.update({_id: what, data: this[what]});
   }
 
   getConfig() {
@@ -194,39 +190,39 @@ module.exports = class ConfigService {
   }
 
   getOpByIp() {
-    return this.opByIp;
+    return this.opbyip;
   }
 
   setOpByIp(data) {
-    this.opByIp = data;
-    setTimeout(this.syncChanges.bind(this), 500, 'opByIp');
+    this.opbyip = data;
+    this.syncChanges('opbyip');
   }
 
   getHighScores() {
-    return this.highScores;
+    return this.highscores;
   }
 
   setHighScores(data) {
-    this.highScores = data;
-    this.syncChanges('highScores');
+    this.highscores = data;
+    this.syncChanges('highscores');
   }
 
   getBotNames() {
-    return this.botNames;
+    return this.botnames;
   }
 
   setBotNames(data) {
-    this.botNames = data;
-    this.syncChanges('botNames');
+    this.botnames = data;
+    this.syncChanges('botnames');
   }
 
   getSkinShortCuts() {
-    return this.skinShortCuts;
+    return this.skinshortcuts;
   }
 
   setSkinShortCuts(data) {
-    this.skinShortCuts = data;
-    this.syncChanges('skinShortCuts');
+    this.skinshortcuts = data;
+    this.syncChanges('skinshortcuts');
   }
 
   getSkins() {
@@ -238,23 +234,48 @@ module.exports = class ConfigService {
     this.syncChanges('skins');
   }
 
+  loadOrGetFromDb(what, loader) {
+    if (!Array.isArray(what)){
+      let temp = what;
+      what = [];
+      what.push(temp);
+    }
+
+    what.some((ele)=>{
+      this.dataBase.get(ele, (res)=>{
+        if (res.status === 404) {
+          loader();
+          // todo fixme this doesnt work because get is async
+          return true; // break out of the loop if we have to call the loader for any
+        } else {
+          this[ele] = res.doc.data;
+        }
+      });
+    });
+
+
+  }
+
   loadConfig() {
+    let settingsDir = BASE_DIR + '/src/settings';
+    let file = BASE_DIR + '/src/files.json';
     try {
-      let test = fs.readFileSync('./files.json', 'utf-8');
+      let test = fs.readFileSync(file, 'utf-8');
     } catch (err) {
-      console.log("[Game] files.json not found... Generating new files.json");
+      console.log("[Game] " + file + " not found... Generating new files.json");
       // todo we need a real generator function for this, it shouldn't be an empty file
-      fs.writeFileSync('./files.json', '');
+      fs.writeFileSync(file, '');
     }
     console.log('Loading Config Files...');
-    let configFiles = glob.sync("./settings/*.ini");
+    let configFiles = glob.sync(settingsDir + "/*.ini");
     if (configFiles === []) {
       console.log("[Game] No config files found, generating: src/settings/config.ini");
 
       // Create a new config
-      fs.writeFileSync('./settings/config.ini', ini.stringify(this.config));
+      fs.writeFileSync(settingsDir + '/config.ini', ini.stringify(this.config));
     }
 
+    let self = this;
     configFiles.forEach((file)=> {
       try {
         console.log('Loading ' + file);
@@ -262,7 +283,7 @@ module.exports = class ConfigService {
         let load = ini.parse(fs.readFileSync(file, 'utf-8'));
         // Replace all the default config's values with the loaded config's values
         for (let obj in load) {
-          this.config[obj] = load[obj];
+          self.config[obj] = load[obj];
         }
       } catch (err) {
         console.warn("[Game] Error while loading: " + file + " error: " + err);
@@ -270,17 +291,16 @@ module.exports = class ConfigService {
     });
 
     try {
-      var override = ini.parse(fs.readFileSync('./settings/override.ini', 'utf-8'));
+      var override = ini.parse(fs.readFileSync(settingsDir + '/override.ini', 'utf-8'));
       for (var o in override) {
         this.config[o] = override[o];
       }
     } catch (err) {
       console.log("[Game] Override not found... Generating new override");
-      fs.writeFileSync('./settings/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
+      fs.writeFileSync(settingsDir + '/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
 
     }
-
-    this.dataBase.put({_id: 'config', data: JSON.stringify(this.config)}, (res)=>this.revisions.config = res.rev);
+    this.syncChanges('config');
   }
 
   loadBanned() {
@@ -293,65 +313,72 @@ module.exports = class ConfigService {
       console.log("[Game] Banned.txt not found... Generating new banned.txt");
       fs.writeFileSync('./banned.txt', '');
     }
-    this.dataBase.put({_id: 'banned', data: JSON.stringify(this.banned)}, (res)=>this.revisions.banned = res.rev);
+    this.syncChanges('banned');
   }
 
   loadOpByIp() {
-    console.log('Loading ./opbyip.txt');
+    let file = BASE_DIR + '/opbyip.txt';
+    console.log('Loading ' + file);
     try {
-      this.opByIp = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.opByIp = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
     } catch (err) {
-      console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
-      fs.writeFileSync('./opbyip.txt', '');
+      console.log("[Game] " + file + " not found... Generating new opbyip.txt");
+      fs.writeFileSync(file, '');
     }
-    this.dataBase.put({_id: 'opByIp', data: JSON.stringify(this.opByIp)}, (res)=>this.revisions.opByIp = res.rev);
+    this.dataBase.put({_id: 'opByIp', data: this.opByIp});
   }
 
   loadHighScores() {
+    let file = BASE_DIR + '/highscores.txt';
     try {
-      this.highScores = fs.readFileSync('./highscores.txt', 'utf-8');
+      // todo fixme
+      this.highScores = fs.readFileSync(file, 'utf-8');
       this.highScores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
-      fs.writeFileSync('./highscores.txt', this.highscores);
+      fs.writeFileSync(file, this.highscores);
     } catch (err) {
-      console.log("[Game] highscores.txt not found... Generating new highscores.txt");
-      fs.writeFileSync('./highscores.txt', '');
+      console.log("[Game] " + file + " not found... Generating new highscores.txt");
+      fs.writeFileSync(file, '');
     }
-    this.dataBase.put({_id: 'highScores', data: JSON.stringify(this.highScores)}, (res)=>this.revisions.highScores = res.rev);
+    this.syncChanges('highScores');
   }
 
   loadBotNames() {
+    let file = BASE_DIR + '/src/botnames.txt';
+    console.log('Loading ' + file);
     try {
       // Read and parse the names - filter out whitespace-only names
-      this.botNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.botNames = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
     } catch (e) {
-      console.log('botnames.txt not found using default names');
+      console.log(file + ' not found using default names');
       // Nothing, use the default names
     }
-    this.dataBase.put({_id: 'botNames', data: JSON.stringify(this.botNames)}, (res)=>this.revisions.botNames = res.rev);
+    this.syncChanges('botNames');
   }
 
   // todo this needs maintenance
   loadCustomSkin() {
+    let file = BASE_DIR + '/src/customskins.txt';
+    console.log('Loading ' + file);
     try {
-      if (!fs.existsSync('customskins.txt')) {
+      if (!fs.existsSync(file)) {
         console.log("[Console] Generating customskin.txt...");
         request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
           if (!error && response.statusCode == 200) {
 
-            fs.writeFileSync('customskins.txt', body);
+            fs.writeFileSync(file, body);
 
           } else {
             console.log("[Update] Could not fetch data from servers... will generate empty file");
-            fs.writeFileSync('customskins.txt', "");
+            fs.writeFileSync(file, "");
           }
         });
 
       }
-      var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      var loadskins = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
       if (this.config.customskins == 1) {
@@ -364,7 +391,7 @@ module.exports = class ConfigService {
     } catch (e) {
       console.warn("[Console] Failed to load/download customskins.txt")
     }
-    this.dataBase.put({_id: 'skinShortCuts', data: JSON.stringify(this.skinShortCuts)}, (res)=>this.revisions.skinShortCuts = res.rev);
-    this.dataBase.put({_id: 'skins', data: JSON.stringify(this.skins)}, (res)=>this.revisions.skins = res.rev);
+    this.syncChanges('skinshortcuts');
+    this.syncChanges('skins');
   }
 };

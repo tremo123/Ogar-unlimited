@@ -1,6 +1,8 @@
 'use strict';
 // This is the main server process that should only ever be called once. It creates and controls the other servers
 // as well as controls the communication between them and shares data
+const utilities = require('./utilities.js');
+const BASE_DIR = utilities.getBaseDir(__dirname);
 
 const WorldModel = require('./WorldModel');
 const GameServer = require('./GameServer');
@@ -43,7 +45,6 @@ module.exports = class ControlServer {
   startPhase2() {
     // share data
     this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
-    this.configService.load();
     this.config = this.configService.getConfig();
     this.world = new WorldModel(this.config, this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
 
@@ -92,7 +93,8 @@ module.exports = class ControlServer {
 
   startDB() {
     // start an in memory database
-    let dataBase = spawn('node', ['../node_modules/pouchdb-server/bin/pouchdb-server', '--port', '5984', '-m']);
+    let pouchDbServer = BASE_DIR + '/node_modules/pouchdb-server/bin/pouchdb-server';
+    let dataBase = spawn('node', [pouchDbServer, '--port', '5984', '-m']);
     this.servers['dataBase'] = dataBase;
     let self = this;
     dataBase.stdout.on('data', function (data) {

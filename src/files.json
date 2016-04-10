@@ -60,7 +60,7 @@
     "name": "BotServer.js"
   },
   {
-    "hash": "947a3a61116b0389900b6756dd329994",
+    "hash": "31a7d21256f380dcbf59ecc6b280039d",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
     "name": "ConfigService.js"
@@ -72,19 +72,19 @@
     "name": "ConsoleService.js"
   },
   {
-    "hash": "89bfd6323b7a9cb430ecd928ac46e951",
+    "hash": "d7ca9dfe0e95998fbd7934dcd65706f6",
     "src": "src/core/ControlServer.js",
     "dst": "./core/ControlServer.js",
     "name": "ControlServer.js"
   },
   {
-    "hash": "358433aa34807757c88b536562becbaf",
+    "hash": "a0ad590adaa6e29b519ee937886a3234",
     "src": "src/core/DataBaseConnector.js",
     "dst": "./core/DataBaseConnector.js",
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "ac33388492a71755bd15960435b96654",
+    "hash": "6c64b8028346fa376e843e43906387b7",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
@@ -138,7 +138,7 @@
     "name": "StatServer.js"
   },
   {
-    "hash": "edb235fdfe3a947625b5e55172f1e5e5",
+    "hash": "561ec83dad24a864a0ae42be63664cd8",
     "src": "src/core/Updater.js",
     "dst": "./core/Updater.js",
     "name": "Updater.js"
@@ -150,7 +150,7 @@
     "name": "WorldModel.js"
   },
   {
-    "hash": "0b8fcee457f123e8e630ffb883de1435",
+    "hash": "7d04b8506275b52426b1d74650f9e172",
     "src": "src/core/utilities.js",
     "dst": "./core/utilities.js",
     "name": "utilities.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "de7098f420bc81797dd8ebd6747b1d09",
+    "hash": "70968a780bbce16a716f9b8619453768",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"

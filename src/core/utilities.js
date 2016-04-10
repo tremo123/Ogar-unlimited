@@ -32,5 +32,8 @@ module.exports = {
     newLB[3] = this.topusername;
 
     return newLB;
+  },
+  getBaseDir(dir) {
+    return dir.split(/\/src/)[0];
   }
 };

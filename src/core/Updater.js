@@ -1,4 +1,7 @@
 'use strict';
+const utilities = require('./utilities.js');
+const BASE_DIR = utilities.getBaseDir(__dirname);
+
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
@@ -8,9 +11,10 @@ const exec = require('child_process').exec;
 
 module.exports = class Updater {
   constructor(gameServer) {
+    let file = BASE_DIR + '/src/files.json';
     this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + "dev" + "/";
     this.gameServer = gameServer;
-    this.files = require(path.resolve(process.cwd(), 'files.json'));
+    this.files = require(file);
     this.newFiles = {};
     this.updatedFiles = [];
   }

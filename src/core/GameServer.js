@@ -52,9 +52,6 @@ module.exports = class GameServer {
     this.opbyip = this.configService.getOpByIp();
     this.highscores = this.configService.getHighScores();
 
-    this.opbyip.push('127.0.0.1');
-    this.configService.setOpByIp(this.opbyip);
-
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
     this.skin = this.configService.getSkins();

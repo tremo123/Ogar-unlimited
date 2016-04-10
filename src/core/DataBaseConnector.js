@@ -10,24 +10,45 @@ module.exports = class DataBaseConnector {
     this.db = new PouchDB(uri);
   }
 
-  onChange(callBack){
+  onChange(callBack) {
     this.db.changes({
       live: true,
       include_docs: true
     }).on('change', callBack);
   }
 
-  put(data, cb){
-    let rev = undefined;
+  put(data) {
     this.db.put(data)
-      .then((res)=>{
-        if (typeof cb === 'function') {
-          cb(res);
-        }
-      })
-    .catch((error)=>{
-      console.log('[DataBaseConnector] error: ' + error + ' while attempting to put: ' + data);
+      .catch(this.handleError);
+  }
+
+  update(data) {
+    let self = this;
+    this.db.get(data._id).then((doc)=> {
+      console.log('doc rev: ' + doc._rev)
+      return self.db.put(data, 'data._id', doc._rev);
+    }).catch(this.handleError);
+  }
+
+  get(what, cb) {
+    return this.db.get(what).then((doc)=> {
+      cb(doc.data);
+    }).catch((error)=>{
+      cb(error);
     });
-    return rev;
+
+  }
+
+  handleError(error) {
+    switch (error.status) {
+      case 404:
+        this.put(data);
+        break;
+      case 409:
+        console.log('[DataBaseConnector] conflict error: ' + error + ' while attempting to update: ' + what + ' data: ' + data + ' rev: ' + rev);
+        break;
+      default:
+        console.log('[DataBaseConnector] error: ' + error + ' while attempting to update: ' + what + ' data: ' + data);
+    }
   }
 };
