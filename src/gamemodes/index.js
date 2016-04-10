@@ -87,7 +87,7 @@ var get = function (id, gameServer) {
       mode = new module.exports.Experimental2();
       break;
     default: // FFA is default
-      if (gameServer.pluginGamemodes[id]) {
+      if (gameServer && gameServer.pluginGamemodes[id]) {
         mode = new gameServer.pluginGamemodes[id];
 
       } else {
