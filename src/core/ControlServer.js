@@ -44,7 +44,6 @@ module.exports = class ControlServer {
     // todo we can set this up better.
     setTimeout(this.startPhase2.bind(this), 2000);
     setTimeout(this.startPhase3.bind(this), 4000);
-    //();
   }
 
   startPhase2() {
