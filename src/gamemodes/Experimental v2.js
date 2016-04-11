@@ -153,8 +153,8 @@ Experimental2.prototype.spawnMovingVirus = function (gameServer) {
       pos,
       this.movingVirusMass + Math.floor(50 * Math.random())
     );
-    gameServer.movingNodes.push(m);
-    gameServer.addNode(m);
+    
+    gameServer.addNode(m, 'moving');
   }
 };
 
