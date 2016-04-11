@@ -8,6 +8,6 @@ module.exports = function (gameServer, split) {
     console.log("[Console] Kicked all bots (" + removed + ")");
     return;
   }
-
+gameServer.sbo -= removed
   console.log("[Console] Kicked " + toRemove + " bots");
 };
