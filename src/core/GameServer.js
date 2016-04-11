@@ -1703,7 +1703,7 @@ kickBots(numToKick) {
     var toRemove = numToKick;
     var i = 0;
     while (i < this.getClients().length && removed != toRemove) {
-      if (typeof this.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+      if (typeof this.clients[i].remoteAddress == 'undefined' && !this.clients[i].playerTracker.owner) { // if client i is a bot kick him
         var client = this.clients[i].playerTracker;
         var len = client.cells.length;
         for (var j = 0; j < len; j++) {
