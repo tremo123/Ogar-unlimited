@@ -13,6 +13,11 @@ module.exports = function (gameServer, split) {
           gameServer.removeNode(client.cells[0]);
         }
         client.socket.close();
+        if (!gameServer.clients[i].remoteAddress) {
+          gameServer.sbo --;
+          
+        }
+        
         console.log("[Console] Kicked " + client.name);
         break;
       }
