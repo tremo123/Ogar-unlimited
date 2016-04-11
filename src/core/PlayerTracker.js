@@ -228,7 +228,8 @@ module.exports = class PlayerTracker {
     }
 
 
-    if (this.score > this.gameServer.topscore + 10 && this.gameServer.config.highscore == 1) {
+    if (this.score > this.gameServer.topscore + 10) {
+if (this.gameServer.config.highscore == 1) {
 
       if (this.name != this.gameServer.topusername) {
         var self = this;
@@ -247,6 +248,20 @@ module.exports = class PlayerTracker {
       if (this.gameServer.config.showtopscore == 1) {
         console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
       }
+    } else {
+       if (this.name != this.gameServer.topusername) {
+      this.gameServer.oldtopscores.score = this.gameServer.topscore;
+          this.gameServer.oldtopscores.name = this.gameServer.topusername;
+      
+      
+       }
+             this.gameServer.topscore = Math.floor(this.score);
+      this.gameServer.topusername = this.name;
+      if (this.gameServer.config.showtopscore == 1) {
+        console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+      }
+    }
+    
     }
     return Math.floor(this.score);
   };
