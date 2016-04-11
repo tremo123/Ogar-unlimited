@@ -186,6 +186,17 @@ module.exports = class ConsoleService {
   execCommand(command, args) {
     try {
       var execute = this.commands[command];
+      if (typeof execute !== 'undefined') {
+      execute(this.gameServer, split);
+    } else {
+      var execute = this.gameServer.pluginCommands[first];
+      if (typeof execute !== 'undefined') {
+        execute(this.gameServer, split);
+
+      } else {
+        console.warn('[ConsoleService] Failed to run command: ' + command + " args: " + args);
+      }
+    }
       execute(this, args);
     } catch (e) {
       console.warn('[ConsoleService] Failed to run command: ' + command + " args: " + args);
