@@ -4,23 +4,9 @@ module.exports = function (gameServer, split) {
   if (isNaN(start) || isNaN(end)) {
     console.log("[Console] Please specify a valid range!");
   }
+  let split = [];
   for (var h = start; h < end; h++) {
-    for (var i in gameServer.clients) {
-      if (gameServer.clients[i].playerTracker.pID == h) {
-        var client = gameServer.clients[i].playerTracker;
-        var len = client.cells.length;
-        for (var j = 0; j < len; j++) {
-          gameServer.removeNode(client.cells[0]);
-        }
-        client.socket.close();
-        if (!gameServer.clients[i].remoteAddress) {
-          gameServer.sbo --;
-          
-        }
-        
-        console.log("[Console] Kicked " + client.name);
-        break;
-      }
-    }
+   split[1] = h;
+ gameServer.consoleService.execCommand('kick',split);
   }
 };
