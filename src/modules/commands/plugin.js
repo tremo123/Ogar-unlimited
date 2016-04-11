@@ -21,7 +21,7 @@ module.exports = function (gameServer, split) {
     console.log("[Console] Reloaded plugins");
   } else if (split[1] == "delete") {
     if(split[2]) {
-    gameServer.dfr('../plugins/' + split[2]);
+    gameServer.dfr('./plugins/' + split[2]);
     console.log("[Console] Deleting Plugin " + split[2]);
     
     setTimeout(function() {
