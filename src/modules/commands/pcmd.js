@@ -25,7 +25,7 @@ module.exports = function (gameServer, split) {
   var r = 0;
   var interval = setInterval(function () {
     console.log("[PCMD] Running command.");
-    gameServer.execommand(command, newsplit);
+    gameServer.consoleService.execommand(command, newsplit);
     r++;
     if (r > re) {
       console.log("[PCMD] Done");
