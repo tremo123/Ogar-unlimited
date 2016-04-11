@@ -1524,8 +1524,7 @@ module.exports = class GameServer {
             console.log("[Console] Initiating Autoupdate\x1b[0m");
             split = [];
             split[1] = "yes";
-            let execute = game.commands["update"];
-            execute(game, split);
+game.consoleService.execCommand("update", split);
           } else {
             console.log("[Console] To update quickly, use the update command!\x1b[0m");
           }
@@ -1583,8 +1582,7 @@ module.exports = class GameServer {
               console.log("[Console] Initiating Autoupdate\x1b[0m");
               split = [];
               split[1] = "yes";
-              let execute = game.commands["update"];
-              execute(game, split);
+game.consoleService.execCommand("update", split);
             } else {
               console.log("[Console] To update quickly, use the update command!\x1b[0m");
             }
