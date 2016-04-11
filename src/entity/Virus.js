@@ -208,7 +208,8 @@ Virus.prototype.onAutoMove = function (gameServer) {
   var r = 100; // Checking radius
 
    let ejectedNodes = gameServer.getEjectedNodes();
-  for (var i = 0; i < ejectedNodes.length; i++) {
+   var len = ejectedNodes.length;
+  for (var i = 0; i < len; i++) {
    var check = ejectedNodes[i];
 
     var topY = check.position.y - r;
@@ -220,6 +221,7 @@ Virus.prototype.onAutoMove = function (gameServer) {
       check.angle = this.angle; //make sure new virus shoots in same direction as this virus
       this.feed(check, gameServer);
       i--;
+      len--;
     }
   }
 };
