@@ -1077,10 +1077,8 @@ module.exports = class GameServer {
     // Add to moving cells list
     this.addNode(newVirus, "moving");
   };
-
-  // todo refactor this is way to long and does way to many different things
-  ejectMass(client) {
-    let name;
+onWVerify(client) {
+  let name;
     if (client.tverify && !client.verify) {
       client.name = client.vname;
       if (this.config.randomnames == 1) {
@@ -1113,17 +1111,17 @@ module.exports = class GameServer {
       client.verify = true;
       client.tverify = false;
 
-    }
-    else {
-
-      if (!client.verify && this.config.verify == 1 && !client.tverify) {
+    } else if (!client.verify && this.config.verify == 1 && !client.tverify) {
         client.cells.forEach((cell)=>this.removeNode(cell))
+      } else {
+       return true; 
       }
-      if (!this.canEjectMass(client)) return;
-      let player = client;
-      let ejectedCells = 0; // How many cells have been ejected
-      if (this.config.ejectbiggest == 1) {
-        let cell = client.getBiggestc();
+      
+      return false;
+  
+};
+ ejectBiggest(client) {
+  let cell = client.getBiggestc();
         if (!cell) {
           return;
         }
@@ -1163,7 +1161,7 @@ module.exports = class GameServer {
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
           ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
-          ejected.par = player;
+          ejected.par = client;
         } else {
           ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
         }
@@ -1176,7 +1174,19 @@ module.exports = class GameServer {
 
 
         this.addNode(ejected, "moving");
-        ejectedCells++;
+        ejectedCells++; 
+   
+ };
+
+
+  // todo refactor this is way to long and does way to many different things
+  ejectMass(client) {
+    if (this.onWVerify(client)) {
+      if (!this.canEjectMass(client)) return;
+      let player = client;
+      let ejectedCells = 0; // How many cells have been ejected
+      if (this.config.ejectbiggest == 1) {
+        this.ejectBiggest(client);
       } else {
         for (let i = 0; i < client.cells.length; i++) {
           let cell = client.cells[i];
@@ -1225,7 +1235,7 @@ module.exports = class GameServer {
             ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
           }
           if (this.config.ejectvirus == 1) {
-            ejected.par = player;
+            ejected.par = client;
 
           }
 
