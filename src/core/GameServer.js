@@ -1698,12 +1698,12 @@ game.consoleService.execCommand("update", split);
   ejecttMass(client) {
     Physics.ejectMass(client, this.getWorld(),this);
   };
-
-  kickBots(numToKick) {
-    let removed = 0;
-
-    this.getClients().some((client)=> {
-      if (numToKick === removed) return true;
+kickBots(numToKick) {
+    var removed = 0;
+var clients = this.getClients();
+    for (var i in clients) {
+     var client = clients[i];
+      if (numToKick === removed) return;
       if (!client.remoteAddress) {
         client.playerTracker.cells.forEach((cell)=>this.removeNode(cell));
           client.playerTracker.socket.close();
@@ -1711,9 +1711,10 @@ game.consoleService.execCommand("update", split);
         
         removed++;
       }
-    });
+    }
     return removed;
   }
+};
 };
 
 // Custom prototype functions
