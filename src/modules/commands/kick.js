@@ -17,6 +17,10 @@ module.exports = function (gameServer, split) {
       } else {
         client.socket.close();
       }
+      if (!gameServer.clients[i].remoteAddress) {
+          gameServer.sbo --;
+          
+        }
       console.log("[Console] Kicked " + client.name);
       break;
     }
