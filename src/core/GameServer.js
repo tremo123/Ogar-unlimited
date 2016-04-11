@@ -1700,20 +1700,21 @@ game.consoleService.execCommand("update", split);
   };
 kickBots(numToKick) {
     var removed = 0;
-var clients = this.getClients();
-    for (var i in clients) {
-     var client = clients[i];
-      if (numToKick === removed) return;
-      if (!client.remoteAddress) {
-        client.playerTracker.cells.forEach((cell)=>this.removeNode(cell));
-          client.playerTracker.socket.close();
-        
-        
+    var toRemove = numToKick;
+    var i = 0;
+    while (i < this.getClients().length && removed != toRemove) {
+      if (typeof this.clients[i].remoteAddress == 'undefined') { // if client i is a bot kick him
+        var client = this.clients[i].playerTracker;
+        var len = client.cells.length;
+        for (var j = 0; j < len; j++) {
+          this.removeNode(client.cells[0]);
+        }
+        client.socket.close();
         removed++;
-      }
+      } else
+        i++;
     }
     return removed;
-  }
 };
 };
 
