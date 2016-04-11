@@ -8,7 +8,15 @@ module.exports = class GeneratorService {
   constructor(world) {
     // Config
     this.configService = new ConfigService();
-    this.config = this.configService.registerListner('config', (config)=>this.config = config);
+    this.config = this.configService.registerListner('config', (config)=>{
+      this.config = config;
+      this.foodSpawnRate = this.config.foodSpawnAmount / 60;
+    });
+
+    // food to spawn per second
+
+    // the amount of food we have spawned
+    this.foodSpawned = 0;
 
 
     this.interval = undefined;
@@ -31,7 +39,11 @@ module.exports = class GeneratorService {
   }
 
   start() {
-    this.interval = setInterval(this.update.bind(this), this.config.spawnInterval);
+    console.log('generator start');
+    this.startTime = new Date();
+    this.updateTime = this.startTime;
+    this.foodSpawned = 0;
+    this.interval = setInterval(this.update.bind(this), 1);
   }
 
   stop() {
@@ -39,7 +51,11 @@ module.exports = class GeneratorService {
   }
 
   update() {
-    let toSpawn = Math.min(this.config.foodSpawnAmount, (this.config.foodMaxAmount - this.world.getNodes('food').length));
+    let currentFoodSpawnRate = this.foodSpawned / (new Date() - this.startTime) * 1000;
+    let toSpawn = this.foodSpawnRate - currentFoodSpawnRate;
+
+    toSpawn = Math.min(toSpawn, (this.config.foodMaxAmount - this.world.getNodes('food').length));
+    toSpawn = (toSpawn > this.foodSpawnRate) ? 0 : toSpawn;
     for (let i = 0; i < toSpawn; i++) {
       this.spawnFood();
     }
@@ -47,6 +63,7 @@ module.exports = class GeneratorService {
   }
 
   spawnFood() {
+    this.foodSpawned++;
     let pos = this.world.getRandomPosition();
     let f = new Entity.Food(this.world.getNextNodeId(), null, pos, this.config.foodMass, this.world, this.config);
     f.setColor(utilities.getRandomColor());
