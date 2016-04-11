@@ -4,7 +4,7 @@ module.exports = function (gameServer, split) {
   if (isNaN(start) || isNaN(end)) {
     console.log("[Console] Please specify a valid range!");
   }
-  let split = [];
+ var split = [];
   for (var h = start; h < end; h++) {
    split[1] = h;
  gameServer.consoleService.execCommand('kick',split);
