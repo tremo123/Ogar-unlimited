@@ -1,9 +1,10 @@
 'use strict';
 module.exports = function (gameServer, split) {
-  let count = 0;
-  gameServer.getPlayerNodes().forEach((node)=> {
-    gameServer.removeNode(node);
-    count++;
-  });
-  console.log("[Console] Removed " + count + " cells");
+var count = 0;
+    var len = gameServer._nodesPlayer.length;
+    for (var i = 0; i < len; i++) {
+      gameServer.removeNode(gameServer._nodesPlayer[0]);
+      count++;
+    }
+    console.log("[Console] Removed " + count + " cells");
 };
