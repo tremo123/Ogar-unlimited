@@ -44,24 +44,24 @@ BotLoader.prototype.loadNames = function () {
   this.realrandomNames = [];
 
   // Load names
-  function filterEmpty(name) {
-    return x != ''; // filter empty names
+  try {
+        var fs = require("fs"); // Import the util library
+        var path = require("path");
+  } catch (e) {/* Nothing, use the default names */
   }
-
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
-    this.realrandomNames = fs.readFileSync("./realisticnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+    this.realrandomNames = fs.readFileSync(path.join(__dirname, '../', 'realisticnames.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
       return x != ''; // filter empty names
     });
-  } catch (e) { /* Nothing, use the default names */
+  } catch (e) {/* Nothing, use the default names */
   }
-
   // Read and parse the names - filter out whitespace-only names - fs.readFileSync is only used during server start
   try {
-    this.randomNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+    this.randomNames = fs.readFileSync(path.join(__dirname, '../', 'botnames.txt'), "utf8").split(/[\r\n]+/).filter(function(x) {
       return x != ''; // filter empty names
     });
-  } catch (e) { /* Nothing, use the default names */
+  } catch (e) {/* Nothing, use the default names */
   }
 
   this.nameIndex = 0;

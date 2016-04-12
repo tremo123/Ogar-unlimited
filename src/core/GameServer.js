@@ -437,7 +437,7 @@ module.exports = class GameServer {
     }
 
     this.statServer.start();
-  };
+  }
 
   update(dt) {
 
@@ -445,11 +445,11 @@ module.exports = class GameServer {
 
   pause(){
     this.running = false;
-    this.generatorService.stop()
+    this.generatorService.stop();
   }
   unpause(){
     this.running = true;
-    this.generatorService.start()
+    this.generatorService.start();
   }
 
   getWorld() {
@@ -556,7 +556,7 @@ module.exports = class GameServer {
   }
 
   addVirusNodes(node) {
-    this._nodesVirus.push(node)
+    this._nodesVirus.push(node);
   }
 
   removeVirusNode(node) {
@@ -575,7 +575,7 @@ module.exports = class GameServer {
   }
 
   addEjectedNodes(node) {
-    this._nodesEjected.push(node)
+    this._nodesEjected.push(node);
   }
 
   removeEjectedNode(node) {
@@ -599,7 +599,7 @@ module.exports = class GameServer {
   }
 
   setRainbowNode(index, node) {
-    this._rainbowNodes[index] = cell
+    this._rainbowNodes[index] = cell;
   }
 
   clearRainbowNodes() {
@@ -991,7 +991,7 @@ module.exports = class GameServer {
     });
 
     return list;
-  };
+  }
 
  getNearestVirus(cell) {
   // More like getNearbyVirus
@@ -1022,7 +1022,7 @@ module.exports = class GameServer {
     break; // stop checking when a virus found
   }
   return virus;
-};
+}
 
   switchSpectator(player) {
     if (this.gameMode.specByLeaderboard) {
@@ -1059,7 +1059,7 @@ module.exports = class GameServer {
         player.spectatedPlayer = oldPlayer;
       }
     }
-  };
+  }
 
   ejectVirus(parent, owner, color) {
     let parentPos = {
@@ -1076,7 +1076,7 @@ module.exports = class GameServer {
 
     // Add to moving cells list
     this.addNode(newVirus, "moving");
-  };
+  }
 onWVerify(client) {
   let name;
     if (client.tverify && !client.verify) {
@@ -1112,14 +1112,14 @@ onWVerify(client) {
       client.tverify = false;
 
     } else if (!client.verify && this.config.verify == 1 && !client.tverify) {
-        client.cells.forEach((cell)=>this.removeNode(cell))
+        client.cells.forEach((cell)=>this.removeNode(cell));
       } else {
        return true; 
       }
       
       return false;
   
-};
+}
  ejectBiggest(client) {
   let cell = client.getBiggestc();
         if (!cell) {
@@ -1139,7 +1139,7 @@ onWVerify(client) {
         let angle = utilities.getAngleFromClientToCell(client, cell);
 
         // Get starting position
-        let size = cell.getSize() + 5;
+        let size = cell.getSize() + 7;
         let startPos = {
           x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
           y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
@@ -1152,7 +1152,7 @@ onWVerify(client) {
           cell.mass -= this.config.virusmassloss;
         }
         // Randomize angle
-        angle += (Math.random() * .6) - .3;
+        angle += (Math.random() * .7) - .15;
 
         // Create cell
         let ejected = undefined;
@@ -1160,10 +1160,10 @@ onWVerify(client) {
         else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
         ejected.setAngle(angle);
         if (this.config.ejectvirus === 1) {
-          ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
+          ejected.setMoveEngineData(this.config.ejectvspeed, 40, 0.91);
           ejected.par = client;
         } else {
-          ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
+          ejected.setMoveEngineData(this.config.ejectSpeed, 40, 0.91);
         }
 
         if (this.config.randomEjectMassColor === 1) {
@@ -1176,7 +1176,7 @@ onWVerify(client) {
         this.addNode(ejected, "moving");
         ejectedCells++; 
    
- };
+ }
 
 
   // todo refactor this is way to long and does way to many different things
@@ -1207,11 +1207,19 @@ onWVerify(client) {
           let angle = utilities.getAngleFromClientToCell(client, cell);
 
           // Get starting position
-          let size = cell.getSize() + 5;
+          let size = cell.getSize() + 7; //add speed of playercell
           let startPos = {
             x: cell.position.x + ((size + this.config.ejectMass) * Math.sin(angle)),
             y: cell.position.y + ((size + this.config.ejectMass) * Math.cos(angle))
           };
+          
+          if (angle == 0) {
+			        angle = Math.PI / 2;
+			        startPos = {
+				          x: cell.position.x + (size * Math.sin(angle)),
+				          y: cell.position.y + (size * Math.cos(angle))
+			      };
+		      }
 
           // Remove mass from parent cell
           if (this.config.ejectvirus != 1) {
@@ -1220,19 +1228,20 @@ onWVerify(client) {
             cell.mass -= this.config.virusmassloss;
           }
           // Randomize angle
-          angle += (Math.random() * .6) - .3;
+          angle += (Math.random() * .7) - .15;
 
           // Create cell
           let ejected = undefined;
           if (this.config.ejectvirus != 1) ejected = new Entity.EjectedMass(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
           else ejected = new Entity.Virus(this.world.getNextNodeId(), null, startPos, this.config.ejectMass, this);
           ejected.setAngle(angle);
-
+          
+          // Set ejectspeed to "60" in config for best results
           if (this.config.ejectvirus == 1) {
-            ejected.setMoveEngineData(this.config.ejectvspeed, 30, 0.85);
+            ejected.setMoveEngineData(this.config.ejectvspeed, 40, 0.91);
 
           } else {
-            ejected.setMoveEngineData(this.config.ejectSpeed, 30, 0.85);
+            ejected.setMoveEngineData(this.config.ejectSpeed, 40, 0.91);
           }
           if (this.config.ejectvirus == 1) {
             ejected.par = client;
@@ -1667,14 +1676,14 @@ game.consoleService.execCommand("update", split);
     });
 
 
-  };
+  }
 
   resetlb() {
     // Replace functions
     let gm = Gamemode.get(this.gameMode.ID);
     this.gameMode.packetLB = gm.packetLB;
     this.gameMode.updateLB = gm.updateLB;
-  };
+  }
 
   anounce() {
     let newLB = [];
@@ -1703,11 +1712,11 @@ game.consoleService.execCommand("update", split);
     newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
     this.addNode(newCell, "moving");
-  };
+  }
 
   ejecttMass(client) {
     Physics.ejectMass(client, this.getWorld(),this);
-  };
+  }
 kickBots(numToKick) {
     var removed = 0;
     var toRemove = numToKick;
@@ -1725,7 +1734,7 @@ kickBots(numToKick) {
         i++;
     }
     return removed;
-};
+}
 };
 
 // Custom prototype functions
