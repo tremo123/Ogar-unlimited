@@ -862,10 +862,7 @@ module.exports = class GameServer {
         x: pos.x,
         y: pos.y
       };
-    } else {
-      player.socket.close();
-      
-    }
+    } 
   }
 
   getPremiumFromName(player) {
