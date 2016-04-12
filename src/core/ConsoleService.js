@@ -294,7 +294,7 @@ module.exports = class ConsoleService {
     if (this.gameServer.dim) {
       col = "\x1b[2m\r";
     }
-        console.log("[Console] Invalid Command, try \u001B[33mhelp" + " col for a list of commands.");
+        console.log("[Console] Invalid Command, try \u001B[33mhelp" + col+ " for a list of commands.");
       }
     }
   }
