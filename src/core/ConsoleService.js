@@ -209,29 +209,29 @@ module.exports = class ConsoleService {
     return function () {
       var col = '';
       if (self.gameServer.red) {
-      col = "\x1b[31m\r";
+      process.stdout.write("\x1b[31m\r");
     }
     if (self.gameServer.green) {
-      col = "\x1b[32m\r";
+      process.stdout.write("\x1b[32m\r");
     }
     if (self.gameServer.blue) {
-      col = "\x1b[34m\r";
+      process.stdout.write("\x1b[34m\r");
     }
     if (self.gameServer.white) {
-      col = "\x1b[37m\r";
+      process.stdout.write("\x1b[37m\r");
     }
     if (self.gameServer.yellow) {
-      col = "\x1b[33m\r";
+      process.stdout.write("\x1b[33m\r");
     }
     if (self.gameServer.bold) {
-      col = "\x1b[1m\r";
+      process.stdout.write("\x1b[1m\r");
     }
     if (self.gameServer.dim) {
-      col = "\x1b[2m\r";
+      process.stdout.write("\x1b[2m\r");
     }
       
       
-      in_.question(col + ">", function (str) {
+      in_.question(">", function (str) {
         if (self.gameServer.config.dev != 1) {
           try {
             self.parseCommands(str);
