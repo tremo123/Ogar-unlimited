@@ -208,25 +208,25 @@ module.exports = class ConsoleService {
     let self = this;
     return function () {
       var col = '';
-      if (this.gameServer.red) {
+      if (self.gameServer.red) {
       col = "\x1b[31m\r";
     }
-    if (this.gameServer.green) {
+    if (self.gameServer.green) {
       col = "\x1b[32m\r";
     }
-    if (this.gameServer.blue) {
+    if (self.gameServer.blue) {
       col = "\x1b[34m\r";
     }
-    if (this.gameServer.white) {
+    if (self.gameServer.white) {
       col = "\x1b[37m\r";
     }
-    if (this.gameServer.yellow) {
+    if (self.gameServer.yellow) {
       col = "\x1b[33m\r";
     }
-    if (this.gameServer.bold) {
+    if (self.gameServer.bold) {
       col = "\x1b[1m\r";
     }
-    if (this.gameServer.dim) {
+    if (self.gameServer.dim) {
       col = "\x1b[2m\r";
     }
       
