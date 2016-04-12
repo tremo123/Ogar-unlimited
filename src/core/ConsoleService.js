@@ -272,7 +272,29 @@ module.exports = class ConsoleService {
         execute(this.gameServer, split);
 
       } else {
-        console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+        var col = "\u001B[0m";
+         if (this.gameServer.red) {
+      col = "\x1b[31m\r";
+    }
+    if (this.gameServer.green) {
+      col = "\x1b[32m\r";
+    }
+    if (this.gameServer.blue) {
+      col = "\x1b[34m\r";
+    }
+    if (this.gameServer.white) {
+      col = "\x1b[37m\r";
+    }
+    if (this.gameServer.yellow) {
+      col = "\x1b[33m\r";
+    }
+    if (this.gameServer.bold) {
+      col = "\x1b[1m\r";
+    }
+    if (this.gameServer.dim) {
+      col = "\x1b[2m\r";
+    }
+        console.log("[Console] Invalid Command, try \u001B[33mhelp" + " col for a list of commands.");
       }
     }
   }
