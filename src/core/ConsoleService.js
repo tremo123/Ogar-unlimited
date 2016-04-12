@@ -159,27 +159,7 @@ module.exports = class ConsoleService {
     process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
     process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 
-    if (this.gameServer.red) {
-      process.stdout.write("\x1b[31m\r");
-    }
-    if (this.gameServer.green) {
-      process.stdout.write("\x1b[32m\r");
-    }
-    if (this.gameServer.blue) {
-      process.stdout.write("\x1b[34m\r");
-    }
-    if (this.gameServer.white) {
-      process.stdout.write("\x1b[37m\r");
-    }
-    if (this.gameServer.yellow) {
-      process.stdout.write("\x1b[33m\r");
-    }
-    if (this.gameServer.bold) {
-      process.stdout.write("\x1b[1m\r");
-    }
-    if (this.gameServer.dim) {
-      process.stdout.write("\x1b[2m\r");
-    }
+   
     this.gameServer.liveticks++;
   }
 
@@ -227,7 +207,31 @@ module.exports = class ConsoleService {
   prompt(in_) {
     let self = this;
     return function () {
-      in_.question(">", function (str) {
+      var col = '';
+      if (this.gameServer.red) {
+      col = "\x1b[31m\r";
+    }
+    if (this.gameServer.green) {
+      col = "\x1b[32m\r";
+    }
+    if (this.gameServer.blue) {
+      col = "\x1b[34m\r";
+    }
+    if (this.gameServer.white) {
+      col = "\x1b[37m\r";
+    }
+    if (this.gameServer.yellow) {
+      col = "\x1b[33m\r";
+    }
+    if (this.gameServer.bold) {
+      col = "\x1b[1m\r";
+    }
+    if (this.gameServer.dim) {
+      col = "\x1b[2m\r";
+    }
+      
+      
+      in_.question(col + ">", function (str) {
         if (self.gameServer.config.dev != 1) {
           try {
             self.parseCommands(str);
