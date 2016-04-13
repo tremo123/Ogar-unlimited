@@ -54,7 +54,7 @@ module.exports = class PluginLoader {
               if (plugin.config && plugin.configfile) {
                 try {
     // Load the contents of the config file
-    var load = ini.parse(fs.readFileSync('./plugins/' + plugin.configfile, 'utf-8'));
+    var load = ini.parse(fs.readFileSync('./plugins/'  + files[i] + '/' + plugin.configfile, 'utf-8'));
     // Replace all the default config's values with the loaded config's values
     for (var obj in load) {
       this.plugins[plugin.name].config[obj] = load[obj];
@@ -102,7 +102,7 @@ module.exports = class PluginLoader {
               if (plugin.config && plugin.configfile) {
                 try {
     // Load the contents of the config file
-    var load = ini.parse(fs.readFileSync('./plugins/' + plugin.configfile, 'utf-8'));
+    var load = ini.parse(fs.readFileSync('./plugins/' + files[i] + '/' + plugin.configfile, 'utf-8'));
     // Replace all the default config's values with the loaded config's values
     for (var obj in load) {
       this.plugins[plugin.name].config[obj] = load[obj];
