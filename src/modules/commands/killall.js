@@ -6,5 +6,6 @@ var count = 0;
       gameServer.removeNode(gameServer._nodesPlayer[i]);
       if (gameServer._nodesPlayer[i]) count++;
     }
+    gameServer._nodesPlayer = [];
     console.log("[Console] Removed " + count + " cells");
 };
