@@ -500,6 +500,7 @@ module.exports = class GameServer {
 
   // todo need to think about how to refactor this out
   removeNode(node) {
+    if (!node) return;
     this.world.removeNode(node.getId());
     // Special on-remove actions
     node.onRemove(this);
