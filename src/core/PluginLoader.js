@@ -34,7 +34,14 @@ module.exports = class PluginLoader {
       for (var i in files) {
 
         var plugin = require('../plugins/' + files[i] + '/index.js');
-        
+        if (plugin.compatVersion) {
+              var com = parseInt(plugin.compatVersion.replace(/\./g,''));
+              var cur = parseInt(this.gameServer.version.replace(/\./g,''));
+              if (cur < com) {
+                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.gameServer.version + " Required: " + plugin.compatVersion)
+                continue;
+              }
+            }
         if (plugin.name && plugin.author && plugin.version && plugin.init) {
           this.plugins[plugin.name] = plugin;
           if (this.plugins) {
@@ -85,6 +92,16 @@ module.exports = class PluginLoader {
 
           try {
             var plugin = require('../plugins/' + files[i] + '/index.js');
+            if (plugin.compatVersion) {
+              var com = parseInt(plugin.compatVersion.replace(/\./g,''));
+              var cur = parseInt(this.gameServer.version.replace(/\./g,''));
+              if (cur < com) {
+                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.gameServer.version + " Required: " + plugin.compatVersion)
+                continue;
+              }
+            }
+            
+            
             if (plugin.name && plugin.author && plugin.version && plugin.init) {
           this.plugins[plugin.name] = plugin;
           if (this.plugins) {
