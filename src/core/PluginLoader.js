@@ -87,7 +87,6 @@ module.exports = class PluginLoader {
             var plugin = require('../plugins/' + files[i] + '/index.js');
             if (plugin.name && plugin.author && plugin.version && plugin.init) {
               this.plugins[files[i]] = plugin;
-              plugin.init(this.gameServer);
                if (this.plugins) {
             if (plugin.commandName) {
               for (var j in plugin.commandName) {
