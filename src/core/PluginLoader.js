@@ -3,6 +3,7 @@ const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
 const zlib = require('zlib');
+const ini = require('../modules/ini.js');
 
 module.exports = class PluginLoader {
   constructor(gameServer) {
@@ -34,6 +35,7 @@ module.exports = class PluginLoader {
       for (var i in files) {
 
         var plugin = require('../plugins/' + files[i] + '/index.js');
+        
         if (plugin.name && plugin.author && plugin.version && plugin.init) {
           this.plugins[plugin.name] = plugin;
           plugin.init(this.gameServer);
@@ -44,15 +46,25 @@ module.exports = class PluginLoader {
                   this.extraC[plugin.commandName[j]] = plugin.command[j];
                 }
               }
+            }
               for (var j in plugin.gamemodeId) {
                 if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
                   this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
                 }
               }
-
-            }
-
-
+              if (plugin.config && plugin.configfile) {
+                try {
+    // Load the contents of the config file
+    var load = ini.parse(fs.readFileSync('./plugins/' + plugin.configfile, 'utf-8'));
+    // Replace all the default config's values with the loaded config's values
+    for (var obj in load) {
+      this.plugins[plugin.name].config[obj] = load[obj];
+    }
+  } catch (err) {
+    // No config
+    console.log("[Plugin] Plugin configs for " + plugin.name + " Cannot be loaded");
+  }
+              }
           }
 
           console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
@@ -75,22 +87,33 @@ module.exports = class PluginLoader {
             if (plugin.name && plugin.author && plugin.version && plugin.init) {
               this.plugins[files[i]] = plugin;
               plugin.init(this.gameServer);
-              if (this.plugins) {
-                if (plugin.commandName) {
-                  for (var j in plugin.commandName) {
-                    if (plugin.commandName[j] && plugin.command[j]) {
-                      this.extraC[plugin.commandName[j]] = plugin.command[j];
-                    }
-                  }
-                  for (var j in plugin.gamemodeId) {
-                    if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
-                      this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
-                    }
-                  }
-
+               if (this.plugins) {
+            if (plugin.commandName) {
+              for (var j in plugin.commandName) {
+                if (plugin.commandName[j] && plugin.command[j]) {
+                  this.extraC[plugin.commandName[j]] = plugin.command[j];
                 }
-
               }
+            }
+              for (var j in plugin.gamemodeId) {
+                if (plugin.gamemodeId[j] && plugin.gamemode[j]) {
+                  this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
+                }
+              }
+              if (plugin.config && plugin.configfile) {
+                try {
+    // Load the contents of the config file
+    var load = ini.parse(fs.readFileSync('./plugins/' + plugin.configfile, 'utf-8'));
+    // Replace all the default config's values with the loaded config's values
+    for (var obj in load) {
+      this.plugins[plugin.name].config[obj] = load[obj];
+    }
+  } catch (err) {
+    // No config
+    console.log("[Plugin] Plugin configs for " + plugin.name + " Cannot be loaded");
+  }
+              }
+          }
 
               console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
             } else {
