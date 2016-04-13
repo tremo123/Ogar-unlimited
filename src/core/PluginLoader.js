@@ -37,7 +37,6 @@ module.exports = class PluginLoader {
         
         if (plugin.name && plugin.author && plugin.version && plugin.init) {
           this.plugins[plugin.name] = plugin;
-          plugin.init(this.gameServer);
           if (this.plugins) {
             if (plugin.commandName) {
               for (var j in plugin.commandName) {
@@ -51,6 +50,7 @@ module.exports = class PluginLoader {
                   this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
                 }
               }
+              var config = [];
               if (plugin.config && plugin.configfile) {
                 try {
     // Load the contents of the config file
@@ -58,12 +58,14 @@ module.exports = class PluginLoader {
     // Replace all the default config's values with the loaded config's values
     for (var obj in load) {
       this.plugins[plugin.name].config[obj] = load[obj];
+      config[obj] = load[obj];
     }
   } catch (err) {
     // No config
     console.log("[Plugin] Plugin configs for " + plugin.name + " Cannot be loaded");
   }
               }
+              plugin.init(this.gameServer, config);
           }
 
           console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
@@ -99,19 +101,22 @@ module.exports = class PluginLoader {
                   this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
                 }
               }
+             var config = [];
               if (plugin.config && plugin.configfile) {
                 try {
     // Load the contents of the config file
-    var load = ini.parse(fs.readFileSync('./plugins/' + files[i] + '/' + plugin.configfile, 'utf-8'));
+    var load = ini.parse(fs.readFileSync('./plugins/'  + files[i] + '/' + plugin.configfile, 'utf-8'));
     // Replace all the default config's values with the loaded config's values
     for (var obj in load) {
       this.plugins[plugin.name].config[obj] = load[obj];
+      config[obj] = load[obj];
     }
   } catch (err) {
     // No config
     console.log("[Plugin] Plugin configs for " + plugin.name + " Cannot be loaded");
   }
               }
+              plugin.init(this.gameServer, config);
           }
 
               console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
