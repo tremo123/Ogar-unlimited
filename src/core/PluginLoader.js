@@ -86,8 +86,8 @@ module.exports = class PluginLoader {
           try {
             var plugin = require('../plugins/' + files[i] + '/index.js');
             if (plugin.name && plugin.author && plugin.version && plugin.init) {
-              this.plugins[files[i]] = plugin;
-               if (this.plugins) {
+          this.plugins[plugin.name] = plugin;
+          if (this.plugins) {
             if (plugin.commandName) {
               for (var j in plugin.commandName) {
                 if (plugin.commandName[j] && plugin.command[j]) {
@@ -100,7 +100,7 @@ module.exports = class PluginLoader {
                   this.pluginGamemodes[plugin.gamemodeId[j]] = plugin.gamemode[j];
                 }
               }
-             var config = [];
+              var config = [];
               if (plugin.config && plugin.configfile) {
                 try {
     // Load the contents of the config file
