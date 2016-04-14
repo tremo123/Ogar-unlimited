@@ -101,7 +101,6 @@ MotherCell.prototype.checkEat = function (gameServer) {
         // Eat the cell
         gameServer.removeNode(check);
        this.mass += check.mass;
-        console.log("add" + check.mass)
       }
     }
   });
