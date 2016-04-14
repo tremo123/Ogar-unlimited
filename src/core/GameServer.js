@@ -856,7 +856,6 @@ module.exports = class GameServer {
       if (!dospawn) {
         let cell = new Entity.PlayerCell(this.world.getNextNodeId(), player, pos, mass, this);
         this.addNode(cell, "player");
-        this._nodesPlayer.push(cell);
       }
 
       // Set initial mouse coords
