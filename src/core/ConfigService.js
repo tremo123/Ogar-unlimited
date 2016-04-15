@@ -2,6 +2,7 @@
 const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
+const request = require('request');
 
 module.exports = class ConfigService {
   constructor() {
@@ -41,6 +42,7 @@ module.exports = class ConfigService {
       splitSpeed: 130, // Splitting speed
       showjlinfo: 0, // Notifys you if a player has left or joined (0 = off [default]) 1 = on
       ejectvspeed: 120, // How far an ejected virus (from w) shoots
+      playersafeSpawn: 1, // Makes sure players dont spawn near, inside, or on top of one another 
       serverMaxConnectionsPerIp: 5, // Maximum amount of IPs per player connection
       serverMaxConnections: 64, // Maximum amount of connections to the server.
       serverPort: 443, // Server port
@@ -288,7 +290,7 @@ loadRandomSkin() {
       fs.writeFileSync('./randomSkins.txt', '');
     }
   }
-}
+
 
   // todo this needs maintenance
   loadCustomSkin() {

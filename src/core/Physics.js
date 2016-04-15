@@ -61,16 +61,20 @@ module.exports = class Physics {
       // Calculate mass and speed of splitting cell
       let newMass = cell.mass / 2;
       cell.mass = newMass;
+      
+      if (angle == 0) angle = Math.PI / 2;
 
       // Create cell
       let split = new Entity.PlayerCell(world.getNextNodeId(), player, startPos, newMass, gameServer);
       split.setAngle(angle);
 
-      let splitSpeed = gameServer.config.splitSpeed;
-      split.setMoveEngineData(splitSpeed, 40, 0.85); //vanilla agar.io = 130, 32, 0.85
+      var splitSpeed = splitSpeed = 70 + (split.getSpeed() * 3 / 2); //70 * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed //splitSpeed = 70 + (split.getSpeed() + 10);
+      //split.setMoveEngineData(splitSpeed, 32, 0.85); //vanilla agar.io = 130, 32, 0.85
+      split.setMoveEngineData(splitSpeed, 40, 0.87); // set it to 45 if 40 is bad
       split.calcMergeTime(gameServer.config.playerRecombineTime);
       split.ignoreCollision = true;
-      split.restoreCollisionTicks = gameServer.config.cRestoreTicks; //vanilla agar.io = 10
+      //split.restoreCollisionTicks = gameServer.config.cRestoreTicks; //vanilla agar.io = 10
+      split.restoreCollisionTicks = 11; // If 11 is bad, set it to the above ^^
 
       // Add to moving cells list
       gameServer.addNode(split, "moving");

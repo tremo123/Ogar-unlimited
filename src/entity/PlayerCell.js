@@ -83,11 +83,14 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
   // Distance between mouse pointer and cell
   var dist = this.getDist(this.position.x, this.position.y, x2, y2);
   var speed = Math.min(this.getSpeed(), dist);
-
+  var sin = Math.sin(angle);
+  var cos = Math.cos(angle);
   var x1 = this.position.x + (speed * Math.sin(angle));
   var y1 = this.position.y + (speed * Math.cos(angle));
   var xd = 0;
   var yd = 0;
+  var speedBack = 0; // Amount of pushback when splitting cells
+  var maxOverlap = 5; // Maximum distance allowed for cells to overlap eachother
 
   // Collision check for other cells
   for (var i = 0; i < this.owner.cells.length; i++) {
@@ -100,6 +103,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
 
     if ((!cell.shouldRecombine) || (!this.shouldRecombine)) {
       // Cannot recombine - Collision with your own cells
+      var r1 = cell.getSize();
       var collisionDist = cell.getSize() + r; // Minimum distance between the 2 cells
       dist = this.getDist(x1, y1, cell.position.x, cell.position.y); // Distance between these two cells
       if (!this.simpleCollide(x1, y1, cell, collisionDist)) {
@@ -108,33 +112,44 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
       }
 
       // Calculations
-      if (dist < collisionDist) { // Collided
-        // The moving cell pushes the colliding cell
-        // Strength however depends on cell1 speed divided by cell2 speed
-        var c1Speed = this.getSpeed();
-        var c2Speed = cell.getSpeed();
+      if (config.splitversion == 1) {
+        if (dist < collisionDist) { // Collided
+                // The moving cell pushes out of the colliding cell
+                var mult = 0.9; // Limit from 0.5 to 2, not to have bugs
+                var newDeltaY = y1 - cell.position.y;
+                var newDeltaX = x1 - cell.position.x;
+                var newAngle = Math.atan2(newDeltaX, newDeltaY);
 
-
-        var mult = 0.9; // Limit from 0.5 to 2, not to have bugs
-
-        if (config.splitversion == 1) {
-          var mult = c1Speed / c2Speed / 2;
-          if (mult < 0.15) mult = 0.15;
-          if (mult > 0.9) mult = 0.9;
+                var overlap = (collisionDist - dist) * mult;
+                if ((overlap > maxOverlap) && (speedBack < speed)) {
+                    //first move a bit back to avoid squeezing cells
+                    var moveOut = overlap - maxOverlap;
+                    var moveOutProjected = moveOut * Math.max(-Math.cos(angle - newAngle), 0);
+                    if (moveOutProjected > 0) {
+                        var pushBackNeeded = Math.min(moveOutProjected, speed);
+                        var pushBackCorrection = 0;
+                        if ((xd != 0) || (yd != 0)) {
+                            var newDist = this.getDist(x1+xd,y1+yd,cell.position.x,cell.position.y);
+                            if (newDist < dist) {
+                                pushBackCorrection = Math.min(collisionDist - newDist - maxOverlap, speed); //avoid little cells sneaking too easily between 2 big cells
+                            }
+                        }
+                        var pushBack = Math.max(Math.max(pushBackNeeded, pushBackCorrection) - speedBack, 0);
+                        speedBack += pushBack;
+                        overlap -= pushBackNeeded;
+                        xd += (pushBack * -sin);
+                        yd += (pushBack * -cos);
+                    }
+                }
+            
+				        var maxMove = Math.max(Math.ceil(Math.max(r,r1) / 2), 360); //for smaller cells use push out speed 360, for bigger cells add some speed
+                var move = Math.min(overlap * cell.mass / (this.mass + cell.mass), maxMove); //big cells push harder against smaller cells
+                x1 = x1 + (move * Math.sin(newAngle)) >> 0;
+                y1 = y1 + (move * Math.cos(newAngle)) >> 0;
+            }
         }
-        var newDeltaY = y1 - cell.position.y;
-        var newDeltaX = x1 - cell.position.x;
-
-        var newAngle = Math.atan2(newDeltaX, newDeltaY);
-
-        var move = (collisionDist - dist) * mult;
-
-        x1 = x1 + (move * Math.sin(newAngle)) >> 0;
-        y1 = y1 + (move * Math.cos(newAngle)) >> 0;
-      }
     }
   }
-
   var xSave = this.position.x;
   var ySave = this.position.y;
   gameServer.gameMode.onCellMove(x1, y1, this);

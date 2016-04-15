@@ -61,8 +61,8 @@ module.exports = class GameServer {
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
-    this.rSkins = this.configService.getRSkins();
     this.highscores = this.configService.getHighScores();
+    this.rSkins = this.configService.getRSkins();
 
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
@@ -784,7 +784,6 @@ module.exports = class GameServer {
             dono = true;
             player.vfail = 0;
 
-
           } else {
             if (player.vfail == 0) {
               player.vname = player.name;
@@ -851,6 +850,33 @@ module.exports = class GameServer {
       pos = (pos == null) ? this.getRandomSpawn() : pos;
       mass = (mass == null) ? this.config.playerStartMass : mass;
       mass = (player.spawnmass > mass) ? player.spawnmass : mass;
+      
+          // Checks if it's safe for players to spawn
+            if (this.config.safeSpawn === 1) {
+              for (var j = 0; j < 30; j++) {
+                for (var i = 0; i < this.nodesPlayer.length; i++) {
+                var issafe = true;
+                var check = this.nodesPlayer[i];
+                var pos = this.getRandomPosition();
+                var playerSquareSize = (this.config.playerStartMass * 100) >> 0;
+                var squareR = check.mass * 100; // Checks player cell's radius
+                var dx = check.position.x - pos.x;
+                var dy = check.position.y - pos.y;
+                
+                if (check.mass < this.config.playerStartMass) {
+                    continue;
+                }
+
+                if (dx * dx + dy * dy + playerSquareSize <= squareR * 2) {
+                    issafe = false;
+                    break;
+                }
+              }
+            if (issafe) break;
+          }
+	      } else {
+		      issafe = true;
+	      }
 
       // Spawn player and add to world
       if (!dospawn) {
@@ -862,9 +888,9 @@ module.exports = class GameServer {
       player.mouse = {
         x: pos.x,
         y: pos.y
-      };
-    } 
-  }
+          };
+        }
+      }
 
   getPremiumFromName(player) {
     if (player.name.substr(0, 1) == "<") {
@@ -873,32 +899,33 @@ module.exports = class GameServer {
               var prem = '';
               if (player.name.substr(1, n - 1) == "r" && this.config.rainbow == 1) {
                 player.rainbowon = true;
-              } else if (layer.name.substr(1, n - 1) == "/random") {
+              } else if (player.name.substr(1, n - 1) == "/random") {
               if (this.rSkins.length > 0) {
-          let index = Math.floor(Math.random() * this.rSkins.length);
-          prem = this.rSkins[index];
-        
+           let index = Math.floor(Math.random() * this.rSkins.length);
+           prem = this.rSkins[index];
+         
               }
               } else {
                 player.premium = '%' + player.name.substr(1, n - 1);
               }
     if (prem) {
-      var o = false;
-      for (let i in this.skinshortcut) {
-                if (!this.skinshortcut[i] || !this.skin[i]) {
-                  continue;
+       var o = false;
+       for (let i in this.skinshortcut) {
+                 if (!this.skinshortcut[i] || !this.skin[i]) {
+                   continue;
+                 }
+                 if (prem == this.skinshortcut[i]) {
+                   player.premium = this.skin[i];
+                   o = true;
+                   break;
+                 }
+                 
                 }
-                if (prem == this.skinshortcut[i]) {
-                  player.premium = this.skin[i];
-                  o = true;
-                  break;
-                }
+               
+                if (!o) player.premium = "%" + prem;
+       
+     } else {
 
-              }
-              
-              if (!o) player.premium = "%" + prem;
-      
-    } else {
               for (let i in this.skinshortcut) {
                 if (!this.skinshortcut[i] || !this.skin[i]) {
                   continue;
@@ -907,7 +934,6 @@ module.exports = class GameServer {
                   player.premium = this.skin[i];
                   break;
                 }
-
               }
             }
               player.name = player.name.substr(n + 1);
@@ -921,8 +947,7 @@ module.exports = class GameServer {
               player.name = player.name.substr(n + 1);
             }
           }
-    
-  }
+        }
   // getters/setters
   getClients() {
     return this.clients;
@@ -1125,6 +1150,7 @@ onWVerify(client) {
           if (this.randomNames.length > 0) {
           let index = Math.floor(Math.random() * this.randomNames.length);
           name = this.randomNames[index];
+          this.randomNames.splice(index, 1);
         } else {
           name = "player";
         }
@@ -1293,12 +1319,21 @@ onWVerify(client) {
   // todo this needs to be a plugin
   newCellVirused(client, parent, angle, mass, speed) {
     // Starting position
-    let startPos = {
-      x: parent.position.x,
-      y: parent.position.y
-    };
-
+    let startPos = {x: parent.position.x, y: parent.position.y};
+    
     // Create cell
+    let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass, this);
+    newCell.setAngle(angle);
+	  newCell.setMoveEngineData(Math.min(newCell.getSpeed() * 10, 100), 20, 0.86); // Use dynamic instead of fixed
+    newCell.calcMergeTime(this.config.playerRecombineTime);
+    newCell.ignoreCollision = true; // Remove collision checks
+	  newCell.restoreCollisionTicks = 6; // If 6 is bad, change it to the one below! 
+	  
+	  // Add to moving cells list
+	  this.addNode(newCell, "moving");
+    }
+  
+      /* // Create cell - old explosions
     let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass);
     newCell.setAngle(angle);
     newCell.setMoveEngineData(speed, 15);
@@ -1307,7 +1342,8 @@ onWVerify(client) {
     newCell.restoreCollisionTicks = this.config.cRestoreTicks; //vanilla agar.io = 10
     // Add to moving cells list
     this.addNode(newCell, "moving");
-  };
+  } */
+  
   // todo this needs to be a plugin
   shootVirus(parent) {
     let parentPos = {

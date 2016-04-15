@@ -97,6 +97,7 @@ Cell.prototype.getSquareSize = function () {
 };
 
 Cell.prototype.addMass = function (n) {
+  //todo needs to surpass for a longer duration (timout?)
   var client = this.owner;
   var gameServer = this.owner.gameServer;
   if (!client.verify && gameServer.config.verify == 1) {
@@ -106,7 +107,7 @@ Cell.prototype.addMass = function (n) {
 
     if (this.mass + n > this.owner.gameServer.config.playerMaxMass && this.owner.cells.length < this.owner.gameServer.config.playerMaxCells) {
 
-      this.mass = this.mass + n
+      this.mass = this.mass + n;
       this.mass = this.mass/2;
       var randomAngle = Math.random() * 6.28; // Get random angle
       this.owner.gameServer.autoSplit(this.owner, this, randomAngle, this.mass, 350);
@@ -125,7 +126,6 @@ Cell.prototype.addMass = function (n) {
 Cell.prototype.getSpeed = function () {
   // Old formula: 5 + (20 * (1 - (this.mass/(70+this.mass))));
   // Based on 50ms ticks. If updateMoveEngine interval changes, change 50 to new value
-  // (should possibly have a config value for this?)
   if (this.owner.customspeed > 0) {
     return this.owner.customspeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
 
@@ -215,7 +215,7 @@ Cell.prototype.calcMovePhys = function (config) {
   var cos = Math.cos(this.angle);
   if (this.cellType == 3) {
     //movement and collision check for ejected mass cells
-    var collisionDist = r * 2 - 5; // Minimum distance between the 2 cells (allow cells to go a little inside eachother before moving them)
+    var collisionDist = r * 2; // Minimum distance between the 2 cells (allow cells to go a little inside eachother before moving them a.k.a cell squishing)
     var maxTravel = r; //check inbetween places for collisions (is needed when cell still has high speed) - max inbetween move before next collision check is cell radius
     var totTravel = 0;
     var xd = 0;
@@ -256,13 +256,12 @@ Cell.prototype.calcMovePhys = function (config) {
       }
     }
 
-      // todo what the hell is this?
     while (totTravel < speed);
     x1 = this.position.x + (speed * sin) + xd;
     y1 = this.position.y + (speed * cos) + yd;
 
   } else {
-    //movement for other than ejected mass cells (player split, virus shoot, ...)
+    //movement for viruses
     var x1 = this.position.x + (speed * sin);
     var y1 = this.position.y + (speed * cos);
   }

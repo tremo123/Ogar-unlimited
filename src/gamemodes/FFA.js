@@ -52,6 +52,7 @@ FFA.prototype.onPlayerSpawn = function (gameServer, player) {
         var e = nodesEjected[index];
 
         if (e.moveEngineTicks == 0) {
+          gameServer.config.playerSafeSpawn = 0;
           // Remove ejected mass
           gameServer.removeNode(e);
 
@@ -75,6 +76,7 @@ FFA.prototype.onPlayerSpawn = function (gameServer, player) {
 
     // Spawn player
     gameServer.spawnPlayer(player, pos, startMass);
+    gameServer.config.playerSafeSpawn = 1;
   }
 };
 FFA.prototype.onServerInit = function (gameServer) {

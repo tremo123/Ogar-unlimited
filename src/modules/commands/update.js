@@ -26,8 +26,8 @@ module.exports = function (gameServer, split) {
       break;
     case 'skins':
       console.log("[Console] Updating customskin.txt...");
-      gameServer.updater.downloadFile(getFileByName("customskins"));
-      gameServer.updater.downloadFile(getFileByName("randomSkins"));
+      gameServer.updater.downloadFile(gameServer.updater.getFileByName("customskins"));
+      gameServer.updater.downloadFile(gameServer.updater.getFileByName("randomSkins"));
       break;
     case 'all':
       console.log("[Console] Fetching data from the servers...");

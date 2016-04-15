@@ -18,7 +18,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
 
-    this.juke = false;
+    this.juke = true;
 
     this.target;
     this.targetVirus; // Virus used to shoot into the target
@@ -49,20 +49,7 @@ module.exports = class BotPlayer extends PlayerTracker {
       }
     }
     return lowest;
-  };
-
-// Don't override, testing to use more accurate way.
-  /*
-   updateSightRange = function() { // For view distance
-   var range = 1000; // Base sight range
-
-   if (this.cells[0]) {
-   range += this.cells[0].getSize() * 2.5;
-   }
-
-   this.sightRangeX = range;
-   this.sightRangeY = range;
-   }; */
+  }
 
   update() { // Overrides the update function from player tracker
     // Remove nodes from visible nodes if possible
@@ -113,7 +100,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.clearLists();
 
     // Ignores targeting cells below this mass
-    var ignoreMass = cell.mass / 5;
+    var ignoreMass = cell.mass / 25;
 
     // Loop
     for (i in this.visibleNodes) {
@@ -139,10 +126,10 @@ module.exports = class BotPlayer extends PlayerTracker {
           }
 
           // Check for danger
-          if (cell.mass > (check.mass * 1.33)) {
+          if (cell.mass > (check.mass * 1.3)) {
             // Add to prey list
             this.prey.push(check);
-          } else if (check.mass > (cell.mass * 1.33)) {
+          } else if (check.mass > (cell.mass * 1.3)) {
             // Predator
             var dist = this.getDist(cell, check) - (r + check.getSize());
             if (dist < 300) {
@@ -161,6 +148,13 @@ module.exports = class BotPlayer extends PlayerTracker {
           break;
         case 2: // Virus
           if (!check.isMotherCell) this.virus.push(check); // Only real viruses! No mother cells
+          // Can also be a threat
+                if(cell.mass > (check.mass * 1.3)) {
+                  if(dist < 40) {
+                      this.threats.push(check);
+                      this.predators.push(check);
+                    }
+                }
           break;
         case 3: // Ejected mass
           if (cell.mass > 20) {
@@ -185,7 +179,7 @@ module.exports = class BotPlayer extends PlayerTracker {
 
     this.nodeDestroyQueue = []; // Empty
 
-  };
+  }
 
 // Custom
 
@@ -196,7 +190,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.food = [];
     this.virus = [];
     this.juke = false;
-  };
+  }
 
   getState(cell) {
     // Continue to shoot viruses
@@ -215,10 +209,13 @@ module.exports = class BotPlayer extends PlayerTracker {
       if ((this.cells.length == 1) && (cell.mass > 180)) {
         var t = this.getBiggest(this.threats);
         var tl = this.findNearbyVirus(t, 500, this.virus);
-        if (tl != false) {
+        if (tl != false && t.getType() !== 2) {
           this.target = t;
           this.targetVirus = tl;
           return 4;
+          } else {
+          // Run if we hit a virus
+          return 2;
         }
       } else {
         // Run
@@ -228,7 +225,7 @@ module.exports = class BotPlayer extends PlayerTracker {
 
     // Bot wanders by default
     return 0;
-  };
+  }
 
   decide(cell) {
     // The bot decides what to do based on gamestate
@@ -320,7 +317,7 @@ module.exports = class BotPlayer extends PlayerTracker {
           this.mouse = this.gameServer.miniontarget;
 
         } else {
-          if ((!this.target) || (cell.mass < (this.target.mass * 1.33)) || (this.visibleNodes.indexOf(this.target) == -1)) {
+          if ((!this.target) || (cell.mass < (this.target.mass * 1.3)) || (this.visibleNodes.indexOf(this.target) == -1)) {
             this.target = this.getBiggest(this.prey);
           }
           //console.log("[Bot] "+cell.getName()+": Targeting "+this.target.getName());
@@ -330,15 +327,15 @@ module.exports = class BotPlayer extends PlayerTracker {
             y: this.target.position.y
           };
 
-          var massReq = 1.33 * (this.target.mass * 2); // Mass required to splitkill the target
+          var massReq = 1.3 * (this.target.mass * 2); // Mass required to splitkill the target
 
           if ((cell.mass > massReq) && (this.cells.length <= this.gameServer.config.botmaxsplit)) { // Will not split into more than 2 cells
-            var splitDist = (4 * (cell.getSpeed() * 5)) + (cell.getSize() * 1.75); // Distance needed to splitkill
+            var splitDist = (20 * (cell.getSpeed () * 5)) + (cell.getSize() * 1.75); // Distance needed to splitkill
             var distToTarget = this.getAccDist(cell, this.target); // Distance between the target and this cell
 
             if (splitDist >= distToTarget) {
               if ((this.threats.length > 0) && (this.getBiggest(this.threats).mass > (cell.mass))) {
-                // Dont splitkill when they are cells that can possibly eat you after the split
+                // Dont splitkill when there are cells that can possibly eat you after the split
                 break;
               }
               // Splitkill
@@ -441,7 +438,7 @@ module.exports = class BotPlayer extends PlayerTracker {
       }
     }
 
-  };
+  }
 
 // Finds the nearest cell in list
   findNearest(cell, list) {
@@ -463,13 +460,13 @@ module.exports = class BotPlayer extends PlayerTracker {
     }
 
     return shortest;
-  };
+  }
 
   getRandom(list) {
     // Gets a random cell from the array
     var n = Math.floor(Math.random() * list.length);
     return list[n];
-  };
+  }
 
   combineVectors(list) {
     // Gets the angles of all enemies approaching the cell
@@ -489,7 +486,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     pos.y = pos.y / list.length;
 
     return pos;
-  };
+  }
 
   checkPath(cell, check) {
     // Checks if the cell is in the way
@@ -501,8 +498,12 @@ module.exports = class BotPlayer extends PlayerTracker {
     var v2 = this.getAngle(check, cell);
     v2 = this.reverseAngle(v2);
 
-    return ((v1 <= (v2 + .25)) && (v1 >= (v2 - .25)));
-  };
+    if ((v1 <= (v2 + .25) ) && (v1 >= (v2 - .25) )) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
   getBiggest(list) {
     // Gets the biggest cell from the array
@@ -515,7 +516,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     }
 
     return biggest;
-  };
+  }
 
   findNearbyVirus(cell, checkDist, list) {
     var r = cell.getSize() + 100; // Gets radius + virus radius
@@ -527,11 +528,11 @@ module.exports = class BotPlayer extends PlayerTracker {
       }
     }
     return false; // Returns a bool if no nearby viruses are found
-  };
+  }
 
   checkPath(cell, check) {
     // Get angle of path
-    var v1 = Math.atan2(cell.position.x - player.mouse.x, cell.position.y - player.mouse.y);
+    var v1 = Math.atan2(cell.position.x - this.mouse.x, cell.position.y - this.mouse.y);
 
     // Get angle of vector (cell -> virus)
     var v2 = this.getAngle(cell, check);
@@ -546,7 +547,7 @@ module.exports = class BotPlayer extends PlayerTracker {
 
     // No collide
     return false;
-  };
+  }
 
   getDist(cell, check) {
     // Fastest distance - I have a crappy computer to test with :(
@@ -557,7 +558,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     yd = yd < 0 ? yd * -1 : yd; // Math.abs is slow
 
     return (xd + yd);
-  };
+  }
 
   getAccDist(cell, check) {
     // Accurate Distance
@@ -568,13 +569,13 @@ module.exports = class BotPlayer extends PlayerTracker {
     ys = ys * ys;
 
     return Math.sqrt(xs + ys);
-  };
+  }
 
   getAngle(c1, c2) {
     var deltaY = c1.position.y - c2.position.y;
     var deltaX = c1.position.x - c2.position.x;
     return Math.atan2(deltaX, deltaY);
-  };
+  }
 
   reverseAngle(angle) {
     if (angle > Math.PI) {
@@ -583,5 +584,5 @@ module.exports = class BotPlayer extends PlayerTracker {
       angle += Math.PI;
     }
     return angle;
-  };
-}
+  }
+};
