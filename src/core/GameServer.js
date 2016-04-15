@@ -645,7 +645,10 @@ module.exports = class GameServer {
 
     return pos;
   }
-
+beforeq(player) {
+  return true;
+  
+}
   getRandomPosition() {
     return this.getWorld().getRandomPosition();
   }
