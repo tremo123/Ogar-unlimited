@@ -778,6 +778,8 @@ beforeq(player) {
     let dospawn = false;
     clearTimeout(player.spect);
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
+      player.norecombine = false;
+      player.frozen = false;
 if (!this.beforespawn(player,pos,mass)) return;
 
 
@@ -785,9 +787,6 @@ if (!this.beforespawn(player,pos,mass)) return;
       if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
         player.verify = true;
       }
-
-      player.norecombine = false;
-      player.frozen = false;
       if (this.config.verify == 1 && !player.verify) {
         if (player.tverify || typeof player.socket.remoteAddress == "undefined") {
           player.verify = true;
