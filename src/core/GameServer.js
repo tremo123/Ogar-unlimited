@@ -188,59 +188,11 @@ module.exports = class GameServer {
   // todo for now leave it here
   addNode(node, type) {
     this.getWorld().setNode(node.getId(), node, type);
-
-    //this._nodes.push(node);
-    //if (type === "moving") {
-    //  this.setAsMovingNode(node);
-    //}
-
-    // todo this is a big problem for splitting up the processes
-    // Adds to the owning player's screen
-    //if (node.owner) {
-    //  node.setColor(node.owner.color);
-    //  node.owner.cells.push(node);
-    //  node.owner.socket.sendPacket(new Packet.AddNode(node));
-    //}
-    //
-    //// Special on-add actions
-    //node.onAdd(this);
-    //
-    //// todo this is a big problem for splitting up the processes
-    //// Add to visible nodes
-    //let clients = this.getClients();
-    //for (let i = 0; i < clients.length; i++) {
-    //  let client = clients[i].playerTracker;
-    //  if (!client) {
-    //    continue;
-    //  }
-    //
-    //  // todo memory leak?
-    //  // client.nodeAdditionQueue is only used by human players, not bots
-    //  // for bots it just gets collected forever, using ever-increasing amounts of memory
-    //  if ('_socket' in client.socket && node.visibleCheck(client.viewBox, client.centerPos)) {
-    //    client.nodeAdditionQueue.push(node);
-    //  }
-    //}
   }
 
   // todo need to think about how to refactor this out
   removeNode(node) {
     this.getWorld().removeNode(node.getId());
-    // Special on-remove actions
-    //node.onRemove(this);
-    //
-    //// todo this is a big problem for splitting up the processes
-    //// Animation when eating
-    //let clients = this.getClients();
-    //for (let i = 0; i < clients.length; i++) {
-    //  let client = clients[i].playerTracker;
-    //  if (!client) {
-    //    continue;
-    //  }
-    //
-    //  // Remove from client
-    //  client.nodeDestroyQueue.push(node);
-    //}
   }
 
   getNearestNodeToNode(node, type, radius) {
