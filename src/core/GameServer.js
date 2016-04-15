@@ -168,21 +168,11 @@ module.exports = class GameServer {
         ws.close();
         return;
       }
-      if (this.config.clientclone != 1) {
-        // ----- Client authenticity check code -----
-        // !!!!! WARNING !!!!!
-        // THE BELOW SECTION OF CODE CHECKS TO ENSURE THAT CONNECTIONS ARE COMING
-        // FROM THE OFFICIAL AGAR.IO CLIENT. IF YOU REMOVE OR MODIFY THE BELOW
-        // SECTION OF CODE TO ALLOW CONNECTIONS FROM A CLIENT ON A DIFFERENT DOMAIN,
-        // YOU MAY BE COMMITTING COPYRIGHT INFRINGEMENT AND LEGAL ACTION MAY BE TAKEN
-        // AGAINST YOU. THIS SECTION OF CODE WAS ADDED ON JULY 9, 2015 AT THE REQUEST
-        // OF THE AGAR.IO DEVELOPERS.
-        let origin = ws.upgradeReq.headers.origin;
-        if (!this.isValidOrigin(origin)) {
-          ws.close();
-          return;
-        }
+      if (!this.isValidClient(ws.upgradeReq.headers.origin)) {
+        ws.close();
+        return;
       }
+
       // -----/Client authenticity check code -----
       let showlmsg = this.config.showjlinfo;
 
@@ -1439,13 +1429,27 @@ module.exports = class GameServer {
     return removed;
   }
 
-  isValidOrigin(origin) {
-    return !(origin != 'http://agar.io' &&
-    origin != 'https://agar.io' &&
-    origin != 'http://localhost' &&
-    origin != 'https://localhost' &&
-    origin != 'http://127.0.0.1' &&
-    origin != 'https://127.0.0.1');
+  isValidClient(origin) {
+    if (this.config.clientclone != 1) {
+      // ----- Client authenticity check code -----
+      // !!!!! WARNING !!!!!
+      // THE BELOW SECTION OF CODE CHECKS TO ENSURE THAT CONNECTIONS ARE COMING
+      // FROM THE OFFICIAL AGAR.IO CLIENT. IF YOU REMOVE OR MODIFY THE BELOW
+      // SECTION OF CODE TO ALLOW CONNECTIONS FROM A CLIENT ON A DIFFERENT DOMAIN,
+      // YOU MAY BE COMMITTING COPYRIGHT INFRINGEMENT AND LEGAL ACTION MAY BE TAKEN
+      // AGAINST YOU. THIS SECTION OF CODE WAS ADDED ON JULY 9, 2015 AT THE REQUEST
+      // OF THE AGAR.IO DEVELOPERS.
+      if (origin != 'http://agar.io' &&
+        origin != 'https://agar.io' &&
+        origin != 'http://localhost' &&
+        origin != 'https://localhost' &&
+        origin != 'http://127.0.0.1' &&
+        origin != 'https://127.0.0.1') {
+        ws.close();
+        return false;
+      }
+    }
+    return true;
   }
 
   socketServerOnError(error) {
