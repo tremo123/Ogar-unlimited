@@ -50,6 +50,23 @@ Virus.prototype.shootVirus = function (parent, world) {
   world.addNode(newVirus, "virus");
 };
 
+Virus.prototype.ejectVirus = function (parent, owner, color) {
+  let parentPos = {
+    x: parent.position.x,
+    y: parent.position.y
+  };
+
+  let newVirus = new Virus(this.world.getNextNodeId(), null, parentPos, this.config.virusmass, this.world, this.config);
+  newVirus.setAngle(parent.getAngle());
+  newVirus.setpar(owner);
+  newVirus.mass = 10;
+  newVirus.setMoveEngineData(this.config.ejectvspeed, 20);
+  if (color) newVirus.color = color; else newVirus.color = owner.color;
+
+  // Add to moving cells list
+  this.world.addNode(newVirus, "moving");
+};
+
 // Main Functions
 
 Virus.prototype.getEatingRange = function () {
