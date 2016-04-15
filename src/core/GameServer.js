@@ -70,7 +70,7 @@ module.exports = class GameServer {
 
     // plugins
 
-    this.pluginLoader = new PluginLoader(this);
+    this.pluginLoader = new PluginLoader(this, version);
     this.pluginLoader.load();
     this.pluginGamemodes = this.pluginLoader.getPGamemodes();
     this.plugins = this.pluginLoader.getPlugin();
