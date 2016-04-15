@@ -137,6 +137,7 @@ module.exports = class ConfigService {
     this.opByIp = [];
     this.highScores = '';
     this.botNames = [];
+    this.skinNames = [];
     this.skinShortCuts = [];
     this.skins = [];
   }
@@ -146,8 +147,13 @@ module.exports = class ConfigService {
     this.loadBanned();
     this.loadOpByIp();
     this.loadHighScores();
+    this.loadRandomSkin();
     this.loadBotNames();
     this.loadCustomSkin();
+  }
+  getRSkins() {
+    return this.skinNames
+    
   }
 
   getConfig() {
@@ -267,8 +273,22 @@ module.exports = class ConfigService {
       });
     } catch (e) {
       // Nothing, use the default names
+      fs.writeFileSync('./botnames.txt', '');
     }
   }
+loadRandomSkin() {
+  
+   try {
+      // Read and parse the names - filter out whitespace-only names
+      this.skinNames = fs.readFileSync("./randomSkins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+    } catch (e) {
+      // Nothing, use the default names
+      fs.writeFileSync('./randomSkins.txt', '');
+    }
+  }
+}
 
   // todo this needs maintenance
   loadCustomSkin() {
