@@ -5,12 +5,12 @@ const glob = require('glob');
 const zlib = require('zlib');
 
 module.exports = class PluginLoader {
-  constructor(gameServer) {
+  constructor(gameServer, version) {
     this.plugins = [];
     this.gameServer = gameServer;
     this.pluginGamemodes = [];
     this.extraC = [];
-
+this.version = version; 
 
   }
 
@@ -36,7 +36,7 @@ module.exports = class PluginLoader {
         var plugin = require('../plugins/' + files[i] + '/index.js');
         if (plugin.compatVersion) {
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
-              var cur = parseInt(this.gameServer.version.replace(/\./g,''));
+              var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
                 console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.gameServer.version + " Required: " + plugin.compatVersion)
                 continue;
@@ -95,7 +95,7 @@ module.exports = class PluginLoader {
             var plugin = require('../plugins/' + files[i] + '/index.js');
             if (plugin.compatVersion) {
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
-              var cur = parseInt(this.gameServer.version.replace(/\./g,''));
+              var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
                 console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.gameServer.version + " Required: " + plugin.compatVersion)
                 continue;
