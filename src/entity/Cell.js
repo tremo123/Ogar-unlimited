@@ -11,7 +11,7 @@ function Cell(nodeId, owner, position, mass, gameServer) {
     b: 0
   };
   this.name = '';
-  this.visible = true;
+  this.visible;
   this.position = position;
   this.mass = mass; // Starting mass of the cell
   this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
