@@ -59,6 +59,7 @@ module.exports = class PluginLoader {
               }
               var config = [];
               if (plugin.config && plugin.configfile) {
+                config = plugin.config
                 try {
     // Load the contents of the config file
     var load = ini.parse(fs.readFileSync('./plugins/'  + files[i] + '/' + plugin.configfile, 'utf-8'));
@@ -119,6 +120,7 @@ module.exports = class PluginLoader {
               }
               var config = [];
               if (plugin.config && plugin.configfile) {
+                config = plugin.config;
                 try {
     // Load the contents of the config file
     var load = ini.parse(fs.readFileSync('./plugins/'  + files[i] + '/' + plugin.configfile, 'utf-8'));
