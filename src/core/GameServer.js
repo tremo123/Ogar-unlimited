@@ -1486,8 +1486,12 @@ onWVerify(client) {
           }
         }
         for (var i in this.plugins) {
+          try {
           if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
-
+} catch(e) {
+  console.log("[Console] Error with running onsecond for " + this.plugins[i].name);
+  throw e;
+}
         }
 
         // Update leaderboard with the gamemode's method
