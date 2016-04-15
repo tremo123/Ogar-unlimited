@@ -117,8 +117,6 @@ module.exports = class GameServer {
     };
 
 
-
-
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.largestClient = undefined;
@@ -136,7 +134,7 @@ module.exports = class GameServer {
 
   // init should only ever be called once.
   init() {
-    this.dataBase.onChange((data)=>{
+    this.dataBase.onChange((data)=> {
       //console.log('Data from dataBase: ' + JSON.stringify(data));
     });
 
@@ -157,163 +155,10 @@ module.exports = class GameServer {
       perMessageDeflate: false
     }, this.socketServerStart.bind(this));
 
-    this.socketServer.on('connection', connectionEstablished.bind(this));
+    this.socketServer.on('connection', this.connectionEstablished.bind(this));
 
     // Properly handle errors because some people are too lazy to read the readme
     this.socketServer.on('error', this.socketServerOnError.bind(this));
-
-    function connectionEstablished(ws) {
-      let clients = this.getWorld().getClients();
-      if (clients.length >= this.config.serverMaxConnections) { // Server full
-        ws.close();
-        return;
-      }
-      if (!this.isValidClient(ws.upgradeReq.headers.origin)) {
-        ws.close();
-        return;
-      }
-
-      // -----/Client authenticity check code -----
-      let showlmsg = this.config.showjlinfo;
-
-      if ((this.ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
-
-        this.nospawn[ws._socket.remoteAddress] = true;
-
-        if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1)) {
-          if (this.config.showbmessage == 1) {
-            console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
-          } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
-
-          this.banned.push(ws._socket.remoteAddress);
-          if (this.config.autobanrecord == 1) {
-            let oldstring = "";
-            let string = "";
-            for (let i in this.banned) {
-              let banned = this.banned[i];
-              if (banned != "") {
-
-                string = oldstring + "\n" + banned;
-                oldstring = string;
-              }
-            }
-
-            fs.writeFile('./banned.txt', string);
-          }
-          // Remove from game
-          for (let i in clients) {
-            let c = clients[i];
-            if (!c.remoteAddress) {
-              continue;
-            }
-            if (c.remoteAddress == ws._socket.remoteAddress) {
-
-              //this.socket.close();
-              c.close(); // Kick out
-            }
-          }
-        }
-      } else {
-        this.nospawn[ws._socket.remoteAddress] = false;
-      }
-      if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
-        if (this.config.showbmessage == 1) {
-          console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
-        }
-        this.nospawn[ws._socket.remoteAddress] = true;
-      }
-      if (this.ipcounts[ws._socket.remoteAddress]) {
-        this.ipcounts[ws._socket.remoteAddress]++;
-      } else {
-        this.ipcounts[ws._socket.remoteAddress] = 1;
-      }
-
-      if (this.config.showjlinfo == 1) {
-        console.log("A player with an IP of " + ws._socket.remoteAddress + " joined the game");
-      }
-      if (this.config.porportional == 1) {
-        this.config.borderLeft -= this.config.borderDec;
-        this.config.borderRight += this.config.borderDec;
-        this.config.borderTop -= this.config.borderDec;
-        this.config.borderBottom += this.config.borderDec;
-
-
-      }
-      let self = this;
-
-      function close(error) {
-        self.ipcounts[this.socket.remoteAddress]--;
-        // Log disconnections
-        if (showlmsg == 1) {
-          console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
-        }
-        if (self.config.porportional == 1) {
-          self.config.borderLeft += self.config.borderDec;
-          self.config.borderRight -= self.config.borderDec;
-          self.config.borderTop += self.config.borderDec;
-          self.config.borderBottom -= self.config.borderDec;
-
-          self.world.getNodes().forEach((node)=> {
-            if ((!node) || (node.getType() == 0)) {
-              return;
-            }
-
-            // Move
-            if (node.position.x < self.config.borderLeft) {
-              self.removeNode(node);
-              i--;
-            } else if (node.position.x > self.config.borderRight) {
-              self.removeNode(node);
-              i--;
-            } else if (node.position.y < self.config.borderTop) {
-              self.removeNode(node);
-              i--;
-            } else if (node.position.y > self.config.borderBottom) {
-              self.removeNode(node);
-              i--;
-            }
-          });
-        }
-        this.server.log.onDisconnect(this.socket.remoteAddress);
-
-        let client = this.socket.playerTracker;
-        let len = this.socket.playerTracker.cells.length;
-
-        for (let i = 0; i < len; i++) {
-          let cell = this.socket.playerTracker.cells[i];
-
-          if (!cell) {
-            continue;
-          }
-
-          cell.calcMove = function () {
-
-          }; // Clear function so that the cell cant move
-          //this.server.removeNode(cell);
-        }
-
-        client.disconnect = this.server.config.playerDisconnectTime * 20;
-        this.socket.sendPacket = function () {
-
-        }; // Clear function so no packets are sent
-      }
-
-      ws.remoteAddress = ws._socket.remoteAddress;
-      ws.remotePort = ws._socket.remotePort;
-      this.log.onConnect(ws.remoteAddress); // Log connections
-
-      ws.playerTracker = new PlayerTracker(this, ws);
-      ws.packetHandler = new PacketHandler(this, ws, this.config, this.getWorld());
-      ws.on('message', ws.packetHandler.handleMessage.bind(ws.packetHandler));
-
-      let bindObject = {
-        server: this,
-        socket: ws
-      };
-      ws.on('error', close.bind(bindObject));
-      ws.on('close', close.bind(bindObject));
-      this.getWorld().addClient(ws);
-    }
 
     this.statServer.start();
   };
@@ -322,11 +167,12 @@ module.exports = class GameServer {
 
   }
 
-  pause(){
+  pause() {
     this.running = false;
     this.generatorService.stop()
   }
-  unpause(){
+
+  unpause() {
     this.running = true;
     this.generatorService.start()
   }
@@ -993,6 +839,7 @@ module.exports = class GameServer {
     this.getWorld().setNode(newCell.getId(), newCell, "moving");
     this.getWorld().setNode(newCell.getId(), newCell, "player");
   };
+
   // todo this needs to be a plugin
   shootVirus(parent) {
     let parentPos = {
@@ -1065,26 +912,26 @@ module.exports = class GameServer {
       // Update cells/leaderboard loop
       this.tickMain++;
       let count = 0;
-/*
-      let rainbowNodes = this.getWorld().getNodes('rainbow');
-        rainbowNodes.forEach((node)=> {
-        if (!node) return;
-        count++;
+      /*
+       let rainbowNodes = this.getWorld().getNodes('rainbow');
+       rainbowNodes.forEach((node)=> {
+       if (!node) return;
+       count++;
 
-        if (!node.rainbow) {
-          node.rainbow = Math.floor(Math.random() * this.colors.length);
-        }
+       if (!node.rainbow) {
+       node.rainbow = Math.floor(Math.random() * this.colors.length);
+       }
 
-        if (node.rainbow >= this.colors.length) {
-          node.rainbow = 0;
-        }
+       if (node.rainbow >= this.colors.length) {
+       node.rainbow = 0;
+       }
 
-        node.color = this.colors[node.rainbow];
-        node.rainbow += this.config.rainbowspeed;
-      });
+       node.color = this.colors[node.rainbow];
+       node.rainbow += this.config.rainbowspeed;
+       });
 
-      if (count <= 0) this.getWorld().getNodes('rainbow').clear();
-*/
+       if (count <= 0) this.getWorld().getNodes('rainbow').clear();
+       */
       if (this.tickMain >= this.config.fps) { // 1 Second
         let a = [];
         let d = false;
@@ -1465,6 +1312,157 @@ module.exports = class GameServer {
         break;
     }
     process.exit(1); // Exits the program
+  }
+
+  connectionEstablished(ws) {
+    let clients = this.getWorld().getClients();
+    if (clients.length >= this.config.serverMaxConnections) { // Server full
+      ws.close();
+      return;
+    }
+    if (!this.isValidClient(ws.upgradeReq.headers.origin)) {
+      ws.close();
+      return;
+    }
+
+    // -----/Client authenticity check code -----
+    if ((this.ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
+
+      this.nospawn[ws._socket.remoteAddress] = true;
+
+      if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1)) {
+        if (this.config.showbmessage == 1) {
+          console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
+        } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
+
+        this.banned.push(ws._socket.remoteAddress);
+        if (this.config.autobanrecord == 1) {
+          let oldstring = "";
+          let string = "";
+          for (let i in this.banned) {
+            let banned = this.banned[i];
+            if (banned != "") {
+
+              string = oldstring + "\n" + banned;
+              oldstring = string;
+            }
+          }
+
+          fs.writeFile('./banned.txt', string);
+        }
+        // Remove from game
+        for (let i in clients) {
+          let c = clients[i];
+          if (!c.remoteAddress) {
+            continue;
+          }
+          if (c.remoteAddress == ws._socket.remoteAddress) {
+
+            //this.socket.close();
+            c.close(); // Kick out
+          }
+        }
+      }
+    } else {
+      this.nospawn[ws._socket.remoteAddress] = false;
+    }
+    if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
+      if (this.config.showbmessage == 1) {
+        console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
+      }
+      this.nospawn[ws._socket.remoteAddress] = true;
+    }
+    if (this.ipcounts[ws._socket.remoteAddress]) {
+      this.ipcounts[ws._socket.remoteAddress]++;
+    } else {
+      this.ipcounts[ws._socket.remoteAddress] = 1;
+    }
+
+    if (this.config.showjlinfo == 1) {
+      console.log("A player with an IP of " + ws._socket.remoteAddress + " joined the game");
+    }
+    if (this.config.porportional == 1) {
+      this.config.borderLeft -= this.config.borderDec;
+      this.config.borderRight += this.config.borderDec;
+      this.config.borderTop -= this.config.borderDec;
+      this.config.borderBottom += this.config.borderDec;
+
+
+    }
+
+    let self = this;
+    function close(error) {
+      self.ipcounts[this.socket.remoteAddress]--;
+      // Log disconnections
+      if (self.config.showjlinfo == 1) {
+        console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
+      }
+      if (self.config.porportional == 1) {
+        self.config.borderLeft += self.config.borderDec;
+        self.config.borderRight -= self.config.borderDec;
+        self.config.borderTop += self.config.borderDec;
+        self.config.borderBottom -= self.config.borderDec;
+
+        self.world.getNodes().forEach((node)=> {
+          if ((!node) || (node.getType() == 0)) {
+            return;
+          }
+
+          // Move
+          if (node.position.x < self.config.borderLeft) {
+            self.removeNode(node);
+            i--;
+          } else if (node.position.x > self.config.borderRight) {
+            self.removeNode(node);
+            i--;
+          } else if (node.position.y < self.config.borderTop) {
+            self.removeNode(node);
+            i--;
+          } else if (node.position.y > self.config.borderBottom) {
+            self.removeNode(node);
+            i--;
+          }
+        });
+      }
+      this.server.log.onDisconnect(this.socket.remoteAddress);
+
+      let client = this.socket.playerTracker;
+      let len = this.socket.playerTracker.cells.length;
+
+      for (let i = 0; i < len; i++) {
+        let cell = this.socket.playerTracker.cells[i];
+
+        if (!cell) {
+          continue;
+        }
+
+        cell.calcMove = function () {
+
+        }; // Clear function so that the cell cant move
+        //this.server.removeNode(cell);
+      }
+
+      client.disconnect = this.server.config.playerDisconnectTime * 20;
+      this.socket.sendPacket = function () {
+
+      }; // Clear function so no packets are sent
+    }
+
+    ws.remoteAddress = ws._socket.remoteAddress;
+    ws.remotePort = ws._socket.remotePort;
+    this.log.onConnect(ws.remoteAddress); // Log connections
+
+    ws.playerTracker = new PlayerTracker(this, ws);
+    ws.packetHandler = new PacketHandler(this, ws, this.config, this.getWorld());
+    ws.on('message', ws.packetHandler.handleMessage.bind(ws.packetHandler));
+
+    let bindObject = {
+      server: this,
+      socket: ws
+    };
+    ws.on('error', close.bind(bindObject));
+    ws.on('close', close.bind(bindObject));
+    this.getWorld().addClient(ws);
   }
 
   socketServerStart() {
