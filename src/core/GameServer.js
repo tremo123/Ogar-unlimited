@@ -61,6 +61,7 @@ module.exports = class GameServer {
     this.config = this.configService.getConfig();
     this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
+    this.rSkins = this.configService.getRSkins();
     this.highscores = this.configService.getHighScores();
 
     this.randomNames = this.configService.getBotNames();
@@ -838,7 +839,6 @@ module.exports = class GameServer {
           if (this.randomNames.length > 0) {
           let index = Math.floor(Math.random() * this.randomNames.length);
           name = this.randomNames[index];
-          this.randomNames.splice(index, 1);
         } else {
           name = "player";
         }
@@ -870,12 +870,35 @@ module.exports = class GameServer {
     if (player.name.substr(0, 1) == "<") {
      let n = player.name.indexOf(">");
             if (n != -1) {
+              var prem = '';
               if (player.name.substr(1, n - 1) == "r" && this.config.rainbow == 1) {
                 player.rainbowon = true;
+              } else if (layer.name.substr(1, n - 1) == "/random") {
+              if (this.rSkins.length > 0) {
+          let index = Math.floor(Math.random() * this.rSkins.length);
+          prem = this.rSkins[index];
+        
+              }
               } else {
                 player.premium = '%' + player.name.substr(1, n - 1);
               }
+    if (prem) {
+      var o = false;
+      for (let i in this.skinshortcut) {
+                if (!this.skinshortcut[i] || !this.skin[i]) {
+                  continue;
+                }
+                if (prem == this.skinshortcut[i]) {
+                  player.premium = this.skin[i];
+                  o = true;
+                  break;
+                }
 
+              }
+              
+              if (!o) player.premium = "%" + prem;
+      
+    } else {
               for (let i in this.skinshortcut) {
                 if (!this.skinshortcut[i] || !this.skin[i]) {
                   continue;
@@ -886,6 +909,7 @@ module.exports = class GameServer {
                 }
 
               }
+            }
               player.name = player.name.substr(n + 1);
             }
           } else if (player.name.substr(0, 1) == "[") {
@@ -1101,7 +1125,6 @@ onWVerify(client) {
           if (this.randomNames.length > 0) {
           let index = Math.floor(Math.random() * this.randomNames.length);
           name = this.randomNames[index];
-          this.randomNames.splice(index, 1);
         } else {
           name = "player";
         }
