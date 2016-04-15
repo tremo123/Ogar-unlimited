@@ -268,9 +268,9 @@ module.exports = class ConfigService {
   loadBotNames() {
     try {
       // Read and parse the names - filter out whitespace-only names
-      this.botNames = fs.readFileSync("./botnames.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
-        return x != ''; // filter empty names
-      });
+      this.botNames = fs.readFileSync(path.join(__dirname, '../', 'botnames.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
+      return x != ''; // filter empty names
+    });
     } catch (e) {
       // Nothing, use the default names
       fs.writeFileSync('./botnames.txt', '');
@@ -280,9 +280,9 @@ loadRandomSkin() {
   
    try {
       // Read and parse the names - filter out whitespace-only names
-      this.skinNames = fs.readFileSync("./randomSkins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
-        return x != ''; // filter empty names
-      });
+      this.skinNames = fs.readFileSync(path.join(__dirname, '../', 'randomSkins.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
+      return x != ''; // filter empty names
+    });
     } catch (e) {
       // Nothing, use the default names
       fs.writeFileSync('./randomSkins.txt', '');
