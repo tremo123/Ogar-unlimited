@@ -38,7 +38,7 @@ this.version = version;
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
               var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
-                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.gameServer.version + " Required: " + plugin.compatVersion)
+                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
                 continue;
               }
             }
@@ -97,7 +97,7 @@ this.version = version;
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
               var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
-                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.gameServer.version + " Required: " + plugin.compatVersion)
+                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
                 continue;
               }
             }
