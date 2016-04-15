@@ -759,12 +759,25 @@ module.exports = class GameServer {
       }
     });
   }
+  beforespawn(player,pos,mass) {
+    
+    return true;
+  };
+  beforeeject(player) {
+    return true;
+  };
+  beforesplit(player) {
+    return true;
+  };
 
   spawnPlayer(player, pos, mass) {
     let dono = false;
     let dospawn = false;
     clearTimeout(player.spect);
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
+if (!this.beforespawn(player,pos,mass)) return;
+
+
 
       if (this.config.verify != 1 || (this.whlist.indexOf(player.socket.remoteAddress) != -1)) {
         player.verify = true;
@@ -1231,6 +1244,8 @@ onWVerify(client) {
 
   // todo refactor this is way to long and does way to many different things
   ejectMass(client) {
+    if (!this.beforeeject(client)) return;
+    
     if (this.onWVerify(client)) {
       if (!this.canEjectMass(client)) return;
       let player = client;
@@ -1589,7 +1604,10 @@ onWVerify(client) {
             console.log("[Console] Command 51 recieved");
           }
         }
-        if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1) {
+                   var com = parseInt(split[splitbuffer].replace('\n', '').replace(/\./g,''));
+              var cur = parseInt(game.version.replace(/\./g,''));
+        
+        if (com > cur && game.config.notifyupdate == 1) {
           let des = split.slice(splitbuffer + 1, split.length).join(' ');
           game.uv = split[splitbuffer].replace('\n', '');
           console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
@@ -1646,8 +1664,10 @@ game.consoleService.execCommand("update", split);
               console.log("[Console] Command 51 recieved");
             }
           }
-
-          if (split[splitbuffer].replace('\n', '') != game.version && game.config.notifyupdate == 1 && game.uv != split[splitbuffer].replace('\n', '')) {
+      var com = parseInt(split[splitbuffer].replace('\n', '').replace(/\./g,''));
+              var cur = parseInt(game.version.replace(/\./g,''));
+      
+          if (com > cur && game.config.notifyupdate == 1 && game.uv != split[splitbuffer].replace('\n', '')) {
             let des = split.slice(splitbuffer + 1, split.length).join(' ');
             game.uv = split[splitbuffer].replace('\n', '');
             console.log("\x1b[31m[Console] We have detected a update, Current version: " + game.version + " ,Available: " + split[splitbuffer].replace('\n', ''));
