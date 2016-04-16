@@ -209,7 +209,7 @@ module.exports = class PlayerTracker {
               var ismi = false;
             }
             if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
-              client.nospawn = true; // Kick
+              this.gameServer.banned.push(client.socket.remoteAddress); // Ban
               var len = client.cells.length;
               for (var j = 0; j < len; j++) {
                 this.gameServer.removeNode(client.cells[0]); // kill
