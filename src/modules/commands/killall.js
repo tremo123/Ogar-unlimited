@@ -1,9 +1,14 @@
 'use strict';
 module.exports = function (gameServer, split) {
   let count = 0;
-   gameServer.getWorld().getNodes('player').forEach((node)=> {
-    gameServer.removeNode(node);
-     if (node) count++;
-  });
+   for (var i in gameServer.clients) {
+     client = gameServer.clients[i];
+     for (var j in client.cells) {
+       
+       gameServer.removeNode(client.cells[i])
+       count ++
+     }
+     
+   }
    console.log("[Console] Removed " + count + " cells");
 };
