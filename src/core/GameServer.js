@@ -845,27 +845,6 @@ module.exports = class GameServer {
       // Update cells/leaderboard loop
       this.tickMain++;
 
-      /* // Todo need to check up on this see what/if needs to be done
-       let count = 0;
-       let rainbowNodes = this.getWorld().getNodes('rainbow');
-       rainbowNodes.forEach((node)=> {
-       if (!node) return;
-       count++;
-
-       if (!node.rainbow) {
-       node.rainbow = Math.floor(Math.random() * this.colors.length);
-       }
-
-       if (node.rainbow >= this.colors.length) {
-       node.rainbow = 0;
-       }
-
-       node.color = this.colors[node.rainbow];
-       node.rainbow += this.config.rainbowspeed;
-       });
-
-       if (count <= 0) this.getWorld().getNodes('rainbow').clear();
-       */
       if (this.tickMain >= this.config.fps) { // 1 Second
         this.duplicateMouseCheck();
         this.rainBowTick();
@@ -909,9 +888,30 @@ module.exports = class GameServer {
   }
 
   rainBowTick() {
+    // Todo need to check up on this see what/if needs to be done
+    let count = 0;
+    let rainbowNodes = this.getWorld().getNodes('rainbow');
+    rainbowNodes.forEach((node)=> {
+      if (!node) return;
+      count++;
+
+      if (!node.rainbow) {
+        node.rainbow = Math.floor(Math.random() * this.colors.length);
+      }
+
+      if (node.rainbow >= this.colors.length) {
+        node.rainbow = 0;
+      }
+
+      node.color = this.colors[node.rainbow];
+      node.rainbow += this.config.rainbowspeed;
+    });
+
+    if (count <= 0) this.getWorld().getNodes('rainbow').clear();
+
     this.getWorld().getClients().forEach((client)=> {
       // todo likely do not need the client check as it was not included above - this is most likely defensive programming
-      if (client && client.playerTracker.rainbowon) {
+      if (client.cells && client.playerTracker.rainbowon) {
         client.cells.forEach((cell)=>this.getWorld().setNode(cell.nodeId, cell, 'rainbow'));
       }
     });

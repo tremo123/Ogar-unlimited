@@ -72,7 +72,7 @@
     "name": "ConsoleService.js"
   },
   {
-    "hash": "e9b43e2f54b38000b9efd815919a0e24",
+    "hash": "d71e329f9af86f47c5b3b4d839a56ace",
     "src": "src/core/ControlServer.js",
     "dst": "./core/ControlServer.js",
     "name": "ControlServer.js"
@@ -84,13 +84,13 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "ebc31900aeb52c2686139f3e743ef6ae",
+    "hash": "ebafddbed16ff30bc891b3bf0d959338",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
   },
   {
-    "hash": "55a512a336dd599df2409bbf89616634",
+    "hash": "90f65f07363c1fe828bbb1841e1762c0",
     "src": "src/core/GeneratorService.js",
     "dst": "./core/GeneratorService.js",
     "name": "GeneratorService.js"
@@ -162,7 +162,7 @@
     "name": "Beacon.js"
   },
   {
-    "hash": "c826d61a850fb70dee9a0e15f65378f3",
+    "hash": "649543282e4cee07d20eac713d19f7d0",
     "src": "src/entity/Cell.js",
     "dst": "./entity/Cell.js",
     "name": "Cell.js"
@@ -204,7 +204,7 @@
     "name": "StickyCell.js"
   },
   {
-    "hash": "13b3d983de18b57be5f944cadbd2d8ae",
+    "hash": "3eedc33b993c50a12884c80fbc958a42",
     "src": "src/entity/Virus.js",
     "dst": "./entity/Virus.js",
     "name": "Virus.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "e067a6fc94353bb99b9f033d6c3c5c79",
+    "hash": "a3dc3a9c6ce1de8a55096f97dad67942",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
@@ -270,7 +270,7 @@
     "name": "Leap.js"
   },
   {
-    "hash": "bb20d8285550387b3cf53d2d0a2b817b",
+    "hash": "2aa71d6e0c4d3969c390dc8baddbb7ac",
     "src": "src/gamemodes/Mode.js",
     "dst": "./gamemodes/Mode.js",
     "name": "Mode.js"
@@ -882,7 +882,7 @@
     "name": "advConfig.ini"
   },
   {
-    "hash": "b0d5261f48347c6ef578cd03e32a131d",
+    "hash": "b255985a657a9e38fa3efeea7cd08e64",
     "src": "src/settings/config.ini",
     "dst": "./settings/config.ini",
     "name": "config.ini"
