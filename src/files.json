@@ -84,7 +84,7 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "ebafddbed16ff30bc891b3bf0d959338",
+    "hash": "9619561e8bdf60f6fc3fc906f21e3378",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "a3dc3a9c6ce1de8a55096f97dad67942",
+    "hash": "d1f5f3f99fb6bc0a240b3d1107cc33d0",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"

@@ -866,7 +866,6 @@ module.exports = class GameServer {
   };
 
   duplicateMouseCheck() {
-
     let a = [];
     let d = false;
     this.getWorld().getClients().forEach((client)=> {
@@ -895,15 +894,10 @@ module.exports = class GameServer {
       if (!node) return;
       count++;
 
-      if (!node.rainbow) {
-        node.rainbow = Math.floor(Math.random() * this.colors.length);
-      }
+      node.rainbow = (node.rainbow) ? node.rainbow : Math.floor(Math.random() * Colors.length);
+      node.rainbow = (node.rainbow >= Colors.length) ? 0 : node.rainbow;
 
-      if (node.rainbow >= this.colors.length) {
-        node.rainbow = 0;
-      }
-
-      node.color = this.colors[node.rainbow];
+      node.color = Colors[node.rainbow];
       node.rainbow += this.config.rainbowspeed;
     });
 
@@ -1344,67 +1338,6 @@ module.exports = class GameServer {
       this.config.borderRight += this.config.borderDec;
       this.config.borderTop -= this.config.borderDec;
       this.config.borderBottom += this.config.borderDec;
-
-
-    }
-
-    let self = this;
-
-    function close(error) {
-      self.ipcounts[this.socket.remoteAddress]--;
-      // Log disconnections
-      if (self.config.showjlinfo == 1) {
-        console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
-      }
-      if (self.config.porportional == 1) {
-        self.config.borderLeft += self.config.borderDec;
-        self.config.borderRight -= self.config.borderDec;
-        self.config.borderTop += self.config.borderDec;
-        self.config.borderBottom -= self.config.borderDec;
-
-        self.world.getNodes().forEach((node)=> {
-          if ((!node) || (node.getType() == 0)) {
-            return;
-          }
-
-          // Move
-          if (node.position.x < self.config.borderLeft) {
-            self.removeNode(node);
-            i--;
-          } else if (node.position.x > self.config.borderRight) {
-            self.removeNode(node);
-            i--;
-          } else if (node.position.y < self.config.borderTop) {
-            self.removeNode(node);
-            i--;
-          } else if (node.position.y > self.config.borderBottom) {
-            self.removeNode(node);
-            i--;
-          }
-        });
-      }
-      this.server.log.onDisconnect(this.socket.remoteAddress);
-
-      let client = this.socket.playerTracker;
-      let len = this.socket.playerTracker.cells.length;
-
-      for (let i = 0; i < len; i++) {
-        let cell = this.socket.playerTracker.cells[i];
-
-        if (!cell) {
-          continue;
-        }
-
-        cell.calcMove = function () {
-
-        }; // Clear function so that the cell cant move
-        //this.server.removeNode(cell);
-      }
-
-      client.disconnect = this.server.config.playerDisconnectTime * 20;
-      this.socket.sendPacket = function () {
-
-      }; // Clear function so no packets are sent
     }
 
     ws.remoteAddress = ws._socket.remoteAddress;
@@ -1419,9 +1352,67 @@ module.exports = class GameServer {
       server: this,
       socket: ws
     };
-    ws.on('error', close.bind(bindObject));
-    ws.on('close', close.bind(bindObject));
+    ws.on('error', this.socketServerClose.bind(bindObject));
+    ws.on('close', this.socketServerClose.bind(bindObject));
     this.getWorld().addClient(ws);
+  }
+
+  socketServerClose(error) {
+    let server = this.server;
+    server.ipcounts[this.socket.remoteAddress]--;
+    // Log disconnections
+    if (server.config.showjlinfo == 1) {
+      console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
+    }
+    if (server.config.porportional == 1) {
+      server.config.borderLeft += server.config.borderDec;
+      server.config.borderRight -= server.config.borderDec;
+      server.config.borderTop += server.config.borderDec;
+      server.config.borderBottom -= server.config.borderDec;
+
+      server.world.getNodes().forEach((node)=> {
+        if ((!node) || (node.getType() == 0)) {
+          return;
+        }
+
+        // Move
+        if (node.position.x < server.config.borderLeft) {
+          server.removeNode(node);
+          i--;
+        } else if (node.position.x > server.config.borderRight) {
+          server.removeNode(node);
+          i--;
+        } else if (node.position.y < server.config.borderTop) {
+          server.removeNode(node);
+          i--;
+        } else if (node.position.y > server.config.borderBottom) {
+          server.removeNode(node);
+          i--;
+        }
+      });
+    }
+    this.server.log.onDisconnect(this.socket.remoteAddress);
+
+    let client = this.socket.playerTracker;
+    let len = this.socket.playerTracker.cells.length;
+
+    for (let i = 0; i < len; i++) {
+      let cell = this.socket.playerTracker.cells[i];
+
+      if (!cell) {
+        continue;
+      }
+
+      cell.calcMove = function () {
+
+      }; // Clear function so that the cell cant move
+      //this.server.removeNode(cell);
+    }
+
+    client.disconnect = this.server.config.playerDisconnectTime * 20;
+    this.socket.sendPacket = function () {
+
+    }; // Clear function so no packets are sent
   }
 
   socketServerStart() {
