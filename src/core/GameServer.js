@@ -868,9 +868,9 @@ if (!this.beforespawn(player,pos,mass)) return;
           // Checks if it's safe for players to spawn
             if (this.config.playerSafeSpawn === 1) {
               for (var j = 0; j < 30; j++) {
-                for (var i = 0; i < this.nodesPlayer.length; i++) {
+                for (var i = 0; i < this._nodesPlayer.length; i++) {
                 var issafe = true;
-                var check = this.nodesPlayer[i];
+                var check = this._nodesPlayer[i];
                 var pos = this.getRandomPosition();
                 var playerSquareSize = (this.config.playerStartMass * 100) >> 0;
                 var squareR = check.mass * 100; // Checks player cell's radius
