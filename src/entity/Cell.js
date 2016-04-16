@@ -1,377 +1,387 @@
 'use strict';
 const Physics = require('../core/Physics.js');
 
-Cell.spi = 0;
-Cell.virusi = 255;
-Cell.recom = 0;
-function Cell(nodeId, owner, position, mass, world, config) {
 
-  this.nodeId = nodeId;
-  this.owner = owner; // playerTracker that owns this cell
-  this.color = {
-    r: 0,
-    g: Cell.virusi,
-    b: 0
-  };
-  this.name = '';
-  this.visible = true;
-  this.position = position;
-  this.mass = mass; // Starting mass of the cell
-  this.world = world;
-  this.config = config;
+//Cell.spi = 0;
+//Cell.virusi = 255;
+//Cell.recom = 0;
 
-  this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
-  this.spiked = Cell.spi; // If 1, then this cell has spikes around it
-  this.wobbly = 0; // If 1 the cell has a very jiggly cell border
+module.exports = class Cell {
 
-  this.killedBy; // Cell that ate this cell
+  constructor(nodeId, owner, position, mass, world, config) {
+    this.nodeId = nodeId;
+    this.owner = owner; // playerTracker that owns this cell
+    this.color = {
+      r: 0,
+      g: 255,
+      b: 0
+    };
+    this.name = '';
+    this.visible = true;
+    this.position = position;
+    this.mass = mass; // Starting mass of the cell
+    this.world = world;
+    this.config = config;
 
-  this.moveEngineTicks = 0; // Amount of times to loop the movement function
-  this.moveEngineSpeed = 0;
-  this.moveDecay = .75;
-  this.angle = 0; // Angle of movement
-}
+    this.cellType = -1; // 0 = Player Cell, 1 = Food, 2 = Virus, 3 = Ejected Mass
+    this.spiked = Cell.spi; // If 1, then this cell has spikes around it
+    this.wobbly = 0; // If 1 the cell has a very jiggly cell border
 
-module.exports = Cell;
+    this.killedBy = undefined; // Cell that ate this cell
 
-Cell.prototype.toJSON = function () {
-  return {
-    nodeId: this.nodeId = nodeId,
-    ownerId: this.owner.getId(),
-    color: this.color,
-    name: this.name,
-    visible: this.visible,
-    position: this.position,
-    mass: this.mass,
-    cellType: this.cellType,
-    moveEngineTicks: this.moveEngineTicks,
-    moveEngineSpeed: this.moveEngineSpeed,
-    angle: this.angle
+    this.moveEngineTicks = 0; // Amount of times to loop the movement function
+    this.moveEngineSpeed = 0;
+    this.moveDecay = .75;
+    this.angle = 0; // Angle of movement
   }
-};
 
-Cell.prototype.fromJSON = function (json, world, config) {
-  let newCell = new Cell(json.nodeId, world.getNode(json.ownerId), json.position, json.mass, world, config);
-  newCell.color = json.color;
-  newCell.name = json.name;
-  newCell.visible = json.visible;
-  newCell.cellType = json.cellType;
-  newCell.moveEngineTicks = json.moveEngineTicks;
-  newCell.moveEngineSpeed = json.moveEngineSpeed;
-  newCell.angle = json.angle;
-  return newCell;
-};
+  toJSON() {
+    return {
+      nodeId: this.nodeId = nodeId,
+      type: typeof this,
+      ownerId: this.owner.getId(),
+      color: this.color,
+      name: this.name,
+      visible: this.visible,
+      position: this.position,
+      mass: this.mass,
+      cellType: this.cellType,
+      moveEngineTicks: this.moveEngineTicks,
+      moveEngineSpeed: this.moveEngineSpeed,
+      angle: this.angle
+    }
+  }
+
+  static fromJSON(json, world, config) {
+    let newCell = new Entity[json.type](json.nodeId, world.getNode(json.ownerId), json.position, json.mass, world, config);
+    newCell.color = json.color;
+    newCell.name = json.name;
+    newCell.visible = json.visible;
+    newCell.cellType = json.cellType;
+    newCell.moveEngineTicks = json.moveEngineTicks;
+    newCell.moveEngineSpeed = json.moveEngineSpeed;
+    newCell.angle = json.angle;
+    return newCell;
+  };
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 
-Cell.prototype.getId = function () {
-  return this.nodeId;
-};
-Cell.prototype.getVis = function () {
-  if (this.owner && !this.visible) {
-    return this.owner.visible;
-  } else {
-    return this.visible;
+  getId() {
+    return this.nodeId;
   }
-};
-Cell.prototype.setVis = function (state, so) {
-  if (!so && this.owner) {
-    this.owner.visible = state;
-  } else {
-    this.visible = state;
-  }
-  return true;
-};
-Cell.prototype.getName = function () {
-  if (this.owner && !this.name) {
-    return this.owner.name;
-  } else {
-    return this.name;
-  }
-};
-Cell.prototype.setName = function (name, so) {
-  if (!so && this.owner) {
-    this.owner.name = name;
-  } else {
-    this.name = name;
-  }
-  return true;
-};
-Cell.prototype.getPremium = function () {
-  if (this.owner) {
-    return this.owner.premium;
-  } else {
-    return "";
-  }
-};
 
-Cell.prototype.setColor = function (color) {
-  this.color.r = color.r;
-  this.color.b = color.b;
-  this.color.g = color.g;
-};
-
-Cell.prototype.getColor = function () {
-  return this.color;
-};
-
-Cell.prototype.getType = function () {
-  return this.cellType;
-};
-
-Cell.prototype.getSize = function () {
-  // Calculates radius based on cell mass
-  return Math.ceil(Math.sqrt(100 * this.mass));
-};
-
-Cell.prototype.getSquareSize = function () {
-  // R * R
-  return (100 * this.mass) >> 0;
-};
-
-Cell.prototype.addMass = function (n) {
-  var client = this.owner;
-  let self = this;
-  if (!client.verify && this.config.verify == 1) {
-    // todo why?
-
-  } else {
-
-    if (this.mass + n > this.config.playerMaxMass && this.owner.cells.length < this.config.playerMaxCells) {
-
-      this.mass = this.mass + n;
-      this.mass = this.mass / 2;
-      var randomAngle = Math.random() * 6.28; // Get random angle
-      Physics.autoSplit(Entity.PlayerCell, this.owner, this, randomAngle, this.mass, 350, this.world, this.config.cRestoreTicks);
+  getVis() {
+    if (this.owner && !this.visible) {
+      return this.owner.visible;
     } else {
-      this.mass += n;
-      var th = this;
-
-      setTimeout(function () {
-        th.mass = Math.min(th.mass, self.config.playerMaxMass);
-
-      }, 1000);
-
+      return this.visible;
     }
   }
-};
-Cell.prototype.getSpeed = function () {
-  // Old formula: 5 + (20 * (1 - (this.mass/(70+this.mass))));
-  // Based on 50ms ticks. If updateMoveEngine interval changes, change 50 to new value
-  // (should possibly have a config value for this?)
-  if (this.owner.customspeed > 0) {
-    return this.owner.customspeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
 
-  } else {
-    return this.config.playerSpeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
+  setVis(state, so) {
+    if (!so && this.owner) {
+      this.owner.visible = state;
+    } else {
+      this.visible = state;
+    }
+    return true;
   }
-};
 
-Cell.prototype.setAngle = function (radians) {
-  this.angle = radians;
-};
+  getName() {
+    if (this.owner && !this.name) {
+      return this.owner.name;
+    } else {
+      return this.name;
+    }
+  }
 
-Cell.prototype.getAngle = function () {
-  return this.angle;
-};
+  setName(name, so) {
+    if (!so && this.owner) {
+      this.owner.name = name;
+    } else {
+      this.name = name;
+    }
+    return true;
+  }
 
-Cell.prototype.setMoveEngineData = function (speed, ticks, decay) {
-  this.moveEngineSpeed = speed;
-  this.moveEngineTicks = ticks;
-  this.moveDecay = isNaN(decay) ? 0.75 : decay;
-};
+  getPremium() {
+    if (this.owner) {
+      return this.owner.premium;
+    } else {
+      return "";
+    }
+  }
 
-Cell.prototype.getEatingRange = function () {
-  return 0; // 0 for ejected cells
-};
+  setColor(color) {
+    this.color.r = color.r;
+    this.color.b = color.b;
+    this.color.g = color.g;
+  }
 
-Cell.prototype.getKiller = function () {
-  return this.killedBy;
-};
+  getColor() {
+    return this.color;
+  }
 
-Cell.prototype.setKiller = function (cell) {
-  this.killedBy = cell;
-};
+  getType() {
+    return this.cellType;
+  }
+
+  getSize() {
+    // Calculates radius based on cell mass
+    return Math.ceil(Math.sqrt(100 * this.mass));
+  }
+
+  getSquareSize() {
+    // R * R
+    return (100 * this.mass) >> 0;
+  }
+
+  addMass(n) {
+    var client = this.owner;
+    let self = this;
+    if (!client.verify && this.config.verify == 1) {
+      // todo why?
+
+    } else {
+
+      if (this.mass + n > this.config.playerMaxMass && this.owner.cells.length < this.config.playerMaxCells) {
+
+        this.mass = this.mass + n;
+        this.mass = this.mass / 2;
+        var randomAngle = Math.random() * 6.28; // Get random angle
+        Physics.autoSplit(Entity.PlayerCell, this.owner, this, randomAngle, this.mass, 350, this.world, this.config.cRestoreTicks);
+      } else {
+        this.mass += n;
+        var th = this;
+
+        setTimeout(function () {
+          th.mass = Math.min(th.mass, self.config.playerMaxMass);
+
+        }, 1000);
+
+      }
+    }
+  }
+
+  getSpeed() {
+    // Old formula: 5 + (20 * (1 - (this.mass/(70+this.mass))));
+    // Based on 50ms ticks. If updateMoveEngine interval changes, change 50 to new value
+    // (should possibly have a config value for this?)
+    if (this.owner.customspeed > 0) {
+      return this.owner.customspeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
+
+    } else {
+      return this.config.playerSpeed * Math.pow(this.mass, -1.0 / 4.5) * 50 / 40;
+    }
+  }
+
+  setAngle(radians) {
+    this.angle = radians;
+  }
+
+  getAngle() {
+    return this.angle;
+  }
+
+  setMoveEngineData(speed, ticks, decay) {
+    this.moveEngineSpeed = speed;
+    this.moveEngineTicks = ticks;
+    this.moveDecay = isNaN(decay) ? 0.75 : decay;
+  }
+
+  getEatingRange() {
+    return 0; // 0 for ejected cells
+  }
+
+  getKiller() {
+    return this.killedBy;
+  }
+
+  setKiller(cell) {
+    this.killedBy = cell;
+  }
 
 // Functions
 
-Cell.prototype.collisionCheck = function (bottomY, topY, rightX, leftX) {
-  // Collision checking
-  if (this.position.y > bottomY) {
-    return false;
-  }
-
-  if (this.position.y < topY) {
-    return false;
-  }
-
-  if (this.position.x > rightX) {
-    return false;
-  }
-
-  if (this.position.x < leftX) {
-    return false;
-  }
-
-  return true;
-};
-
-// This collision checking function is based on CIRCLE shape
-Cell.prototype.collisionCheck2 = function (objectSquareSize, objectPosition) {
-  // IF (O1O2 + r <= R) THEN collided. (O1O2: distance b/w 2 centers of cells)
-  // (O1O2 + r)^2 <= R^2
-  // approximately, remove 2*O1O2*r because it requires sqrt(): O1O2^2 + r^2 <= R^2
-
-  var dx = this.position.x - objectPosition.x;
-  var dy = this.position.y - objectPosition.y;
-  if (Cell.recom == 0) {
-    return (dx * dx + dy * dy + this.getSquareSize() <= objectSquareSize);
-  } else {
-    return (dx * dx + dy * dy <= objectSquareSize);
-  }
-};
-
-Cell.prototype.visibleCheck = function (box, centerPos) {
-  // Checks if this cell is visible to the player
-  return this.collisionCheck(box.bottomY, box.topY, box.rightX, box.leftX);
-};
-
-Cell.prototype.calcMovePhys = function (config) {
-  // Movement engine (non player controlled movement)
-  var speed = this.moveEngineSpeed;
-  var r = this.getSize();
-  this.moveEngineSpeed *= this.moveDecay; // Decaying speed
-  this.moveEngineTicks--;
-
-  // Calculate new position
-  var sin = Math.sin(this.angle);
-  var cos = Math.cos(this.angle);
-  if (this.cellType == 3) {
-    //movement and collision check for ejected mass cells
-    var collisionDist = r * 2 - 5; // Minimum distance between the 2 cells (allow cells to go a little inside eachother before moving them)
-    var maxTravel = r; //check inbetween places for collisions (is needed when cell still has high speed) - max inbetween move before next collision check is cell radius
-    var totTravel = 0;
-    var xd = 0;
-    var yd = 0;
-    do {
-      totTravel = Math.min(totTravel + maxTravel, speed);
-      var x1 = this.position.x + (totTravel * sin) + xd;
-      var y1 = this.position.y + (totTravel * cos) + yd;
-      if (this.world) {
-        this.world.getNodes('ejected').forEach((cell)=> {
-          if (this.nodeId == cell.getId()) return;
-          if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
-
-          var dist = this.getDist(x1, y1, cell.position.x, cell.position.y);
-          if (dist < collisionDist) { // Collided
-            var newDeltaY = cell.position.y - y1;
-            var newDeltaX = cell.position.x - x1;
-            var newAngle = Math.atan2(newDeltaX, newDeltaY);
-            var move = (collisionDist - dist + 5) / 2; //move cells each halfway until they touch
-            let xmove = move * Math.sin(newAngle);
-            let ymove = move * Math.cos(newAngle);
-            cell.position.x += xmove >> 0;
-            cell.position.y += ymove >> 0;
-            xd += -xmove;
-            yd += -ymove;
-            if (cell.moveEngineTicks == 0) {
-              cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
-              this.world.setNode(cell.getId(), cell, 'moving');
-              //if (!this.gameServer.getMovingNodes().has(cell.getId())) {
-              //  this.gameServer.setAsMovingNode(cell.getId());
-              //}
-            }
-            if (this.moveEngineTicks == 0) {
-              this.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
-            }
-          }
-        });
-      }
+  collisionCheck(bottomY, topY, rightX, leftX) {
+    // Collision checking
+    if (this.position.y > bottomY) {
+      return false;
     }
 
-      // todo what the hell is this?
-    while (totTravel < speed);
-    x1 = this.position.x + (speed * sin) + xd;
-    y1 = this.position.y + (speed * cos) + yd;
+    if (this.position.y < topY) {
+      return false;
+    }
 
-  } else {
-    //movement for other than ejected mass cells (player split, virus shoot, ...)
-    var x1 = this.position.x + (speed * sin);
-    var y1 = this.position.y + (speed * cos);
-  }
+    if (this.position.x > rightX) {
+      return false;
+    }
 
-  // Border check - Bouncy physics
-  var radius = 40;
-  if ((x1 - radius) < config.borderLeft) {
-    // Flip angle horizontally - Left side
-    this.angle = 6.28 - this.angle;
-    x1 = config.borderLeft + radius;
-  }
-  if ((x1 + radius) > config.borderRight) {
-    // Flip angle horizontally - Right side
-    this.angle = 6.28 - this.angle;
-    x1 = config.borderRight - radius;
-  }
-  if ((y1 - radius) < config.borderTop) {
-    // Flip angle vertically - Top side
-    this.angle = (this.angle <= 3.14) ? 3.14 - this.angle : 9.42 - this.angle;
-    y1 = config.borderTop + radius;
-  }
-  if ((y1 + radius) > config.borderBottom) {
-    // Flip angle vertically - Bottom side
-    this.angle = (this.angle <= 3.14) ? 3.14 - this.angle : 9.42 - this.angle;
-    y1 = config.borderBottom - radius;
+    if (this.position.x < leftX) {
+      return false;
+    }
+
+    return true;
   }
 
-  // Set position
-  this.position.x = x1 >> 0;
-  this.position.y = y1 >> 0;
-};
+// This collision checking function is based on CIRCLE shape
+  collisionCheck2(objectSquareSize, objectPosition) {
+    // IF (O1O2 + r <= R) THEN collided. (O1O2: distance b/w 2 centers of cells)
+    // (O1O2 + r)^2 <= R^2
+    // approximately, remove 2*O1O2*r because it requires sqrt(): O1O2^2 + r^2 <= R^2
+
+    var dx = this.position.x - objectPosition.x;
+    var dy = this.position.y - objectPosition.y;
+    if (Cell.recom == 0) {
+      return (dx * dx + dy * dy + this.getSquareSize() <= objectSquareSize);
+    } else {
+      return (dx * dx + dy * dy <= objectSquareSize);
+    }
+  }
+
+  visibleCheck(box, centerPos) {
+    // Checks if this cell is visible to the player
+    return this.collisionCheck(box.bottomY, box.topY, box.rightX, box.leftX);
+  }
+
+  calcMovePhys(config) {
+    // Movement engine (non player controlled movement)
+    var speed = this.moveEngineSpeed;
+    var r = this.getSize();
+    this.moveEngineSpeed *= this.moveDecay; // Decaying speed
+    this.moveEngineTicks--;
+
+    // Calculate new position
+    var sin = Math.sin(this.angle);
+    var cos = Math.cos(this.angle);
+    if (this.cellType == 3) {
+      //movement and collision check for ejected mass cells
+      var collisionDist = r * 2 - 5; // Minimum distance between the 2 cells (allow cells to go a little inside eachother before moving them)
+      var maxTravel = r; //check inbetween places for collisions (is needed when cell still has high speed) - max inbetween move before next collision check is cell radius
+      var totTravel = 0;
+      var xd = 0;
+      var yd = 0;
+      do {
+        totTravel = Math.min(totTravel + maxTravel, speed);
+        var x1 = this.position.x + (totTravel * sin) + xd;
+        var y1 = this.position.y + (totTravel * cos) + yd;
+        if (this.world) {
+          this.world.getNodes('ejected').forEach((cell)=> {
+            if (this.nodeId == cell.getId()) return;
+            if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
+
+            var dist = this.getDist(x1, y1, cell.position.x, cell.position.y);
+            if (dist < collisionDist) { // Collided
+              var newDeltaY = cell.position.y - y1;
+              var newDeltaX = cell.position.x - x1;
+              var newAngle = Math.atan2(newDeltaX, newDeltaY);
+              var move = (collisionDist - dist + 5) / 2; //move cells each halfway until they touch
+              let xmove = move * Math.sin(newAngle);
+              let ymove = move * Math.cos(newAngle);
+              cell.position.x += xmove >> 0;
+              cell.position.y += ymove >> 0;
+              xd += -xmove;
+              yd += -ymove;
+              if (cell.moveEngineTicks == 0) {
+                cell.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
+                this.world.setNode(cell.getId(), cell, 'moving');
+                //if (!this.gameServer.getMovingNodes().has(cell.getId())) {
+                //  this.gameServer.setAsMovingNode(cell.getId());
+                //}
+              }
+              if (this.moveEngineTicks == 0) {
+                this.setMoveEngineData(0, 1); //make sure a collided cell checks again for collisions with other cells
+              }
+            }
+          });
+        }
+      }
+
+        // todo what the hell is this?
+      while (totTravel < speed);
+      x1 = this.position.x + (speed * sin) + xd;
+      y1 = this.position.y + (speed * cos) + yd;
+
+    } else {
+      //movement for other than ejected mass cells (player split, virus shoot, ...)
+      var x1 = this.position.x + (speed * sin);
+      var y1 = this.position.y + (speed * cos);
+    }
+
+    // Border check - Bouncy physics
+    var radius = 40;
+    if ((x1 - radius) < config.borderLeft) {
+      // Flip angle horizontally - Left side
+      this.angle = 6.28 - this.angle;
+      x1 = config.borderLeft + radius;
+    }
+    if ((x1 + radius) > config.borderRight) {
+      // Flip angle horizontally - Right side
+      this.angle = 6.28 - this.angle;
+      x1 = config.borderRight - radius;
+    }
+    if ((y1 - radius) < config.borderTop) {
+      // Flip angle vertically - Top side
+      this.angle = (this.angle <= 3.14) ? 3.14 - this.angle : 9.42 - this.angle;
+      y1 = config.borderTop + radius;
+    }
+    if ((y1 + radius) > config.borderBottom) {
+      // Flip angle vertically - Bottom side
+      this.angle = (this.angle <= 3.14) ? 3.14 - this.angle : 9.42 - this.angle;
+      y1 = config.borderBottom - radius;
+    }
+
+    // Set position
+    this.position.x = x1 >> 0;
+    this.position.y = y1 >> 0;
+  }
 
 // Override these
 
-Cell.prototype.sendUpdate = function () {
-  // Whether or not to include this cell in the update packet
-  return true;
-};
+  sendUpdate() {
+    // Whether or not to include this cell in the update packet
+    return true;
+  }
 
-Cell.prototype.onConsume = function (consumer, world) {
-  // Called when the cell is consumed
-};
+  onConsume(consumer, world) {
+    // Called when the cell is consumed
+  }
 
-Cell.prototype.onAdd = function (world) {
-  // Called when this cell is added to the world
-};
+  onAdd(world) {
+    // Called when this cell is added to the world
+  }
 
-Cell.prototype.onRemove = function (world) {
-  // Called when this cell is removed
-};
+  onRemove(world) {
+    // Called when this cell is removed
+  }
 
-Cell.prototype.onAutoMove = function (world) {
-  // Called on each auto move engine tick
-};
+  onAutoMove(world) {
+    // Called on each auto move engine tick
+  }
 
-Cell.prototype.moveDone = function (world) {
-  // Called when this cell finished moving with the auto move engine
-};
-Cell.prototype.simpleCollide = function (x1, y1, check, d) {
-  // Simple collision check
-  var len = d >> 0; // Width of cell + width of the box (Int)
+  moveDone(world) {
+    // Called when this cell finished moving with the auto move engine
+  }
 
-  return (this.abs(x1 - check.position.x) < len) &&
-    (this.abs(y1 - check.position.y) < len);
-};
+  simpleCollide(x1, y1, check, d) {
+    // Simple collision check
+    var len = d >> 0; // Width of cell + width of the box (Int)
 
-Cell.prototype.abs = function (x) {
-  return x < 0 ? -x : x;
-};
+    return (this.abs(x1 - check.position.x) < len) &&
+      (this.abs(y1 - check.position.y) < len);
+  }
 
-Cell.prototype.getDist = function (x1, y1, x2, y2) {
-  var xs = x2 - x1;
-  xs = xs * xs;
+  abs(x) {
+    return x < 0 ? -x : x;
+  }
 
-  var ys = y2 - y1;
-  ys = ys * ys;
+  getDist(x1, y1, x2, y2) {
+    var xs = x2 - x1;
+    xs = xs * xs;
 
-  return Math.sqrt(xs + ys);
+    var ys = y2 - y1;
+    ys = ys * ys;
+
+    return Math.sqrt(xs + ys);
+  }
 };

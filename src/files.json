@@ -144,13 +144,13 @@
     "name": "Updater.js"
   },
   {
-    "hash": "c28d818327eed1e93946d5bdbce44572",
+    "hash": "5b27db9537aecacf8be9e7d3e67377cf",
     "src": "src/core/WorldModel.js",
     "dst": "./core/WorldModel.js",
     "name": "WorldModel.js"
   },
   {
-    "hash": "c28d818327eed1e93946d5bdbce44572",
+    "hash": "365971cf0b0c9c01e438fb74a8607170",
     "src": "src/core/WorldDAO.js",
     "dst": "./core/WorldDAO.js",
     "name": "WorldDAO.js"
@@ -168,49 +168,49 @@
     "name": "Beacon.js"
   },
   {
-    "hash": "649543282e4cee07d20eac713d19f7d0",
+    "hash": "e744eb66415bdc1653c489363a245806",
     "src": "src/entity/Cell.js",
     "dst": "./entity/Cell.js",
     "name": "Cell.js"
   },
   {
-    "hash": "66ecd452dac50568091546233c196029",
+    "hash": "0eb872d7d2686e36afcdda2b96584ec3",
     "src": "src/entity/EjectedMass.js",
     "dst": "./entity/EjectedMass.js",
     "name": "EjectedMass.js"
   },
   {
-    "hash": "fbd1e17a27b926c0238683e7f6937873",
+    "hash": "0c5f4797308c7963bb045f968e6370f6",
     "src": "src/entity/Food.js",
     "dst": "./entity/Food.js",
     "name": "Food.js"
   },
   {
-    "hash": "ccb529eefbd08a1bef32a7286725f1fb",
+    "hash": "38ee4b7b3863dfa94911fb1e1e112cc3",
     "src": "src/entity/MotherCell.js",
     "dst": "./entity/MotherCell.js",
     "name": "MotherCell.js"
   },
   {
-    "hash": "47d7bc19c158869e3a2c54ff1984ea84",
+    "hash": "d2623a36bbd744ca8980a80c42e0b868",
     "src": "src/entity/MovingVirus.js",
     "dst": "./entity/MovingVirus.js",
     "name": "MovingVirus.js"
   },
   {
-    "hash": "98f115fca16c0650333b90ce36457424",
+    "hash": "65cd4bf08c2cafb93211978787b0e781",
     "src": "src/entity/PlayerCell.js",
     "dst": "./entity/PlayerCell.js",
     "name": "PlayerCell.js"
   },
   {
-    "hash": "67aa62713031dec7a0e0cbf18f09c893",
+    "hash": "8dac091b2429c315cf7f04d109460d7f",
     "src": "src/entity/StickyCell.js",
     "dst": "./entity/StickyCell.js",
     "name": "StickyCell.js"
   },
   {
-    "hash": "3eedc33b993c50a12884c80fbc958a42",
+    "hash": "26ba579c2ae27fa11d2856f18a7dea33",
     "src": "src/entity/Virus.js",
     "dst": "./entity/Virus.js",
     "name": "Virus.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "c01b1b721cae324a5813b8f7cd1077e9",
+    "hash": "f8f90ba6f2193785d01496e82a4bb443",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
