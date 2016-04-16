@@ -846,8 +846,9 @@ module.exports = class GameServer {
 
       // Update cells/leaderboard loop
       this.tickMain++;
-      let count = 0;
-      /*
+
+      /* // Todo need to check up on this see what/if needs to be done
+       let count = 0;
        let rainbowNodes = this.getWorld().getNodes('rainbow');
        rainbowNodes.forEach((node)=> {
        if (!node) return;
@@ -868,106 +869,16 @@ module.exports = class GameServer {
        if (count <= 0) this.getWorld().getNodes('rainbow').clear();
        */
       if (this.tickMain >= this.config.fps) { // 1 Second
-        let a = [];
-        let d = false;
-        this.getWorld().getClients().forEach((client)=> {
-
-          if (client.remoteAddress && this.whlist.indexOf(client.remoteAddress) == -1 && !client.playerTracker.nospawn) {
-            if (a[client.playerTracker.mouse] === undefined) {
-              a[client.playerTracker.mouse] = 1;
-
-            } else { // Where it checks for duplicates. If there is over 5, it activates mouse filter using mfre, to see how it works, go to playertracker. This is here so i can reduce lag using a simple and less cpu using method to check for duplicates because the method to actually get rid of them is not efficient.
-              a[client.playerTracker.mouse]++;
-              if (a[client.playerTracker.mouse] > this.config.mbchance) {
-                this.mfre = true;
-                d = true;
-              }
-            }
-          }
-          // todo likely do not need the client check as it was not included above - this is most likely defensive programming
-          if (client && client.playerTracker.rainbowon) {
-            client.cells.forEach((cell)=>this.getWorld().setNode(cell.nodeId, cell, 'rainbow'));
-          }
-        });
-        if (d == false) this.mfre = false;
-
-        let rNodes = this.getWorld().getNodes('rainbow');
-        if (rNodes.length > 0) {
-
-          if (this.rrticks > 40) {
-            this.rrticks = 0;
-            this.getWorld().getNodes('rainbow').clear();
-
-          } else {
-            this.rrticks++;
-          }
-        }
-        for (var i in this.plugins) {
-          if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
-
-        }
-
-        // Update leaderboard with the gamemode's method
-        this.leaderboard = [];
-        this.getWorld().getGameMode().updateLB(this);
-        this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.getWorld().getGameMode().packetLB, this.customLBEnd);
-
-        this.tickMain = 0; // Reset
-        if (!this.getWorld().getGameMode().specByLeaderboard) {
-          // Get client with largest score if gamemode doesn't have a leaderboard
-          let largestClient = undefined;
-          let largestClientScore = 0;
-
-          this.getWorld().getClients.forEach((client)=> {
-            let clientScore = client.playerTracker.getScore(true);
-            if (clientScore > largestClientScore) {
-              largestClient = client;
-              largestClientScore = clientScore;
-            }
-          });
-
-          this.largestClient = largestClient;
-        } else this.largestClient = this.leaderboard[0];
+        this.duplicateMouseCheck();
+        this.rainBowTick();
+        this.pluginTick();
+        this.leaderBoardTick();
       }
 
       // Reset
       this.tick = 0;
-
-      let humans = 0,
-        bots = 0;
-
-      this.getClients().forEach((client)=> {
-        if ('_socket' in client) {
-          humans++;
-        } else if (!client.playerTracker.owner) {
-          bots++;
-        }
-      });
-
-      if (this.config.smartbotspawn === 1) {
-        if (bots < this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
-          this.livestage = 2;
-          this.liveticks = 0;
-
-          this.bots.addBot();
-
-        } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
-          let numToKick = ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
-          this.kickBots(numToKick)
-        }
-      }
-
-      if (this.config.autopause == 1) {
-        if ((!this.running) && (humans != 0) && (!this.overideauto)) {
-          console.log("[Autopause] Game Resumed!");
-          this.unpause();
-        } else if (this.running && humans == 0) {
-          console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
-          this.pause();
-          this.getWorld().getNodes('ejected').clear();
-          this.clearLeaderBoard();
-        }
-      }
+      let humans = this.botSpawnerTick();
+      this.autoPauseTick(humans);
 
       // Restart main loop immediately after current event loop (setImmediate does not amplify any lag delay unlike setInterval or setTimeout)
       setImmediate(this.mainLoopBind);
@@ -976,6 +887,120 @@ module.exports = class GameServer {
       setTimeout(this.mainLoopBind, 1);
     }
   };
+
+  duplicateMouseCheck() {
+
+    let a = [];
+    let d = false;
+    this.getWorld().getClients().forEach((client)=> {
+
+      if (client.remoteAddress && this.whlist.indexOf(client.remoteAddress) == -1 && !client.playerTracker.nospawn) {
+        if (a[client.playerTracker.mouse] === undefined) {
+          a[client.playerTracker.mouse] = 1;
+
+        } else { // Where it checks for duplicates. If there is over 5, it activates mouse filter using mfre, to see how it works, go to playertracker. This is here so i can reduce lag using a simple and less cpu using method to check for duplicates because the method to actually get rid of them is not efficient.
+          a[client.playerTracker.mouse]++;
+          if (a[client.playerTracker.mouse] > this.config.mbchance) {
+            this.mfre = true;
+            d = true;
+          }
+        }
+      }
+    });
+    if (d == false) this.mfre = false;
+  }
+
+  rainBowTick() {
+    this.getWorld().getClients().forEach((client)=> {
+      // todo likely do not need the client check as it was not included above - this is most likely defensive programming
+      if (client && client.playerTracker.rainbowon) {
+        client.cells.forEach((cell)=>this.getWorld().setNode(cell.nodeId, cell, 'rainbow'));
+      }
+    });
+
+    let rNodes = this.getWorld().getNodes('rainbow');
+    if (rNodes.length > 0) {
+
+      if (this.rrticks > 40) {
+        this.rrticks = 0;
+        this.getWorld().getNodes('rainbow').clear();
+
+      } else {
+        this.rrticks++;
+      }
+    }
+  }
+
+  leaderBoardTick() {
+    // Update leaderboard with the gamemode's method
+    this.leaderboard = [];
+    this.getWorld().getGameMode().updateLB(this);
+    this.lb_packet = new Packet.UpdateLeaderboard(this.leaderboard, this.getWorld().getGameMode().packetLB, this.customLBEnd);
+
+    this.tickMain = 0; // Reset
+    if (!this.getWorld().getGameMode().specByLeaderboard) {
+      // Get client with largest score if gamemode doesn't have a leaderboard
+      let largestClient = undefined;
+      let largestClientScore = 0;
+
+      this.getWorld().getClients.forEach((client)=> {
+        let clientScore = client.playerTracker.getScore(true);
+        if (clientScore > largestClientScore) {
+          largestClient = client;
+          largestClientScore = clientScore;
+        }
+      });
+
+      this.largestClient = largestClient;
+    } else this.largestClient = this.leaderboard[0];
+  }
+
+  autoPauseTick(humans) {
+    if (this.config.autopause == 1) {
+      if ((!this.running) && (humans != 0) && (!this.overideauto)) {
+        console.log("[Autopause] Game Resumed!");
+        this.unpause();
+      } else if (this.running && humans == 0) {
+        console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
+        this.pause();
+        this.getWorld().getNodes('ejected').clear();
+        this.clearLeaderBoard();
+      }
+    }
+  }
+
+  botSpawnerTick() {
+    let humans = 0,
+      bots = 0;
+
+    this.getClients().forEach((client)=> {
+      if ('_socket' in client) {
+        humans++;
+      } else if (!client.playerTracker.owner) {
+        bots++;
+      }
+    });
+
+    if (this.config.smartbotspawn === 1) {
+      if (bots < this.config.smartbspawnbase - humans + this.sbo && humans > 0) {
+        this.livestage = 2;
+        this.liveticks = 0;
+
+        this.bots.addBot();
+
+      } else if (this.config.smartbspawnbase - humans + this.sbo > 0) {
+        let numToKick = ((this.config.smartbspawnbase - humans + this.sbo) - bots) * -1;
+        this.kickBots(numToKick)
+      }
+    }
+    return humans;
+  }
+
+  pluginTick() {
+    for (var i in this.plugins) {
+      if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
+    }
+  }
 
   gameModeTick() {
     // Gamemode tick
@@ -1326,6 +1351,7 @@ module.exports = class GameServer {
     }
 
     let self = this;
+
     function close(error) {
       self.ipcounts[this.socket.remoteAddress]--;
       // Log disconnections
