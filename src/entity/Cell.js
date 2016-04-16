@@ -5,17 +5,6 @@ Cell.spi = 0;
 Cell.virusi = 255;
 Cell.recom = 0;
 function Cell(nodeId, owner, position, mass, world, config) {
-  // todo temp test code
-  if (nodeId && !config) {
-    console.log('Something created a Cell without a config');
-
-    console.log(nodeId);
-    console.log(this);
-    console.log(this.owner);
-
-    throw 'Cell created with out config';
-    console.log('test')
-  }
 
   this.nodeId = nodeId;
   this.owner = owner; // playerTracker that owns this cell
