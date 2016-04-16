@@ -834,10 +834,8 @@ module.exports = class GameServer {
     if (this.tick >= 1000 / this.config.fps) {
       // Loop main functions
       if (this.running) {
-        // todo what is going on here?
-        (this.cellTick(), 0);
-        //(this.spawnTick(), 0);
-        (this.gameModeTick(), 0);
+        this.cellTick();
+        this.gameModeTick()
       }
 
       // Update the client's maps
