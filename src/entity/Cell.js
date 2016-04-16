@@ -34,6 +34,34 @@ function Cell(nodeId, owner, position, mass, world, config) {
 
 module.exports = Cell;
 
+Cell.prototype.toJSON = function () {
+  return {
+    nodeId: this.nodeId = nodeId,
+    ownerId: this.owner.getId(),
+    color: this.color,
+    name: this.name,
+    visible: this.visible,
+    position: this.position,
+    mass: this.mass,
+    cellType: this.cellType,
+    moveEngineTicks: this.moveEngineTicks,
+    moveEngineSpeed: this.moveEngineSpeed,
+    angle: this.angle
+  }
+};
+
+Cell.prototype.fromJSON = function (json, world, config) {
+  let newCell = new Cell(json.nodeId, world.getNode(json.ownerId), json.position, json.mass, world, config);
+  newCell.color = json.color;
+  newCell.name = json.name;
+  newCell.visible = json.visible;
+  newCell.cellType = json.cellType;
+  newCell.moveEngineTicks = json.moveEngineTicks;
+  newCell.moveEngineSpeed = json.moveEngineSpeed;
+  newCell.angle = json.angle;
+  return newCell;
+};
+
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 
 Cell.prototype.getId = function () {
