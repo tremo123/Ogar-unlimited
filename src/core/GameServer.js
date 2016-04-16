@@ -298,7 +298,7 @@ module.exports = class GameServer {
 
       if ((this.ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
 
-        this.nospawn[ws._socket.remoteAddress] = true;
+        ws.close();
 
         if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1)) {
           if (this.config.showbmessage == 1) {
@@ -334,13 +334,13 @@ module.exports = class GameServer {
           }
         }
       } else {
-        this.nospawn[ws._socket.remoteAddress] = false;
+        
       }
       if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
         if (this.config.showbmessage == 1) {
           console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
         }
-        this.nospawn[ws._socket.remoteAddress] = true;
+        ws.close();
       }
       if (this.ipcounts[ws._socket.remoteAddress]) {
         this.ipcounts[ws._socket.remoteAddress]++;
