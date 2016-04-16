@@ -867,7 +867,7 @@ if (!this.beforespawn(player,pos,mass)) return;
       mass = (player.spawnmass > mass) ? player.spawnmass : mass;
       
           // Checks if it's safe for players to spawn
-            if (this.config.safeSpawn === 1) {
+            if (this.config.playerSafeSpawn === 1) {
               for (var j = 0; j < 30; j++) {
                 for (var i = 0; i < this.nodesPlayer.length; i++) {
                 var issafe = true;
