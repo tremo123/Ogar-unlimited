@@ -3,6 +3,7 @@ const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
 const request = require('request');
+const path = require("path");
 
 module.exports = class ConfigService {
   constructor() {
