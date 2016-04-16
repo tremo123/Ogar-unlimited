@@ -150,6 +150,12 @@
     "name": "WorldModel.js"
   },
   {
+    "hash": "c28d818327eed1e93946d5bdbce44572",
+    "src": "src/core/WorldDAO.js",
+    "dst": "./core/WorldDAO.js",
+    "name": "WorldDAO.js"
+  },
+  {
     "hash": "7d04b8506275b52426b1d74650f9e172",
     "src": "src/core/utilities.js",
     "dst": "./core/utilities.js",
