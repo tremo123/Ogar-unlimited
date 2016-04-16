@@ -26,16 +26,17 @@ module.exports = class WorldModel {
     this.clients = []; // todo change this to a Map or SortedMap
 
     // Gamemodes
-    this.gameMode = Gamemode.get(this.config.serverGamemode, this);
+    this.gameMode = this.config.serverGamemode;
     //this.pluginGamemodes = this.pluginLoader.getPGamemodes();
   }
 
   getGameMode() {
-    return this.gameMode;
+    return Gamemode.get(this.gamemode, this);
   }
 
   changeGameMode(gameMode) {
     this.gameMode = gameMode;
+    // todo change the gameMode/restart everything
   }
 
   initNodeType(type) {
