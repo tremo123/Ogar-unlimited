@@ -97,7 +97,6 @@ module.exports = class GameServer {
     this.customLBEnd = [];
     this.skinshortcut = [];
     this.gtick = 0;
-    this.randomNames = [];
     this.uv = "";
     this.highscores = undefined;
     this.skin = [];
