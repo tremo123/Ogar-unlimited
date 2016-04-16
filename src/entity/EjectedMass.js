@@ -36,7 +36,7 @@ EjectedMass.prototype.onRemove = function (gameServer) {
 
 EjectedMass.prototype.onConsume = function (consumer, gameServer) {
   // Adds mass to consumer
-  consumer.addMass(this.mass);
+  if (consumer.mass + this.mass > 5) consumer.addMass(this.mass);
 };
 
 EjectedMass.prototype.onAutoMove = function (gameServer) {
