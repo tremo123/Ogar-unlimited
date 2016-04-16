@@ -84,16 +84,16 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "9619561e8bdf60f6fc3fc906f21e3378",
+    "hash": "c36127acdc259358c26259525277d943",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
   },
   {
-    "hash": "90f65f07363c1fe828bbb1841e1762c0",
-    "src": "src/core/GeneratorService.js",
-    "dst": "./core/GeneratorService.js",
-    "name": "GeneratorService.js"
+    "hash": "f940fc96fac207b9e19a1c78a0b5c63c",
+    "src": "src/core/WorldServer.js",
+    "dst": "./core/WorldServer.js",
+    "name": "WorldServer.js"
   },
   {
     "hash": "304d7254be4bbabfed3a42275ab85933",
@@ -216,7 +216,7 @@
     "name": "index.js"
   },
   {
-    "hash": "d1f5f3f99fb6bc0a240b3d1107cc33d0",
+    "hash": "c01b1b721cae324a5813b8f7cd1077e9",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"

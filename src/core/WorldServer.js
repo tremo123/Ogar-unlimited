@@ -4,7 +4,7 @@ var Entity = require('../entity');
 const DataBaseConnector = require('./DataBaseConnector.js');
 const ConfigService = require('./ConfigService.js');
 
-module.exports = class GeneratorService {
+module.exports = class WorldServer {
   constructor(world) {
     // Config
     this.configService = new ConfigService();

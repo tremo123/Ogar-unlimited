@@ -19,7 +19,7 @@ const MinionLoader = require('../ai/MinionLoader');
 // services
 const Logger = require('../modules/log');
 const StatServer = require('./StatServer.js');
-const GeneratorService = require('./GeneratorService.js');
+const WorldServer = require('./WorldServer.js');
 const PluginLoader = require('./PluginLoader.js');
 
 const DataBaseConnector = require('./DataBaseConnector.js');
@@ -62,7 +62,7 @@ module.exports = class GameServer {
 
     // services - must run after config with the exception of the config service
     this.consoleService = consoleService;
-    this.generatorService = new GeneratorService(world);
+    this.worldServer = new WorldServer(world);
     this.log = new Logger();
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
 
@@ -169,17 +169,17 @@ module.exports = class GameServer {
 
   pause() {
     this.running = false;
-    this.generatorService.stop()
+    this.worldServer.stop()
   }
 
   unpause() {
     this.running = true;
-    this.generatorService.start()
+    this.worldServer.start()
   }
 
   getWorld() {
     // todo this is temp until I can finish setting up the db stuff
-    return this.generatorService.world;
+    return this.worldServer.world;
     //return this.world;
   }
 
@@ -412,7 +412,7 @@ module.exports = class GameServer {
           }
         }
       }
-      pos = (pos == null) ? this.generatorService.getRandomSpawn() : pos;
+      pos = (pos == null) ? this.worldServer.getRandomSpawn() : pos;
       mass = (mass == null) ? this.config.playerStartMass : mass;
       mass = (player.spawnmass > mass) ? player.spawnmass : mass;
 
@@ -446,7 +446,7 @@ module.exports = class GameServer {
   }
 
   getCurrentFood() {
-    return this.generatorService.getCurrentFood();
+    return this.worldServer.getCurrentFood();
   }
 
   getConfig() {
@@ -1417,8 +1417,8 @@ module.exports = class GameServer {
 
   socketServerStart() {
     // Spawn starting food
-    this.generatorService.init();
-    this.generatorService.start();
+    this.worldServer.init();
+    this.worldServer.start();
 
     // Start Main Loop
     //setInterval(this.mainLoop.bind(this), 1);
