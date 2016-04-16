@@ -9,7 +9,7 @@ const ConfigService = require('./ConfigService.js');
 
 'use strict';
 module.exports = class WorldModel {
-  constructor(config, borderRight, borderLeft, borderBottom, borderTop) {
+  constructor() {
     this.configService = new ConfigService();
     this.config = this.configService.registerListner('config', (newConfig)=>this.config = newConfig);
 
