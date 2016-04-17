@@ -15,7 +15,7 @@ module.exports = function (gameServer, split) {
         count++;
       }
 
-      console.log("[Console] Removed " + count + " cells");
+      //console.log("[Console] Removed " + count + " cells");
       break;
     }
   }
