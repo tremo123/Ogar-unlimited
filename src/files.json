@@ -144,13 +144,13 @@
     "name": "Updater.js"
   },
   {
-    "hash": "5b27db9537aecacf8be9e7d3e67377cf",
+    "hash": "20cf1b4917d65cef3cce7910e37c5c86",
     "src": "src/core/WorldModel.js",
     "dst": "./core/WorldModel.js",
     "name": "WorldModel.js"
   },
   {
-    "hash": "365971cf0b0c9c01e438fb74a8607170",
+    "hash": "334421d9af9db4a85cb0caf7829327d9",
     "src": "src/core/WorldDAO.js",
     "dst": "./core/WorldDAO.js",
     "name": "WorldDAO.js"
@@ -168,7 +168,7 @@
     "name": "Beacon.js"
   },
   {
-    "hash": "e744eb66415bdc1653c489363a245806",
+    "hash": "ea26d9edbcc6d892fb843f1ac2e79f77",
     "src": "src/entity/Cell.js",
     "dst": "./entity/Cell.js",
     "name": "Cell.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "376dfcddf6c36733ea9df26a8adafb91",
+    "hash": "ccf7c2a10fbc9e3110fe827ba54221fa",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
