@@ -37,9 +37,9 @@ module.exports = class Cell {
 
   toJSON() {
     return {
-      nodeId: this.nodeId = nodeId,
-      type: typeof this,
-      ownerId: this.owner.getId(),
+      nodeId: this.nodeId,
+      type: this.constructor.name,
+      ownerId: (this.owner) ? this.owner.getId() : undefined,
       color: this.color,
       name: this.name,
       visible: this.visible,
@@ -53,7 +53,8 @@ module.exports = class Cell {
   }
 
   static fromJSON(json, world, config) {
-    let newCell = new Entity[json.type](json.nodeId, world.getNode(json.ownerId), json.position, json.mass, world, config);
+    let owner = (json.ownerId) ? world.getNode(json.ownerId) : undefined;
+    let newCell = new Entity[json.type](json.nodeId, owner, json.position, json.mass, world, config);
     newCell.color = json.color;
     newCell.name = json.name;
     newCell.visible = json.visible;
