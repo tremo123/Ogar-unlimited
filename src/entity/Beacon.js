@@ -119,7 +119,7 @@ module.exports = class Beacon extends Cell {
     this.world.removeNode(feeder);
   };
 
-  onAdd = function (gameServer) {
+  onAdd(gameServer) {
     gameServer.getWorld().getGameMode().beacon = this;
   };
 

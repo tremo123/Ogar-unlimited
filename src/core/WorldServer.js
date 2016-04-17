@@ -51,13 +51,13 @@ module.exports = class WorldServer {
   }
 
   update() {
-    let currentFoodSpawnRate = this.foodSpawned / (new Date() - this.startTime) * 1000;
-    let toSpawn = this.foodSpawnRate - currentFoodSpawnRate;
-
-    toSpawn = Math.min(toSpawn, (this.config.foodMaxAmount - this.world.getNodes('food').length));
-    toSpawn = (toSpawn > this.foodSpawnRate) ? 0 : toSpawn;
-    for (let i = 0; i < toSpawn; i++) {
-      this.spawnFood();
+    if (this.world.getNodes('food').length < this.config.foodMaxAmount) {
+      let currentFoodSpawnRate = this.foodSpawned / (new Date() - this.startTime) * 1000;
+      let toSpawn = this.foodSpawnRate - currentFoodSpawnRate;
+      toSpawn = (toSpawn > this.foodSpawnRate) ? 0 : toSpawn;
+      for (let i = 0; i < toSpawn; i++) {
+        this.spawnFood();
+      }
     }
     this.virusCheck();
   }

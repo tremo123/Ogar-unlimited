@@ -90,7 +90,7 @@
     "name": "GameServer.js"
   },
   {
-    "hash": "f940fc96fac207b9e19a1c78a0b5c63c",
+    "hash": "7095f7826b8ccd32820eebd7f38a9ced",
     "src": "src/core/WorldServer.js",
     "dst": "./core/WorldServer.js",
     "name": "WorldServer.js"
@@ -162,7 +162,7 @@
     "name": "utilities.js"
   },
   {
-    "hash": "0710846a4ae4ef018dda19d8f38cc23c",
+    "hash": "4d4b7b251712760fac8ac0a7d15f06af",
     "src": "src/entity/Beacon.js",
     "dst": "./entity/Beacon.js",
     "name": "Beacon.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "f8f90ba6f2193785d01496e82a4bb443",
+    "hash": "da8f384bc2b8621921ab147ecc82f066",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
