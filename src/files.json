@@ -18,7 +18,7 @@
     "name": "BotLoader.js"
   },
   {
-    "hash": "caac97f4ec2d063690deecc37a3c65d6",
+    "hash": "4b275ef15077e27e157e04074650a1b5",
     "src": "src/ai/BotPlayer.js",
     "dst": "./ai/BotPlayer.js",
     "name": "BotPlayer.js"
@@ -30,13 +30,13 @@
     "name": "FakeSocket.js"
   },
   {
-    "hash": "f31d67a9ae7ba4ab1a5ed76811accc9e",
+    "hash": "4d21f59dee865a95a2a886f6ae17cc3f",
     "src": "src/ai/MinionLoader.js",
     "dst": "./ai/MinionLoader.js",
     "name": "MinionLoader.js"
   },
   {
-    "hash": "769aade3418a0887b9e86e76af3f9c9c",
+    "hash": "41eeee1cd4760fe2820c6fb97b918357",
     "src": "src/ai/MinionPlayer.js",
     "dst": "./ai/MinionPlayer.js",
     "name": "MinionPlayer.js"
@@ -48,7 +48,7 @@
     "name": "minionSocket.js"
   },
   {
-    "hash": "45d4fef35c87f3cd56a94d0f9ae69e55",
+    "hash": "b8563f8619c9f053deebf4a467ee967d",
     "src": "src/build.js",
     "dst": "./build.js",
     "name": "build.js"
@@ -60,13 +60,13 @@
     "name": "BotServer.js"
   },
   {
-    "hash": "88188f670727ee20e2d67793f7ed6360",
+    "hash": "e9ee6c0fecd691f88d3e43a7c4aab150",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
     "name": "ConfigService.js"
   },
   {
-    "hash": "6b63bf3a58c38d48531de3c822623333",
+    "hash": "730acd2efc1c54adcc77ff2b5d9dbb9d",
     "src": "src/core/ConsoleService.js",
     "dst": "./core/ConsoleService.js",
     "name": "ConsoleService.js"
@@ -84,7 +84,7 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "c36127acdc259358c26259525277d943",
+    "hash": "ae279849a4313561e8fbc90d642b3d17",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
@@ -108,7 +108,7 @@
     "name": "PacketHandler.js"
   },
   {
-    "hash": "984760f0d91a515887ed0d34bea0cae0",
+    "hash": "61adfdc59bb3c544d110ab63bf60920b",
     "src": "src/core/Physics.js",
     "dst": "./core/Physics.js",
     "name": "Physics.js"
@@ -120,13 +120,13 @@
     "name": "PlayerServer.js"
   },
   {
-    "hash": "b4b435bd88e958ed8cebf7e57f3c37c8",
+    "hash": "09332351422d3d9774c1d9e8d52ef6d2",
     "src": "src/core/PlayerTracker.js",
     "dst": "./core/PlayerTracker.js",
     "name": "PlayerTracker.js"
   },
   {
-    "hash": "b8b578645041db6eea8c981c8f95f694",
+    "hash": "c727041f645dde6561fa60319362ac6d",
     "src": "src/core/PluginLoader.js",
     "dst": "./core/PluginLoader.js",
     "name": "PluginLoader.js"
@@ -156,7 +156,7 @@
     "name": "WorldDAO.js"
   },
   {
-    "hash": "7d04b8506275b52426b1d74650f9e172",
+    "hash": "64f5cfaa18522bbcabb2623549c538b2",
     "src": "src/core/utilities.js",
     "dst": "./core/utilities.js",
     "name": "utilities.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "da8f384bc2b8621921ab147ecc82f066",
+    "hash": "376dfcddf6c36733ea9df26a8adafb91",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
@@ -372,7 +372,7 @@
     "name": "index.js"
   },
   {
-    "hash": "51ebe69aa4aec99ff4344b2db1be8d19",
+    "hash": "51e9ab471dca9d92f3b08c360ea55212",
     "src": "src/index.js",
     "dst": "./index.js",
     "name": "index.js"
@@ -882,25 +882,25 @@
     "name": "index.js"
   },
   {
-    "hash": "ea7d94f16bf07f979d92b0e9840cc8a2",
+    "hash": "1b0920c474ae9c0d42d6e3faa16f2db4",
     "src": "src/settings/advConfig.ini",
     "dst": "./settings/advConfig.ini",
     "name": "advConfig.ini"
   },
   {
-    "hash": "b255985a657a9e38fa3efeea7cd08e64",
+    "hash": "0a9a06d950fa9585b83f2e9529980668",
     "src": "src/settings/config.ini",
     "dst": "./settings/config.ini",
     "name": "config.ini"
   },
   {
-    "hash": "b5ec996f0a4e654eaaae4604d07d2098",
+    "hash": "44abd47eccf6411f00194c863b179f4d",
     "src": "README.md",
     "dst": "../README.md",
     "name": "Readme"
   },
   {
-    "hash": "7fb2f5b75c9945a6f7833457fe0d69da",
+    "hash": "8869099e8a2e648bfdff56f333a284c5",
     "src": "package.json",
     "dst": "../package.json",
     "name": "package.json"

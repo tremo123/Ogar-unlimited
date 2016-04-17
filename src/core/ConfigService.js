@@ -7,7 +7,7 @@ const ini = require('../modules/ini.js');
 const glob = require('glob');
 const DataBaseConnector = require('./DataBaseConnector.js');
 const request = require('request');
-
+const path = require("path");
 
 module.exports = class ConfigService {
   constructor() {
@@ -31,6 +31,7 @@ module.exports = class ConfigService {
       anounceDelay: 70, // Announce delay
       anounceDuration: 8, // How long the announce lasts
       vps: 0,
+      randomBotSmartness: 0,
       dev: 0,
       ejectantispeed: 120, // Speed of ejected anti matter
       maxopvirus: 60, // Maximum amount of OP viruses
@@ -56,6 +57,7 @@ module.exports = class ConfigService {
       splitSpeed: 130, // Splitting speed
       showjlinfo: 0, // Notifys you if a player has left or joined (0 = off [default]) 1 = on
       ejectvspeed: 120, // How far an ejected virus (from w) shoots
+      playerSafeSpawn: 1, // Makes sure players dont spawn near, inside, or on top of one another
       serverMaxConnectionsPerIp: 5, // Maximum amount of IPs per player connection
       serverMaxConnections: 64, // Maximum amount of connections to the server.
       serverPort: 443, // Server port
@@ -152,6 +154,7 @@ module.exports = class ConfigService {
     this.opbyip = [];
     this.highscores = '';
     this.botnames = [];
+    this.skinNames = [];
     this.skinshortcuts = [];
     this.skins = [];
 
@@ -378,9 +381,26 @@ module.exports = class ConfigService {
     } catch (e) {
       console.log(file + ' not found using default names');
       // Nothing, use the default names
+      fs.writeFileSync('./botnames.txt', '');
     }
     this.syncChanges('botnames');
   }
+
+  loadRandomSkin() {
+    let file = BASE_DIR + '/src/randomSkins.txt';
+    console.log('Loading ' + file);
+    try {
+      // Read and parse the names - filter out whitespace-only names
+      this.skinNames = fs.readFileSync(file, "utf8").split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+    } catch (e) {
+      // Nothing, use the default names
+      fs.writeFileSync(file, '');
+    }
+    this.syncChanges('skinnames');
+  }
+
 
   // todo this needs maintenance
   loadCustomSkin() {

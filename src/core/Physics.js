@@ -61,12 +61,14 @@ module.exports = class Physics {
       let newMass = cell.mass / 2;
       cell.mass = newMass;
 
+      if (angle == 0) angle = Math.PI / 2;
+
       // Create cell
       let split = new newType(world.getNextNodeId(), player, startPos, newMass, world, world.config);
       split.setAngle(angle);
 
-      let splitSpeed = world.config.splitSpeed;
-      split.setMoveEngineData(splitSpeed, 40, 0.85); //vanilla agar.io = 130, 32, 0.85
+      let splitSpeed = 70 + (split.getSpeed() * 3 / 2); //70 * Math.max(Math.log10(newMass) - 2.2, 1); //for smaller cells use splitspeed 150, for bigger cells add some speed //splitSpeed = 70 + (split.getSpeed() + 10);
+      split.setMoveEngineData(splitSpeed, 40, 0.87); // set it to 45 if 40 is bad
       split.calcMergeTime(world.config.playerRecombineTime);
       split.ignoreCollision = true;
       split.restoreCollisionTicks = world.config.cRestoreTicks; //vanilla agar.io = 10

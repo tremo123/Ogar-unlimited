@@ -418,11 +418,8 @@ module.exports = class GameServer {
 
       // Spawn player and add to world
       if (!dospawn) {
-        console.log('Spawn player test 1')
         let cell = new Entity.PlayerCell(this.getWorld().getNextNodeId(), player, pos, mass, this.getWorld(), this.getConfig());
-        console.log('Spawn player test 2')
         this.getWorld().setNode(cell.getId(), cell, "player");
-        console.log('Spawn player test 3')
       }
       // Set initial mouse coords
       player.mouse = {

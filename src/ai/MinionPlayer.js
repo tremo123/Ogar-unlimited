@@ -10,7 +10,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
     // AI only
     this.gameState = 0;
     this.path = [];
-    this.owner = owner
+    this.owner = owner;
 
     this.predators = []; // List of cells that can eat this bot
     this.threats = []; // List of cells that can eat this bot but are too far away
@@ -77,7 +77,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
     // Respawn if bot is dead
     if (this.cells.length <= 0) {
-      this.gameServer.getWorld().getGameMode().onPlayerSpawn(this.gameServer, this);
+      this.gameServer.getWorld().getGameMode().onPlayerSpawn(this.gameServer.getWorld(), this);
       if (this.cells.length == 0) {
         // If the bot cannot spawn any cells, then disconnect it
         this.socket.close();
@@ -91,7 +91,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
 
     // Update
-    if ((this.tickViewBox <= 0) && (this.gameServer.run)) {
+    if ((this.tickViewBox <= 0) && (this.gameServer.running)) {
       this.visibleNodes = this.calcViewBox();
       this.tickViewBox = this.gameServer.config.minionupdate
     } else {

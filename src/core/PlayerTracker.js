@@ -118,7 +118,7 @@ module.exports = class PlayerTracker {
 
     }
     return biggest;
-  };
+  }
 
   setName(name) {
     this.name = name;
@@ -188,7 +188,7 @@ module.exports = class PlayerTracker {
         var clients = this.gameServer.getClients();
         for (var i in clients) {
           var client = clients[i].playerTracker;
-          if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) { // check to see if mouse's loxation is similar to others
+          if (Math.abs(client.mouse.x - this.mouse.x) < 2 && Math.abs(this.mouse.y - client.mouse.y) < 2) { // check to see if mouse's loxation is similar to others
             var ismi = true;
           } else {
             var ismi = false;
@@ -201,13 +201,13 @@ module.exports = class PlayerTracker {
         if (re > this.gameServer.config.mbchance) { // if there is over 5 duplicates
           for (var i in clients) {
             var client = clients[i].playerTracker;
-            if (Math.abs(client.mouse.x - this.mouse.x < 2) && Math.abs(this.mouse.y - client.mouse.y) < 2) {
+            if (Math.abs(client.mouse.x - this.mouse.x) < 2 && Math.abs(this.mouse.y - client.mouse.y) < 2) {
               var ismi = true;
             } else {
               var ismi = false;
             }
             if (ismi && (!client.nospawn) && (typeof client.socket.remoteAddress != "undefined") && (this.gameServer.whlist.indexOf(this.socket.remoteAddress) == -1)) {
-              client.nospawn = true; // Kick
+              this.gameServer.banned.push(client.socket.remoteAddress); // Ban
               var len = client.cells.length;
               for (var j = 0; j < len; j++) {
                 this.gameServer.removeNode(client.cells[0]); // kill
@@ -242,36 +242,44 @@ module.exports = class PlayerTracker {
       this.gameServer.topscore = Math.floor(this.score);
       this.gameServer.topusername = this.name;
 
-      if (this.gameServer.config.showtopscore == 1) {
-        console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+        if (this.gameServer.config.showtopscore == 1) {
+          console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+
+      } else {
+        if (this.name != this.gameServer.topusername) {
+          this.gameServer.oldtopscores.score = this.gameServer.topscore;
+          this.gameServer.oldtopscores.name = this.gameServer.topusername;
+
+
+        }
+        this.gameServer.topscore = Math.floor(this.score);
+        this.gameServer.topusername = this.name;
+        if (this.gameServer.config.showtopscore == 1) {
+          console.log("[Console] " + this.name + " Made a new high score of " + Math.floor(this.score));
+        }
       }
     }
     return Math.floor(this.score);
-  };
+  }
 
   setColor(color) {
     this.color.r = color.r;
     this.color.b = color.b;
     this.color.g = color.g;
-  };
+  }
 
   getTeam() {
     return this.team;
-  };
+  }
 
   getPremium() {
     return this.premium;
-  };
+  }
 
 // Functions
 
   update() {
-    if (this.movePacketTriggered) {
-      this.movePacketTriggered = false;
-      this.shouldMoveCells = true;
-    } else {
-      this.shouldMoveCells = false;
-    }
+
     // Actions buffer (So that people cant spam packets)
     if (this.socket.packetHandler.pressSpace) { // Split cell
       this.gameServer.getWorld().getGameMode().pressSpace(this.gameServer, this);
@@ -306,19 +314,6 @@ module.exports = class PlayerTracker {
       }
     });
 
-
-    //var d = 0;
-    //while (d < this.nodeDestroyQueue.length) {
-    //  var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[d]);
-    //  if (index > -1) {
-    //    this.visibleNodes.splice(index, 1);
-    //    d++; // Increment
-    //  } else {
-    //    // Node was never visible anyways
-    //    this.nodeDestroyQueue.splice(d, 1);
-    //  }
-    //}
-
     // Get visible nodes every 400 ms
     var nonVisibleNodes = []; // Nodes that are not visible
     if (this.tickViewBox <= 0) {
@@ -335,14 +330,6 @@ module.exports = class PlayerTracker {
           }
         });
 
-        //for (var i = 0; i < this.visibleNodes.length; i++) {
-        //  let index = newVisible.indexOf(this.visibleNodes[i]);
-        //  if (index == -1) {
-        //    // Not seen by the client anymore
-        //    nonVisibleNodes.push(this.visibleNodes[i]);
-        //  }
-        //}
-
         // Add nodes to client's screen if client has not seen it already
         newVisible.forEach((node)=>{
           let index = this.visibleNodes.indexOf(node);
@@ -351,16 +338,6 @@ module.exports = class PlayerTracker {
             updateNodes.push(node);
           }
         });
-
-        //for (var i = 0; i < newVisible.length; i++) {
-        //  let index = this.visibleNodes.indexOf(newVisible[i]);
-        //  if (index == -1 && (newVisible[i].getVis() || newVisible[i].owner == this) && (!this.blind || (newVisible[i].owner == this || newVisible[i].cellType != 0))) {
-        //
-        //    updateNodes.push(newVisible[i]);
-        //  }
-        //}
-        //} finally {
-        //} // Catch doesn't work for some reason
 
         this.visibleNodes = newVisible;
         // Reset Ticks
@@ -451,7 +428,7 @@ module.exports = class PlayerTracker {
         this.gameServer.removeClient(this.socket);
       }
     }
-  };
+  }
 
 // Viewing box
   antiTeamTick() {
@@ -472,7 +449,7 @@ module.exports = class PlayerTracker {
     if (this.actionMult > 1) this.massDecayMult = this.actionMult;
     else this.massDecayMult = 1;
 
-  };
+  }
 
   updateSightRange() { // For view distance
     var totalSize = 1.0;
@@ -489,7 +466,7 @@ module.exports = class PlayerTracker {
     var factor = Math.pow(Math.min(64.0 / totalSize, 1), 0.4);
     this.sightRangeX = this.gameServer.config.serverViewBaseX / factor;
     this.sightRangeY = this.gameServer.config.serverViewBaseY / factor;
-  };
+  }
 
   updateCenter() { // Get center of cells
     var len = this.cells.length;
@@ -511,7 +488,7 @@ module.exports = class PlayerTracker {
 
     this.centerPos.x = X / len;
     this.centerPos.y = Y / len;
-  };
+  }
 
   calcViewBox() {
     if (this.spectate) {
@@ -543,7 +520,7 @@ module.exports = class PlayerTracker {
     });
 
     return newVisible;
-  };
+  }
 
   getSpectateNodes() {
     var specPlayer;
@@ -619,7 +596,7 @@ module.exports = class PlayerTracker {
       this.sendPosPacket(specZoom);
       return newVisible;
     }
-  };
+  }
 
   checkBorderPass() {
     // A check while in free-roam mode to avoid player going into nothingness
@@ -635,7 +612,7 @@ module.exports = class PlayerTracker {
     if (this.centerPos.y > this.gameServer.config.borderBottom) {
       this.centerPos.y = this.gameServer.config.borderBottom;
     }
-  };
+  }
 
   sendPosPacket(specZoom) {
     // TODO: Send packet elsewhere so it is sent more often
@@ -644,7 +621,7 @@ module.exports = class PlayerTracker {
       this.centerPos.y + this.scrambleY,
       specZoom
     ));
-  };
+  }
 
   sendCustomPosPacket(x, y, specZoom) {
     // TODO: Send packet elsewhere so it is sent more often
@@ -653,11 +630,11 @@ module.exports = class PlayerTracker {
       y + this.scrambleY,
       specZoom
     ));
-  };
+  }
 
   getAngle(x1, y1, x2, y2) {
     var deltaY = y1 - y2;
     var deltaX = x1 - x2;
     return Math.atan2(deltaX, deltaY);
-  };
+  }
 };

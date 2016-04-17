@@ -162,33 +162,24 @@ module.exports = class ConsoleService {
     process.stdout.write("   u n l i m i t e d    " + line6 + EOL);
     process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 
-    if (this.gameServer.red) {
-      process.stdout.write("\x1b[31m\r");
-    }
-    if (this.gameServer.green) {
-      process.stdout.write("\x1b[32m\r");
-    }
-    if (this.gameServer.blue) {
-      process.stdout.write("\x1b[34m\r");
-    }
-    if (this.gameServer.white) {
-      process.stdout.write("\x1b[37m\r");
-    }
-    if (this.gameServer.yellow) {
-      process.stdout.write("\x1b[33m\r");
-    }
-    if (this.gameServer.bold) {
-      process.stdout.write("\x1b[1m\r");
-    }
-    if (this.gameServer.dim) {
-      process.stdout.write("\x1b[2m\r");
-    }
+
     this.gameServer.liveticks++;
   }
 
   execCommand(command, args) {
     try {
       var execute = this.commands[command];
+      if (typeof execute !== 'undefined') {
+        execute(this.gameServer, split);
+      } else {
+        var execute = this.gameServer.pluginCommands[first];
+        if (typeof execute !== 'undefined') {
+          execute(this.gameServer, split);
+
+        } else {
+          console.warn('[ConsoleService] Failed to run command: ' + command + " args: " + args);
+        }
+      }
       execute(this, args);
     } catch (e) {
       console.warn('[ConsoleService] Failed to run command: ' + command + " args: " + args);
@@ -219,6 +210,32 @@ module.exports = class ConsoleService {
   prompt(in_) {
     let self = this;
     return function () {
+      var col = '';
+
+      // todo fixme
+      //if (self.gameServer.red) {
+      //  process.stdout.write("\x1b[31m\r");
+      //}
+      //if (self.gameServer.green) {
+      //  process.stdout.write("\x1b[32m\r");
+      //}
+      //if (self.gameServer.blue) {
+      //  process.stdout.write("\x1b[34m\r");
+      //}
+      //if (self.gameServer.white) {
+      //  process.stdout.write("\x1b[37m\r");
+      //}
+      //if (self.gameServer.yellow) {
+      //  process.stdout.write("\x1b[33m\r");
+      //}
+      //if (self.gameServer.bold) {
+      //  process.stdout.write("\x1b[1m\r");
+      //}
+      //if (self.gameServer.dim) {
+      //  process.stdout.write("\x1b[2m\r");
+      //}
+
+
       in_.question(">", function (str) {
         if (self.gameServer.config.dev != 1) {
           try {

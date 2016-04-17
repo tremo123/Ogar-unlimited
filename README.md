@@ -1,6 +1,6 @@
 
 # Ogar unlimited - The Next Generation Ogar
-[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Circle CI](https://circleci.com/gh/AJS-development/Ogar-unlimited.svg?style=svg)](https://circleci.com/gh/AJS-development/Ogar-unlimited)
+[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Join the chat at https://gitter.im/AJS-development/Ogar-unlimited](https://badges.gitter.im/AJS-development/Ogar-unlimited.svg)](https://gitter.im/AJS-development/Ogar-unlimited?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![GitHub issues](https://img.shields.io/github/issues/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/issues)  [![GitHub forks](https://img.shields.io/github/forks/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/network)  [![GitHub stars](https://img.shields.io/github/stars/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/stargazers)  [![Plugin](https://img.shields.io/badge/Official%20Plugin%20Library-OgarUL--Plugin--Library-green.svg)](https://github.com/AJS-development/OgarUL-Plugin-Library)
 
 A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
 
@@ -53,6 +53,11 @@ If you've purchased a copy of Ogar, you've probably been SERIOUSLY ripped off. [
 ### How do I use these plugins?
 
 To use a plugin, simply download the folder and drag it into the plugins folder in src or use the plugin add command. To use the plugin add command, the plugin must have a files.txt file. then click on that file, click raw, and then copy the url. Then do `plugin add [url] [pluginname]` and it will even reload automatically for you. Thats it! example, doing `plugin add https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/devtools-plugin/files.txt devtools` will add a plugin called devtools to your plugins.
+
+
+Official Plugin Library:
+https://github.com/AJS-development/OgarUL-Plugin-Library
+
 
 ### How do I create a plugin? Is there Documentation?
 
