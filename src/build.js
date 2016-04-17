@@ -1,3 +1,4 @@
+'use strict';
 var Commands = require('./modules/CommandList');
 var GameServer = require('./core/GameServer');
 
