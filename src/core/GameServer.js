@@ -1469,7 +1469,7 @@ onWVerify(client) {
           }
           // todo likely do not need the client check as it was not included above - this is most likely defensive programming
           if (client && client.playerTracker.rainbowon) {
-            client.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
+            client.playerTracker.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
           }
         });
 
