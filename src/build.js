@@ -1,9 +1,4 @@
 'use strict';
-var Commands = require('./modules/CommandList');
-var GameServer = require('./core/GameServer');
-
-var gameServer = new GameServer();
-
 const VERSION = 'buildTest';
 const ControlServer = require('./core/ControlServer');
 let controlServer = new ControlServer(VERSION);
