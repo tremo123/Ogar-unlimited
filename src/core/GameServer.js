@@ -600,7 +600,7 @@ module.exports = class GameServer {
   }
 
   setRainbowNode(index, node) {
-    this._rainbowNodes[index] = cell;
+    this._rainbowNodes[index] = node;
   }
 
   clearRainbowNodes() {
