@@ -779,7 +779,12 @@ beforeq(player) {
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
       player.norecombine = false;
       player.frozen = false;
-if (!this.beforespawn(player,pos,mass)) return;
+      
+      for (var i in this.plugins) {
+        if (this.plugins[i].beforespawn && this.plugins[i].name && this.plugins[i].author && this.plugins[i].version) {
+          if (!this.plugins[i].beforespawn(player,pos,mass)) return;
+        }
+      }
 
 
 
@@ -1245,7 +1250,11 @@ onWVerify(client) {
 
   // todo refactor this is way to long and does way to many different things
   ejectMass(client) {
-    if (!this.beforeeject(client)) return;
+    for (var i in this.plugins) {
+        if (this.plugins[i].beforeeject && this.plugins[i].name && this.plugins[i].author && this.plugins[i].version) {
+          if (!this.plugins[i].beforeeject(player,pos,mass)) return;
+        }
+      }
     
     if (this.onWVerify(client)) {
       if (!this.canEjectMass(client)) return;
