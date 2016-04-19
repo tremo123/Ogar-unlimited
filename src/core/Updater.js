@@ -12,7 +12,7 @@ const exec = require('child_process').exec;
 module.exports = class Updater {
   constructor(gameServer) {
     let file = BASE_DIR + '/src/files.json';
-    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + "dev" + "/";
+    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + "master" + "/";
     this.gameServer = gameServer;
     this.files = require(file);
     this.newFiles = {};
