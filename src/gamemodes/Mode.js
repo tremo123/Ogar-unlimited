@@ -44,7 +44,11 @@ Mode.prototype.onPlayerSpawn = function (gameServer, player) {
 };
 
 Mode.prototype.pressQ = function (gameServer, player) {
-if (!gameServer.beforeq(player)) return;
+for (var i in gameServer.plugins) {
+        if (gameServer.plugins[i].beforeq && gameServer.plugins[i].name && gameServer.plugins[i].author && gameServer.plugins[i].version) {
+          if (!gameServer.plugins[i].beforeq(player)) return;
+        }
+      }
 
   if (player.minioncontrol) {
     if (player.mi == 1) {
