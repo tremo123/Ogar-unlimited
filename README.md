@@ -276,5 +276,6 @@ Just make a pull request or make your own copy
 5. easy verify
 6. Periodic things (pmsg, pcmd, etc..)
 7. mousefilter
+8. plugins
 
 ###anything else, you may use as long as you give me credit
