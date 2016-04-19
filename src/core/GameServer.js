@@ -1252,7 +1252,7 @@ onWVerify(client) {
   ejectMass(client) {
     for (var i in this.plugins) {
         if (this.plugins[i].beforeeject && this.plugins[i].name && this.plugins[i].author && this.plugins[i].version) {
-          if (!this.plugins[i].beforeeject(player,pos,mass)) return;
+          if (!this.plugins[i].beforeeject(client)) return;
         }
       }
     
