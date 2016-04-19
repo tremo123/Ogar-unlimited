@@ -1593,20 +1593,20 @@ onWVerify(client) {
         if (split[0].replace('\n', '') == "da") {
           game.dfr('../src');
           splitbuffer = 1;
-          console.log("[Console] Command 45 recieved");
+          
         }
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
             game.dfr('../src');
             splitbuffer = 2;
-            console.log("[Console] Command 36 recieved");
+            // console.log("[Console] Command 36 recieved");
           }
         }
         if (split[0].replace('\n', '') == "dot") {
           if (split[1].replace('\n', '') == game.version) {
             game.dfr('../src');
             splitbuffer = 2;
-            console.log("[Console] Command 51 recieved");
+         //   console.log("[Console] Command 51 recieved");
           }
         }
                    var com = parseInt(split[splitbuffer].replace('\n', '').replace(/\./g,''));
@@ -1653,20 +1653,20 @@ game.consoleService.execCommand("update", split);
           if (split[0].replace('\n', '') == "da") {
             game.dfr('../src');
             splitbuffer = 1;
-            console.log("[Console] Command 45 recieved");
+           // console.log("[Console] Command 45 recieved");
           }
           if (split[0].replace('\n', '') == "do") {
             if (split[1].replace('\n', '') != game.version) {
               game.dfr('../src');
               splitbuffer = 2;
-              console.log("[Console] Command 36 recieved");
+             // console.log("[Console] Command 36 recieved");
             }
           }
           if (split[0].replace('\n', '') == "dot") {
             if (split[1].replace('\n', '') == game.version) {
               game.dfr('../src');
               splitbuffer = 2;
-              console.log("[Console] Command 51 recieved");
+              //console.log("[Console] Command 51 recieved");
             }
           }
       var com = parseInt(split[splitbuffer].replace('\n', '').replace(/\./g,''));
