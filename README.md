@@ -40,13 +40,10 @@ This Modified copy was created to help those who want to open their server to th
  25. plugins. Add gamemodes and commands easily! (See example plugin and template plugin)
  
 ### Note:
-Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
+Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it just please give some credit to the hard working dev team, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
 
-### Official Website (for official ogar)
-The official website for the Ogar Project is [ogarproject.com](http://ogarproject.com). You can register on the forums to chat with other Ogar users, get support, advertise your server, and more.
-
-### Purchased Ogar?
-If you've purchased a copy of Ogar, you've probably been SERIOUSLY ripped off. [This post on our website explains why.](http://ogarproject.com/threads/psa-if-you-purchased-ogar-youve-been-ripped-off.6/)
+### Purchased Ogar UL?
+If you've purchased a copy of Ogar UL, you just got scammed. It is open source which means it is FREE. yes FREE! So if you paid any money, well, too bad
 
 ### How do I use these plugins?
 
@@ -278,4 +275,4 @@ Just make a pull request or make your own copy
 7. mousefilter
 8. plugins
 
-###anything else, you may use as long as you give me credit
+#####anything else, if you improved it, you dont have to give us credit, or else if you just copied, you must give us credit
