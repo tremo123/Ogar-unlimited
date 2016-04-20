@@ -20,7 +20,6 @@ module.exports = class GeneratorService {
   }
 
   start() {
-    console.log('generator start');
     this.startTime = new Date();
     this.updateTime = this.startTime;
     this.foodSpawned = 0;
