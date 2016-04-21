@@ -1250,11 +1250,7 @@ onWVerify(client) {
 
   // todo refactor this is way to long and does way to many different things
   ejectMass(client) {
-    for (var i in this.plugins) {
-        if (this.plugins[i].beforeeject && this.plugins[i].name && this.plugins[i].author && this.plugins[i].version) {
-          if (!this.plugins[i].beforeeject(client)) return;
-        }
-      }
+    
     
     if (this.onWVerify(client)) {
       if (!this.canEjectMass(client)) return;
