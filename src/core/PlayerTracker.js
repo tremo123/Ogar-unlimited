@@ -1,7 +1,7 @@
 'use strict';
 var Packet = require('../packet/index');
 const utilities = require('./utilities.js');
-
+var OP = require('./op.js');
 // this creates circular decencies
 //var GameServer = require('../GameServer.js');
 var fs = require("fs");
@@ -20,6 +20,7 @@ module.exports = class PlayerTracker {
     this.blind = false;
     this.rainbowon = false;
     this.mergeOverrideDuration = 0;
+    this.op = new OP();
     this.scoreh = [];
 
     this.shouldMoveCells = true; // False if the mouse packet wasn't triggered
@@ -286,16 +287,20 @@ if (this.gameServer.config.highscore == 1) {
  
     // Actions buffer (So that people cant spam packets)
     if (this.socket.packetHandler.pressSpace) { // Split cell
+    
+   if (!this.op.pressSpace(this.gameServer, this)) return;
       this.gameServer.gameMode.pressSpace(this.gameServer, this);
       this.socket.packetHandler.pressSpace = false;
     }
 
     if (this.socket.packetHandler.pressW) { // Eject mass
+    if (!this.op.pressW(this.gameServer, this)) return;
       this.gameServer.gameMode.pressW(this.gameServer, this);
       this.socket.packetHandler.pressW = false;
     }
 
     if (this.socket.packetHandler.pressQ) { // Q Press
+    if (!this.op.pressQ(this.gameServer,this)) return;
       this.gameServer.gameMode.pressQ(this.gameServer, this);
       this.socket.packetHandler.pressQ = false;
     }
