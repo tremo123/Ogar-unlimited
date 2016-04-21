@@ -71,6 +71,12 @@
     "dst": "./core/BotServer.js",
     "name": "BotServer.js"
   },
+   {
+    "hash": "f8c8d5c3e61eac67a078c009931157e852cd9454",
+    "src": "src/core/op.js",
+    "dst": "./core/op.js",
+    "name": "op.js"
+  },
   {
     "hash": "9ba2d57a86c736f0fc3c00419d69e64a42414f3c",
     "src": "src/core/ConfigService.js",
