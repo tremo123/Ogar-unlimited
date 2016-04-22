@@ -1,6 +1,7 @@
 'use strict';
 const WorldModel = require('./WorldModel.js');
 const DataBaseConnector = require('./DataBaseConnector.js');
+const Entity = require('../entity');
 
 module.exports = class WorldDAO {
   constructor() {
@@ -70,5 +71,73 @@ module.exports = class WorldDAO {
 
   }
 
+
+  addNode(node, type) {
+    this.world.addNode(node, type);
+  }
+
+  getNode(id) {
+    return this.world.getNode(id);
+  }
+
+  getNodes(type) {
+    return this.world.getNodes(type)
+  }
+
+  getNearestNodeToNode(node, type, radius) {
+    return this.world.getNearestNodeToNode(node, type, radius);
+  }
+
+  removeNode(id, type) {
+    this.world.removeNode(id, type);
+  }
+
+  getNextPlayerId() {
+    return this.world.getNextPlayerId();
+  }
+
+  getNewNodeId() {
+    return this.world.getNewNodeId();
+  }
+
+  getNextNodeId() {
+    return this.world.getNextNodeId();
+  }
+
+  setNodeAsMoving(id, node) {
+    this.world.setNodeAsMoving(id, node);
+  }
+
+  removeMovingNode(id) {
+    this.world.removeMovingNode(id)
+  }
+
+  getMovingNodes() {
+    return this.world.getMovingNodes();
+  }
+
+  getRandomPosition() {
+    return this.world.getRandomPosition();
+  }
+
+  getClients() {
+    return this.world.getClients();
+  }
+
+  addClient(client) {
+    return this.world.addClient(client);
+  }
+
+  removeClient(client) {
+    this.world.removeClient(client)
+  }
+
+  getWorld() {
+    // todo remove and fix this
+    return this;
+  }
+
+  // es6 getter/setters
+  get config () { return this.world.config; }
 
 };
