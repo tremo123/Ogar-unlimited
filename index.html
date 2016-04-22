@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ogar-unlimited by AJS-development</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Ogar-unlimited</h1>
+      <h2 class="project-tagline">A heavily modified version of private agario server software Ogar which has more features such as op, more commands, gamemodes, skins,and more so you can have more control.</h2>
+      <a href="https://github.com/AJS-development/Ogar-unlimited" class="btn">View on GitHub</a>
+      <a href="https://github.com/AJS-development/Ogar-unlimited/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/AJS-development/Ogar-unlimited/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="ogar-unlimited---the-next-generation-ogar" class="anchor" href="#ogar-unlimited---the-next-generation-ogar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ogar unlimited - The Next Generation Ogar</h1>
+
+<p><a href="https://travis-ci.org/AJS-development/Ogar-unlimited"><img src="https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master" alt="Build Status"></a> <a href="https://gitter.im/AJS-development/Ogar-unlimited?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/AJS-development/Ogar-unlimited.svg" alt="Join the chat at https://gitter.im/AJS-development/Ogar-unlimited"></a>  <a href="https://github.com/AJS-development/Ogar-unlimited/issues"><img src="https://img.shields.io/github/issues/AJS-development/Ogar-unlimited.svg" alt="GitHub issues"></a>  <a href="https://github.com/AJS-development/Ogar-unlimited/network"><img src="https://img.shields.io/github/forks/AJS-development/Ogar-unlimited.svg" alt="GitHub forks"></a>  <a href="https://github.com/AJS-development/Ogar-unlimited/stargazers"><img src="https://img.shields.io/github/stars/AJS-development/Ogar-unlimited.svg" alt="GitHub stars"></a>  <a href="https://github.com/AJS-development/OgarUL-Plugin-Library"><img src="https://img.shields.io/badge/Official%20Plugin%20Library-OgarUL--Plugin--Library-green.svg" alt="Plugin"></a>  <a href="https://github.com/AJS-development/verse"><img src="https://img.shields.io/badge/Master%20Server-Verse-green.svg" alt="MS"></a> </p>
+
+<p>A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. It is basically what it says in the title, Ogar, except its functionality is unlimited!</p>
+
+<p>This Modified copy was created to help those who want to open their server to the public. I will add more features as time goes</p>
+
+<p>(Sorry but all client clones of agar.io are ILLEGAL, thus we are not making those. You must use <code>agar.io/?ip=[ip]</code>)</p>
+
+<p><strong>NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER</strong></p>
+
+<h3>
+<a id="highlight-features-in-this-modified-copy" class="anchor" href="#highlight-features-in-this-modified-copy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlight features in this modified copy</h3>
+
+<ol>
+<li>PMSG command, to periodically send a message (no need for admin to be online to explain rules)</li>
+<li>OP , to do stuff in game WITHOUT a illegal clone client, see below</li>
+<li>MSG, FMSG commands</li>
+<li>Max IP Connections</li>
+<li>Troll command ;)</li>
+<li>More GameModes</li>
+<li>Ban, Unban, Ban List (with revolutionary ban technique, no lag, no DDoS attacks)</li>
+<li>Autoban option (see config.ini or advconfig.ini)</li>
+<li>More control (config.ini and advconfig.ini)</li>
+<li>and other features such as merge or nojoin or kick/killrange</li>
+<li>Better physics (ejected mass and split and virus)</li>
+<li>Colortext command (Changes console output color and style)</li>
+<li>Live Console (see gameserver.ini, where a live console appears) NOTE: this is way different that Ogarserv's Console</li>
+<li>Restart. Make it restart automatically or restart manually, Only works if use windows start script</li>
+<li>skins, to use custom skins, do  and then your name. for example <code>&lt;spy&gt; lol</code> will give you spy skin with name of lol use <code>[website]</code> to use a custom skin from a website (you need to use a url shortener though)</li>
+<li>customskins (see custom skins)</li>
+<li>Minions: you can create minions like agario powerups. press q to enter minion control mode (a b will appear next to your name). w = eject, space = split. press q again to exit</li>
+<li>Banlist file</li>
+<li>Opbyip</li>
+<li>Database free high score keeper</li>
+<li>pcmd command to do periodic commands</li>
+<li>range command for bulk commands</li>
+<li>easy verify system as anti bot mesure (config.ini or advconfig.ini)</li>
+<li>mousefilter as a anti bot measure</li>
+<li>plugins. Add gamemodes and commands easily! (See example plugin and template plugin)</li>
+</ol>
+
+<h3>
+<a id="note" class="anchor" href="#note" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Note:</h3>
+
+<p>Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it just please give some credit to the hard working dev team, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.</p>
+
+<h3>
+<a id="purchased-ogar-ul" class="anchor" href="#purchased-ogar-ul" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Purchased Ogar UL?</h3>
+
+<p>If you've purchased a copy of Ogar UL, you just got scammed. It is open source which means it is FREE. yes FREE! So if you paid any money, well, too bad</p>
+
+<h3>
+<a id="how-do-i-use-these-plugins" class="anchor" href="#how-do-i-use-these-plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I use these plugins?</h3>
+
+<p>To use a plugin, simply download the folder and drag it into the plugins folder in src or use the plugin add command. To use the plugin add command, the plugin must have a files.txt file. then click on that file, click raw, and then copy the url. Then do <code>plugin add [url] [pluginname]</code> and it will even reload automatically for you. Thats it! example, doing <code>plugin add https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/devtools-plugin/files.txt devtools</code> will add a plugin called devtools to your plugins.</p>
+
+<p>Official Plugin Library:
+<a href="https://github.com/AJS-development/OgarUL-Plugin-Library">https://github.com/AJS-development/OgarUL-Plugin-Library</a></p>
+
+<h3>
+<a id="how-do-i-create-a-plugin-is-there-documentation" class="anchor" href="#how-do-i-create-a-plugin-is-there-documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I create a plugin? Is there Documentation?</h3>
+
+<p>This is the fun part, creating your own plugins. There is an example plugin you should look at and there is a template plugin. Currently, there is no documentation, but will be soon in the wiki</p>
+
+<h3>
+<a id="easy-verify" class="anchor" href="#easy-verify" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Easy Verify</h3>
+
+<p>For those of you who have trouble with minions and such, this feature is for you. Currently, there is no program that can get through all of ogar unlimited's filterrs anddd features, but in some future, someone might be able to crack the other anti bot mesures. So we created easy verify, a currently foolproof system that filters out bots. To turn on, turn verify to 1 in config. Then when a player spawns, he is frozen at a spot and is given a 3 digit code. Then that player presses w to kill himself and types in the code in the nickname box. Afteword, when pressing play again, it shows a success message. Press w again to play.</p>
+
+<h3>
+<a id="minions" class="anchor" href="#minions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Minions</h3>
+
+<p>You use minions by doing <code>minion [yourid] [amount] [minionname]</code>. Then, they will start following your mouse. You can control those minions by useing the q key. If you press it, a B will appear next to your name. then controls will be normal except now ejecting and splitting will happen on your minions not you. you can reenter normal control mode by pressing q again. You can disable minions by doing <code>minion [id]</code> in console for just you or do <code>minion destroy</code> and it will remove all minions.</p>
+
+<h3>
+<a id="op245---guide" class="anchor" href="#op245---guide" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OP(2.4.5) - Guide,</h3>
+
+<p>You use OP by first setting who has op by doing op [id] in console. Then, that player can use the op features in game by pressing q. Then a c will appear next to your name. If you press w in this state, it gives you 100 more mass. If you press space in this state, you will be able to rejoin instantly. You will find out that if you press q again, two c's will appear next to your name. if you press w in this state, you shoot viruses. If you press space in this state, you shoot tiny things (almost invisible) that if someone eats, their mass is reduced by 100. Then, if you press q again,3 c's will appear.press w with 3c's, you shoot a virus, but whoever who eats it will be trolled :). If you press space with 3 c's the person who eats the virus will explode.If you  press q again, 4 cs will appear and if you press w, you will shoot a virus tha kills people and space, it shoots a kick virus. You can then exit op by pressing q again after doing an action or by pressing Q until the three c's will dissappear (so that you can normally split and shoot mass).</p>
+
+<ul>
+<li>Note: names (CC's) dont work when player name is blank and it doesnt work on Virus and Leap gamemodes</li>
+</ul>
+
+<h2>
+<a id="custom-skins-guide" class="anchor" href="#custom-skins-guide" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom skins (guide)</h2>
+
+<p>You can use custom skins by putting them in customskins.txt
+the format is <code>[shortcut] [skin]</code> for the skin field, to use a URL skin, you do <code>:http://url</code> DO NOT FORGET TO GET REID OF THE S IF IT IS HTTPS OR FORGET TO PUT A : BEFORE.To use an agario skin, use <code>%skinname</code>To use that skin in game simply do <code>&lt;skinsshortuct&gt;</code> and then your name,</p>
+
+<p>You can see a more detailed guide on the <a href="https://github.com/AJS-development/Ogar-unlimited/wiki/Skins-and-skin-shortcuts">wiki</a></p>
+
+<h2>
+<a id="obtaining-and-using" class="anchor" href="#obtaining-and-using" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Obtaining and Using</h2>
+
+<p>As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws", and "request" module installed to use it (unless you are using the Windows binary). You can usually download Node using your distribution's package manager (for *nix-like systems), or from <a href="http://nodejs.org">the Node website</a>. To install the "ws" and "request" module that is required, open up your system command line (cmd for windows, terminal for mac) and type "npm install ws" and do "npm install request". To see a detailed guide go to the <a href="https://github.com/AJS-development/Ogar-unlimited/wiki/Installation">Installation guide</a> in the wiki</p>
+
+<p>(You can install and use Ogar unlimited on windows very quickly. First click <code>InstallWebSocket.bat</code> in src. Then wait (it takes a while), then click <code>Start.bat</code> and you're off! The next time you start the server, you only have to click <code>Start.bat</code>)</p>
+
+<p>(Binarys are also available in Releases)</p>
+
+<p>Currently, Ogar listens on the following addresses and ports:</p>
+
+<ul>
+<li>*:88 - for the stats server (I would use it to track servers)</li>
+<li>*:443 - for the game server</li>
+</ul>
+
+<p>Please note that on some systems, you may have to run the process as root or otherwise elevate your privileges to allow the process to listen on the needed ports. <strong>If you are getting an EADDRINUSE error, it means that the port required to run Ogar is being used. Usually, Skype is the culprit. To solve this, either close out skype, or change the serverPort value in gameserver.ini to a different port. You will have to change your connection ip to "127.0.0.1:PORT"</strong></p>
+
+<p>Once the game server is running, you can connect (locally) by typing <code>agar.io/?ip=127.0.0.1:443</code> into your browser's address bar.</p>
+
+<h2>
+<a id="configuring-ogar" class="anchor" href="#configuring-ogar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring Ogar</h2>
+
+<p>Use "gameserver.ini" to modify Ogar's configurations field. Player bots are currently basic and for testing purposes. To use them, change "serverBots" to a value higher than zero in the configuration file. To add/remove bot names, edit the file named "botnames.txt" which is in the same folder as "gameserver.ini". Names should be separated by using the enter key.</p>
+
+<h2>
+<a id="custom-game-modes" class="anchor" href="#custom-game-modes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Game modes</h2>
+
+<p>Ogar has support for custom game modes. To switch between game modes, change the value of "serverGamemode" in the configurations file to the selected game mode id and restart the server. The current supported game modes are:</p>
+
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Free For All</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Teams</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Experimental (As of 6/13/15)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Experimental v2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Timed FFA</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Virus Off (no virus's)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Shrinking FFA, Shrinks the game as time passes</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Tournament</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Hunger Games</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Zombie Mode</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Team Z</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Team X</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Rainbow FFA - Hint: Use with "setAcid(true)" ( Use this in your Google Console)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>NoCollision Teams</td>
+</tr>
+<tr>
+<td>16</td>
+<td>NoCollision TeamZ</td>
+</tr>
+<tr>
+<td>17</td>
+<td>NoCollision TeamX</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Leap - Where you leap instead of split, made by Ogarplus</td>
+</tr>
+<tr>
+<td>22</td>
+<td>BlackHole</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="console-commands" class="anchor" href="#console-commands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Console Commands</h2>
+
+<p>The current available console commands are listed here. Command names are not case sensitive, but player names are.</p>
+
+<ul>
+<li>Help
+
+<ul>
+<li>Shows List Of Commands</li>
+</ul>
+</li>
+<li>Ophelp
+
+<ul>
+<li>Shows how to use OP</li>
+</ul>
+</li>
+<li>Plugin [command]
+
+<ul>
+<li>manage plugins, reload, list, delete, add.</li>
+</ul>
+</li>
+<li>Announce
+
+<ul>
+<li>Starts the high score announce feature</li>
+</ul>
+</li>
+<li>Verify [command] [id]
+
+<ul>
+<li>Verifies/reverifies a player .doing <code>verify reverify 1</code> forces 1 to verify again </li>
+</ul>
+</li>
+<li>Minion [id] [amount] [minion names]
+
+<ul>
+<li>creates minions. to turn off, for a player do minion [id]. to destroy all minions do minion destroy</li>
+</ul>
+</li>
+<li>Update
+
+<ul>
+<li>gets current version of ogar unlimited and replaces the old with the new. Do update botnames to only update botnames or update skin to only update skins</li>
+</ul>
+</li>
+<li>Reset
+
+<ul>
+<li>Destroys everything and starts from scratch.</li>
+</ul>
+</li>
+<li>Range [start] [end] [command] [commandattr]
+
+<ul>
+<li>Does bulk commands. ex <code>range 1 10 freeze</code> would freeze players between 1 and 10</li>
+</ul>
+</li>
+<li>Pcmd [delay] [repeattime] [command] [commandat...]
+
+<ul>
+<li>Periodic commands</li>
+</ul>
+</li>
+<li>Opbyip [command] [ip]
+
+<ul>
+<li>Allows you to use the opbyip feature. the commands are add, remove, list, clear , record . This allows you to be automatically op based on your ip</li>
+</ul>
+</li>
+<li>Changelog [page]
+
+<ul>
+<li>Gets changelog from the servers</li>
+</ul>
+</li>
+<li>Explode [id]
+
+<ul>
+<li>explodes player</li>
+</ul>
+</li>
+<li>Blind [id]
+
+<ul>
+<li>Blinds/unblinds a player</li>
+</ul>
+</li>
+<li>Hide [id]
+
+<ul>
+<li>Hides/unhides a player</li>
+</ul>
+</li>
+<li>Split [ID] [Count]
+
+<ul>
+<li>Splits a player</li>
+</ul>
+</li>
+<li>Shrink [amount]
+
+<ul>
+<li>Shrinks the game (amount is optional)</li>
+</ul>
+</li>
+<li>Enlarge [amount]
+
+<ul>
+<li>Enlarges the game (amount is optional)</li>
+</ul>
+</li>
+<li>Freeze [id]
+
+<ul>
+<li>Freezes a player</li>
+</ul>
+</li>
+<li>Spawnmass [id] [mass]
+
+<ul>
+<li>sets a players spawnmass. set to 0 to return to normal value</li>
+</ul>
+</li>
+<li>Speed [id] [mass]
+
+<ul>
+<li>sets a players base speed. set to 0 to return to normal value</li>
+</ul>
+</li>
+<li>Colortext [color]
+
+<ul>
+<li>Changes console Color and Style (blue, green,red,yellow,bold,reset,dim,white, help)</li>
+</ul>
+</li>
+<li>Team [id] [team (r,g,b)]
+
+<ul>
+<li>Changes a players Team (you might have to split to see the changes though)</li>
+</ul>
+</li>
+<li>Resetvirus
+
+<ul>
+<li>Turns special viruses (from OP's) into normal ones</li>
+</ul>
+</li>
+<li>whitelist [IP]
+
+<ul>
+<li>whitelists an IP</li>
+</ul>
+</li>
+<li>Unwhitelist [IP]
+
+<ul>
+<li>Unwhitelists an IP</li>
+</ul>
+</li>
+<li>whitelist
+
+<ul>
+<li>Lists whitelist</li>
+</ul>
+</li>
+<li>Clearban
+
+<ul>
+<li>Clears ban list</li>
+</ul>
+</li>
+<li>Ban [IP]
+
+<ul>
+<li>Bans an IP and sends a MSG. Do ban record to record ban</li>
+</ul>
+</li>
+<li>Unban [IP]
+
+<ul>
+<li>Unbans an IP</li>
+</ul>
+</li>
+<li>Rainbow [id]
+
+<ul>
+<li>gives player rainbow effect</li>
+</ul>
+</li>
+<li>Kickbots [number]
+
+<ul>
+<li>Kicks a number of bots (leave field blank and it will kick all bots)</li>
+</ul>
+</li>
+<li>Killbots [number]
+
+<ul>
+<li>Kills a number of bots (leave field blank and it will kick all bots)</li>
+</ul>
+</li>
+<li>Restart [minutes]
+
+<ul>
+<li>Restarts the server after a number of minutes or if you leave min blank, restarts immediatly</li>
+</ul>
+</li>
+<li>Banlist
+
+<ul>
+<li>Lists banned IPs</li>
+</ul>
+</li>
+<li>Clearban
+
+<ul>
+<li>Clears ban list</li>
+</ul>
+</li>
+<li>Op [ID]
+
+<ul>
+<li>Makes player OP</li>
+</ul>
+</li>
+<li>Dop [ID]
+
+<ul>
+<li>De-OPs a player</li>
+</ul>
+</li>
+<li>Rop
+
+<ul>
+<li>Resets op</li>
+</ul>
+</li>
+<li>Pfmsg [delay] [duration] [x to repeat] [msg1] [msg2] [etc...]
+
+<ul>
+<li>Periodically sends a force message (seconds)</li>
+</ul>
+</li>
+<li>Spfmsg []
+
+<ul>
+<li>stops pfmsg</li>
+</ul>
+</li>
+<li>Pmsg [delay] [duration] [x to repeat] [msg1] [msg2] [etc...]
+
+<ul>
+<li>Periodically sends a message (seconds)</li>
+</ul>
+</li>
+<li>Spmsg []
+
+<ul>
+<li>stops pmsg</li>
+</ul>
+</li>
+<li>Troll [id]
+
+<ul>
+<li>You figure out this one, Its a suprise!</li>
+</ul>
+</li>
+<li>Fmsg [message 1] [message 2] [etc...]
+
+<ul>
+<li>Forces players to read a message, This is done by changeing leaderboard to msg, freezing players, and change their name temporarily</li>
+</ul>
+</li>
+<li>Msg [message1] [message2] [etc...]
+
+<ul>
+<li>Changes the leaderboard to a message for a short time</li>
+</ul>
+</li>
+<li>kick/killrange/ban [Start] [End]
+
+<ul>
+<li>Kicks/kills/bans in a range (eg: killrange 1 10 will kill players whos ids are between them)</li>
+</ul>
+</li>
+<li>Nojoin [id]
+
+<ul>
+<li>Makes person unable to join</li>
+</ul>
+</li>
+<li>Merge [id]
+
+<ul>
+<li>forces user to merge</li>
+</ul>
+</li>
+<li>Addbot [Number]
+
+<ul>
+<li>Adds [Number] of bots to the server. If an amount is not specified, 1 bot will be added.</li>
+</ul>
+</li>
+<li>Board [String 1] [String 2] [String 3] ...
+
+<ul>
+<li>Replaces the text on the leaderboard with the string text.</li>
+</ul>
+</li>
+<li>Boardreset
+
+<ul>
+<li>Resets the leaderboard to display the proper data for the current gamemode</li>
+</ul>
+</li>
+<li>Change [Config setting] [Value]
+
+<ul>
+<li>Changes a config setting to a value. Ex. "change serverMaxConnections 32" will change the variable serverMaxConnections to 32. Note that some config values (Like serverGamemode) are parsed before the server starts so changing them mid game will have no effect.</li>
+</ul>
+</li>
+<li>Clear
+
+<ul>
+<li>Clears the console output</li>
+</ul>
+</li>
+<li>Color [Player ID] [Red] [Green] [Blue]
+
+<ul>
+<li>Replaces the color of the specified player with this color.</li>
+</ul>
+</li>
+<li>Exit
+
+<ul>
+<li>Closes the server.</li>
+</ul>
+</li>
+<li>Food [X position] [Y position] [Mass]
+
+<ul>
+<li>Spawns a food cell at those coordinates. If a mass value is not specified, then the server will default to "foodStartMass" in the config.</li>
+</ul>
+</li>
+<li>Gamemode [Id]
+
+<ul>
+<li>Changes the gamemode of the server. Warning - This can cause problems.</li>
+</ul>
+</li>
+<li>Kick [Player ID]
+
+<ul>
+<li>Kicks the specified player or bot from the server.</li>
+</ul>
+</li>
+<li>Kill [Player ID]
+
+<ul>
+<li>Kills all cells belonging to the specified player.</li>
+</ul>
+</li>
+<li>Killall
+
+<ul>
+<li>Kills all player cells on the map.</li>
+</ul>
+</li>
+<li>Mass [Player ID] [Number]
+
+<ul>
+<li>Sets the mass of all cells belonging to the specified player to [Number].</li>
+</ul>
+</li>
+<li>Name [Player ID] [New Name]
+
+<ul>
+<li>Changes the name of the player with the specified id with [New Name].</li>
+</ul>
+</li>
+<li>Playerlist
+
+<ul>
+<li>Shows a list of connected players, their IP, player ID, the amount of cells they have, total mass, and their position.</li>
+</ul>
+</li>
+<li>Pause
+
+<ul>
+<li>Pauses/Unpauses the game.</li>
+</ul>
+</li>
+<li>Reload
+
+<ul>
+<li>Reloads the config file used by the server. However, the following values are not affected: serverPort, serverGamemode, serverBots, serverStatsPort, serverStatsUpdate.</li>
+</ul>
+</li>
+<li>Status
+
+<ul>
+<li>Shows the amount of players currently connected, time elapsed, memory usage (memory used/memory allocated), and the current gamemode.</li>
+</ul>
+</li>
+<li>Tp [Player ID] [X position] [Y position]
+
+<ul>
+<li>Teleports the specified player to the specified coordinates.</li>
+</ul>
+</li>
+<li>Virus [X position] [Y position] [Mass]
+
+<ul>
+<li>Spawns a virus cell at those coordinates. If a mass value is not specified, then the server will default to "virusStartMass" in the config.</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Just make a pull request or make your own copy</p>
+
+<h2>
+<a id="things-that-i-dont-want-you-to-copy-copying-it-to-your-own-file-or-fork" class="anchor" href="#things-that-i-dont-want-you-to-copy-copying-it-to-your-own-file-or-fork" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Things that I dont want you to copy (copying it to your own file or fork)</h2>
+
+<ol>
+<li>No-Lag antibot measures</li>
+<li>OP</li>
+<li>minions</li>
+<li>smart bot/despawn</li>
+<li>easy verify</li>
+<li>Periodic things (pmsg, pcmd, etc..)</li>
+<li>mousefilter</li>
+<li>plugins</li>
+</ol>
+
+<h5>
+<a id="anything-else-if-you-improved-it-you-dont-have-to-give-us-credit-or-else-if-you-just-copied-you-must-give-us-credit" class="anchor" href="#anything-else-if-you-improved-it-you-dont-have-to-give-us-credit-or-else-if-you-just-copied-you-must-give-us-credit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>anything else, if you improved it, you dont have to give us credit, or else if you just copied, you must give us credit</h5>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/AJS-development/Ogar-unlimited">Ogar-unlimited</a> is maintained by <a href="https://github.com/AJS-development">AJS-development</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
