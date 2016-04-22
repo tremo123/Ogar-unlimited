@@ -4,7 +4,7 @@
 const utilities = require('./utilities.js');
 const BASE_DIR = utilities.getBaseDir(__dirname);
 
-const WorldModel = require('./WorldModel');
+const WorldDAO = require('./WorldDAO');
 const GameServer = require('./GameServer');
 const ConsoleService = require('./ConsoleService.js');
 const ConfigService = require('./ConfigService.js');
@@ -41,7 +41,7 @@ module.exports = class ControlServer {
     // start the in memory DataBase
     this.startDB();
 
-    // todo we can set this up better.
+    // todo we can set this up better - this is unreliable and will break.
     setTimeout(this.startPhase2.bind(this), 2000);
     setTimeout(this.startPhase3.bind(this), 4000);
   }
@@ -54,7 +54,7 @@ module.exports = class ControlServer {
   startPhase3() {
     // share data
     this.config = this.configService.registerListner('config', (config)=>this.config = config);
-    this.world = new WorldModel(this.config, this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
+    this.world = new WorldDAO();
 
     // servers
     this.gameServer = new GameServer(this.world, this.consoleService, this.configService , this.version);
