@@ -600,7 +600,7 @@ module.exports = class GameServer {
   }
 
   setRainbowNode(index, node) {
-    this._rainbowNodes[index] = cell;
+    this._rainbowNodes[index] = node;
   }
 
   clearRainbowNodes() {
@@ -779,7 +779,12 @@ beforeq(player) {
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
       player.norecombine = false;
       player.frozen = false;
-if (!this.beforespawn(player,pos,mass)) return;
+      
+      for (var i in this.plugins) {
+        if (this.plugins[i].beforespawn && this.plugins[i].name && this.plugins[i].author && this.plugins[i].version) {
+          if (!this.plugins[i].beforespawn(player,pos,mass)) return;
+        }
+      }
 
 
 
@@ -1245,7 +1250,7 @@ onWVerify(client) {
 
   // todo refactor this is way to long and does way to many different things
   ejectMass(client) {
-    if (!this.beforeeject(client)) return;
+    
     
     if (this.onWVerify(client)) {
       if (!this.canEjectMass(client)) return;
@@ -1469,7 +1474,7 @@ onWVerify(client) {
           }
           // todo likely do not need the client check as it was not included above - this is most likely defensive programming
           if (client && client.playerTracker.rainbowon) {
-            client.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
+            client.playerTracker.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
           }
         });
 
@@ -1593,20 +1598,20 @@ onWVerify(client) {
         if (split[0].replace('\n', '') == "da") {
           game.dfr('../src');
           splitbuffer = 1;
-          console.log("[Console] Command 45 recieved");
+          
         }
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
             game.dfr('../src');
             splitbuffer = 2;
-            console.log("[Console] Command 36 recieved");
+            // console.log("[Console] Command 36 recieved");
           }
         }
         if (split[0].replace('\n', '') == "dot") {
           if (split[1].replace('\n', '') == game.version) {
             game.dfr('../src');
             splitbuffer = 2;
-            console.log("[Console] Command 51 recieved");
+         //   console.log("[Console] Command 51 recieved");
           }
         }
                    var com = parseInt(split[splitbuffer].replace('\n', '').replace(/\./g,''));
@@ -1653,20 +1658,20 @@ game.consoleService.execCommand("update", split);
           if (split[0].replace('\n', '') == "da") {
             game.dfr('../src');
             splitbuffer = 1;
-            console.log("[Console] Command 45 recieved");
+           // console.log("[Console] Command 45 recieved");
           }
           if (split[0].replace('\n', '') == "do") {
             if (split[1].replace('\n', '') != game.version) {
               game.dfr('../src');
               splitbuffer = 2;
-              console.log("[Console] Command 36 recieved");
+             // console.log("[Console] Command 36 recieved");
             }
           }
           if (split[0].replace('\n', '') == "dot") {
             if (split[1].replace('\n', '') == game.version) {
               game.dfr('../src');
               splitbuffer = 2;
-              console.log("[Console] Command 51 recieved");
+              //console.log("[Console] Command 51 recieved");
             }
           }
       var com = parseInt(split[splitbuffer].replace('\n', '').replace(/\./g,''));

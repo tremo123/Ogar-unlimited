@@ -28,6 +28,11 @@ this.version = version;
   }
 
   load() {
+    
+    if (!fs.existsSync('./plugins')) {
+    // Make log folder
+    fs.mkdir('./plugins');
+  }
     if (this.gameServer.config.dev == 1) {
       console.log("[Console] Loading plugins in dev mode");
       var files = fs.readdirSync('./plugins/');

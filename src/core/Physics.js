@@ -39,7 +39,7 @@ module.exports = class Physics {
 
   // todo needs more work, should work on anything we might want to split, player/bots/anything
   static splitCells(player, world, gameServer) {
-    if (!gameServer.beforesplit(player)) return;
+    
     if (player.frozen || (!player.verify && gameServer.config.verify === 1)) return;
 
     let splitCells = 0; // How many cells have been split

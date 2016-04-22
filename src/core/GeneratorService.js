@@ -7,6 +7,10 @@ module.exports = class GeneratorService {
     this.gameServer = gameServer;
     this.config = gameServer.config;
     this.interval = undefined;
+    this.foodSpawnRate = this.config.foodSpawnAmount / 60;
+
+    // the amount of food we have spawned
+    this.foodSpawned = 0;
   }
 
   init() {
@@ -16,7 +20,10 @@ module.exports = class GeneratorService {
   }
 
   start() {
-    this.interval = setInterval(this.update.bind(this), this.config.spawnInterval);
+    this.startTime = new Date();
+    this.updateTime = this.startTime;
+    this.foodSpawned = 0;
+    this.interval = setInterval(this.update.bind(this), 1);
   }
 
   stop() {
@@ -24,18 +31,21 @@ module.exports = class GeneratorService {
   }
 
   update() {
-    let toSpawn = Math.min(this.config.foodSpawnAmount, (this.config.foodMaxAmount - this.gameServer.currentFood));
-    for (let i = 0; i < toSpawn; i++) {
-      this.spawnFood();
+    if (this.gameServer.getWorld().getNodes('food').length < this.config.foodMaxAmount) {
+      let currentFoodSpawnRate = this.foodSpawned / (new Date() - this.startTime) * 1000;
+      let toSpawn = this.foodSpawnRate - currentFoodSpawnRate;
+      toSpawn = (toSpawn > this.foodSpawnRate) ? 0 : toSpawn;
+      for (let i = 0; i < toSpawn; i++) {
+        this.spawnFood();
+      }
     }
     this.virusCheck();
   }
 
   spawnFood() {
+    this.foodSpawned++;
     let f = new Entity.Food(this.gameServer.getWorld().getNextNodeId(), null, utilities.getRandomPosition(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop), this.config.foodMass, this.gameServer);
     f.setColor(utilities.getRandomColor());
-
-
 
     this.gameServer.addNode(f);
     this.gameServer.currentFood++;

@@ -20,8 +20,8 @@ This Modified copy was created to help those who want to open their server to th
  5. Troll command ;)
  6. More GameModes
  7. Ban, Unban, Ban List (with revolutionary ban technique, no lag, no DDoS attacks)
- 8. Autoban option (see config.ini or advconfig.ini)
- 9. More control (config.ini and advconfig.ini)
+ 8. Autoban option (see gameserver.ini)
+ 9. More control (gameserver.ini)
  10. and other features such as merge or nojoin or kick/killrange
  11. Better physics (ejected mass and split and virus)
  12. Colortext command (Changes console output color and style)
@@ -35,7 +35,7 @@ This Modified copy was created to help those who want to open their server to th
  20. Database free high score keeper
  21. pcmd command to do periodic commands
  22. range command for bulk commands
- 23. easy verify system as anti bot mesure (config.ini or advconfig.ini)
+ 23. easy verify system as anti bot mesure (gameserver.ini)
  24. mousefilter as a anti bot measure
  25. plugins. Add gamemodes and commands easily! (See example plugin and template plugin)
  
