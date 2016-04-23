@@ -116,7 +116,7 @@ Beacon.prototype.feed = function (feeder, gameServer) {
 };
 
 Beacon.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.beacon = this;
+  gameServer._nodesBeacon.push(this);
 };
 
 Beacon.prototype.abs = MotherCell.prototype.abs;
