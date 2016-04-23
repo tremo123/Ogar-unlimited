@@ -38,6 +38,7 @@ module.exports = class GameServer {
     this._nodesEjected = []; // Ejected mass nodes
     this._rainbowNodes = [];
     this._nodesMother = [];
+    this._nodesSticky = [];
 
 
     this.clients = [];
@@ -45,6 +46,7 @@ module.exports = class GameServer {
 
     // inprogress
     this.whlist = [];
+    this.movingVirusCount = 0;
     this.nospawn = [];
 
     this.ipCounts = [];
@@ -129,6 +131,7 @@ module.exports = class GameServer {
     this.overideauto = false;
     this.livestage = 0;
     this.pop = [];
+    this.tickSticky = 0;
     this.troll = [];
     this.firstl = true;
     this.liveticks = 0;
@@ -499,6 +502,7 @@ module.exports = class GameServer {
     }
   }
   updateMotherCells() {
+    if (!this._nodesMother) return;
   for (var i in this._nodesMother) {
     var mother = this._nodesMother[i];
 
@@ -537,7 +541,15 @@ module.exports = class GameServer {
     }
     return this.lastPlayerId++;
   }
+  
+updateStickyCells() {
+  if (!this._nodesSticky) return;
+  for (var i in this._nodesSticky) {
+    var sticky = this._nodesSticky[i];
 
+    sticky.update(this);
+  }
+};
   getPlayerNodes() {
     return this._nodesPlayer;
     //return this._nodesPlayer;
@@ -1439,6 +1451,7 @@ onWVerify(client) {
         //(this.spawnTick(), 0);
         (this.gameModeTick(), 0);
         (this.updateMotherCells(), 0);
+        (this.updateStickyCells(), 0);
       }
 
       // Update the client's maps
