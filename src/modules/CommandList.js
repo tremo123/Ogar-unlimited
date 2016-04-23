@@ -48,6 +48,7 @@ Commands.list = {
     console.log("[Console] Restart    : Restart server or set time till restart");
     console.log("[Console] Announce   : Starts the auto announce for high scores");
     console.log("[Console] boardreset : reset scoreboard text");
+    console.log("[Console] Spawn      : Spawn things");
     console.log("[Console] change     : change specified settings");
     console.log("[Console] clear      : clear console output");
     console.log("[Console] color      : set cell(s) color by client ID");
@@ -125,6 +126,7 @@ Commands.list = {
   reset: require('./commands/reset.js'),
   delete: require('./commands/delete.js'),
   minion: require('./commands/minion.js'),
+  spawn: require('./commands/spawn.js'),
   changelog: require('./commands/changelog.js'),
   update: require('./commands/update.js'),
   explode: require('./commands/explode.js'),
