@@ -16,6 +16,7 @@ module.exports = class ConfigService {
       showtopscore: 0, // Shows top score (1 to enable)
       anounceDelay: 70, // Announce delay
       anounceDuration: 8, // How long the announce lasts
+      foodMinAmount: 150, // Minimum amount of food 
       vps: 0,
       randomBotSmartness: 0,
       dev: 0,
