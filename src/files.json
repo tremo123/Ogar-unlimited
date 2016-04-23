@@ -78,7 +78,7 @@
     "name": "ControlServer.js"
   },
   {
-    "hash": "b09e737a23c842d7fd86653a73640e1a",
+    "hash": "80b3e4cb16ffc6ffb4cbfd0398585ea0",
     "src": "src/core/DataBaseConnector.js",
     "dst": "./core/DataBaseConnector.js",
     "name": "DataBaseConnector.js"
@@ -150,7 +150,7 @@
     "name": "WorldModel.js"
   },
   {
-    "hash": "898d699034d264450e3c1109c532c8d2",
+    "hash": "bcb396584f2167aec5102a53c9a00955",
     "src": "src/core/WorldDAO.js",
     "dst": "./core/WorldDAO.js",
     "name": "WorldDAO.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "cabb58c8427fadc7e9779f0f15199d64",
+    "hash": "3d746dee43cee19ca396759a8794ea32",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"

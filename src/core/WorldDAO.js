@@ -21,18 +21,25 @@ module.exports = class WorldDAO {
   }
 
   onDbChange(data){
-    if (data.doc._id === 'gameMode') {
-      this.world.changeGameMode(data.doc.data);
+
+
+    if (data.action === 'test') {
+      this[data.action](data.data);
       return;
     }
 
-    if (data.doc._id.contains('node')) {
+    if (data.id === 'gameMode') {
+      //this.world.changeGameMode(data.doc.data);
+      return;
+    }
+
+    if (data.id.includes('node')) {
       let id = parseInt(data.doc._id.slice(4), 10);
       // todo do something
       return;
     }
 
-    if (data.doc._id.contains('client')) {
+    if (data.id.includes('client')) {
       let id = parseInt(data.doc._id.slice(6), 10);
       // todo do something
       return;
@@ -41,8 +48,8 @@ module.exports = class WorldDAO {
     console.error('[WorldDAO.onDbChange] Unknown data type for: ' + data.doc.id + ' data: ' + data.doc.data);
   }
 
-  sync(action, args) {
-
+  sync(id, action, args) {
+    this.dataBase.update({_id: id, action: action, data: args});
   }
 
   // todo need to rethink this for world model
@@ -51,6 +58,17 @@ module.exports = class WorldDAO {
     return this[what];
   }
 
+  test(id, node, type) {
+    if (typeof id === 'object'){
+      node = id.node;
+      type = id.type;
+      id = id._id;
+    }
+    console.log(id);
+    console.log(node);
+    console.log(node.toJSON());
+    console.log(type);
+  }
 
   // wrapped functions
   getGameMode() {
@@ -68,7 +86,8 @@ module.exports = class WorldDAO {
 
   setNode(id, node, type) {
     this.world.setNode(id, node, type);
-
+    console.log('setNode node' + id + ' test ' + {_id: id, node: node, type: type});
+    this.sync('node' + id, 'test', {_id: id, node: node, type: type});
   }
 
 

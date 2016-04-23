@@ -26,7 +26,8 @@ module.exports = class DataBaseConnector {
     let self = this;
     this.db.get(data._id).then((doc)=> {
       console.log('doc rev: ' + doc._rev);
-      return self.db.put(data);
+      data._rev = doc._rev;
+      return this.db.put(data);
     }).catch((error)=>{
       if (error.status === 404) {
         this.put(data);
