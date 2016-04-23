@@ -37,6 +37,7 @@ module.exports = class GameServer {
     this._nodesVirus = []; // Virus nodes
     this._nodesEjected = []; // Ejected mass nodes
     this._rainbowNodes = [];
+    this._nodesMother = [];
 
 
     this.clients = [];
@@ -137,7 +138,7 @@ module.exports = class GameServer {
     this.opc = [];
     this.oppname = [];
     this.opname = [];
-
+    this.motherUpdateInterval = 5;
     this.oldtopscores = {
       score: 100,
       name: "none"
@@ -381,16 +382,16 @@ module.exports = class GameServer {
             // Move
             if (node.position.x < self.config.borderLeft) {
               self.removeNode(node);
-              i--;
+
             } else if (node.position.x > self.config.borderRight) {
               self.removeNode(node);
-              i--;
+            
             } else if (node.position.y < self.config.borderTop) {
               self.removeNode(node);
-              i--;
+             
             } else if (node.position.y > self.config.borderBottom) {
               self.removeNode(node);
-              i--;
+            
             }
           });
         }
@@ -497,6 +498,15 @@ module.exports = class GameServer {
       }
     }
   }
+  updateMotherCells() {
+  for (var i in this._nodesMother) {
+    var mother = this._nodesMother[i];
+
+    // Checks
+    mother.update(this);
+    mother.checkEat(this);
+  }
+};
 
   // todo need to think about how to refactor this out
   removeNode(node) {
@@ -1037,6 +1047,7 @@ beforeq(player) {
             }
           }
           break;
+        
       }
 
       // Make sure the cell is big enough to be eaten.
@@ -1427,6 +1438,7 @@ onWVerify(client) {
         (this.cellTick(), 0);
         //(this.spawnTick(), 0);
         (this.gameModeTick(), 0);
+        (this.updateMotherCells(), 0);
       }
 
       // Update the client's maps
