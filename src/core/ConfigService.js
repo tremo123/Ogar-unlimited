@@ -43,7 +43,7 @@ module.exports = class ConfigService {
       splitSpeed: 130, // Splitting speed
       showjlinfo: 0, // Notifys you if a player has left or joined (0 = off [default]) 1 = on
       ejectvspeed: 120, // How far an ejected virus (from w) shoots
-      playerSafeSpawn: 1, // Makes sure players dont spawn near, inside, or on top of one another 
+      playerSafeSpawn: 1, // Makes sure players dont spawn near, inside, or on top of one another
       serverMaxConnectionsPerIp: 5, // Maximum amount of IPs per player connection
       serverMaxConnections: 64, // Maximum amount of connections to the server.
       serverPort: 443, // Server port
@@ -80,8 +80,7 @@ module.exports = class ConfigService {
       borderBottom: 6000, // Bottom border of map (Vanilla value: 11180.3398875)
       liveConsole: 0, // Easiest way to get stats (1 to enable)
       anounceHighScore: 0, // Announces highscore (1 to enable)
-      spawnInterval: 20, // The interval between each food cell spawn in ticks (1 tick = 50 ms)
-      foodSpawnAmount: 10, // The amount of food to spawn per interval
+      foodSpawnAmount: 200, // The amount of food to spawn per minute
       foodStartAmount: 100, // The starting amount of food in the map
       foodMaxAmount: 500, // Maximum food cells on the map
       foodMass: 1, // Starting food size (In mass)
@@ -156,7 +155,7 @@ module.exports = class ConfigService {
   }
   getRSkins() {
     return this.skinNames
-    
+
   }
 
   getConfig() {
@@ -280,7 +279,7 @@ module.exports = class ConfigService {
     }
   }
 loadRandomSkin() {
-  
+
    try {
       // Read and parse the names - filter out whitespace-only names
       this.skinNames = fs.readFileSync(path.join(__dirname, '../', 'randomSkins.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
