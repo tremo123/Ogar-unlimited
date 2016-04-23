@@ -41,11 +41,14 @@ EjectedMass.prototype.onConsume = function (consumer, gameServer) {
 
 EjectedMass.prototype.onAutoMove = function (gameServer) {
   // Check for a beacon if experimental
-  var beacon = gameServer.gameMode.beacon;
+  var beacons = gameServer._nodesBeacon;
+  for (var i in beacons) {
+    var beacon = beacons[i];
   if (gameServer.gameMode.ID === 8 && beacon && this.collisionCheck2(beacon.getSquareSize(), beacon.position)) {
     // The beacon has been feed
     beacon.feed(this, gameServer);
     return true;
+  }
   }
 
   let virusNodes = gameServer.getVirusNodes();
