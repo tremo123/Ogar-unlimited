@@ -138,13 +138,13 @@ MotherCell.prototype.spawnFood = function (gameServer) {
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function
 
 MotherCell.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.nodesMother.push(this); // Temporary
+  gameServer._nodesMother.push(this); // Temporary
 };
 
 MotherCell.prototype.onRemove = function (gameServer) {
-  var index = gameServer.gameMode.nodesMother.indexOf(this);
+  var index = gameServer._nodesMother.indexOf(this);
   if (index != -1) {
-    gameServer.gameMode.nodesMother.splice(index, 1);
+    gameServer._nodesMother.splice(index, 1);
   }
 };
 
