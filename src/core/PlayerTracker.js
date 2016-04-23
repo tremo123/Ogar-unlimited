@@ -288,20 +288,17 @@ if (this.gameServer.config.highscore == 1) {
     // Actions buffer (So that people cant spam packets)
     if (this.socket.packetHandler.pressSpace) { // Split cell
     
-   if (!this.op.pressSpace(this.gameServer, this)) return;
-      this.gameServer.gameMode.pressSpace(this.gameServer, this);
+   if (this.op.pressSpace(this.gameServer, this)) this.gameServer.gameMode.pressSpace(this.gameServer, this);
       this.socket.packetHandler.pressSpace = false;
     }
 
     if (this.socket.packetHandler.pressW) { // Eject mass
-    if (!this.op.pressW(this.gameServer, this)) return;
-      this.gameServer.gameMode.pressW(this.gameServer, this);
+    if (this.op.pressW(this.gameServer, this)) this.gameServer.gameMode.pressW(this.gameServer, this);
       this.socket.packetHandler.pressW = false;
     }
 
     if (this.socket.packetHandler.pressQ) { // Q Press
-    if (!this.op.pressQ(this.gameServer,this)) return;
-      this.gameServer.gameMode.pressQ(this.gameServer, this);
+    if (this.op.pressQ(this.gameServer,this)) this.gameServer.gameMode.pressQ(this.gameServer, this);
       this.socket.packetHandler.pressQ = false;
     }
 
