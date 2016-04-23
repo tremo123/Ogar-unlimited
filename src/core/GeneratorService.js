@@ -7,6 +7,8 @@ module.exports = class GeneratorService {
     this.gameServer = gameServer;
     this.config = gameServer.config;
     this.interval = undefined;
+
+    // food to spawn per second
     this.foodSpawnRate = this.config.foodSpawnAmount / 60;
 
     // the amount of food we have spawned
@@ -17,11 +19,13 @@ module.exports = class GeneratorService {
     for (var i = 0; i < this.config.foodStartAmount; i++) {
       this.spawnFood();
     }
+    // set it to 0 so we don't mess up the initial food spawn rate
+    this.foodSpawned = 0;
   }
 
   start() {
+    console.log('generator start');
     this.startTime = new Date();
-    this.updateTime = this.startTime;
     this.foodSpawned = 0;
     this.interval = setInterval(this.update.bind(this), 1);
   }
