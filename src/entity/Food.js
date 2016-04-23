@@ -43,14 +43,11 @@ module.exports = class Food extends Cell {
 
   sendUpdate() {
     // Whether or not to include this cell in the update packet
-    if (this.moveEngineTicks == 0) {
-      return false;
-    }
     if (this.shouldSendUpdate) {
       this.shouldSendUpdate = false;
       return true;
     }
-    return true;
+    return this.moveEngineTicks != 0;
   }
 
   onRemove(world) {
