@@ -24,7 +24,6 @@ module.exports = class GeneratorService {
   }
 
   start() {
-    console.log('generator start');
     this.startTime = new Date();
     this.foodSpawned = 0;
     this.interval = setInterval(this.update.bind(this), 1);
