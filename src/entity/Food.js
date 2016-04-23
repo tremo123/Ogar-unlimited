@@ -42,16 +42,16 @@ Food.prototype.grow = function () {
   }.bind(this), this.gameServer.config.foodMassTimeout * 1000);
 };
 
-Food.prototype.sendUpdate = function () {
-  // Whether or not to include this cell in the update packet
-  if (this.moveEngineTicks == 0) {
-    return false;
-  }
-  if (this.shouldSendUpdate) {
-    this.shouldSendUpdate = false;
+Food.prototype.sendUpdate = function() {
+    // Whether or not to include this cell in the update packet
+    if (this.shouldSendUpdate) {
+        this.shouldSendUpdate = false;
+        return true;
+    }
+    if (this.moveEngineTicks == 0) {
+        return false;
+    }
     return true;
-  }
-  return true;
 };
 
 Food.prototype.onRemove = function (gameServer) {
