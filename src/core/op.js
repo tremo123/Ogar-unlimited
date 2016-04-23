@@ -71,7 +71,7 @@ for (var i in gameServer.plugins) {
 Op.prototype.pressW = function (gameServer, player) {
     for (var i in gameServer.plugins) {
         if (gameServer.plugins[i].beforeeject && gameServer.plugins[i].name && gameServer.plugins[i].author && gameServer.plugins[i].version) {
-          if (!gameServer.plugins[i].beforeeject(client)) return;
+          if (!gameServer.plugins[i].beforeeject(player)) return;
         }
       }
   // Called when the W key is pressed
