@@ -43,11 +43,11 @@ MovingVirus.prototype.onAutoMove = function (gameServer) {
 };
 
 MovingVirus.prototype.onAdd = function (gameServer) {
-  gameServer.gameMode.movingVirusCount++;
+  gameServer.movingVirusCount++;
   gameServer.addVirusNodes(this);
 };
 
 MovingVirus.prototype.onRemove = function (gameServer) {
-  gameServer.gameMode.movingVirusCount--;
+  gameServer.movingVirusCount--;
   gameServer.removeVirusNode(this);
 };
