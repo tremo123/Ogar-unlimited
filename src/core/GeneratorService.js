@@ -35,7 +35,19 @@ module.exports = class GeneratorService {
   }
 
   update() {
+    
     if (this.gameServer.getWorld().getNodes('food').length < this.config.foodMaxAmount) {
+      if (this.gameServer.getWorld().getNodes('food').length < this.config.foodMinAmount) {
+        let le = this.config.foodMinAmount - this.gameServer.getWorld().getNodes('food').length
+        if (le && le > 5) {
+          for (var i = 0; i < le; i++)this.spawnFood();
+          
+          
+        }
+        
+      }
+      
+      
       let currentFoodSpawnRate = this.foodSpawned / (new Date() - this.startTime) * 1000;
       let toSpawn = this.foodSpawnRate - currentFoodSpawnRate;
       toSpawn = (toSpawn > this.foodSpawnRate) ? 0 : toSpawn;
