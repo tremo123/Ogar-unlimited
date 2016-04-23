@@ -38,6 +38,7 @@ module.exports = class GameServer {
     this._nodesEjected = []; // Ejected mass nodes
     this._rainbowNodes = [];
     this._nodesMother = [];
+    this._nodesBeacon = [];
     this._nodesSticky = [];
 
 
