@@ -1448,11 +1448,11 @@ onWVerify(client) {
       // Loop main functions
       if (this.running) {
         // todo what is going on here?
-        (this.cellTick(), 0);
+        setTimeout(this.cellTick(), 0);
         //(this.spawnTick(), 0);
-        (this.gameModeTick(), 0);
-        (this.updateMotherCells(), 0);
-        (this.updateStickyCells(), 0);
+        setTimeout(this.gameModeTick(), 0);
+        setTimeout(this.updateMotherCells(), 0);
+        setTimeout(this.updateStickyCells(), 0);
       }
 
       // Update the client's maps
@@ -1461,6 +1461,7 @@ onWVerify(client) {
 
       // Update cells/leaderboard loop
       this.tickMain++;
+      setTimeout(function() {
       let count = 0;
       this.getRainbowNodes().forEach((node)=> {
         if (!node) return;
@@ -1479,8 +1480,9 @@ onWVerify(client) {
       });
 
       if (count <= 0) this.clearRainbowNodes();
-
+}.bind(this), 0);
       if (this.tickMain >= this.config.fps) { // 1 Second
+      setTimeout(function() {
         let a = [];
         let d = false;
 
@@ -1525,6 +1527,7 @@ onWVerify(client) {
   throw e;
 }
         }
+      }.bind(this), 0);
 
         // Update leaderboard with the gamemode's method
         this.leaderboard = [];
@@ -1551,7 +1554,7 @@ onWVerify(client) {
 
       // Reset
       this.tick = 0;
-
+setTimeout(function() {
       let humans = 0,
         bots = 0;
 
@@ -1587,7 +1590,7 @@ onWVerify(client) {
           this.clearLeaderBoard();
         }
       }
-
+}.bind(this),0);
       // Restart main loop immediately after current event loop (setImmediate does not amplify any lag delay unlike setInterval or setTimeout)
       setImmediate(this.mainLoopBind);
     } else {
