@@ -18,12 +18,6 @@
     "name": "Start.bat"
   },
   {
-    "hash": "bbee29a7e03dbeae7773674b3907749ebd99cff6",
-    "src": "src/accounts.json",
-    "dst": "./accounts.json",
-    "name": "accounts.json"
-  },
-  {
     "hash": "1ac0107fed5f77aba62bba8806b15402255e8eb5",
     "src": "src/ai/BotLoader.js",
     "dst": "./ai/BotLoader.js",
