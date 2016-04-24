@@ -4,10 +4,12 @@ const DataBaseConnector = require('./DataBaseConnector.js');
 const Entity = require('../entity');
 
 // todo make this a value that comes from the config
-const DEFAULT_ID_BLOCK = 100001;
+const DEFAULT_ID_BLOCK = 1000001;
 const ID_BLOCK_SIZE = 100000;
+
 const DEFAULT_ID_BLOCK_PLAYER = 1;
-const ID_BLOCK_SIZE_PLAYER = 10;
+const ID_BLOCK_SIZE_PLAYER = 10000;
+const ID_BLOCK_SIZE_PLAYER_MAX = 1000000;
 
 
 module.exports = class WorldDAO {
@@ -19,9 +21,10 @@ module.exports = class WorldDAO {
     this._nextIdBlock = DEFAULT_ID_BLOCK + ID_BLOCK_SIZE;
     this._lastNodeId = DEFAULT_ID_BLOCK;
 
-    this._lastPlayerId = 1;
-    this._nextPlayerId = 2;
 
+    this._idBlockPlayer = DEFAULT_ID_BLOCK_PLAYER;
+    this._nextIdBlockPlayer = DEFAULT_ID_BLOCK_PLAYER + ID_BLOCK_SIZE_PLAYER;
+    this._nextPlayerId = DEFAULT_ID_BLOCK_PLAYER;
 
     // db's
     this.dbMap = {};
@@ -41,8 +44,9 @@ module.exports = class WorldDAO {
     this.dbMap.worldState.onChange((data)=>this.onWorldStateChange(data));
     this.dbMap.clients.onChange((data)=>this.onClientsChange(data));
 
-    // setup the worlds idBlock
+    // setup the id's
     this.setupIdBlocks();
+    this.setupNextPlayerId();
   }
 
   onNodesChange(data) {
@@ -90,6 +94,10 @@ module.exports = class WorldDAO {
       case 'client':
         let id = parseInt(data.doc._id.slice(6), 10);
         // todo do something
+        return;
+      case 'nextPlayerId':
+        //console.log('nextPlayerId ' + JSON.stringify(data) )
+        //this._nextPlayerId = parseInt(data.doc.nextPlayerId);
         return;
       default:
         console.error('[WorldDAO.onDbChange] Unknown data type for: ' + data.id + ' data: ' + JSON.stringify(data.doc));
@@ -151,7 +159,13 @@ module.exports = class WorldDAO {
   }
 
   getNextPlayerId() {
-    return this.world.getNextPlayerId();
+    // Resets integer
+    if (this._nextPlayerId > this._idBlockPlayer + ID_BLOCK_SIZE_PLAYER) {
+      this._nextPlayerId = this._nextIdBlockPlayer;
+      this._idBlockPlayer = this._nextIdBlockPlayer;
+      this.getNextIdBlockPlayer();
+    }
+    return this._nextPlayerId++;
   }
 
   getNextNodeId() {
@@ -161,7 +175,7 @@ module.exports = class WorldDAO {
       this._idBlock = this._nextIdBlock;
       this.updateIdBlocks();
     }
-    return this.lastNodeId++;
+    return this._lastNodeId++;
   }
 
   setNodeAsMoving(id, node) {
@@ -203,9 +217,10 @@ module.exports = class WorldDAO {
         // if idBlock found then use it else use the default and put the next one in the db
         this._idBlock = parseInt(res.doc.idBlock);
       }
-      let nextBlock = this.getNextIdBlock(this._nextIdBlock, ID_BLOCK_SIZE, DEFAULT_ID_BLOCK);
+      let nextBlock = this.getNextIdBlock(this._nextIdBlock, ID_BLOCK_SIZE, DEFAULT_ID_BLOCK, Number.MAX_SAFE_INTEGER);
       let data = {_id: 'idBlock', idBlock: nextBlock};
       this.dbMap.worldState.put(data);
+
     })
   }
 
@@ -216,15 +231,43 @@ module.exports = class WorldDAO {
       }
 
       this._nextIdBlock = parseInt(res.doc.idBlock);
-      let data = {_id: 'idBlock', idBlock: this._nextIdBlock + ID_BLOCK_SIZE};
+      let nextBlock = this.getNextIdBlock(this._nextIdBlock, ID_BLOCK_SIZE, DEFAULT_ID_BLOCK, Number.MAX_SAFE_INTEGER);
+      let data = {_id: 'idBlock', idBlock: nextBlock};
       this.dbMap.worldState.put(data);
     })
   }
 
-  getNextIdBlock(currentBlock, size, defaultBlock) {
+  getNextIdBlock(currentBlock, size, defaultBlock, maxSafe) {
     let nextBlock = currentBlock + size;
-    return (nextBlock < Number.MAX_SAFE_INTEGER - size) ? nextBlock : defaultBlock;
+    return (nextBlock < (maxSafe - size)) ? nextBlock : defaultBlock;
   }
+
+  setupNextPlayerId() {
+    this.dbMap.worldState.get('nextPlayerId', (res)=> {
+      if (res.status !== 404) {
+        // if found then use it else use the default and put the next one in the db
+        this._nextPlayerId = parseInt(res.doc.nextPlayerId);
+      }
+      let nextId = this.getNextIdBlock(this._nextPlayerId, ID_BLOCK_SIZE_PLAYER, DEFAULT_ID_BLOCK_PLAYER, ID_BLOCK_SIZE_PLAYER_MAX);
+      let data = {_id: 'nextPlayerId', nextPlayerId: nextId};
+      this.dbMap.worldState.put(data);
+
+    })
+  }
+
+  getNextIdBlockPlayer() {
+    this.dbMap.worldState.get('nextPlayerId', (res)=> {
+      if (res.status === 404) {
+        throw new Error('nextPlayerId not found in DB! This should never happen.');
+      }
+
+      this._nextPlayerId = parseInt(res.doc.nextPlayerId);
+      let nextIdBlock = this.getNextIdBlock(this._nextPlayerId, ID_BLOCK_SIZE_PLAYER, DEFAULT_ID_BLOCK_PLAYER, ID_BLOCK_SIZE_PLAYER_MAX);
+      let data = {_id: 'nextPlayerId', nextPlayerId: nextIdBlock};
+      this.dbMap.worldState.put(data);
+    })
+  }
+
 
   //@formatter:off
   // es6 getter/setters
