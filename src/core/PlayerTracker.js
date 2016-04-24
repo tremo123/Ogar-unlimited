@@ -285,7 +285,7 @@ if (this.gameServer.config.highscore == 1) {
 // Functions
 
   update() {
- 
+ setTimeout(function() {
     // Actions buffer (So that people cant spam packets)
     if (this.socket.packetHandler.pressSpace) { // Split cell
     
@@ -445,6 +445,7 @@ if (this.gameServer.config.highscore == 1) {
         }
       }
     }
+ }.bind(this),0);
   };
 
 // Viewing box
