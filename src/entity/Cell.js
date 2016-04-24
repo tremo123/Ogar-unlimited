@@ -8,8 +8,8 @@ const Physics = require('../core/Physics.js');
 
 module.exports = class Cell {
 
-  constructor(nodeId, owner, position, mass, world, config) {
-    this.nodeId = nodeId;
+  constructor(id, owner, position, mass, world, config) {
+    this._id = id;
     this.owner = owner; // playerTracker that owns this cell
     this.color = {
       r: 0,
@@ -37,9 +37,9 @@ module.exports = class Cell {
 
   toJSON() {
     return {
-      nodeId: this.nodeId,
+      _id: this._id.toString(),  // must be a string for pouchdb
       type: this.constructor.name,
-      ownerId: (this.owner) ? this.owner.getId() : undefined,
+      ownerId: (this.owner && typeof this.owner.getId === 'function') ? this.owner.getId() : undefined,
       color: this.color,
       name: this.name,
       visible: this.visible,
@@ -52,9 +52,23 @@ module.exports = class Cell {
     }
   }
 
-  static fromJSON(json, world, config) {
+  updateFromJSON(jData) {
+    if (this._id !== jData._id) return;
+    this.owner = jData.owner;
+    this.color = jData.color;
+    this.name = jData.name;
+    this.visible = jData.visible;
+    this.position = jData.position;
+    this.mass = jData.mass;
+    this.cellType = jData.cellType;
+    this.moveEngineTicks = jData.moveEngineTicks;
+    this.moveEngineSpeed = jData.moveEngineSpeed;
+    this.angle = jData.angle;
+  }
+
+  static fromJSON(entityTypes, json, world) {
     let owner = (json.ownerId) ? world.getNode(json.ownerId) : undefined;
-    let newCell = new Entity[json.type](json.nodeId, owner, json.position, json.mass, world, config);
+    let newCell = new entityTypes[json.type](json._id, owner, json.position, json.mass, world, world.config);
     newCell.color = json.color;
     newCell.name = json.name;
     newCell.visible = json.visible;
@@ -68,7 +82,7 @@ module.exports = class Cell {
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 
   getId() {
-    return this.nodeId;
+    return this._id;
   }
 
   getVis() {
@@ -268,7 +282,7 @@ module.exports = class Cell {
         var y1 = this.position.y + (totTravel * cos) + yd;
         if (this.world) {
           this.world.getNodes('ejected').forEach((cell)=> {
-            if (this.nodeId == cell.getId()) return;
+            if (this._id == cell.getId()) return;
             if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
 
             var dist = this.getDist(x1, y1, cell.position.x, cell.position.y);
@@ -385,4 +399,13 @@ module.exports = class Cell {
 
     return Math.sqrt(xs + ys);
   }
+
+  //@formatter:off
+  // es6 getter/setters
+  get isMoving () { return this._isMoving; }
+  set isMoving (bool) { this._isMoving = bool; }
+
+  get id () { return this._id;}
+
+  //@formatter:on
 };

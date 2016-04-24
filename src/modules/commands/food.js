@@ -20,7 +20,6 @@ module.exports = function (gameServer, split) {
   // Spawn
   var f = new Entity.Food(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer.getWorld(), gameServer.config);
   f.setColor(gameServer.getRandomColor());
-  gameServer.addNode(f);
-  gameServer.currentFood++;
+  gameServer.setNode(f);
   console.log("[Console] Spawned 1 food cell at (" + pos.x + " , " + pos.y + ")");
 };

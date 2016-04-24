@@ -94,8 +94,7 @@ module.exports = class Beacon extends Cell {
               0.5 + 0.4 * Math.random()
             );
             ejected.setColor(cell.getColor());
-            gameServer.addNode(ejected, "moving");
-            gameServer.getWorld().setNodeAsMoving(ejected.getId(), ejected);
+            world.setNode(ejected.getId(), ejected, "moving");
           }
           cell.mass = 10;
         }

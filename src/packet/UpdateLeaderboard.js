@@ -112,7 +112,7 @@ UpdateLeaderboard.prototype.build = function () {
 
         var nodeID = 0; // Get node id of player's 1st cell
         if (item.cells[0]) {
-          nodeID = item.cells[0].nodeId;
+          nodeID = item.cells[0]._id;
         }
 
         view.setUint32(offset, nodeID, true);

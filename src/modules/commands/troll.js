@@ -24,7 +24,7 @@ module.exports = function (gameServer, split) {
 
         // Spawn
         var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer.getWorld(), gameServer.getConfig());
-        gameServer.addNode(v);
+        gameServer.setNode(v);
 
       }
 

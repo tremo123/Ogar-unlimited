@@ -40,11 +40,11 @@ UpdateNodes.prototype.build = function () {
 
     var killer = 0;
     if (node.getKiller()) {
-      killer = node.getKiller().nodeId;
+      killer = node.getKiller()._id;
     }
 
     view.setUint32(offset, killer, true); // Killer ID
-    view.setUint32(offset + 4, node.nodeId, true); // Node ID
+    view.setUint32(offset + 4, node._id, true); // Node ID
 
     offset += 8;
   }
@@ -56,7 +56,7 @@ UpdateNodes.prototype.build = function () {
       continue;
     }
 
-    view.setUint32(offset, node.nodeId, true); // Node ID
+    view.setUint32(offset, node._id, true); // Node ID
     view.setInt32(offset + 4, node.position.x + this.scrambleX, true); // X position
     view.setInt32(offset + 8, node.position.y + this.scrambleY, true); // Y position
     view.setUint16(offset + 12, node.getSize(), true); // Mass formula: Radius (size) = (mass * mass) / 100
@@ -114,7 +114,7 @@ UpdateNodes.prototype.build = function () {
       continue;
     }
 
-    view.setUint32(offset, node.nodeId, true);
+    view.setUint32(offset, node._id, true);
     offset += 4;
   }
   for (var i = 0; i < this.nonVisibleNodes.length; i++) {
@@ -124,7 +124,7 @@ UpdateNodes.prototype.build = function () {
       continue;
     }
 
-    view.setUint32(offset, node.nodeId, true);
+    view.setUint32(offset, node._id, true);
     offset += 4;
   }
 

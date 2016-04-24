@@ -54,7 +54,7 @@ Leap.prototype.pressSpace = function (gameServer, player) {
     split.setAngle(angle);
     split.setMoveEngineData(splitSpeed, 32, 0.85);
     split.calcMergeTime(gameServer.config.playerRecombineTime);
-    gameServer.addNode(split, "moving");
+    gameServer.setNode(split, null, "moving");
     gameServer.removeNode(cell);
   }
 };

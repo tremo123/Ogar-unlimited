@@ -103,7 +103,7 @@ Experimental2.prototype.spawnMotherCell = function (gameServer) {
 
     // Spawn if no cells are colliding
     var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass, gameServer.getWorld(), gameServer.getConfig());
-    gameServer.addNode(m);
+    gameServer.setNode(m);
   }
 };
 
@@ -203,7 +203,7 @@ Experimental2.prototype.spawnStickyCell = function (gameServer) {
     // Spawn if no cells are colliding
     var m = new StickyCell(gameServer.getWorld().getNextNodeId(), null, pos, this.stickyMass, gameServer.getWorld(), gameServer.getConfig());
     //gameServer.movingNodes.push(m);
-    gameServer.addNode(m);
+    gameServer.setNode(m);
   }
 };
 
@@ -228,7 +228,7 @@ Experimental2.prototype.onTick = function (gameServer) {
       gameServer.getWorld(),
       gameServer.getConfig()
     );
-    gameServer.addNode(this.beacon);
+    gameServer.setNode(this.beacon.getId(), this.beacon);
   }
 
   // Mother Cell updates and MovingVirus updates

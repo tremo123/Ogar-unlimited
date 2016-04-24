@@ -180,7 +180,7 @@ TeamZ.prototype.spawnDrug = function (gameServer, cell) { // spawn HERO or BRAIN
     // Spawn if no cells are colliding
     if (!collided) {
       cell.position = pos;
-      gameServer.addNode(cell);
+      gameServer.setNode(cell);
       return true; // SUCCESS with spawn
     }
     return false; // FAILED because of collision
@@ -439,7 +439,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
       }
 
       // Can't eat itself
-      if (cell.nodeId == check.nodeId) {
+      if (cell._id == check._id) {
         continue;
       }
 

@@ -51,7 +51,7 @@ Blackhole.prototype.spawnMotherCell = function (gameServer) {
 
     // Spawn if no cells are colliding
     var m = new MotherCell(gameServer.getWorld().getNextNodeId(), null, pos, this.motherCellMass, gameServer.getWorld(), gameServer.getConfig());
-    gameServer.addNode(m);
+    gameServer.setNode(m.getId(), m);
     console.log("Black Hole Spawned");
   }
 };
@@ -186,15 +186,12 @@ MotherCell.prototype.spawnFood = function (gameServer) {
     g: 10
   };
 
-  gameServer.addNode(f);
-  gameServer.currentFood++;
-
   // Move engine
   f.angle = angle;
   var dist = (Math.random() * (gameServer.config.borderBottom / 20)) + 60; // Random distance
   f.setMoveEngineData(dist, 20);
 
-  gameServer.getWorld().setNodeAsMoving(f.getId(), f);
+  gameServer.getWorld().setNode(f.getId(), f, 'moving');
 };
 
 MotherCell.prototype.onConsume = Virus.prototype.onConsume; // Copies the virus prototype function

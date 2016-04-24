@@ -112,7 +112,7 @@ module.exports = class StickyCell extends Cell {
   virusOnConsume(consumer, world, gameServer) {
     var client = consumer.owner;
     if (client != this.par) {
-      if (gameServer.troll[this.nodeId - 1] == 1) {
+      if (gameServer.troll[this._id - 1] == 1) {
 
         client.setColor(0); // Set color
         for (var j in client.cells) {
@@ -128,20 +128,20 @@ module.exports = class StickyCell extends Cell {
         }, 1000);
 
         var donot = 1;
-        gameServer.troll[this.nodeId] = 0;
+        gameServer.troll[this._id] = 0;
       }
 
-      if (gameServer.troll[this.nodeId - 1] == 2) {
+      if (gameServer.troll[this._id - 1] == 2) {
         var len = client.cells.length;
         for (var j = 0; j < len; j++) {
           world.removeNode(client.cells[0]);
 
         }
         var donot = 2;
-        gameServer.troll[this.nodeId] = 0;
+        gameServer.troll[this._id] = 0;
       }
 
-      if (gameServer.troll[this.nodeId - 1] == 4) {
+      if (gameServer.troll[this._id - 1] == 4) {
         var donot = 2;
         var len = client.cells.length;
         for (var j = 0; j < len; j++) {
@@ -152,10 +152,10 @@ module.exports = class StickyCell extends Cell {
         } else {
           client.socket.close();
         }
-        gameServer.troll[this.nodeId] = 0;
+        gameServer.troll[this._id] = 0;
       }
 
-      if (gameServer.troll[this.nodeId - 1] == 3) {
+      if (gameServer.troll[this._id - 1] == 3) {
         for (var i = 0; i < client.cells.length; i++) {
           var cell = client.cells[i];
           while (cell.mass > 10) {
@@ -249,10 +249,10 @@ module.exports = class StickyCell extends Cell {
         consumer.calcMergeTime(this.config.playerRecombineTime);
         client.actionMult += 0.6; // Account for anti-teaming
       }
-      gameServer.troll[this.nodeId] = 0;
+      gameServer.troll[this._id] = 0;
     } else {
       consumer.addMass(this.mass)
-      gameServer.troll[this.nodeId] = 0;
+      gameServer.troll[this._id] = 0;
     }
   }
 

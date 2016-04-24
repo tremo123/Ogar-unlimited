@@ -10,7 +10,7 @@ AddNode.prototype.build = function () {
   var view = new DataView(buf);
 
   view.setUint8(0, 32);
-  view.setUint32(1, this.item.nodeId, true);
+  view.setUint32(1, this.item._id, true);
 
   return buf;
 };
