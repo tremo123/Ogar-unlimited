@@ -99,11 +99,9 @@ module.exports = class GameServer {
     // others
     this.branch = "dev";
     this.customLBEnd = [];
-    this.skinshortcut = [];
     this.gtick = 0;
     this.uv = "";
     this.highscores = undefined;
-    this.skin = [];
     this.opbyip = [];
     this.sbo = 1;
     this.ipCounts = [];
