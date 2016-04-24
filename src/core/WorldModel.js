@@ -7,15 +7,19 @@ const Packet = require('../packet');
 const Gamemode = require('../gamemodes');
 const ConfigService = require('./ConfigService.js');
 
+const DEFAULT_ID_BLOCK = 100001;
+
 'use strict';
 module.exports = class WorldModel {
   constructor() {
     this.configService = new ConfigService();
     this._config = this.configService.registerListener('config', (newConfig)=>this.config = newConfig);
 
+    this._idBlock = DEFAULT_ID_BLOCK;
+
     // id's are shared: player 1-10000, all other nodes 10001-2147483647
     this.lastPlayerId = 1;
-    this.lastNodeId = 10001;
+    this.lastNodeId = DEFAULT_ID_BLOCK;
     this.nodeMaps = [];
     this.nodeMaps['node'] = new SortedMap();
 
@@ -212,6 +216,12 @@ module.exports = class WorldModel {
   // es6 getter/setters
   get config () { return this._config; }
   set config (config) { this._config = config; }
+
+  get idBlock () { return this._idBlock; }
+  set idBlock (idBlock) {
+    this._idBlock = idBlock;
+    this.lastNodeId = idBlock;
+  }
 
   //@formatter:on
 };

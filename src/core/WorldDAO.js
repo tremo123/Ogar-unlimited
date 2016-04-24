@@ -3,6 +3,9 @@ const WorldModel = require('./WorldModel.js');
 const DataBaseConnector = require('./DataBaseConnector.js');
 const Entity = require('../entity');
 
+// todo make this a value that comes from the config
+const ID_BLOCK_SIZE = 100000;
+
 module.exports = class WorldDAO {
   constructor() {
     this.world = new WorldModel();
@@ -21,7 +24,15 @@ module.exports = class WorldDAO {
     this.dbMap.worldState.onChange((data)=>this.onWorldStateChange(data));
     this.dbMap.clients.onChange((data)=>this.onClientsChange(data));
 
-    this.testFlag = true;
+    // setup the worlds idBlock
+    this.dbMap.worldState.get('idBlock', (res)=> {
+      if (res.status !== 404) {
+        // if idBlock found then use it else use the default and put the next one in the db
+        this.world.idBlock = parseInt(res.doc.idBlock);
+      }
+      let data = {_id: 'idBlock', idBlock: this.world.idBlock + ID_BLOCK_SIZE};
+      this.dbMap.worldState.put(data);
+    })
   }
 
   onNodesChange(data) {
@@ -58,20 +69,21 @@ module.exports = class WorldDAO {
   }
 
   onWorldStateChange(data) {
-    console.log('onDbChange ' + data);
-
-    if (data.id === 'gameMode') {
-      this.world.changeGameMode(data.doc.state);
-      return;
+    //console.log('onDbChange ' + JSON.stringify(data));
+    // ignore these as we dont care
+    switch (data.id) {
+      case 'idBlock': // ignore
+        return;
+      case 'gameMode':
+        this.world.changeGameMode(data.doc.state);
+        return;
+      case 'client':
+        let id = parseInt(data.doc._id.slice(6), 10);
+        // todo do something
+        return;
+      default:
+        console.error('[WorldDAO.onDbChange] Unknown data type for: ' + data.id + ' data: ' + JSON.stringify(data.doc));
     }
-
-    if (data.id.includes('client')) {
-      let id = parseInt(data.doc._id.slice(6), 10);
-      // todo do something
-      return;
-    }
-
-    console.error('[WorldDAO.onDbChange] Unknown data type for: ' + data.doc.id + ' data: ' + data.doc.data);
   }
 
   // todo need to rethink this for world model
