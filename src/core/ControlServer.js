@@ -53,8 +53,9 @@ module.exports = class ControlServer {
 
   startPhase3() {
     // share data
-    this.config = this.configService.registerListner('config', (config)=>this.config = config);
+    this.config = this.configService.registerListener('config', (config)=>this.config = config);
     this.world = new WorldDAO();
+    //this.worldTest = new WorldDAO();
 
     // servers
     this.gameServer = new GameServer(this.world, this.consoleService, this.configService , this.version);

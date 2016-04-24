@@ -8,7 +8,7 @@ module.exports = class WorldServer {
   constructor(world) {
     // Config
     this.configService = new ConfigService();
-    this.config = this.configService.registerListner('config', (config)=>{
+    this.config = this.configService.registerListener('config', (config)=>{
       this.config = config;
       this.foodSpawnRate = this.config.foodSpawnAmount / 60;
     });
