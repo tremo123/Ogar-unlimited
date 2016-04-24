@@ -120,7 +120,7 @@ module.exports = class BotPlayer extends PlayerTracker {
               continue;
             }
           }
-          if (!check.owner.verify && this.gameServer.config.verify == 1) {
+          if (!check.owner || (!check.owner.verify && this.gameServer.config.verify == 1)) {
 
             continue;
           }
