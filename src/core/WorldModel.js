@@ -2,7 +2,7 @@
 // This is our shared data type. It contains all of the data about the state of the would that needs to be shared
 // among our processes.
 const Cell = require('../entity/Cell.js');
-const SortedMap = require("collections/sorted-map");
+const SortedMap = require("collections/map");
 const Packet = require('../packet');
 const Gamemode = require('../gamemodes');
 const ConfigService = require('./ConfigService.js');
@@ -11,7 +11,7 @@ const ConfigService = require('./ConfigService.js');
 module.exports = class WorldModel {
   constructor() {
     this.configService = new ConfigService();
-    this.config = this.configService.registerListner('config', (newConfig)=>this.config = newConfig);
+    this._config = this.configService.registerListener('config', (newConfig)=>this.config = newConfig);
 
     // id's are shared: player 1-10000, all other nodes 10001-2147483647
     this.lastPlayerId = 1;
@@ -46,8 +46,12 @@ module.exports = class WorldModel {
 
   setNode(id, node, type) {
     type = (type) ? type : 'node';
+    if (node === undefined || node === null) {
+      node = id;
+      id = node.id;
+    }
     if (!this.nodeMaps[type]) {
-      this.nodeMaps[type] = new SortedMap();
+      this.nodeMaps[type] = new Map();
     }
     this.nodeMaps['node'].set(id, node);
     this.nodeMaps[type].set(id, node);
@@ -76,12 +80,6 @@ module.exports = class WorldModel {
         tracker.nodeAdditionQueue.push(node);
       }
     });
-  }
-
-  addNode(node, type) {
-    let id = this.getNewNodeId();
-    this.setNode(id, node, type);
-    return id;
   }
 
   getNode(id) {
@@ -167,11 +165,16 @@ module.exports = class WorldModel {
   }
 
   setNodeAsMoving(id, node) {
+    node.isMoving = true;
     this.setNode(id, node, 'moving');
   }
 
   removeMovingNode(id) {
-    this.removeNode(id, 'moving');
+    let node = this.getNode(id);
+    if (node) {
+      node.isMoving = false;
+      this.removeNode(id, 'moving');
+    }
   }
 
   getMovingNodes() {
@@ -204,5 +207,12 @@ module.exports = class WorldModel {
     // todo remove and fix this
     return this;
   }
+
+  //@formatter:off
+  // es6 getter/setters
+  get config () { return this._config; }
+  set config (config) { this._config = config; }
+
+  //@formatter:on
 };
 
