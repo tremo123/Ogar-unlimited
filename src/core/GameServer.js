@@ -45,13 +45,13 @@ module.exports = class GameServer {
 
     // Config
     this.configService = configService;
-    this.config = this.configService.registerListner('config', (config)=>this.config = config);
-    this.banned = this.configService.registerListner('banned', (banned)=>this.banned = banned);
-    this.opbyip = this.configService.registerListner('opbyip', (opbyip)=>this.opbyip = opbyip);
-    this.highscores = this.configService.registerListner('highscores', (highscores)=>this.highscores = highscores);
-    this.randomNames = this.configService.registerListner('botnames', (botnames)=>this.randomNames = botnames);
-    this.skinshortcut = this.configService.registerListner('skinshortcuts', (skinshortcuts)=>this.skinshortcut = skinshortcuts);
-    this.skin = this.configService.registerListner('skins', (skins)=>this.skin = skins);
+    this.config = this.configService.registerListener('config', (config)=>this.config = config);
+    this.banned = this.configService.registerListener('banned', (banned)=>this.banned = banned);
+    this.opbyip = this.configService.registerListener('opbyip', (opbyip)=>this.opbyip = opbyip);
+    this.highscores = this.configService.registerListener('highscores', (highscores)=>this.highscores = highscores);
+    this.randomNames = this.configService.registerListener('botnames', (botnames)=>this.randomNames = botnames);
+    this.skinshortcut = this.configService.registerListener('skinshortcuts', (skinshortcuts)=>this.skinshortcut = skinshortcuts);
+    this.skin = this.configService.registerListener('skins', (skins)=>this.skin = skins);
 
     // plugins
     this.pluginLoader = new PluginLoader(this);
@@ -222,7 +222,8 @@ module.exports = class GameServer {
     }
 
     let nodes = this.getWorld().getNodes('player');
-    nodes.sorted(sorter);
+    // todo disabled sorting for now
+    //nodes.sorted(sorter);
     nodes.forEach((cell)=> {
       // Do not move cells that have already been eaten or have collision turned off
       if (!cell) {
@@ -251,7 +252,7 @@ module.exports = class GameServer {
 
 
     // A system to move cells not controlled by players (ex. viruses, ejected mass)
-    this.getWorld().getMovingNodes().forEach((check)=> {
+    this.getWorld().getNodes('moving').forEach((check)=> {
       if (check.moveEngineTicks > 0) {
         check.onAutoMove(this.getWorld());
         // If the cell has enough move ticks, then move it
@@ -903,7 +904,7 @@ module.exports = class GameServer {
     this.getWorld().getClients().forEach((client)=> {
       // todo likely do not need the client check as it was not included above - this is most likely defensive programming
       if (client.cells && client.playerTracker.rainbowon) {
-        client.cells.forEach((cell)=>this.getWorld().setNode(cell.nodeId, cell, 'rainbow'));
+        client.cells.forEach((cell)=>this.getWorld().setNode(cell._id, cell, 'rainbow'));
       }
     });
 
