@@ -4,35 +4,45 @@ const DataBaseConnector = require('./DataBaseConnector.js');
 const Entity = require('../entity');
 
 // todo make this a value that comes from the config
+const DEFAULT_ID_BLOCK = 100001;
 const ID_BLOCK_SIZE = 100000;
+const DEFAULT_ID_BLOCK_PLAYER = 1;
+const ID_BLOCK_SIZE_PLAYER = 10;
+
 
 module.exports = class WorldDAO {
   constructor() {
     this.world = new WorldModel();
+
+    // id's are shared thus they must be split - we override the WorldModels handling of id's
+    this._idBlock = DEFAULT_ID_BLOCK;
+    this._nextIdBlock = DEFAULT_ID_BLOCK + ID_BLOCK_SIZE;
+    this._lastNodeId = DEFAULT_ID_BLOCK;
+
+    this._lastPlayerId = 1;
+    this._nextPlayerId = 2;
+
+
+    // db's
     this.dbMap = {};
     this.dbMap.nodes = new DataBaseConnector('nodes');
     this.dbMap.worldState = new DataBaseConnector('worldState');
     this.dbMap.clients = new DataBaseConnector('clients');
 
+    // who is listening for changes
     this.listeners = {
       world: [],
       nodes: [],
       clients: []
     };
 
+    // listen for changes
     this.dbMap.nodes.onChange((data)=>this.onNodesChange(data));
     this.dbMap.worldState.onChange((data)=>this.onWorldStateChange(data));
     this.dbMap.clients.onChange((data)=>this.onClientsChange(data));
 
     // setup the worlds idBlock
-    this.dbMap.worldState.get('idBlock', (res)=> {
-      if (res.status !== 404) {
-        // if idBlock found then use it else use the default and put the next one in the db
-        this.world.idBlock = parseInt(res.doc.idBlock);
-      }
-      let data = {_id: 'idBlock', idBlock: this.world.idBlock + ID_BLOCK_SIZE};
-      this.dbMap.worldState.put(data);
-    })
+    this.setupIdBlocks();
   }
 
   onNodesChange(data) {
@@ -144,12 +154,14 @@ module.exports = class WorldDAO {
     return this.world.getNextPlayerId();
   }
 
-  getNewNodeId() {
-    return this.world.getNewNodeId();
-  }
-
   getNextNodeId() {
-    return this.world.getNextNodeId();
+    // Resets integer
+    if (this._lastNodeId > this._idBlock + ID_BLOCK_SIZE) {
+      this._lastNodeId = this._nextIdBlock;
+      this._idBlock = this._nextIdBlock;
+      this.updateIdBlocks();
+    }
+    return this.lastNodeId++;
   }
 
   setNodeAsMoving(id, node) {
@@ -183,6 +195,35 @@ module.exports = class WorldDAO {
   getWorld() {
     // todo remove and fix this
     return this;
+  }
+
+  setupIdBlocks() {
+    this.dbMap.worldState.get('idBlock', (res)=> {
+      if (res.status !== 404) {
+        // if idBlock found then use it else use the default and put the next one in the db
+        this._idBlock = parseInt(res.doc.idBlock);
+      }
+      let nextBlock = this.getNextIdBlock(this._nextIdBlock, ID_BLOCK_SIZE, DEFAULT_ID_BLOCK);
+      let data = {_id: 'idBlock', idBlock: nextBlock};
+      this.dbMap.worldState.put(data);
+    })
+  }
+
+  updateIdBlocks() {
+    this.dbMap.worldState.get('idBlock', (res)=> {
+      if (res.status === 404) {
+        throw new Error('idBlock not found in DB! This should never happen.');
+      }
+
+      this._nextIdBlock = parseInt(res.doc.idBlock);
+      let data = {_id: 'idBlock', idBlock: this._nextIdBlock + ID_BLOCK_SIZE};
+      this.dbMap.worldState.put(data);
+    })
+  }
+
+  getNextIdBlock(currentBlock, size, defaultBlock) {
+    let nextBlock = currentBlock + size;
+    return (nextBlock < Number.MAX_SAFE_INTEGER - size) ? nextBlock : defaultBlock;
   }
 
   //@formatter:off
