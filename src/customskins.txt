@@ -62,3 +62,7 @@ rektm8 :http://i.imgur.com/FKd80zq.jpg
 fbi :http://i.imgur.com/IMFARZP.png
 atari :http://i.imgur.com/S89bzoM.png
 mortalcombat :http://i.imgur.com/iOtXDGS.png
+mario :http://i.imgur.com/I48HJEd.jpg
+luigi :http://i.imgur.com/Tac44Gm.jpg
+flames :https://cdn.discordapp.com/avatars/148931702201384960/6bee7dab159ecb996183b7c30956c54b.jpg
+statue :http://agario-skins.org/images/skins/custom/statue.png?v0.10.2
