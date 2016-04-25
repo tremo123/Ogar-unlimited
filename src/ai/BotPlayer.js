@@ -17,13 +17,13 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.food = [];
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
-    this.teamingwith = []; // player teamingwith
-    this.team = 0; // stage of teaming. 0 = off, 1 = init (shaking and giving mass), 2 = teamenabled, 3 = betrayal
+    //this.teamingwith = []; // player teamingwith
+    //this.team = 0; // stage of teaming. 0 = off, 1 = init (shaking and giving mass), 2 = teamenabled, 3 = betrayal
 
     this.juke = true;
 
     this.target;
-    this.shake = 0;
+   // this.shake = 0;
     this.teamtimout = 100 // timout until team is gone
     this.targetVirus; // Virus used to shoot into the target
     this.updateIn = (Math.random() * 12) >> 0;
@@ -129,11 +129,11 @@ module.exports = class BotPlayer extends PlayerTracker {
 
             continue;
           }
-          var random = Math.floor(Math.random()*100);
-          if (random < 10 && Math.abs(check.owner.getScore() - this.getScore()) < 200 && this.team = 0) {
-            this.team = 1;
-            this.teamingwith = check.owner;
-          }
+         // var random = Math.floor(Math.random()*100);
+          //if (random < 10 && Math.abs(check.owner.getScore() - this.getScore()) < 200 && this.team = 0) {
+          //  this.team = 1;
+          //  this.teamingwith = check.owner;
+          //}
 
           // Check for danger
           if (cell.mass > (check.mass * 1.3) && check.owner != this.teamingwith) {
