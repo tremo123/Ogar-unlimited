@@ -17,11 +17,14 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.food = [];
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
-    this.teamingwith = [];
+    this.teamingwith = []; // player teamingwith
+    this.team = 0; // stage of teaming. 0 = off, 1 = init (shaking and giving mass), 2 = teamenabled, 3 = betrayal
 
     this.juke = true;
 
     this.target;
+    this.shake = 0;
+    this.teamtimout = 100 // timout until team is gone
     this.targetVirus; // Virus used to shoot into the target
     this.updateIn = (Math.random() * 12) >> 0;
     this.ejectMass = 0; // Amount of times to eject mass
@@ -126,12 +129,17 @@ module.exports = class BotPlayer extends PlayerTracker {
 
             continue;
           }
+          var random = Math.floor(Math.random()*100);
+          if (random < 10 && Math.abs(check.owner.getScore() - this.getScore()) < 200 && this.team = 0) {
+            this.team = 1;
+            this.teamingwith = check.owner;
+          }
 
           // Check for danger
-          if (cell.mass > (check.mass * 1.3)) {
+          if (cell.mass > (check.mass * 1.3) && check.owner != this.teamingwith) {
             // Add to prey list
             this.prey.push(check);
-          } else if (check.mass > (cell.mass * 1.3)) {
+          } else if (check.mass > (cell.mass * 1.3) && check.owner != this.teamingwith) {
             // Predator
             var dist = this.getDist(cell, check) - (r + check.getSize());
             if (dist < 300) {
@@ -141,7 +149,7 @@ module.exports = class BotPlayer extends PlayerTracker {
               }
             }
             this.threats.push(check);
-          } else {
+          } else if (check.owner != this.teamingwith) {
             this.threats.push(check);
           }
           break;
@@ -304,9 +312,9 @@ module.exports = class BotPlayer extends PlayerTracker {
         };
 
         // Cheating
-        if (cell.mass < 250) {
-          cell.mass += 1;
-        }
+        //if (cell.mass < 250) {
+          //cell.mass += 1;
+        //}
 
         if (this.juke) {
           // Juking
@@ -409,6 +417,29 @@ module.exports = class BotPlayer extends PlayerTracker {
 
           // console.log("[Bot] "+cell.getName()+": Targeting (virus) "+this.target.getName());
         }
+        break;
+        case 6: // init team
+        var des = this.getAccDist(cell, this.teamingwith.getBiggestc())
+        if (des < 100) {
+         if (des < 50) {
+           
+           if (this.shake > 0) {
+             this.mouse.x - 20;
+             this.shake = 0;
+             
+           } else if (this.shake == 0) {
+           this.mouse.x + 20;
+           this.shake == 1
+           
+           } 
+         }
+          this.gameServer.ejectMass(this);
+         
+        } else {
+          this.mouse = this.teamingwith.getBiggestc().position;
+          
+        }
+        
         break;
       default:
 
