@@ -186,7 +186,7 @@ module.exports = class PlayerTracker {
       this.cells.forEach((cell)=>this.score += cell.mass);
     }
 
-
+setTimeout(function() {
     if (this.gameServer.config.mousefilter == 1 && this.gameServer.mfre == true) { // Mouse filter code when gameserver detects duplicates
       if (this.vt > 10) {
         this.vt = 0;
@@ -229,10 +229,10 @@ module.exports = class PlayerTracker {
       }
     }
 
-
+}.bind(this),0);
+setTimeout(function() {
     if (this.score > this.gameServer.topscore + 10) {
 if (this.gameServer.config.highscore == 1) {
-
       if (this.name != this.gameServer.topusername) {
         var self = this;
         fs.readFile('./highscores.txt', 'utf-8', function (err, score) {
@@ -265,6 +265,7 @@ if (this.gameServer.config.highscore == 1) {
     }
     
     }
+}.bind(this),0);
     return Math.floor(this.score);
   };
 
