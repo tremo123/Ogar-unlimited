@@ -17,6 +17,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.food = [];
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
+    this.teamingwith = [];
 
     this.juke = true;
 
