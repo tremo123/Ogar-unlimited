@@ -1,180 +1,192 @@
-var fs = require('fs');
+exports.parse = exports.decode = decode
+exports.stringify = exports.encode = encode
 
-var INI = function(){
-  var self = this
+exports.safe = safe
+exports.unsafe = unsafe
 
-  var obj = {}
-    , regex = {
-        section: {
-          key: /^\s*\[\s*([^\]]*)\s*\]\s*$/
-        , arr: /^\s*\[\s*([^\]]*)\s*\]\[\]\s*$/
-        , obj: /^\s*\[\s*([^\]]*)\s*\]\[(\w+)\]\s*$/
-        }
-      , param: {
-          key: /^\s*([\w\.\-\_]+)\s*=\s*(.*?)\s*$/
-        , arr: /^\s*([\w\.\-\_]+)\[\]\s*=\s*(.*?)\s*$/
-        , obj: /^\s*([\w\.\-\_]+)\[(\w+)\]\s*=\s*(.*?)\s*$/
-        }
-      , comment: [
-          /^\s*;.*$/
-        , /^\s*#.*$/
-        , /^\s*\/\/.*$/
-        ]
-      };
+var eol = process.platform === 'win32' ? '\r\n' : '\n'
 
-  self.encoding = 'utf-8'
+function encode (obj, opt) {
+  var children = []
+  var out = ''
 
-  var addParam = function(pType, cfg, match){
-    switch(self.curSection.type){
-      case "key":
-        if(pType === 'key') cfg[self.curSection.name][match[1]] = match[2];
-        else if(pType === 'arr') {
-          if(typeof(cfg[self.curSection.name][match[1]]) === 'undefined'){
-            cfg[self.curSection.name][match[1]] = [];
-            self.curSection.pIndex = 0;
-          }
-          cfg[self.curSection.name][match[1]][self.curSection.pIndex] = match[2];
-          self.curSection.pIndex++;
-        }
-        else if(pType === 'obj'){
-          if(typeof(cfg[self.curSection.name][match[1]]) === 'undefined'){
-            cfg[self.curSection.name][match[1]] = {};
-          }
-          cfg[self.curSection.name][match[1]][match[2]] = match[3];
-        }
-      break;
-      case "arr":
-        if(pType === 'key') {
-          if(typeof(cfg[self.curSection.name][self.curSection.index]) === 'undefined'){
-            cfg[self.curSection.name][self.curSection.index] = {}
-          }
-          cfg[self.curSection.name][self.curSection.index][match[1]] = match[2];
-        }
-        else if(pType === 'arr'){
-          if(typeof(cfg[self.curSection.name][self.curSection.index][match[1]]) === 'undefined'){
-            cfg[self.curSection.name][self.curSection.index][match[1]] = [];
-            self.curSection.pIndex = 0;
-          }
-          cfg[self.curSection.name][self.curSection.index][match[1]][self.curSection.pIndex] = match[2]
-          self.curSection.pIndex++;
-        }
-        else if(pType === 'obj'){
-          if(typeof(cfg[self.curSection.name][self.curSection.index][match[1]]) === 'undefined'){
-            cfg[self.curSection.name][self.curSection.index][match[1]] = {};
-          }
-          cfg[self.curSection.name][self.curSection.index][match[1]][match[2]] = match[3]
-        }
-      break;
-      case "obj":
-        if(pType === 'key') {
-          if(typeof(cfg[self.curSection.name][self.curSection.key]) === 'undefined'){
-            cfg[self.curSection.name][self.curSection.key] = {}
-          }
-          cfg[self.curSection.name][self.curSection.key][match[1]] = match[2];
-        }
-        else if(pType === 'arr'){
-          if(typeof(cfg[self.curSection.name][self.curSection.key][match[1]]) === 'undefined'){
-            cfg[self.curSection.name][self.curSection.key][match[1]] = [];
-            self.curSection.pIndex = 0;
-          }
-          cfg[self.curSection.name][self.curSection.key][match[1]][self.curSection.pIndex] = match[2]
-          self.curSection.pIndex++;
-        }
-        else if(pType === 'obj'){
-          if(typeof(cfg[self.curSection.name][self.curSection.key][match[1]]) === 'undefined'){
-            cfg[self.curSection.name][self.curSection.key][match[1]] = {};
-          }
-          cfg[self.curSection.name][self.curSection.key][match[1]][match[2]] = match[3]
-        }
-      break;
+  if (typeof opt === 'string') {
+    opt = {
+      section: opt,
+      whitespace: false
     }
-    return;
+  } else {
+    opt = opt || {}
+    opt.whitespace = opt.whitespace === true
   }
 
-  var parse = function(data){
-    var lines = data.split(/\r\n|\r|\n/)
-      , cfg = {};
-    self.curSection = {}
+  var separator = opt.whitespace ? ' = ' : '='
 
-    lines.forEach(function(line){
-      // Check for comments
-      regex.comment.forEach(function(patt){
-        if(patt.test(line)){
-          return;
-        }
-      });
-
-      // Check for a section
-      Object.keys(regex.section).forEach(function(type){
-        if(regex.section[type].test(line)){
-          var match = line.match(regex.section[type]);
-          self.curSection.type = type;
-          self.curSection.name = match[1];
-          switch(type){
-            case "key":
-              if(typeof(cfg[self.curSection.name]) === 'undefined'){
-                cfg[self.curSection.name] = {};
-              }
-            break;
-            case "arr":
-              if(typeof(cfg[self.curSection.name]) === 'undefined'){
-                cfg[self.curSection.name] = [];
-                self.curSection.index = 0;
-                cfg[self.curSection.name][0] = {};
-              } else {
-                self.curSection.index++;
-              }
-            break;
-            case "obj":
-              if(typeof(cfg[self.curSection.name]) === 'undefined') {
-                cfg[self.curSection.name] = {};
-                cfg[self.curSection.name][match[2]] = {};
-              }
-              self.curSection.key = match[2];
-            break;
-          }
-        }
-      });
-
-
-      // Check for param
-      Object.keys(regex.param).forEach(function(type){
-        if(regex.param[type].test(line)){
-          var match = line.match(regex.param[type]);
-          switch(type){
-            case "key":
-              if(typeof(self.curSection.name) === 'undefined'){
-                cfg[match[1]] = match[2];
-              } else {
-                addParam(type, cfg, match);
-              }
-            break;
-            default:
-              addParam(type, cfg, match)
-            break;
-          }
-        }
-      });
-    });
-    return cfg;
-  }
-
-  self.parse = function(file, fn){
-    if(!fn){
-      return self.parseSync(file);
+  Object.keys(obj).forEach(function (k, _, __) {
+    var val = obj[k]
+    if (val && Array.isArray(val)) {
+      val.forEach(function (item) {
+        out += safe(k + '[]') + separator + safe(item) + '\n'
+      })
+    } else if (val && typeof val === 'object') {
+      children.push(k)
+    } else {
+      out += safe(k) + separator + safe(val) + eol
     }
-    fs.readFile(file, self.encoding, function(err, data){
-      if(err) fn(err);
-      else fn(null, parse(data));
-    });
+  })
+
+  if (opt.section && out.length) {
+    out = '[' + safe(opt.section) + ']' + eol + out
   }
 
-  self.parseSync = function(file){
-    return parse(fs.readFileSync(file, self.encoding));
-  }
+  children.forEach(function (k, _, __) {
+    var nk = dotSplit(k).join('\\.')
+    var section = (opt.section ? opt.section + '.' : '') + nk
+    var child = encode(obj[k], {
+      section: section,
+      whitespace: opt.whitespace
+    })
+    if (out.length && child.length) {
+      out += eol
+    }
+    out += child
+  })
 
+  return out
 }
 
-module.exports = (function(){
-  return new INI()
-}())
+function dotSplit (str) {
+  return str.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002')
+    .replace(/\\\./g, '\u0001')
+    .split(/\./).map(function (part) {
+    return part.replace(/\1/g, '\\.')
+      .replace(/\2LITERAL\\1LITERAL\2/g, '\u0001')
+  })
+}
+
+function decode (str) {
+  var out = {}
+  var p = out
+  var section = null
+  //          section     |key      = value
+  var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
+  var lines = str.split(/[\r\n]+/g)
+
+  lines.forEach(function (line, _, __) {
+    if (!line || line.match(/^\s*[;#]/)) return
+    var match = line.match(re)
+    if (!match) return
+    if (match[1] !== undefined) {
+      section = unsafe(match[1])
+      p = out[section] = out[section] || {}
+      return
+    }
+    var key = unsafe(match[2])
+    var value = match[3] ? unsafe((match[4] || '')) : true
+    switch (value) {
+      case 'true':
+      case 'false':
+      case 'null': value = JSON.parse(value)
+    }
+
+    // Convert keys with '[]' suffix to an array
+    if (key.length > 2 && key.slice(-2) === '[]') {
+      key = key.substring(0, key.length - 2)
+      if (!p[key]) {
+        p[key] = []
+      } else if (!Array.isArray(p[key])) {
+        p[key] = [p[key]]
+      }
+    }
+
+    // safeguard against resetting a previously defined
+    // array by accidentally forgetting the brackets
+    if (Array.isArray(p[key])) {
+      p[key].push(value)
+    } else {
+      p[key] = value
+    }
+  })
+
+  // {a:{y:1},"a.b":{x:2}} --> {a:{y:1,b:{x:2}}}
+  // use a filter to return the keys that have to be deleted.
+  Object.keys(out).filter(function (k, _, __) {
+    if (!out[k] ||
+      typeof out[k] !== 'object' ||
+      Array.isArray(out[k])) {
+      return false
+    }
+    // see if the parent section is also an object.
+    // if so, add it to that, and mark this one for deletion
+    var parts = dotSplit(k)
+    var p = out
+    var l = parts.pop()
+    var nl = l.replace(/\\\./g, '.')
+    parts.forEach(function (part, _, __) {
+      if (!p[part] || typeof p[part] !== 'object') p[part] = {}
+      p = p[part]
+    })
+    if (p === out && nl === l) {
+      return false
+    }
+    p[nl] = out[k]
+    return true
+  }).forEach(function (del, _, __) {
+    delete out[del]
+  })
+
+  return out
+}
+
+function isQuoted (val) {
+  return (val.charAt(0) === '"' && val.slice(-1) === '"') ||
+    (val.charAt(0) === "'" && val.slice(-1) === "'")
+}
+
+function safe (val) {
+  return (typeof val !== 'string' ||
+    val.match(/[=\r\n]/) ||
+    val.match(/^\[/) ||
+    (val.length > 1 &&
+     isQuoted(val)) ||
+    val !== val.trim()) ?
+      JSON.stringify(val) :
+      val.replace(/;/g, '\\;').replace(/#/g, '\\#')
+}
+
+function unsafe (val, doUnesc) {
+  val = (val || '').trim()
+  if (isQuoted(val)) {
+    // remove the single quotes before calling JSON.parse
+    if (val.charAt(0) === "'") {
+      val = val.substr(1, val.length - 2)
+    }
+    try { val = JSON.parse(val) } catch (_) {}
+  } else {
+    // walk the val to find the first not-escaped ; character
+    var esc = false
+    var unesc = ''
+    for (var i = 0, l = val.length; i < l; i++) {
+      var c = val.charAt(i)
+      if (esc) {
+        if ('\\;#'.indexOf(c) !== -1) {
+          unesc += c
+        } else {
+          unesc += '\\' + c
+        }
+        esc = false
+      } else if (';#'.indexOf(c) !== -1) {
+        break
+      } else if (c === '\\') {
+        esc = true
+      } else {
+        unesc += c
+      }
+    }
+    if (esc) {
+      unesc += '\\'
+    }
+    return unesc
+  }
+  return val
+}
