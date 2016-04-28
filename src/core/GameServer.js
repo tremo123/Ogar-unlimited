@@ -214,7 +214,7 @@ module.exports = class GameServer {
 
     // Start the server
     this.socketServer = new WebSocket.Server({
-      port: (this.config.vps === 1) ? process.env.PORT : this.config.serverPort,
+      port: (this.config.vps == 1) ? process.env.PORT : this.config.serverPort,
       perMessageDeflate: false
     }, function () {
       // Spawn starting food
