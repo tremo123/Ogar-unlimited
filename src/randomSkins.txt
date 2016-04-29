@@ -5,7 +5,7 @@ banana
 birdie
 ufo
 apple
-tiger
+tigerpattern
 shuttle
 cookie
 jupiter
