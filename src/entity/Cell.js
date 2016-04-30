@@ -33,6 +33,8 @@ module.exports = class Cell {
     this.moveEngineSpeed = 0;
     this.moveDecay = .75;
     this.angle = 0; // Angle of movement
+
+    this._properties = {};  // dynamic map of properties
   }
 
   toJSON() {
@@ -48,7 +50,8 @@ module.exports = class Cell {
       cellType: this.cellType,
       moveEngineTicks: this.moveEngineTicks,
       moveEngineSpeed: this.moveEngineSpeed,
-      angle: this.angle
+      angle: this.angle,
+      properties: this._properties
     }
   }
 
@@ -64,6 +67,7 @@ module.exports = class Cell {
     this.moveEngineTicks = jData.moveEngineTicks;
     this.moveEngineSpeed = jData.moveEngineSpeed;
     this.angle = jData.angle;
+    this._properties = jData.properties;
   }
 
   static fromJSON(entityTypes, json, world) {
@@ -76,6 +80,8 @@ module.exports = class Cell {
     newCell.moveEngineTicks = json.moveEngineTicks;
     newCell.moveEngineSpeed = json.moveEngineSpeed;
     newCell.angle = json.angle;
+    // todo iterate of the keys to avoid breaking encapsulation
+    newCell._properties = json.properties;
     return newCell;
   };
 
@@ -400,10 +406,26 @@ module.exports = class Cell {
     return Math.sqrt(xs + ys);
   }
 
+  /**
+   * Returns a property that has been set. Will return false if the property is not found.
+   * @param name
+   * @returns {boolean}
+   */
+  getProperty(name) {
+    return (this._properties[name]) ? this._properties[name] : false;
+  }
+
+  /**
+   * Sets a property to a given value. If the property does not exist it will create it. Properties are syncable via the toJSON function.
+   * @param name
+   * @param value
+   */
+  setProperty(name, value) {
+    this._properties[name] = value;
+  }
+
   //@formatter:off
   // es6 getter/setters
-  get isMoving () { return this._isMoving; }
-  set isMoving (bool) { this._isMoving = bool; }
 
   get id () { return this._id;}
 
