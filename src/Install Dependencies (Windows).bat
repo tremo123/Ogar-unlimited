@@ -1,6 +1,6 @@
 @echo off
 
-set NODE_VER="5.10.1"
+set NODE_VER="5.9.1"
 title ----- Install Dependencies -----
 
 

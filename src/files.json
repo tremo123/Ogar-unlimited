@@ -1,6 +1,6 @@
 [
   {
-    "hash": "9bd7839f92f026b46579d301c1c93373",
+    "hash": "277063d31becc5ee8f1e4bed77d280f9",
     "src": "src/Install Dependencies (Windows).bat",
     "dst": "./Install Dependencies (Windows).bat",
     "name": "Install Dependencies (Windows).bat"
@@ -60,7 +60,7 @@
     "name": "BotServer.js"
   },
   {
-    "hash": "dfb0125834e1553efb78e32a6c150dec",
+    "hash": "d23a355bbf9731961a1f92199d74dc5c",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
     "name": "ConfigService.js"
@@ -90,7 +90,7 @@
     "name": "GameServer.js"
   },
   {
-    "hash": "c8750b6651f2da28492f58f5366f9ee7",
+    "hash": "2973449c460023e444c58faab87844a2",
     "src": "src/core/WorldServer.js",
     "dst": "./core/WorldServer.js",
     "name": "WorldServer.js"
@@ -150,7 +150,7 @@
     "name": "WorldModel.js"
   },
   {
-    "hash": "285f082bdce95d917af2903033027fdc",
+    "hash": "6ab354964b7ceac35dfe7fbfe2741803",
     "src": "src/core/WorldDAO.js",
     "dst": "./core/WorldDAO.js",
     "name": "WorldDAO.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "f04e65ec7016c0a1cf0bf114c88f12f7",
+    "hash": "5d44ef30d2fe3e5ae570c4b614483777",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
@@ -372,7 +372,7 @@
     "name": "index.js"
   },
   {
-    "hash": "51e9ab471dca9d92f3b08c360ea55212",
+    "hash": "5c85c04c09a81259a875696c221798cd",
     "src": "src/index.js",
     "dst": "./index.js",
     "name": "index.js"
@@ -882,25 +882,25 @@
     "name": "index.js"
   },
   {
-    "hash": "1b0920c474ae9c0d42d6e3faa16f2db4",
+    "hash": "e3d94fa31f236ee35a561118a2a64249",
     "src": "src/settings/advConfig.ini",
     "dst": "./settings/advConfig.ini",
     "name": "advConfig.ini"
   },
   {
-    "hash": "0a9a06d950fa9585b83f2e9529980668",
+    "hash": "b658e8dcc439fac41bbfe142a37a470a",
     "src": "src/settings/config.ini",
     "dst": "./settings/config.ini",
     "name": "config.ini"
   },
   {
-    "hash": "44abd47eccf6411f00194c863b179f4d",
+    "hash": "4d4786c5448bb1e78349d1f4ea392d69",
     "src": "README.md",
     "dst": "../README.md",
     "name": "Readme"
   },
   {
-    "hash": "8869099e8a2e648bfdff56f333a284c5",
+    "hash": "f17b30ddf8eb779664f27c7577945fde",
     "src": "package.json",
     "dst": "../package.json",
     "name": "package.json"

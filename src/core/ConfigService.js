@@ -21,6 +21,7 @@ module.exports = class ConfigService {
       skins: []
     };
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
+      foodMinAmount: 1,
       spawnVirus: true,
       consoleUpdateTime: 100,
       autoban: 0, // Auto bans a player if they are cheating

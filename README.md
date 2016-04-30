@@ -1,18 +1,16 @@
 
 # Ogar unlimited - The Next Generation Ogar
-[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Join the chat at https://gitter.im/AJS-development/Ogar-unlimited](https://badges.gitter.im/AJS-development/Ogar-unlimited.svg)](https://gitter.im/AJS-development/Ogar-unlimited?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![GitHub issues](https://img.shields.io/github/issues/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/issues)  [![GitHub forks](https://img.shields.io/github/forks/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/network)  [![GitHub stars](https://img.shields.io/github/stars/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/stargazers)  [![Plugin](https://img.shields.io/badge/Official%20Plugin%20Library-OgarUL--Plugin--Library-green.svg)](https://github.com/AJS-development/OgarUL-Plugin-Library)
+[![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Join the chat at https://gitter.im/AJS-development/Ogar-unlimited](https://badges.gitter.im/AJS-development/Ogar-unlimited.svg)](https://gitter.im/AJS-development/Ogar-unlimited?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![GitHub issues](https://img.shields.io/github/issues/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/issues)  [![GitHub forks](https://img.shields.io/github/forks/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/network)  [![GitHub stars](https://img.shields.io/github/stars/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/stargazers)  [![Plugin](https://img.shields.io/badge/Official%20Plugin%20Library-OgarUL--Plugin--Library-green.svg)](https://github.com/AJS-development/OgarUL-Plugin-Library)  [![MS](https://img.shields.io/badge/Master%20Server-Verse-green.svg)](https://github.com/AJS-development/verse) 
 
-A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. THIS IS A FORK OF THE ORIGINAL OGAR BUT THIS HAS MORE FEATURES, also, I borrowed from other forks: Kickbots, merge (edited by me), killrange(edited by me), kickrange(edited by me) commands and the nocollision game modes. Every other Extra feature I created.
+A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. It is basically what it says in the title, Ogar, except its functionality is unlimited!
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features as time goes
 
 (Sorry but all client clones of agar.io are ILLEGAL, thus we are not making those. You must use `agar.io/?ip=[ip]`)
 
-(You can see all new features added [here] (https://github.com/AJS-development/Ogar-unlimited/blob/master/Newfeatures.md))
 
-**NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER OR USE NPM INSTALL WS AND NPM INSTALL REQUEST** (especially those who are confused by this awesome video by assault gaming [here](http://youtu.be/Q53R10of3_Q))
+**NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER**
 
-(Wow, I found a funny and incredibly weird video by jp on agar.io [here](http://youtu.be/vbDsV-F6j34))
 
 ### Highlight features in this modified copy
  1. PMSG command, to periodically send a message (no need for admin to be online to explain rules)
@@ -22,8 +20,8 @@ This Modified copy was created to help those who want to open their server to th
  5. Troll command ;)
  6. More GameModes
  7. Ban, Unban, Ban List (with revolutionary ban technique, no lag, no DDoS attacks)
- 8. Autoban option (see gameserver.ini)
- 9. More control (gameserver.ini)
+ 8. Autoban option (see config.ini or advconfig.ini)
+ 9. More control (config.ini and advconfig.ini)
  10. and other features such as merge or nojoin or kick/killrange
  11. Better physics (ejected mass and split and virus)
  12. Colortext command (Changes console output color and style)
@@ -37,18 +35,15 @@ This Modified copy was created to help those who want to open their server to th
  20. Database free high score keeper
  21. pcmd command to do periodic commands
  22. range command for bulk commands
- 23. easy verify system as anti bot mesure (gameserver.ini)
+ 23. easy verify system as anti bot mesure (config.ini or advconfig.ini)
  24. mousefilter as a anti bot measure
  25. plugins. Add gamemodes and commands easily! (See example plugin and template plugin)
  
 ### Note:
-Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it without giving me credit, just please make it better, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
+Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it just please give some credit to the hard working dev team, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
 
-### Official Website (for official ogar)
-The official website for the Ogar Project is [ogarproject.com](http://ogarproject.com). You can register on the forums to chat with other Ogar users, get support, advertise your server, and more.
-
-### Purchased Ogar?
-If you've purchased a copy of Ogar, you've probably been SERIOUSLY ripped off. [This post on our website explains why.](http://ogarproject.com/threads/psa-if-you-purchased-ogar-youve-been-ripped-off.6/)
+### Purchased Ogar UL?
+If you've purchased a copy of Ogar UL, you just got scammed. It is open source which means it is FREE. yes FREE! So if you paid any money, well, too bad
 
 ### How do I use these plugins?
 
@@ -278,5 +273,6 @@ Just make a pull request or make your own copy
 5. easy verify
 6. Periodic things (pmsg, pcmd, etc..)
 7. mousefilter
+8. plugins
 
-###anything else, you may use as long as you give me credit
+#####anything else, if you improved it, you dont have to give us credit, or else if you just copied, you must give us credit
