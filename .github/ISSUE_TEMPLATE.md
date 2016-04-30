@@ -1,5 +1,11 @@
 Please read the FAQ in advance.
 
+What game mode were you in when you had the issue?
+
+What version are you on?
+
+What command did you type if any?
+
 Most common questions involve:
 
 Why is there an error "Cannot find module"
