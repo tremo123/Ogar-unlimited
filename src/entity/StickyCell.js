@@ -86,7 +86,7 @@ module.exports = class StickyCell extends Cell {
     this.moveEngineTicks = 5; // Amount of times to loop the movement function
     this.moveEngineSpeed = 30;
 
-    world.setNodes(this.getId(), this, 'moving');
+    world.setNode(this.getId(), this, 'moving');
 
   };
 
