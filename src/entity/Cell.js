@@ -416,11 +416,12 @@ module.exports = class Cell {
   }
 
   /**
-   * Sets a property to a given value. If the property does not exist it will create it. Properties are syncable via the toJSON function.
+   * Sets a property to a given value. If the value is undefined then it is converted to boolean true. If the property does not exist it will create it. Properties are syncable via the toJSON function.
    * @param name
-   * @param value
+   * @param value - if undefined then the value is set to true.
    */
   setProperty(name, value) {
+    value = (value) ? value : true;
     this._properties[name] = value;
   }
 
