@@ -24,7 +24,7 @@ cd ..
 echo "Installing n which is a tool to update node..."
 sudo npm install n -G       # install n which is used to set node to stable
 echo "Setting node to the current stable version..."
-sudo n stable               # set node to stable
+sudo n 5.9.0               # set node to stable
 echo "Installing dependencies..."
 npm install                 # install all modules
 echo "Ogar Unlimited is ready to run!"
