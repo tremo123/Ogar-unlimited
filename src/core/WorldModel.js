@@ -7,7 +7,6 @@ const Packet = require('../packet');
 const Gamemode = require('../gamemodes');
 const ConfigService = require('./ConfigService.js');
 
-'use strict';
 module.exports = class WorldModel {
   constructor() {
     this.configService = new ConfigService();
@@ -43,12 +42,6 @@ module.exports = class WorldModel {
   }
 
   setNode(id, node, type) {
-    if (type === 'player') {
-      console.trace();
-      console.log(node.owner.constructor.name)
-    }
-
-
     type = (type) ? type : 'node';
     if (node === undefined || node === null) {
       node = id;

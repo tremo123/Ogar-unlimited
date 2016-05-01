@@ -198,8 +198,8 @@ module.exports = class WorldDAO {
     return this.world.getClients();
   }
 
-  addClient(client) {
-    return this.world.addClient(client);
+  addClient(id, client) {
+    this.world.addClient(id, client);
   }
 
   removeClient(client) {
@@ -267,7 +267,6 @@ module.exports = class WorldDAO {
       this.dbMap.worldState.put(data);
     })
   }
-
 
   //@formatter:off
   // es6 getter/setters
