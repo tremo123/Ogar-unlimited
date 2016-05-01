@@ -28,6 +28,8 @@ module.exports = class BotPlayer extends PlayerTracker {
       x: 0,
       y: 0
     };
+
+    this._type = "bot";
   }
 
 //module.exports = BotPlayer;
@@ -581,4 +583,5 @@ module.exports = class BotPlayer extends PlayerTracker {
     }
     return angle;
   }
+
 };

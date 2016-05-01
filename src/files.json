@@ -18,7 +18,7 @@
     "name": "BotLoader.js"
   },
   {
-    "hash": "054e865d5748619d746af0a4933c9ec8",
+    "hash": "44e5bb7908d0323c330da571fac7bf34",
     "src": "src/ai/BotPlayer.js",
     "dst": "./ai/BotPlayer.js",
     "name": "BotPlayer.js"
@@ -72,7 +72,7 @@
     "name": "ConsoleService.js"
   },
   {
-    "hash": "e2c46536350b49a197e9de50258dda53",
+    "hash": "2a02ec3d6429658962599617163198e0",
     "src": "src/core/ControlServer.js",
     "dst": "./core/ControlServer.js",
     "name": "ControlServer.js"
@@ -84,13 +84,13 @@
     "name": "DataBaseConnector.js"
   },
   {
-    "hash": "e2eae62267d1e4c65ee5c6882d2dd4ab",
+    "hash": "4c48719044baf731ccae3e9c7ee16910",
     "src": "src/core/GameServer.js",
     "dst": "./core/GameServer.js",
     "name": "GameServer.js"
   },
   {
-    "hash": "2973449c460023e444c58faab87844a2",
+    "hash": "ad0716168473f8e203c5741f19bf577d",
     "src": "src/core/WorldServer.js",
     "dst": "./core/WorldServer.js",
     "name": "WorldServer.js"
@@ -120,7 +120,7 @@
     "name": "PlayerServer.js"
   },
   {
-    "hash": "09332351422d3d9774c1d9e8d52ef6d2",
+    "hash": "0580f0b4197b00cbdb3ab72e93ac55d5",
     "src": "src/core/PlayerTracker.js",
     "dst": "./core/PlayerTracker.js",
     "name": "PlayerTracker.js"
@@ -144,13 +144,13 @@
     "name": "Updater.js"
   },
   {
-    "hash": "c711196e3d266b18d344f170e48fb619",
+    "hash": "4ec2f59d5116c902d9f3febe948b829d",
     "src": "src/core/WorldModel.js",
     "dst": "./core/WorldModel.js",
     "name": "WorldModel.js"
   },
   {
-    "hash": "6ab354964b7ceac35dfe7fbfe2741803",
+    "hash": "466da9c8166570002789637ca0c5039f",
     "src": "src/core/WorldDAO.js",
     "dst": "./core/WorldDAO.js",
     "name": "WorldDAO.js"
@@ -168,7 +168,7 @@
     "name": "Beacon.js"
   },
   {
-    "hash": "2e8a614909b09cf5d0231b2f6fe0009b",
+    "hash": "33bde727e870cb7deb257d8c2a6b6320",
     "src": "src/entity/Cell.js",
     "dst": "./entity/Cell.js",
     "name": "Cell.js"
@@ -198,13 +198,13 @@
     "name": "MovingVirus.js"
   },
   {
-    "hash": "65cd4bf08c2cafb93211978787b0e781",
+    "hash": "4bbbfa3dd010572ff9e8cfafe02d604e",
     "src": "src/entity/PlayerCell.js",
     "dst": "./entity/PlayerCell.js",
     "name": "PlayerCell.js"
   },
   {
-    "hash": "615b0af859842240003c058b461df149",
+    "hash": "54df9a0ce8bd775d41faaadf550d3442",
     "src": "src/entity/StickyCell.js",
     "dst": "./entity/StickyCell.js",
     "name": "StickyCell.js"
@@ -222,7 +222,7 @@
     "name": "index.js"
   },
   {
-    "hash": "5d44ef30d2fe3e5ae570c4b614483777",
+    "hash": "fb05ce85df0f9146ea9c0062ea292490",
     "src": "src/files.json",
     "dst": "./files.json",
     "name": "files.json"
@@ -258,7 +258,7 @@
     "name": "Experimental.js"
   },
   {
-    "hash": "56d654dd6d8bbf6789cf75d635228854",
+    "hash": "dfe7261828c7f576718ddba79561b80b",
     "src": "src/gamemodes/FFA.js",
     "dst": "./gamemodes/FFA.js",
     "name": "FFA.js"
@@ -276,7 +276,7 @@
     "name": "Leap.js"
   },
   {
-    "hash": "2aa71d6e0c4d3969c390dc8baddbb7ac",
+    "hash": "98c5286623764828faae7a2098282d9f",
     "src": "src/gamemodes/Mode.js",
     "dst": "./gamemodes/Mode.js",
     "name": "Mode.js"
@@ -654,7 +654,7 @@
     "name": "pfmsg.js"
   },
   {
-    "hash": "60e773c7184bf46132ee732c7f409a9e",
+    "hash": "aaee600776a5b8cc8fc973b5d2fd03db",
     "src": "src/modules/commands/playerlist.js",
     "dst": "./modules/commands/playerlist.js",
     "name": "playerlist.js"
@@ -882,7 +882,7 @@
     "name": "index.js"
   },
   {
-    "hash": "e3d94fa31f236ee35a561118a2a64249",
+    "hash": "450b77ade7b034e0fb2422115e3c84a6",
     "src": "src/settings/advConfig.ini",
     "dst": "./settings/advConfig.ini",
     "name": "advConfig.ini"

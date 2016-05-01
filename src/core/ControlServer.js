@@ -4,7 +4,7 @@
 const utilities = require('./utilities.js');
 const BASE_DIR = utilities.getBaseDir(__dirname);
 
-const WorldDAO = require('./WorldDAO');
+const WorldDAO = require('./WorldModel');
 const GameServer = require('./GameServer');
 const ConsoleService = require('./ConsoleService.js');
 const ConfigService = require('./ConfigService.js');

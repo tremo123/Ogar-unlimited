@@ -6,6 +6,11 @@ module.exports = class PlayerCell extends Cell {
   constructor(nodeId, owner, position, mass, world, config) {
     super(nodeId, owner, position, mass, world, config);
 
+    if (!owner) {
+      console.log('player cell created without OWNER!!!');
+      console.trace()
+    }
+
     this.cellType = 0;
     this.skin = undefined;
     this.recombineTicks = 0; // Ticks passed after the cell has split

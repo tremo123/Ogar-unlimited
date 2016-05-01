@@ -1,7 +1,7 @@
 var fillChar = require('./fillChar.js');
 
 module.exports = function (gameServer, split) {
-  var clients = gameServer.getWorld().getClients();
+  var clients = gameServer.getWorld().clients.toArray();
   console.log("[Console] Showing " + clients.length + " players: ");
   console.log(" ID         | IP              | " + fillChar('NICK', ' ', gameServer.config.playerMaxNickLength) + " | CELLS | SCORE  | POSITION    "); // Fill space
   console.log(fillChar(' ', '-', ' ID         | IP              |  | CELLS | SCORE  | POSITION    '.length + gameServer.config.playerMaxNickLength));

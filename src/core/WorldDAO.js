@@ -272,6 +272,7 @@ module.exports = class WorldDAO {
   //@formatter:off
   // es6 getter/setters
   get config () { return this.world.config; }
+  get clients () { return this.world.clients; }
 
   //@formatter:on
 };

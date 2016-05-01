@@ -7,7 +7,8 @@ var fs = require("fs");
 
 module.exports = class PlayerTracker {
   constructor(gameServer, socket, owner) {
-    this.pID = -1;
+    this._pID = -1;
+    this._type = "human";
     this.disconnect = -1; // Disconnection
     this.name = "";
     this.gameServer = gameServer;
@@ -185,7 +186,7 @@ module.exports = class PlayerTracker {
       if (this.vt > 10) {
         this.vt = 0;
         var re = 0;
-        var clients = this.gameServer.getClients();
+        var clients = this.gameServer.getClients().toArray();
         for (var i in clients) {
           var client = clients[i].playerTracker;
           if (Math.abs(client.mouse.x - this.mouse.x) < 2 && Math.abs(this.mouse.y - client.mouse.y) < 2) { // check to see if mouse's loxation is similar to others
@@ -197,7 +198,7 @@ module.exports = class PlayerTracker {
             re++;
           }
         }
-        var clients = this.gameServer.getClients();
+        var clients = this.gameServer.getClients().toArray();
         if (re > this.gameServer.config.mbchance) { // if there is over 5 duplicates
           for (var i in clients) {
             var client = clients[i].playerTracker;
@@ -637,4 +638,16 @@ module.exports = class PlayerTracker {
     var deltaX = x1 - x2;
     return Math.atan2(deltaX, deltaY);
   }
+
+  //@formatter:off
+  // es6 getter/setters
+  get pID () { return this._pID; }
+  set pID (id) { this._pID = id; }
+
+  get id () { return this._pID; }
+  set id (id) { this._pID = id; }
+
+  get type () { return this._type;}
+
+  //@formatter:on
 };

@@ -2,7 +2,7 @@
 // This is our shared data type. It contains all of the data about the state of the would that needs to be shared
 // among our processes.
 const Cell = require('../entity/Cell.js');
-const SortedMap = require("collections/map");
+const Map = require("collections/map");
 const Packet = require('../packet');
 const Gamemode = require('../gamemodes');
 const ConfigService = require('./ConfigService.js');
@@ -16,10 +16,12 @@ module.exports = class WorldModel {
     // id's are shared: player 1-10000, all other nodes 10001-2147483647
     this.lastPlayerId = 1;
     this.lastNodeId = 10001;
-    this.nodeMaps = [];
-    this.nodeMaps['node'] = new SortedMap();
 
-    this.clients = []; // todo change this to a Map or SortedMap
+    this._nodes = new Map();
+    this.nodeMaps = [];
+    this.nodeMaps['node'] = new Map();
+
+    this._clients = new Map(); // todo change this to a Map or SortedMap
 
     // Gamemodes
     this.gameMode = this.config.serverGamemode;
@@ -37,10 +39,16 @@ module.exports = class WorldModel {
 
   initNodeType(type) {
     if (type === 'node') return;
-    this.nodeMaps[type] = new SortedMap();
+    this.nodeMaps[type] = new Map();
   }
 
   setNode(id, node, type) {
+    if (type === 'player') {
+      console.trace();
+      console.log(node.owner.constructor.name)
+    }
+
+
     type = (type) ? type : 'node';
     if (node === undefined || node === null) {
       node = id;
@@ -49,7 +57,7 @@ module.exports = class WorldModel {
     if (!this.nodeMaps[type]) {
       this.nodeMaps[type] = new Map();
     }
-    this.nodeMaps['node'].set(id, node);
+    this._nodes.set(id, node);
     this.nodeMaps[type].set(id, node);
 
 
@@ -66,6 +74,7 @@ module.exports = class WorldModel {
     // todo Rewrite this - this is business logic in a model
     // Add to visible nodes
     this.clients.forEach((client)=> {
+      if (!client) return;  // todo why are clients undefined?
       let tracker = client.playerTracker;
       if (!tracker) return;
 
@@ -83,7 +92,9 @@ module.exports = class WorldModel {
   }
 
   getNodes(type) {
-    return this.nodeMaps[(type) ? type : 'node'];
+    type = (type) ? type : 'node';
+    if (type === 'node') return this._nodes;
+    return this.nodeMaps[type];
   }
 
   getNearestNodeToNode(node, type, radius) {
@@ -118,13 +129,15 @@ module.exports = class WorldModel {
     type = (type) ? type : 'all';
     type = (type === 'node') ? 'all' : type;
 
-    let node = this.nodeMaps['node'].get(id);
+    let node = this._nodes.get(id);
+
     if (type == 'all') {
+      this._nodes.delete(id);
       Object.keys(this.nodeMaps).forEach((key)=>this.nodeMaps[key].delete(id));
 
       // todo Rewrite this - this is business logic in a model
       // Animation when eating
-      let clients = this.getClients();
+      let clients = this.clients.toArray();
       for (let i = 0; i < clients.length; i++) {
         let client = clients[i].playerTracker;
         if (!client) {
@@ -181,18 +194,15 @@ module.exports = class WorldModel {
   }
 
   getClients() {
-    return this.clients;
+    return this._clients;
   }
 
-  addClient(client) {
-    return this.clients.push(client);
+  addClient(id, client) {
+    this._clients.set(id, client);
   }
 
   removeClient(client) {
-    let index = this.clients.indexOf(client);
-    if (index != -1) {
-      this.clients.splice(index, 1);
-    }
+    this._clients.delete(client.pID)
   }
 
   getWorld() {
@@ -204,6 +214,7 @@ module.exports = class WorldModel {
   // es6 getter/setters
   get config () { return this._config; }
   set config (config) { this._config = config; }
+  get clients () { return this._clients; }
 
   //@formatter:on
 };

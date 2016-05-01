@@ -100,7 +100,7 @@ Mode.prototype.pressW = function (gameServer, player) {
   // Called when the W key is pressed
   if (player.mi == 1 && player.minioncontrol) {
 
-    let clients = gameServer.getWorld().getClients();
+    let clients = gameServer.getWorld().getClients().toArray();
     for (var i in clients) {
       var client = clients[i].playerTracker;
       if ((typeof clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
@@ -287,7 +287,7 @@ Mode.prototype.pressW = function (gameServer, player) {
 };
 
 Mode.prototype.pressSpace = function (gameServer, player) {
-  let clients = gameServer.getWorld().getClients();
+  let clients = gameServer.getWorld().getClients().toArray();
   // Called when the Space bar is pressed
   if (player.mi == 1 && player.minioncontrol) {
     for (var i in clients) {

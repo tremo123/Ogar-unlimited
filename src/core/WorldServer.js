@@ -151,7 +151,7 @@ module.exports = class WorldServer {
 
     // todo this is a big problem for splitting up the processes
     // Animation when eating
-    let clients = this.world.getClients();
+    let clients = this.world.getClients().toArray();
     for (let i = 0; i < clients.length; i++) {
       let client = clients[i].playerTracker;
       if (!client) {

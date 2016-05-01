@@ -221,6 +221,7 @@ module.exports = class GameServer {
       return Physics.getDist(nodeA.position, nodeA.owner.mouse) > Physics.getDist(nodeB.position, nodeB.owner.mouse);
     }
 
+    // move player cells
     let nodes = this.getWorld().getNodes('player');
     // todo disabled sorting for now
     //nodes.sorted(sorter);
@@ -229,7 +230,6 @@ module.exports = class GameServer {
       if (!cell) {
         return;
       }
-
       let client = cell.owner;
       cell.calcMove(client.mouse.x, client.mouse.y, this.getWorld());
 
@@ -432,7 +432,7 @@ module.exports = class GameServer {
 
   // getters/setters
   getClients() {
-    return this.getWorld().getClients();
+    return this.getWorld().clients;
   }
 
   addClient(client) {
@@ -536,7 +536,7 @@ module.exports = class GameServer {
       // Find next non-spectator with cells in the client list
       let oldPlayer = player.spectatedPlayer + 1;
       let count = 0;
-      let clients = this.getWorld().getClients();
+      let clients = this.getWorld().clients.toArray();
       while (player.spectatedPlayer != oldPlayer && count != clients.length) {
         if (oldPlayer == clients.length) {
           oldPlayer = 0;
@@ -867,7 +867,6 @@ module.exports = class GameServer {
     let a = [];
     let d = false;
     this.getWorld().getClients().forEach((client)=> {
-
       if (client.remoteAddress && this.whlist.indexOf(client.remoteAddress) == -1 && !client.playerTracker.nospawn) {
         if (a[client.playerTracker.mouse] === undefined) {
           a[client.playerTracker.mouse] = 1;
@@ -963,10 +962,10 @@ module.exports = class GameServer {
     let humans = 0,
       bots = 0;
 
-    this.getClients().forEach((client)=> {
-      if ('_socket' in client) {
+    this.getWorld().clients.forEach((client)=> {
+      if (client.playerTracker.type === 'human') {
         humans++;
-      } else if (!client.playerTracker.owner) {
+      } else {
         bots++;
       }
     });
@@ -1242,7 +1241,6 @@ module.exports = class GameServer {
         origin != 'https://localhost' &&
         origin != 'http://127.0.0.1' &&
         origin != 'https://127.0.0.1') {
-        ws.close();
         return false;
       }
     }
@@ -1301,17 +1299,14 @@ module.exports = class GameServer {
           fs.writeFile('./banned.txt', string);
         }
         // Remove from game
-        for (let i in clients) {
-          let c = clients[i];
-          if (!c.remoteAddress) {
-            continue;
-          }
-          if (c.remoteAddress == ws._socket.remoteAddress) {
-
+        clients.forEach((client)=> {
+          if (client.remoteAddress && client.remoteAddress == ws._socket.remoteAddress) {
             //this.socket.close();
-            c.close(); // Kick out
+            client.close(); // Kick out
+            // todo make this apart of the close?
+            clients.delete(client.id);
           }
-        }
+        });
       }
     } else {
       this.nospawn[ws._socket.remoteAddress] = false;
@@ -1338,6 +1333,7 @@ module.exports = class GameServer {
       this.config.borderBottom += this.config.borderDec;
     }
 
+    // todo this code makes my head hurt! PlayerTacker should own the ws and we should not modify the ws
     ws.remoteAddress = ws._socket.remoteAddress;
     ws.remotePort = ws._socket.remotePort;
     this.log.onConnect(ws.remoteAddress); // Log connections
@@ -1352,7 +1348,7 @@ module.exports = class GameServer {
     };
     ws.on('error', this.socketServerClose.bind(bindObject));
     ws.on('close', this.socketServerClose.bind(bindObject));
-    this.getWorld().addClient(ws);
+    this.getWorld().addClient(ws.playerTracker.id, ws);
   }
 
   socketServerClose(error) {

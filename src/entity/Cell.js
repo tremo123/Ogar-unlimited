@@ -41,7 +41,7 @@ module.exports = class Cell {
     return {
       _id: this._id.toString(),  // must be a string for pouchdb
       type: this.constructor.name,
-      ownerId: (this.owner && typeof this.owner.getId === 'function') ? this.owner.getId() : undefined,
+      ownerId: (this.owner) ? this.owner.id : undefined,
       color: this.color,
       name: this.name,
       visible: this.visible,
@@ -57,7 +57,7 @@ module.exports = class Cell {
 
   updateFromJSON(jData) {
     if (this._id !== jData._id) return;
-    this.owner = jData.owner;
+    this.owner = (json.ownerId) ? this.getWorld().clients.get(json.ownerId) : undefined;
     this.color = jData.color;
     this.name = jData.name;
     this.visible = jData.visible;
@@ -71,7 +71,7 @@ module.exports = class Cell {
   }
 
   static fromJSON(entityTypes, json, world) {
-    let owner = (json.ownerId) ? world.getNode(json.ownerId) : undefined;
+    let owner = (json.ownerId) ? world.clients.get(json.ownerId) : undefined;
     let newCell = new entityTypes[json.type](json._id, owner, json.position, json.mass, world, world.config);
     newCell.color = json.color;
     newCell.name = json.name;
@@ -287,6 +287,7 @@ module.exports = class Cell {
         var x1 = this.position.x + (totTravel * sin) + xd;
         var y1 = this.position.y + (totTravel * cos) + yd;
         if (this.world) {
+          // todo why is the parent class doing stuff with a child class?!?
           this.world.getNodes('ejected').forEach((cell)=> {
             if (this._id == cell.getId()) return;
             if (!this.simpleCollide(x1, y1, cell, collisionDist)) return;
