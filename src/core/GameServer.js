@@ -24,6 +24,9 @@ const PluginLoader = require('./PluginLoader.js');
 
 const DataBaseConnector = require('./DataBaseConnector.js');
 
+const spawn = require('child_process').spawn;
+const ClientServer = require('./ClientServer.js');
+
 module.exports = class GameServer {
   constructor(world, consoleService, configService) {
     // fields
@@ -150,6 +153,7 @@ module.exports = class GameServer {
     this.masterServer();
 
     // Start the server
+//    this._clientServer = new ClientServer(1, undefined, this.config.serverPort);
     this.socketServer = new WebSocket.Server({
       port: (this.config.vps === 1) ? process.env.PORT : this.config.serverPort,
       perMessageDeflate: false
@@ -162,10 +166,6 @@ module.exports = class GameServer {
 
     this.statServer.start();
   };
-
-  update(dt) {
-
-  }
 
   pause() {
     this.running = false;
