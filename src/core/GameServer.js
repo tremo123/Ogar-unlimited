@@ -1030,7 +1030,7 @@ beforeq(player) {
       if (!check.collisionCheck2(squareR, cell.position)) return;
 
       // Cell type check - Cell must be bigger than this number times the mass of the cell being eaten
-      let multiplier = 1.25;
+      let multiplier = this.config.sizeMult;
 
       switch (check.getType()) {
         case 1: // Food cell
@@ -1038,7 +1038,7 @@ beforeq(player) {
           check.inRange = true; // skip future collision checks for this food
           return;
         case 2: // Virus
-          multiplier = 1.33;
+          multiplier = this.config.VsizeMult;
           break;
         case 5: // Beacon
           // This cell cannot be destroyed

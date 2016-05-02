@@ -29,6 +29,8 @@ module.exports = class ConfigService {
       playerminviruseject: 34,
       minionupdate: 10,
       splitversion: 1,
+      sizeMult: 1.25,
+      VsizeMult: 1.33,
       verify: 0,
       autobanrecord: 0,
       serverScrambleMinimaps: 1,
