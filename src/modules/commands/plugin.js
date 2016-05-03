@@ -73,9 +73,9 @@ module.exports = function (gameServer, split) {
            var ava = body.split(/[\r\n]+/).filter(function (x) {
             return x != ''; // filter empty
           });
-          var names = '';
-          var url = '';
-          var desc = '';
+          var names = [];
+          var url = [];
+          var desc = [];
           for (var i in ava) {
             var s = ava[i].split("|");
             names[i] = s[0];
