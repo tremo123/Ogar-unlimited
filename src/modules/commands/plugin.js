@@ -82,7 +82,6 @@ module.exports = function (gameServer, split) {
             desc[i] = s[1];
             url[i] = s[2];
           }
-          i = 0;
              console.log("[Console] --------------- Available Plugins ---------------");
           for (var i in names) {
             console.log(names[i] + "\n    Description: "+ desc[i]);
