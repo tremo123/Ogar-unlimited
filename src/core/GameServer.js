@@ -226,7 +226,7 @@ module.exports = class GameServer {
       //setInterval(this.mainLoop.bind(this), 1);
       setImmediate(this.mainLoopBind);
 
-      var serverport = (this.config.vps == 1) ? process.env.PORT : this.config.serverPort;
+      var serverPort = (this.config.vps == 1) ? process.env.PORT : this.config.serverPort;
       
       console.log("[Game] Listening on port " + serverPort);
       console.log("[Game] Current game mode is " + this.gameMode.name);
