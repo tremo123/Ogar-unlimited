@@ -45,7 +45,7 @@ module.exports = function (gameServer, split) {
           });
 
           for (var i in ava) {
-            var s = ava[i].split('|');
+            var s = ava[i].split("|");
             if (split[2] == s[0]) {
             var newsplit = [];
             newsplit[1] = 'add'
@@ -77,7 +77,7 @@ module.exports = function (gameServer, split) {
           var url = '';
           var desc = '';
           for (var i in ava) {
-            var s = ava[i].split('|');
+            var s = ava[i].split("|");
             names[i] = s[0];
             desc[i] = s[1];
             url[i] = s[2];
