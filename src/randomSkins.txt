@@ -86,6 +86,10 @@ halloween
 monster
 scarecrow
 spy
+leprechaun
+rainbow
+cupcake
+cupid
 
 //Veteran
 fly
