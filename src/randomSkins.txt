@@ -1,4 +1,3 @@
-//Premium
 venus
 mercury
 banana
@@ -90,8 +89,6 @@ leprechaun
 rainbow
 cupcake
 cupid
-
-//Veteran
 fly
 spider
 wasp
