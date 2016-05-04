@@ -162,7 +162,6 @@ module.exports = class ConsoleService {
    
     this.gameServer.liveticks++;
   }
-
   execCommand(command, args) {
     try {
       var execute = this.commands[command];
@@ -183,7 +182,9 @@ module.exports = class ConsoleService {
     }
 
   };
-
+execcommand(command, args) {
+ return this.execCommand(command, args); 
+}
   setGameServer(gameServer) {
     this.gameServer = gameServer;
   }
