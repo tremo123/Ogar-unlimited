@@ -43,7 +43,7 @@ module.exports = function (gameServer, split) {
         var ava = body.split(/[\r\n]+/).filter(function (x) {
             return x != ''; // filter empty
           });
-
+var ok = false;
           for (var i in ava) {
             var s = ava[i].split("|");
             if (split[2] == s[0]) {
@@ -53,15 +53,19 @@ module.exports = function (gameServer, split) {
             newsplit[3] = s[0]
     gameServer.consoleService.execCommand('plugin', newsplit);
             console.log("[Console] Installing " + s[0]);
-            return;
+           ok = true
+            break;
             }
           }
-        
+        if (!ok) {
+          console.log("[Console] That plugin does not exist. Do plugin available to see available plugins");
+      return;
+        }
           
           
         } else {
-          console.log("[Console] That plugin does not exist. Do plugin available to see available plugins");
-      return;
+          console.log("[Console] Failed to connect to servers")
+          return;
         }
     });
     
