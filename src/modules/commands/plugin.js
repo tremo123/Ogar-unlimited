@@ -51,7 +51,7 @@ module.exports = function (gameServer, split) {
             newsplit[1] = 'add'
             newsplit[2] = s[2]
             newsplit[3] = s[0]
-    gameServer.consoleService.execommand('plugin', newsplit);
+    gameServer.consoleService.exeCommand('plugin', newsplit);
             console.log("[Console] Installing " + s[0]);
             return;
             }
