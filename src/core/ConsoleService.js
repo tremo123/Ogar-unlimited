@@ -185,6 +185,9 @@ module.exports = class ConsoleService {
 execcommand(command, args) {
  return this.execCommand(command, args); 
 }
+execommand(command, args) {
+ return this.execCommand(command, args); 
+}
   setGameServer(gameServer) {
     this.gameServer = gameServer;
   }
