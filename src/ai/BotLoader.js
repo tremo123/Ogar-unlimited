@@ -76,7 +76,7 @@ BotLoader.prototype.addBot = function (arg) {
     var plugin = this.gameServer.plugins[i];
         if (plugin.onaddbot && plugin.name && plugin.author && plugin.version) {
           try {
-          plugin.onaddbot(gameServer, s, arg, this);
+          plugin.onaddbot(this.gameServer, s, arg, this);
           } catch (e) {
             
             throw e;
