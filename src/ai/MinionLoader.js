@@ -43,7 +43,7 @@ for (var i in this.gameServer.plugins) {
     var plugin = this.gameServer.plugins[i];
         if (plugin.onaddminion && plugin.name && plugin.author && plugin.version) {
           try {
-          plugin.onaddbot(gameServer, fakeSocket, arg, this);
+          plugin.onaddminion(this.gameServer, fakeSocket, arg, this);
           } catch (e) {
             
             throw e;
