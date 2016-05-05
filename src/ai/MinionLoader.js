@@ -39,9 +39,22 @@ MinionLoader.prototype.addBot = function (owner, name) {
   fakeSocket.playerTracker = new BotPlayer(this.gameServer, fakeSocket, owner);
   fakeSocket.packetHandler = new PacketHandler(this.gameServer, fakeSocket);
 
+for (var i in this.gameServer.plugins) {
+    var plugin = this.gameServer.plugins[i];
+        if (plugin.onaddminion && plugin.name && plugin.author && plugin.version) {
+          try {
+          plugin.onaddbot(gameServer, fakeSocket, this);
+          } catch (e) {
+            
+            throw e;
+          }
+        }
+  }
   // Add to client list
   this.gameServer.clients.push(fakeSocket);
   if (!name || typeof name == "undefined") name = "minion";
   // Add to world
   fakeSocket.packetHandler.setNickname(name);
+  
+  
 };
