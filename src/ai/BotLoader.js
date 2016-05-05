@@ -76,4 +76,16 @@ BotLoader.prototype.addBot = function () {
 
   // Add to world
   s.packetHandler.setNickname(this.getName());
+  for (var i in this.gameServer.plugins) {
+    var plugin = this.gameServer.plugins[i];
+        if (plugin.onaddbot && plugin.name && plugin.author && plugin.version) {
+          try {
+          plugin.onaddbot(gameServer, s, this);
+          } catch (e) {
+            
+            throw e;
+          }
+        }
+  }
+  
 };
