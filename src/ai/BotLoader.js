@@ -72,10 +72,6 @@ BotLoader.prototype.addBot = function () {
   s.playerTracker = new BotPlayer(this.gameServer, s);
   s.packetHandler = new PacketHandler(this.gameServer, s);
   // Add to client list
-  this.gameServer.addClient(s);
-
-  // Add to world
-  s.packetHandler.setNickname(this.getName());
   for (var i in this.gameServer.plugins) {
     var plugin = this.gameServer.plugins[i];
         if (plugin.onaddbot && plugin.name && plugin.author && plugin.version) {
@@ -87,5 +83,10 @@ BotLoader.prototype.addBot = function () {
           }
         }
   }
+  this.gameServer.addClient(s);
+
+  // Add to world
+  s.packetHandler.setNickname(this.getName());
+  
   
 };
