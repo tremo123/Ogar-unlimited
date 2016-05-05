@@ -34,7 +34,7 @@ MinionLoader.prototype.loadNames = function () {
   this.nameIndex = 0;
 };
 
-MinionLoader.prototype.addBot = function (owner, name) {
+MinionLoader.prototype.addBot = function (owner, name, arg) {
   var fakeSocket = new FakeSocket(this.gameServer);
   fakeSocket.playerTracker = new BotPlayer(this.gameServer, fakeSocket, owner);
   fakeSocket.packetHandler = new PacketHandler(this.gameServer, fakeSocket);
@@ -43,7 +43,7 @@ for (var i in this.gameServer.plugins) {
     var plugin = this.gameServer.plugins[i];
         if (plugin.onaddminion && plugin.name && plugin.author && plugin.version) {
           try {
-          plugin.onaddbot(gameServer, fakeSocket, this);
+          plugin.onaddbot(gameServer, fakeSocket, arg, this);
           } catch (e) {
             
             throw e;
