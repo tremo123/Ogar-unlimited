@@ -1,9 +1,10 @@
-function UpdateNodes(destroyQueue, nodes, nonVisibleNodes, scrambleX, scrambleY) {
+function UpdateNodes(destroyQueue, nodes, nonVisibleNodes, scrambleX, scrambleY, gameServer) {
   this.destroyQueue = destroyQueue;
   this.nodes = nodes;
   this.nonVisibleNodes = nonVisibleNodes;
   this.scrambleX = scrambleX;
   this.scrambleY = scrambleY;
+  this.gameServer = gameServer;
 }
 
 module.exports = UpdateNodes;
@@ -20,7 +21,11 @@ UpdateNodes.prototype.build = function () {
 
     /////        nodesLength = nodesLength + 20 + (node.getName().length * 2);
     /////
+    if (this.gameServer.config.packetversion == 1) {
     nodesLength = nodesLength + 16 + (node.getName().length * 2) + node.getPremium().length;
+    } else {
+      nodesLength = nodesLength + 21 + (node.getName().length * 2) + node.getPremium().length;
+    }
     /////
   }
 
@@ -55,7 +60,7 @@ UpdateNodes.prototype.build = function () {
     if (typeof node == "undefined") {
       continue;
     }
-
+if (this.gameServer.config.packetversion == 1) {
     view.setUint32(offset, node.nodeId, true); // Node ID
     view.setUint16(offset + 4, node.position.x + this.scrambleX, true); // X position
     view.setUint16(offset + 6, node.position.y + this.scrambleY, true); // Y position
@@ -68,7 +73,20 @@ UpdateNodes.prototype.build = function () {
     view.setUint8(offset + 13, node.spiked, true); // Flags
     /////
     offset += 14;
-
+} else {
+   view.setUint32(offset, node.nodeId, true); // Node ID
+    view.setInt32(offset + 4, node.position.x + this.scrambleX, true); // X position
+    view.setInt32(offset + 8, node.position.y + this.scrambleY, true); // Y position
+    view.setUint16(offset + 12, node.getSize()); // Mass formula: Radius (size) = (mass * mass) / 100
+    view.setUint8(offset + 14, node.color.r); // Color (R)
+    view.setUint8(offset + 15, node.color.g); // Color (G)
+    view.setUint8(offset + 16, node.color.b); // Color (B)
+    /////view.setUint8(offset + 17, node.spiked, true); // Flags
+    /////
+    view.setUint8(offset + 17, (node.spiked | 4)); // Flags
+    /////
+    offset += 18;
+}
     /////
     //var skin = node.getPremium();
     //if (skin) {
