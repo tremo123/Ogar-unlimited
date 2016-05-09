@@ -74,7 +74,7 @@ var ok = false;
     if (split[2]) {
       console.log("[Console] Updating " + split[2])
       try {
-     data = fs.readFileSync('./plugins/' + split[2] + "/files.txt");
+     data = fs.readFileSync('./plugins/' + split[2] + '/files.txt', "utf8");
       } catch (e) {
         console.log("[Console] That plugins files.txt is missing!")
         return;
