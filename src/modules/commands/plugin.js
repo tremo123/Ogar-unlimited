@@ -70,7 +70,7 @@ var ok = false;
     });
     
   } else if (split[1] == "update") {
-    data = '';
+    var data = '';
     if (split[2]) {
       console.log("[Console] Updating " + split[2])
       try {
