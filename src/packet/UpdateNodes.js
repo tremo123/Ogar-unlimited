@@ -20,7 +20,7 @@ UpdateNodes.prototype.build = function () {
 
     /////        nodesLength = nodesLength + 20 + (node.getName().length * 2);
     /////
-    nodesLength = nodesLength + 21 + (node.getName().length * 2) + node.getPremium().length;
+    nodesLength = nodesLength + 16 + (node.getName().length * 2) + node.getPremium().length;
     /////
   }
 
@@ -57,31 +57,31 @@ UpdateNodes.prototype.build = function () {
     }
 
     view.setUint32(offset, node.nodeId, true); // Node ID
-    view.setInt32(offset + 4, node.position.x + this.scrambleX, true); // X position
-    view.setInt32(offset + 8, node.position.y + this.scrambleY, true); // Y position
-    view.setUint16(offset + 12, node.getSize(), true); // Mass formula: Radius (size) = (mass * mass) / 100
-    view.setUint8(offset + 14, node.color.r); // Color (R)
-    view.setUint8(offset + 15, node.color.g); // Color (G)
-    view.setUint8(offset + 16, node.color.b); // Color (B)
+    view.setUint16(offset + 4, node.position.x + this.scrambleX, true); // X position
+    view.setUint16(offset + 6, node.position.y + this.scrambleY, true); // Y position
+    view.setUint16(offset + 8, node.getSize(), true); // Mass formula: Radius (size) = (mass * mass) / 100
+    view.setUint8(offset + 10, node.color.r); // Color (R)
+    view.setUint8(offset + 11, node.color.g); // Color (G)
+    view.setUint8(offset + 12, node.color.b); // Color (B)
     /////view.setUint8(offset + 17, node.spiked, true); // Flags
     /////
-    view.setUint8(offset + 17, (node.spiked | 4)); // Flags
+    view.setUint8(offset + 13, node.spiked); // Flags
     /////
-    offset += 18;
+    offset += 14;
 
     /////
-    var skin = node.getPremium();
-    if (skin) {
-      for (var j = 0; j < skin.length; j++) {
-        var c = skin.charCodeAt(j);
-        if (c) {
-          view.setUint8(offset, c);
-        }
-        offset++;
+    //var skin = node.getPremium();
+    //if (skin) {
+      //for (var j = 0; j < skin.length; j++) {
+      //  var c = skin.charCodeAt(j);
+        //if (c) {
+        //  view.setUint8(offset, c);
+      //  }
+      //  offset++;
       }
     }
-    view.setUint8(offset, 0); // End of string
-    offset++;
+    //view.setUint8(offset, 0); // End of string
+    //offset++;
     /////
 
     var name = node.getName();
