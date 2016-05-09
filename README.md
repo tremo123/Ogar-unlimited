@@ -6,7 +6,9 @@ A fully functional open source Agar.io server implementation, written in Node.js
 
 This Modified copy was created to help those who want to open their server to the public. I will add more features as time goes
 
-(Sorry but all client clones of agar.io are ILLEGAL, thus we are not making those. You must use `agar.io/?ip=[ip]`)
+---(Sorry but all client clones of agar.io are ILLEGAL, thus we are not making those. You must use `agar.io/?ip=[ip]`)---
+**NEVER MIND, MONEYCLIP RUINED THE GAME**
+
 
 
 **NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER**
