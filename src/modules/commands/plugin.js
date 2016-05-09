@@ -100,6 +100,7 @@ var newsplit = [];
             newsplit[1] = 'add'
             newsplit[2] = url
             newsplit[3] = split[2];
+            newsplit[4] = split[3];
     gameServer.consoleService.execCommand('plugin', newsplit);
       return;
     }
@@ -110,8 +111,15 @@ var newsplit = [];
      var newsplit = [];
             newsplit[1] = 'update'
             newsplit[2] = files[i];
+            newsplit[3] = true;
     gameServer.consoleService.execCommand('plugin', newsplit);
    }
+    setTimeout(function() {
+            console.log("[Console] Done, Reloading...");
+          
+gameServer.pluginLoader.load();
+            
+          }, 2000);
     } catch (e) {
       console.log("[Console] Failed to update Reason:" + e);
       return;
@@ -204,21 +212,29 @@ var newsplit = [];
             
             
           };
+          var text = "Downloading";
+          try {
           fs.mkdir('./plugins/' + split[3]);
+          } catch (w) {
+            text = "Updating"
+          }
           for (var i in files) {
             var f = files[i].split("|");
             filenames[i] = f[0];
             src[i] = f[1];
             download(src[i],'./plugins/' + split[3] + '/' + filenames[i]);
           
-            console.log("[Console] downloading " + './plugins/' + split[3] + '/' + filenames[i])
+          
+            console.log("[Console] " + text + ' ./plugins/' + split[3] + '/' + filenames[i])
           }
+          if (!split[4]) {
           setTimeout(function() {
             console.log("[Console] Done, Reloading...");
           
 gameServer.pluginLoader.load();
             
           }, 2000);
+          }
           
         } else {
           console.log("[Update] Please put a valid url of the raw files.txt file");
