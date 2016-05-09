@@ -229,7 +229,7 @@ gameServer.pluginLoader.load();
     
     
   } else {
-    console.log("[Console] Please specify a command. Available commands: list, reload, delete, add, available, install")
+    console.log("[Console] Please specify a command. Available commands: list, reload, delete, add, available, install, update")
   }
 
 
