@@ -131,7 +131,7 @@ The current available console commands are listed here. Command names are not ca
  - Ophelp
    * Shows how to use OP
  - Plugin [command]
-   * manage plugins, reload, list, delete, add, available, install.
+   * manage plugins, reload, list, delete, add, available, install, update.
  - Announce
    * Starts the high score announce feature
  - Verify [command] [id]
