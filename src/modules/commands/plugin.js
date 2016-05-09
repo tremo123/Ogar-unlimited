@@ -69,6 +69,59 @@ var ok = false;
         }
     });
     
+  } else if (split[1] == "update") {
+    data = '';
+    if (split[2]) {
+      console.log("[Console] Updating " + split[2])
+      try {
+     data = fs.readFileSync('./plugins/' + split[2] + "/files.txt");
+      } catch (e) {
+        console.log("[Console] That plugins files.txt is missing!")
+        return;
+        
+      }
+      console.log("[Console] Downloading updated files.txt")
+      var ava = data.split(/[\r\n]+/).filter(function (x) {
+            return x != ''; // filter empty
+          });
+          var url = '';
+          for (var i in ava) {
+            var s = ava[i].split("|");
+             if (s[0] == "files.txt") {
+               url = s[1];
+               break;
+             }
+          }
+          if (!url) {
+            console.log("[Console] Failed to find url for updated files.txt")
+            return;
+          }
+var newsplit = [];
+            newsplit[1] = 'add'
+            newsplit[2] = url
+            newsplit[3] = split[2];
+    gameServer.consoleService.execCommand('plugin', newsplit);
+      return;
+    }
+    try {
+   var files = fs.readdirSync('./plugins/');  
+   console.log("[Console] Updating all plugins...");
+   for (var i in files)  {
+     var newsplit = [];
+            newsplit[1] = 'update'
+            newsplit[2] = files[i];
+    gameServer.consoleService.execCommand('plugin', newsplit);
+   }
+    } catch (e) {
+      console.log("[Console] Failed to update Reason:" + e);
+      return;
+    }
+   
+    
+    
+    
+  
+    
     
   } else if (split[1] == "available") {
   console.log("[Console] Connecting to servers...");
@@ -88,7 +141,7 @@ var ok = false;
           }
              console.log("[Console] --------------- Available Plugins ---------------");
           for (var i in names) {
-            console.log(names[i] + "\n    Description: "+ desc[i]);
+            console.log("  " + names[i] + "\n     Description: "+ desc[i]);
             
           }
           
