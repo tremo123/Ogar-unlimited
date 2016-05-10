@@ -8,6 +8,7 @@
 7. Ignored the community
 8. Acted in their own behalf
 9. Obliterated extensions
-10. And much more 
+10. LAG
+11. And much more 
 
 ##### SHAME, fore SHAME on moneyshit
