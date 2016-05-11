@@ -2,7 +2,7 @@
 1. Removed private servers
 2. Made us pay for coins
 3. made us pay for skins
-4. made graphucs awful
+4. made graphics awful
 5. ruined the game
 6. Turned agario into a cash cow
 7. Ignored the community
