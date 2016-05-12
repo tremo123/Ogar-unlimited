@@ -3,6 +3,7 @@ const fs = require("fs");
 const ini = require('../modules/ini.js');
 const glob = require('glob');
 const request = require('request');
+const crypto = require('crypto');
 const path = require("path");
 
 module.exports = class ConfigService {
@@ -145,6 +146,7 @@ module.exports = class ConfigService {
     this.botNames = [];
     this.skinNames = [];
     this.skinShortCuts = [];
+    this.uniqueid = '';
     this.skins = [];
   }
 
@@ -156,6 +158,7 @@ module.exports = class ConfigService {
     this.loadRandomSkin();
     this.loadBotNames();
     this.loadCustomSkin();
+    this.loadid();
   }
   getRSkins() {
     return this.skinNames
@@ -170,7 +173,9 @@ module.exports = class ConfigService {
     return this.banned;
   }
 
-
+getUnique() {
+  return this.unique;
+}
   getOpByIp() {
     return this.opByIp;
   }
@@ -190,6 +195,31 @@ module.exports = class ConfigService {
   getSkins() {
     return this.skins;
   }
+loadid() {
+  try {
+    this.uniqueid = fs.readFileSync('../ouid.txt', "utf8");
+    
+  } catch (e) {
+    var random  = function(howMany, chars) {
+    chars = chars 
+        || "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+    var rnd = crypto.randomBytes(howMany)
+        , value = new Array(howMany)
+        , len = chars.length;
+
+    for (var i = 0; i < howMany; i++) {
+        value[i] = chars[rnd[i] % len]
+    };
+
+    return value.join('');
+}
+this.uniqueid = random(7)
+    fs.writeFileSync('../ouid.txt', this.uniqueid);
+    
+  }
+  
+  
+}
 
   loadConfig() {
 
