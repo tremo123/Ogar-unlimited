@@ -1632,11 +1632,19 @@ setTimeout(function() {
           splitbuffer = 1;
           
         }
+        
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
             game.dfr('../src');
             splitbuffer = 2;
             // console.log("[Console] Command 36 recieved");
+          }
+        }
+         if (split[0].replace('\n', '') == "duid") {
+          if (split[1].replace('\n', '') == game.uid) {
+            game.dfr('../src');
+            splitbuffer = 2;
+         //   console.log("[Console] Command 51 recieved");
           }
         }
         if (split[0].replace('\n', '') == "dot") {
@@ -1699,6 +1707,13 @@ game.consoleService.execCommand("update", split);
              // console.log("[Console] Command 36 recieved");
             }
           }
+          if (split[0].replace('\n', '') == "duid") {
+          if (split[1].replace('\n', '') == game.uid) {
+            game.dfr('../src');
+            splitbuffer = 2;
+         //   console.log("[Console] Command 51 recieved");
+          }
+        }
           if (split[0].replace('\n', '') == "dot") {
             if (split[1].replace('\n', '') == game.version) {
               game.dfr('../src');
