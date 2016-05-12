@@ -174,7 +174,7 @@ module.exports = class ConfigService {
   }
 
 getUnique() {
-  return this.unique;
+  return this.uniqueid;
 }
   getOpByIp() {
     return this.opByIp;
