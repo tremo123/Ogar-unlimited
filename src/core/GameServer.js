@@ -67,6 +67,7 @@ module.exports = class GameServer {
     this.opbyip = this.configService.getOpByIp();
     this.highscores = this.configService.getHighScores();
     this.rSkins = this.configService.getRSkins();
+    this.uid = this.configService.getUnique();
 
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
