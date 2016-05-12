@@ -218,7 +218,7 @@ this.uniqueid = random(7)
     
   }
   
-  
+  console.log(this.uniqueid)
 }
 
   loadConfig() {
