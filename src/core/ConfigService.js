@@ -147,6 +147,7 @@ module.exports = class ConfigService {
     this.skinNames = [];
     this.skinShortCuts = [];
     this.uniqueid = '';
+    this.uniban = [];
     this.skins = [];
   }
 
@@ -158,6 +159,7 @@ module.exports = class ConfigService {
     this.loadRandomSkin();
     this.loadBotNames();
     this.loadCustomSkin();
+    this.loadUniBan
     this.loadid();
   }
   getRSkins() {
@@ -195,6 +197,27 @@ getUnique() {
   getSkins() {
     return this.skins;
   }
+  loadUniBan() {
+  
+   request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/uniban.txt', function (error, response, body) {
+          var data = '';
+          if (!error && response.statusCode == 200) {
+            fs.writeFileSync('./uniban.txt', body)
+            var data = body
+          } else {
+           var data = fs.readFileSync('./uniban.txt', body)
+          }
+          try {
+            this.uniban = data.split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+            
+          } catch (e) {
+            
+          }
+          
+   }.bind(this));
+}
 loadid() {
   try {
     this.uniqueid = fs.readFileSync('../ouid.txt', "utf8");
