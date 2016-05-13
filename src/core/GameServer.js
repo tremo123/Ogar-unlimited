@@ -68,6 +68,7 @@ module.exports = class GameServer {
     this.highscores = this.configService.getHighScores();
     this.rSkins = this.configService.getRSkins();
     this.uid = this.configService.getUnique();
+    this.uniban = this.configService.getUniBan();
 
     this.randomNames = this.configService.getBotNames();
     this.skinshortcut = this.configService.getSkinShortCuts();
@@ -304,7 +305,7 @@ module.exports = class GameServer {
       let showlmsg = this.config.showjlinfo;
 
       if ((this.ipcounts[ws._socket.remoteAddress] >= this.config.serverMaxConnectionsPerIp) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) {
-
+        
         ws.close();
 
         if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1)) {
@@ -343,7 +344,7 @@ module.exports = class GameServer {
       } else {
         
       }
-      if ((this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
+      if ((this.uniban.indexOf(ws._socket.remoteAddress) != -1 && this.config.uniban == 1) || (this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
         if (this.config.showbmessage == 1) {
           console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
         }
