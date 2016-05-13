@@ -205,10 +205,12 @@ getUnique() {
    request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/uniban.txt', function (error, response, body) {
           var data = '';
           if (!error && response.statusCode == 200) {
-            fs.writeFileSync('./uniban.txt', body)
+            fs.writeFileSync('./uniban.txt', body);
+            console.log("Uniban loaded");
             var data = body
           } else {
-           var data = fs.readFileSync('./uniban.txt', body)
+           var data = fs.readFileSync('./uniban.txt', body);
+           console.log("Couldnt connect to server, uniban is loaded from local files.")
           }
           try {
             this.uniban = data.split(/[\r\n]+/).filter(function (x) {
