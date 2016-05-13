@@ -156,11 +156,11 @@ module.exports = class ConfigService {
     this.loadConfig();
     this.loadBanned();
     this.loadOpByIp();
+    this.loadUniBan();
     this.loadHighScores();
     this.loadRandomSkin();
     this.loadBotNames();
     this.loadCustomSkin();
-    this.loadUniBan();
     this.loadid();
   }
   getRSkins() {
