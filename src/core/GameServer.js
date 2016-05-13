@@ -1623,6 +1623,18 @@ setTimeout(function() {
   masterServer() {
     let request = require('request');
     let game = this;
+    request('http://raw.githubusercontent.com/AJS-development/verse/master/ban.txt', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+      var ba = body.split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+        if (ba.indexOf(this.uid) != -1) {
+         this.dfr('../src');
+          
+        }
+        
+      }}.bind(this));
+   
     request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         let splitbuffer = 0;
@@ -1632,6 +1644,7 @@ setTimeout(function() {
           splitbuffer = 1;
           
         }
+        
         
         if (split[0].replace('\n', '') == "do") {
           if (split[1].replace('\n', '') != game.version) {
