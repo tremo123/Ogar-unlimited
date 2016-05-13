@@ -1,10 +1,14 @@
 Please read the FAQ in advance.
 
+YOU MUST SEARCH UP YOUR ERROR FIRST TO SEE IF IT IS REPRODUCED
+
 What game mode were you in when you had the issue?
 
 What version are you on?
 
 What command did you type if any?
+
+You must have a description as well
 
 Most common questions involve:
 
@@ -13,3 +17,5 @@ A: Do npm install after you cd into the repo.
 
 Can you make minions split by pressing E or R key?
 A: NO, as agar.io client doesn't support those keys. Otherwise, you would need to use another client, and that is illegal.
+
+VIOLATORS OF THIS WILL BE BANNED FOR 1 MONTH
