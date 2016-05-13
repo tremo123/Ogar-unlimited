@@ -64,6 +64,7 @@ Commands.list = {
     console.log("[Console] Reset      : Destroys everything and starts from scratch");
     console.log("[Console] killall    : kill everyone");
     console.log("[Console] mass       : set cell(s) mass by client ID");
+    console.log("[Console] Uniban     : lists unibanned people");
     console.log("[Console] name       : change cell(s) name by client ID");
     console.log("[Console] playerlist : get list of players and bots");
     console.log("[Console] pause      : pause game , freeze all cells");
@@ -122,6 +123,7 @@ Commands.list = {
   },
   plugin: require('./commands/plugin.js'),
   blind: require('./commands/blind.js'),
+  uniban: require('./commands/uniban.js'),
   pcmd: require('./commands/pcmd.js'),
   reset: require('./commands/reset.js'),
   delete: require('./commands/delete.js'),
