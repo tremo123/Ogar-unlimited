@@ -53,7 +53,8 @@ module.exports = class StatServer {
       'spectators': clients.length - players,
       'max_players': this.gameServer.config.serverMaxConnections,
       'gamemode': this.gameServer.gameMode.name,
-      'start_time': this.gameServer.startTime
+      'start_time': this.gameServer.startTime,
+      'Server_uid': this.gameServer.uid
     };
     this.stats = JSON.stringify(s);
   }
