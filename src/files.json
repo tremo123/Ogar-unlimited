@@ -420,6 +420,12 @@
     "name": "announce.js"
   },
   {
+    "hash": "6301b0ee519ff1fd7e9c1fb026f7bd53",
+    "src": "src/modules/commands/uniban.js",
+    "dst": "./modules/commands/uniban.js",
+    "name": "announce.js"
+  },
+  {
     "hash": "4f2d2228530ba0a42c67c941cac15b5f",
     "src": "src/modules/commands/ban.js",
     "dst": "./modules/commands/ban.js",
