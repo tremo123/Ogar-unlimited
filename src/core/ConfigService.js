@@ -166,7 +166,9 @@ module.exports = class ConfigService {
     return this.skinNames
 
   }
-
+getUniBan() {
+  return this.uniban
+}
   getConfig() {
     return this.config;
   }
