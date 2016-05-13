@@ -160,7 +160,7 @@ module.exports = class ConfigService {
     this.loadRandomSkin();
     this.loadBotNames();
     this.loadCustomSkin();
-    this.loadUniBan
+    this.loadUniBan();
     this.loadid();
   }
   getRSkins() {
