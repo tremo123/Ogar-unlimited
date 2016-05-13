@@ -29,7 +29,7 @@ process.on('exit', (code) => {
 
 // init/start the control server
 controlServer.init();
-controlServer.start();
+setTimeout(controlServer.start(),2000);
 
 // Initialize the server console
 if (showConsole) {
