@@ -1271,7 +1271,7 @@ onWVerify(client) {
 
 
         this.addNode(ejected, "moving");
-        ejectedCells++; 
+        
    
  }
 
