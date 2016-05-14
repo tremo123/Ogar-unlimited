@@ -16,9 +16,16 @@ process.argv.forEach(function (val) {
     console.log("Proper Usage: node index.js");
     console.log("    --noconsole         Disables the console");
     console.log("    --help              Help menu.");
+    console.log("    --expose-gc         Enables garbage collection")
     console.log("");
   }
 });
+if (global.gc) {
+    global.gc();
+} else {
+    console.log('Garbage collection unavailable.  Pass --expose-gc '
+      + 'when launching node to enable garbage collection.(memory leak)');
+}
 
 // There is no stopping an exit so clean up
 // NO ASYNC CODE HERE - only use SYNC or it will not happen
