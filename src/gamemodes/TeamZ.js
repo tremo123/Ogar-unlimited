@@ -316,7 +316,7 @@ TeamZ.prototype.leaderboardAddSort = function (player, leaderboard) {
 
 TeamZ.prototype.onServerInit = function (gameServer) {
   // Called when the server starts
-  gameServer.run = true;
+  gameServer.running = true;
 
   // Overwrite some server functions:
   GameServer = require('../GameServer.js');
