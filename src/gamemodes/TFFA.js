@@ -27,7 +27,7 @@ TFFA.prototype = new Mode();
 // Gamemode Specific Functions
 
 TFFA.prototype.startGame = function (gameServer) {
-  gameServer.run = true;
+  gameServer.running = true;
   this.gamePhase = 2;
   this.getSpectate(); // Gets a random person to spectate
 };
@@ -39,7 +39,7 @@ TFFA.prototype.endGame = function (gameServer) {
 };
 
 TFFA.prototype.endGameTimeout = function (gameServer) {
-  gameServer.run = false;
+  gameServer.running = false;
   this.gamePhase = 3;
   this.timer = this.endTime; // 30 Seconds
 };
@@ -66,7 +66,7 @@ TFFA.prototype.prepare = function (gameServer) {
   gameServer.bots.loadNames();
 
   // Pauses the server
-  gameServer.run = false;
+  gameServer.running = false;
   this.gamePhase = 0;
 
   // Handles disconnections
