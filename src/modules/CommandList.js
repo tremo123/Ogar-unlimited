@@ -53,6 +53,7 @@ Commands.list = {
     console.log("[Console] clear      : clear console output");
     console.log("[Console] color      : set cell(s) color by client ID");
     console.log("[Console] exit       : stop the server");
+    console.log("[Console] garbage    : Garbage collection")
     console.log("[Console] food       : spawn food at specified Location");
     console.log("[Console] Freeze     : Freezes a player");
     console.log("[Console] spawnmass  : sets players spawn mass");
