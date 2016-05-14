@@ -38,7 +38,7 @@ SFFA.prototype.startGamePrep = function (gameServer) {
 };
 
 SFFA.prototype.startGame = function (gameServer) {
-  gameServer.run = true;
+  gameServer.running = true;
   this.gamePhase = 2;
   this.getSpectate(); // Gets a random person to spectate
   gameServer.config.playerDisconnectTime = this.dcTime; // Reset config
@@ -51,7 +51,7 @@ SFFA.prototype.endGame = function (gameServer) {
 };
 
 SFFA.prototype.endGameTimeout = function (gameServer) {
-  gameServer.run = false;
+  gameServer.running = false;
   this.gamePhase = 4;
   this.timer = this.endTime; // 30 Seconds
 };
@@ -124,7 +124,7 @@ SFFA.prototype.prepare = function (gameServer) {
   gameServer.bots.loadNames();
 
   // Pauses the server
-  gameServer.run = false;
+  gameServer.running = false;
   this.gamePhase = 0;
 
   // Get config values
