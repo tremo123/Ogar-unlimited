@@ -413,6 +413,12 @@
     "dst": "./modules/commands/addbot.js",
     "name": "addbot.js"
   },
+    {
+    "hash": "a15c2229eca15ba2df2439020fb4bc06",
+    "src": "src/modules/commands/garbage.js",
+    "dst": "./modules/commands/garbage.js",
+    "name": "garbage.js"
+  },
   {
     "hash": "6301b0ee519ff1fd7e9c1fb026f7bd53",
     "src": "src/modules/commands/announce.js",
