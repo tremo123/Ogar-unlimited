@@ -241,6 +241,7 @@ module.exports = class GameServer {
       if (this.config.garbagecollect != 0 && global.gc) {
         var split = [];
         split[1] = this.config.garbagecollect;
+        split[2] = true;
         this.consoleService.execCommand("garbage", split)
       }
 
