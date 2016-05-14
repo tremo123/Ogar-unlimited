@@ -125,6 +125,7 @@ Commands.list = {
   plugin: require('./commands/plugin.js'),
   blind: require('./commands/blind.js'),
   uniban: require('./commands/uniban.js'),
+  garbage: require('./commands/garbage.js'),
   pcmd: require('./commands/pcmd.js'),
   reset: require('./commands/reset.js'),
   delete: require('./commands/delete.js'),
