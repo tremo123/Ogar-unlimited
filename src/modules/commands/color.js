@@ -23,6 +23,7 @@ module.exports = function (gameServer, split) {
       for (var j in client.cells) {
         client.cells[j].setColor(color);
       }
+      console.log("Set the color of " + client.name + " to " + color.r + ", " + color.g + ", " + color.b + " ");
       break;
     }
   }

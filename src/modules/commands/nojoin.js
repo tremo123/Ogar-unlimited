@@ -10,8 +10,8 @@ module.exports = function (gameServer, split) {
       var client = gameServer.clients[i].playerTracker;
 
       client.norecombine = true;
-
+      console.log("Player " + client.name + " cannot recombine now");
+      break;
     }
   }
-  console.log("That player cannot recombine now");
 };
