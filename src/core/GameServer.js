@@ -238,7 +238,7 @@ module.exports = class GameServer {
       if (this.config.anounceHighScore === 1) {
         this.consoleService.execCommand("announce", "");
       }
-      if (this.config.garbagecollect != 0) {
+      if (this.config.garbagecollect != 0 && global.gc) {
         var split = [];
         split[1] = this.config.garbagecollect;
         this.consoleService.execCommand("garbage", split)
