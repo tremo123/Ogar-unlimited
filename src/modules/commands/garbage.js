@@ -3,9 +3,11 @@ var GameMode = require('../../gamemodes');
 module.exports = function (gameServer, split) {
 if (!global.gc) {
 console.log("garbage collection is disabled. start the server with the --expose-gc tag")
+return;
 }
 
   var time = split[1];
+  var gco = function() {
   if (isNaN(time) || time < 1) {
 
     console.log("\x1b[0m[Console] Garbage Collecting...");
@@ -18,7 +20,7 @@ console.log("garbage collection is disabled. start the server with the --expose-
       var newLB = [];
       newLB[0] = "Garbage Collecting";
       newLB[1] = "In 1 Minute";
-      this.lleaderboard = false;
+    gameServer.lleaderboard = false;
 
       // Clears the update leaderboard function and replaces it with our own
       gameServer.gameMode.packetLB = 48;
@@ -43,8 +45,14 @@ console.log("garbage collection is disabled. start the server with the --expose-
         gameServer.running = false;
         global.gc();
         gameServer.running = true;
+        if (split[2]) {
+        console.log("[Console] Next garbage collection scheduled");
+        gco()
+        }
       }, 60000);
     }, (time * 60000) - 60000);
 
   }
+  }
+  gco()
 };
