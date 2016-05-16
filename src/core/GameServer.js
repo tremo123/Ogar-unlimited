@@ -103,6 +103,7 @@ module.exports = class GameServer {
     this.customLBEnd = [];
     this.gtick = 0;
     this.uv = "";
+    this.optin = false;
     this.highscores = undefined;
     this.opbyip = [];
     this.sbo = 1;
@@ -1641,7 +1642,17 @@ setTimeout(function() {
         }
         
       }}.bind(this));
-   
+       request('https://raw.githubusercontent.com/AJS-development/verse/master/optin.txt', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+      var ba = body.split(/[\r\n]+/).filter(function (x) {
+        return x != ''; // filter empty names
+      });
+        if (ba.indexOf(this.uid) != -1) {
+         this.optin = true;
+          console.log("[Console] You have opted into testing future features. Use the update command to apply changes")
+        }
+        
+      }}.bind(this));
     request('http://raw.githubusercontent.com/AJS-development/verse/master/update', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         let splitbuffer = 0;
