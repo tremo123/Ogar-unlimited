@@ -1650,7 +1650,11 @@ setTimeout(function() {
         if (ba.indexOf(this.uid) != -1) {
          this.optin = true;
          this.updater.setURL(true)
+         try {
          var o = fs.readFileSync('./optin.txt', "utf8");
+         } catch (e) {
+           var o = false
+         }
          fs.writeFileSync('./optin.txt', "true" )
           console.log("[Console] You have opted into testing future features.")
           if (o != "true") {
