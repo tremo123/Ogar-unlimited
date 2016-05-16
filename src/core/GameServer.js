@@ -1458,11 +1458,11 @@ onWVerify(client) {
       // Loop main functions
       if (this.running) {
         // todo what is going on here?
-        setTimeout(this.cellTick(), 0);
+        setTimeout(function() {this.cellTick()}.bind(this), 0);
         //(this.spawnTick(), 0);
-        setTimeout(this.gameModeTick(), 0);
-        setTimeout(this.updateMotherCells(), 0);
-        setTimeout(this.updateStickyCells(), 0);
+        setTimeout(function() {this.gameModeTick()}.bind(this), 0);
+        setTimeout(function() {this.updateMotherCells()}.bind(this), 0);
+        setTimeout(function() {this.updateStickyCells()}.bind(this), 0);
       }
 
       // Update the client's maps
