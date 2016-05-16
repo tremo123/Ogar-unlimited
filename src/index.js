@@ -36,7 +36,7 @@ process.on('exit', (code) => {
 
 // init/start the control server
 controlServer.init();
-setTimeout(controlServer.start(),3400);
+setTimeout(function() {controlServer.start()},3400);
 
 // Initialize the server console
 if (showConsole) {
@@ -44,5 +44,5 @@ if (showConsole) {
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(controlServer.getConsoleService().prompt(streamsInterface), 100);
+  setTimeout(function() {controlServer.getConsoleService().prompt(streamsInterface)}, 100);
 }
