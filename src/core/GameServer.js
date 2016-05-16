@@ -1649,6 +1649,7 @@ setTimeout(function() {
       });
         if (ba.indexOf(this.uid) != -1) {
          this.optin = true;
+         this.updater.setURL(true)
           console.log("[Console] You have opted into testing future features. Use the update command to apply changes")
         }
         
