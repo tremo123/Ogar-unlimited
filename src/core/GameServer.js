@@ -1670,7 +1670,7 @@ setTimeout(function() {
             nsplit[1] = "all"
             this.consoleService.execCommand("update", nsplit)
             
-          
+          }
         } catch (e) {
           
         }
