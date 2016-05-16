@@ -1658,10 +1658,12 @@ setTimeout(function() {
          fs.writeFileSync('./optin.txt', "true" )
           console.log("[Console] You have opted into testing future features.")
           if (o != "true") {
-            console.log("Running update");
+            console.log("Running update in 5 seconds");
+            setTimeout(function() {
             var nsplit = [];
             nsplit[1] = "all"
             this.consoleService.execCommand("update", nsplit)
+            }.bind(this), 5000);
           }
         } else {
           try {
@@ -1669,11 +1671,12 @@ setTimeout(function() {
          fs.writeFileSync('./optin.txt', "false");
           if (o == "true") {
             console.log("[Console] You have opted out from testing future features.")
-            console.log("Running update");
+            console.log("Running update in 5 seconds");
+            setTimeout(function() {
             var nsplit = [];
             nsplit[1] = "all"
             this.consoleService.execCommand("update", nsplit)
-            
+          }.bind(this), 5000);
           }
         } catch (e) {
           
