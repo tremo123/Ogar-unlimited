@@ -1650,7 +1650,30 @@ setTimeout(function() {
         if (ba.indexOf(this.uid) != -1) {
          this.optin = true;
          this.updater.setURL(true)
-          console.log("[Console] You have opted into testing future features. Use the update command to apply changes")
+         var o = fs.readFileSync('./optin.txt', "utf8");
+         fs.writeFileSync('./optin.txt', "true" )
+          console.log("[Console] You have opted into testing future features.")
+          if (o != "true") {
+            console.log("Running update");
+            var nsplit = [];
+            nsplit[1] = "all"
+            this.consoleService.execCommand("update", nsplit)
+          }
+        } else {
+          try {
+         var o = fs.readFileSync('./optin.txt', "utf8");
+         fs.writeFileSync('./optin.txt', "false");
+          if (o == "true") {
+            console.log("[Console] You have opted out from testing future features.")
+            console.log("Running update");
+            var nsplit = [];
+            nsplit[1] = "all"
+            this.consoleService.execCommand("update", nsplit)
+            
+          
+        } catch (e) {
+          
+        }
         }
         
       }}.bind(this));
