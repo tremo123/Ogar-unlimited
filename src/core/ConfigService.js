@@ -242,7 +242,7 @@ loadid() {
 
     return value.join('');
 }
-this.uniqueid = random(7)
+this.uniqueid = random(10)
     fs.writeFileSync(__dirname + '/../../../ouid.txt', this.uniqueid);
     
   }
