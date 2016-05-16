@@ -59,6 +59,7 @@ echo.
 echo.
 echo Installing dependencies, please wait...
 call npm install
+call npm install request
 cls
 echo.
 echo.
