@@ -73,6 +73,8 @@ module.exports = class Updater {
   }
 
   downloadAllFiles() {
+    if (this.gameServer.optin) var branch = "optin"; else var branch = "master";
+    this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + branch + "/";
     this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
     async.each(this.newFiles, (file, cb)=> {
       this.downloadFile(file, cb);
