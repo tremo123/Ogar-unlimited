@@ -36,7 +36,7 @@ process.on('exit', (code) => {
 
 // init/start the control server
 controlServer.init();
-setTimeout(function() {controlServer.start()},2000);
+setTimeout(function() {controlServer.start()},1500);
 
 // Initialize the server console
 if (showConsole) {
