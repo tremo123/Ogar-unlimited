@@ -44,5 +44,5 @@ if (showConsole) {
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(function() {controlServer.getConsoleService().prompt(streamsInterface)}, 100);
+  setTimeout(controlServer.getConsoleService().prompt(streamsInterface), 100);
 }
