@@ -55,7 +55,6 @@ module.exports = class GameServer {
     this.leaderboard = []; // leaderboard
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.bots = new BotLoader(this);
-    this.updater = new Updater(this);
     this.minions = new MinionLoader(this);
 
     // Config
@@ -104,6 +103,7 @@ module.exports = class GameServer {
     this.gtick = 0;
     this.uv = "";
     this.optin = false;
+    this.updater = new Updater(this);
     this.highscores = undefined;
     this.opbyip = [];
     this.sbo = 1;
