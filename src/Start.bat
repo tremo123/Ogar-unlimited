@@ -1,6 +1,6 @@
 @echo off
 :loop
-node index.js
+node --expose-gc index.js
 if errorlevel 1 (
 if not errorlevel 3 (
 GOTO END;
