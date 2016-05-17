@@ -29,8 +29,8 @@ This Modified copy was created to help those who want to open their server to th
  12. Colortext command (Changes console output color and style)
  13. Live Console (see gameserver.ini, where a live console appears) NOTE: this is way different that Ogarserv's Console
  14. Restart. Make it restart automatically or restart manually, Only works if use windows start script
- 15. skins, to use custom skins, do <skinname> and then your name. for example `<spy> lol` will give you spy skin with name of lol use `[website]` to use a custom skin from a website (you need to use a url shortener though)
- 16. customskins (see custom skins)
+ 15. ~~skins, to use custom skins, do <skinname> and then your name. for example `<spy> lol` will give you spy skin with name of lol use `[website]` to use a custom skin from a website (you need to use a url shortener though)~~
+ 16. ~~customskins (see custom skins)~~
  17. Minions: you can create minions like agario powerups. press q to enter minion control mode (a b will appear next to your name). w = eject, space = split. press q again to exit
  18. Banlist file
  19. Opbyip
@@ -74,7 +74,7 @@ You use OP by first setting who has op by doing op [id] in console. Then, that p
 
 * Note: names (CC's) dont work when player name is blank and it doesnt work on Virus and Leap gamemodes
 
-## Custom skins (guide)
+## ~~Custom skins (guide)~~ Wont work, moneyclip
 You can use custom skins by putting them in customskins.txt
 the format is `[shortcut] [skin]` for the skin field, to use a URL skin, you do `:http://url` DO NOT FORGET TO GET REID OF THE S IF IT IS HTTPS OR FORGET TO PUT A : BEFORE.To use an agario skin, use `%skinname`To use that skin in game simply do `<skinsshortuct>` and then your name,
 
