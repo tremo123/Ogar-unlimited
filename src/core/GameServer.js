@@ -1380,7 +1380,7 @@ onWVerify(client) {
     // Create cell
     let newCell = new Entity.PlayerCell(this.world.getNextNodeId(), client, startPos, mass, this);
     newCell.setAngle(angle);
-	  newCell.setMoveEngineData(Math.min(newCell.getSpeed() * 10, 100), 20, 0.86); // Use dynamic instead of fixed
+	  newCell.setMoveEngineData(Math.min(newCell.getSpeed() * 10, 100), 20, this.config.virusExplosionMult); // Use dynamic instead of fixed
     newCell.calcMergeTime(this.config.playerRecombineTime);
     newCell.ignoreCollision = true; // Remove collision checks
 	  newCell.restoreCollisionTicks = 6; // If 6 is bad, change it to the one below! 
