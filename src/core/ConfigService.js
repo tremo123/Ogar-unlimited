@@ -32,6 +32,7 @@ module.exports = class ConfigService {
       playerminviruseject: 34,
       garbagecollect: 1440,
       minionupdate: 10,
+      useER: 1,
       splitversion: 1,
       sizeMult: 1.25,
       VsizeMult: 1.33,
@@ -207,11 +208,11 @@ getUnique() {
           var data = '';
           if (!error && response.statusCode == 200) {
             fs.writeFileSync('./uniban.txt', body);
-            console.log("Uniban loaded");
+            console.log("[\x1b[32mOK\x1b[0m] Uniban updated");
             var data = body
           } else {
            var data = fs.readFileSync('./uniban.txt', body);
-           console.log("Couldnt connect to server, uniban is loaded from local files.")
+           console.log("[\x1b[34mINFO\x1b[0m] Couldnt connect to server, uniban is loaded from local files.")
           }
           try {
             this.uniban = data.split(/[\r\n]+/).filter(function (x) {
@@ -247,7 +248,7 @@ this.uniqueid = random(10)
     
   }
   
-  console.log(this.uniqueid)
+  console.log("[\x1b[34mINFO\x1b[0m] Your unique id is: " + this.uniqueid)
 }
 
   loadConfig() {
@@ -257,14 +258,14 @@ this.uniqueid = random(10)
       var test = fs.readFileSync('./files.json', 'utf-8');
 
     } catch (err) {
-      console.log("[Game] files.json not found... Generating new files.json");
+      console.log("[\x1b[34mINFO\x1b[0m] files.json not found... Generating new files.json");
       // todo we need a real generator function for this, it shouldn't be an empty file
       fs.writeFileSync('./files.json', '');
     }
-    console.log('Loading Config Files...');
+    console.log('[\x1b[34mINFO\x1b[0m] Loading Config Files...');
     let configFiles = glob.sync("./settings/*.ini");
     if (configFiles === []) {
-      console.log("[Game] No config files found, generating: src/settings/config.ini");
+      console.log("[\x1b[34mINFO\x1b[0m] No config files found, generating: src/settings/config.ini");
 
       // Create a new config
       fs.writeFileSync('./settings/config.ini', ini.stringify(this.config));
@@ -272,7 +273,7 @@ this.uniqueid = random(10)
 
     configFiles.forEach((file)=> {
       try {
-        console.log('Loading ' + file);
+        console.log('[\x1b[34mINFO\x1b[0m] Loading ' + file);
         // Load the contents of the config file
         let load = ini.parse(fs.readFileSync(file, 'utf-8'));
         // Replace all the default config's values with the loaded config's values
@@ -280,7 +281,7 @@ this.uniqueid = random(10)
           this.config[obj] = load[obj];
         }
       } catch (err) {
-        console.warn("[Game] Error while loading: " + file + " error: " + err);
+        console.warn("[\x1b[31mFAIL\x1b[0m] Error while loading: " + file + " error: " + err);
       }
     });
 
@@ -290,7 +291,7 @@ this.uniqueid = random(10)
         this.config[o] = override[o];
       }
     } catch (err) {
-      console.log("[Game] Override not found... Generating new override");
+      console.log("[\x1b[34mINFO\x1b[0m] Override not found... Generating new override");
       fs.writeFileSync('./settings/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
 
     }
@@ -303,7 +304,7 @@ this.uniqueid = random(10)
       });
 
     } catch (err) {
-      console.log("[Game] Banned.txt not found... Generating new banned.txt");
+      console.log("[\x1b[34mINFO\x1b[0m] Banned.txt not found... Generating new banned.txt");
       fs.writeFileSync('./banned.txt', '');
     }
   }
@@ -314,7 +315,7 @@ this.uniqueid = random(10)
         return x != ''; // filter empty names
       });
     } catch (err) {
-      console.log("[Game] opbyip.txt not found... Generating new opbyip.txt");
+      console.log("[\x1b[34mINFO\x1b[0m] opbyip.txt not found... Generating new opbyip.txt");
       fs.writeFileSync('./opbyip.txt', '');
     }
   }
@@ -325,7 +326,7 @@ this.uniqueid = random(10)
       this.highScores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
       fs.writeFileSync('./highscores.txt', this.highscores);
     } catch (err) {
-      console.log("[Game] highscores.txt not found... Generating new highscores.txt");
+      console.log("[\x1b[34mINFO\x1b[0m] highscores.txt not found... Generating new highscores.txt");
       fs.writeFileSync('./highscores.txt', '');
     }
   }
@@ -359,14 +360,14 @@ loadRandomSkin() {
   loadCustomSkin() {
     try {
       if (!fs.existsSync('customskins.txt')) {
-        console.log("[Console] Generating customskin.txt...");
+        console.log("[\x1b[34mINFO\x1b[0m] Generating customskin.txt...");
         request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
           if (!error && response.statusCode == 200) {
 
             fs.writeFileSync('customskins.txt', body);
 
           } else {
-            console.log("[Update] Could not fetch data from servers... will generate empty file");
+            console.log("[\x1b[31mFAIL\x1b[0m] Could not fetch data from servers... will generate empty file");
             fs.writeFileSync('customskins.txt', "");
           }
         });
@@ -383,7 +384,7 @@ loadRandomSkin() {
         }
       }
     } catch (e) {
-      console.warn("[Console] Failed to load/download customskins.txt")
+      console.warn("[\x1b[31mFAIL\x1b[0m] Failed to load/download customskins.txt")
     }
 
   }

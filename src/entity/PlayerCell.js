@@ -52,10 +52,23 @@ PlayerCell.prototype.calcMergeTime = function (base) {
   // As time passes on, recombineTicks gets larger, instead of getting smaller.
   // When the owner has only 1 cell, ticks and shouldRecombine will be reset by gameserver.
   var r = false;
+  if (this.owner.recombineinstant) {
+    r = true; // If base recombine time is 0, instantly recombine
+  } else {
+    if(base == 0) var rec = 0.5; else var rec = Math.floor(base + ((0.02 * this.mass))); // base seconds + 0.02% of mass
+    if (this.recombineTicks > rec) r = true; // Can combine with other cells
+  }
+  this.shouldRecombine = r;
+};
+PlayerCell.prototype.calcMergeTimeU = function (base) {
+  // The recombine mechanic has been completely revamped.
+  // As time passes on, recombineTicks gets larger, instead of getting smaller.
+  // When the owner has only 1 cell, ticks and shouldRecombine will be reset by gameserver.
+  var r = false;
   if (base == 0 || this.owner.recombineinstant) {
     r = true; // If base recombine time is 0, instantly recombine
   } else {
-    var rec = Math.floor(base + ((0.02 * this.mass))); // base seconds + 0.02% of mass
+    var rec = Math.floor(base); // base seconds + 0.02% of mass
     if (this.recombineTicks > rec) r = true; // Can combine with other cells
   }
   this.shouldRecombine = r;

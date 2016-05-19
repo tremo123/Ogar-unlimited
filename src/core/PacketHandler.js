@@ -9,6 +9,8 @@ function PacketHandler(gameServer, socket) {
   this.pressQ = false;
   this.pressW = false;
   this.pressSpace = false;
+  this.pressE = false;
+  this.pressR = false;
 }
 
 module.exports = PacketHandler;
@@ -75,11 +77,11 @@ PacketHandler.prototype.handleMessage = function (message) {
       break;
     case 16:
       // Set Target
-      if (view.byteLength == 21 && this.gameServer.config.packetversion == 1) {
+      if (view.byteLength == 21) {
         var client = this.socket.playerTracker; // Scramble
         client.mouse.x = view.getFloat64(1, true) - client.scrambleX; // Scramble
         client.mouse.y = view.getFloat64(9, true) - client.scrambleY;
-      } else if (view.byteLength == 13 && this.gameServer.config.packetversion != 1) {
+      } else if (view.byteLength == 13) {
             var client = this.socket.playerTracker; // Scramble
         client.mouse.x = view.getInt32(1, true) - client.scrambleX; // Scramble
         client.mouse.y = view.getInt32(5, true) - client.scrambleY;
@@ -102,6 +104,12 @@ PacketHandler.prototype.handleMessage = function (message) {
       // W Press - Eject mass
       this.pressW = true;
       break;
+    case 22:
+    this.pressE = true;
+    break;
+    case 23:
+      this.pressR = true;
+    break;
     case 255:
       // Connection Start
       if (view.byteLength == 5) {

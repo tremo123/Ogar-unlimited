@@ -34,16 +34,19 @@ this.version = version;
     fs.mkdir('./plugins');
   }
     if (this.gameServer.config.dev == 1) {
-      console.log("[Console] Loading plugins in dev mode");
+      console.log("[\x1b[34mINFO\x1b[0m] Loading plugins in dev mode");
       var files = fs.readdirSync('./plugins/');
       for (var i in files) {
-
-        var plugin = require('../plugins/' + files[i] + '/index.js');
+try {
+            var plugin = require('../plugins/' + files[i] + '/index.js');
+            } catch (e) {
+              continue;
+            }
         if (plugin.compatVersion) {
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
               var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
-                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
+                console.log("[\x1b[34mINFO\x1b[0m] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
                 continue;
               }
             }
@@ -75,16 +78,16 @@ this.version = version;
     }
   } catch (err) {
     // No config
-    console.log("[Plugin] Plugin configs for " + plugin.name + " Cannot be loaded");
+    console.log("[\x1b[31mFAIL\x1b[0m]vPlugin configs for " + plugin.name + " Cannot be loaded");
   }
               }
               plugin.init(this.gameServer, config);
           }
 
-          console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
+          console.log("[\x1b[32mOK\x1b[0m] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
 
         } else {
-          console.log("[Console] Didnt load pluginfile " + files[i] + " because it was missing parameters");
+          console.log("[\x1b[31mFAIL\x1b[0m]Didnt load pluginfile " + files[i] + " because it was missing parameters");
         }
       }
 
@@ -92,17 +95,21 @@ this.version = version;
 
 
       try {
-        console.log("[Console] Loading plugins");
+        console.log("[\x1b[34mINFO\x1b[0m] Loading plugins");
         var files = fs.readdirSync('./plugins/');
         for (var i in files) {
 
           try {
+            try {
             var plugin = require('../plugins/' + files[i] + '/index.js');
+            } catch (e) {
+              continue;
+            }
             if (plugin.compatVersion) {
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
               var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
-                console.log("[Console] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
+                console.log("[\x1b[31mFAIL\x1b[0m] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
                 continue;
               }
             }
@@ -136,23 +143,23 @@ this.version = version;
     }
   } catch (err) {
     // No config
-    console.log("[Plugin] Plugin configs for " + plugin.name + " Cannot be loaded");
+    console.log("[\x1b[31mFAIL\x1b[0m] Plugin configs for " + plugin.name + " Cannot be loaded");
   }
               }
               plugin.init(this.gameServer, config);
           }
 
-              console.log("[Console] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
+              console.log("[\x1b[32mOK\x1b[0m] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
             } else {
-              console.log("[Console] Didnt load pluginfile " + files[i] + " because it was missing parameters");
+              console.log("[\x1b[31mFAIL\x1b[0m] Didnt load pluginfile " + files[i] + " because it was missing parameters");
             }
           } catch (e) {
-            console.log("[Console] Failed to load pluginfile " + files[i] + " Reason: " + e);
+            console.log("[\x1b[31mFAIL\x1b[0m] Failed to load pluginfile " + files[i] + " Reason: " + e);
 
           }
         }
       } catch (e) {
-        console.log("[Console] Couldnt load plugins");
+        console.log("[\x1b[31mFAIL\x1b[0m] Couldnt load plugins");
       }
     }
 

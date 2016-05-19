@@ -13,6 +13,8 @@ module.exports = class Updater {
     this.files = require(path.resolve(process.cwd(), 'files.json'));
     this.newFiles = {};
     this.updatedFiles = [];
+    this.tobe = 0;
+    this.dow = 0;
   }
 
   init() {
@@ -54,19 +56,50 @@ module.exports = class Updater {
       console.error(err);
     }
   }
-
-  downloadFile(file, callback) {
+  loading(action) {
+    this.dow ++;
+    var percent = Math.round(this.dow/this.tobe*10)
+    var bar = ""
+    for(var i = 0; i < percent; i++) {
+      bar = bar + "===";
+    }
+    if (percent == 10) bar = bar + "="; else bar = bar + ">";
+    var extras = 31 - bar.length;
+    var extra = "";
+    for (var i = 0; i < extras; i++) extra = extra + " ";
+    process.stdout.write("[Update] [" + bar + extra + "] " +  percent*10 + "% " + action + "\r");
+    
+    
+  }
+  
+downloadWithLoad(file, callback) {
     let url = this.url + file.src;
-    console.log('[Downloading] ' + url + ' to: ' + file.dst);
     request(url, function (error, response, body) {
       if (!error && response.statusCode == 200 && body != "") {
+        this.loading("Downloading");
         fs.writeFile(file.dst, body, (err, res)=> {
           if (typeof callback === "function") {
             callback(err, res);
           }
         });
       } else {
-        callback("[Update] Couldn't connect to servers. Failed to download: " + url);
+        callback("[Update] [\x1b[31mFAIL\x1b[0m] Couldn't connect to servers. Failed to download: " + url);
+      }
+    }.bind(this));
+  };
+  downloadFile(file, callback) {
+    let url = this.url + file.src;
+    console.log('[Downloading] [\x1b[34mINFO\x1b[0m] ' + url + ' to: ' + file.dst);
+    request(url, function (error, response, body) {
+      if (!error && response.statusCode == 200 && body != "") {
+        console.log("[\x1b[32mOK\x1b[0m] " + file.dst)
+        fs.writeFile(file.dst, body, (err, res)=> {
+          if (typeof callback === "function") {
+            callback(err, res);
+          }
+        });
+      } else {
+        callback("[Update] [\x1b[31mFAIL\x1b[0m] Couldn't connect to servers. Failed to download: " + url);
       }
     });
   }
@@ -75,9 +108,13 @@ setURL(optin) {
     this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + branch + "/";
 }
   downloadAllFiles() {
+    this.dow = 0;
     this.newFiles = JSON.parse(fs.readFileSync('filesTemp.json'));
+    console.log("[Console] Updating...");
+    this.tobe = 2;
     async.each(this.newFiles, (file, cb)=> {
-      this.downloadFile(file, cb);
+      this.tobe ++;
+      this.downloadWithLoad(file, cb);
     }, handleError(this.gameServer));
 
 
@@ -91,7 +128,7 @@ setURL(optin) {
 
   runNpmInstall() {
     // executes `pwd`
-    console.log('[Update] Running npm install to install new node modules!');
+    this.loading("Running npm install");
     let child = exec("npm install", function (error, stdout, stderr) {
       if (error !== null) {
         console.error('[Execution Error] Failed to run npm install  Reason: ', error);
@@ -112,11 +149,12 @@ function handleError(gameServer) {
       process.exit(3);
     } else {
       gameServer.updater.runNpmInstall();
-      console.log("[Update] Done! Now shuting down in 8 seconds for restart...");
+      gameServer.updater.loading("Done!                  ");
+      console.log("\n[Update] Restarting...")
       setTimeout(function () {
         gameServer.socketServer.close();
         process.exit(3);
-      }, 8000);
+      }, 3000);
     }
   }
 }
