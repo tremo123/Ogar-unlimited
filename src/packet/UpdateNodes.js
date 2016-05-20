@@ -86,6 +86,20 @@ if (this.gameServer.config.packetversion == 1) {
     view.setUint8(offset + 17, (node.spiked | 4)); // Flags
     /////
     offset += 18;
+        /////
+    var skin = node.getPremium();
+    if (skin) {
+      for (var j = 0; j < skin.length; j++) {
+        var c = skin.charCodeAt(j);
+        if (c) {
+         view.setUint8(offset, c);
+        }
+        offset++;
+    }
+    }
+    view.setUint8(offset, 0); // End of string
+    offset++;
+    /////
 }
     /////
     //var skin = node.getPremium();
