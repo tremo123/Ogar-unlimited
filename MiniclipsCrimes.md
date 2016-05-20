@@ -1,4 +1,4 @@
-#### Moneyshit (aka miniclip) has committed these crimes against all the agario community
+#### ~~Moneyshit (aka miniclip) has committed these crimes against all the agario community~~ They redeemed themselves
 1. Removed private servers
 2. Made us pay for coins
 3. made us pay for skins
