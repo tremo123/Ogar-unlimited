@@ -9,6 +9,17 @@ const path = require("path");
 module.exports = class ConfigService {
   constructor() {
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
+        adminConfig: 0, // Turn on or off the use of admin configurations. (1 is on - 0 is off)
+        adminNames: "", // The name a user would have to use to register as an admin.
+        adminNewNames: "", // The name you will be changed to when using adminNames.
+        adminStartMass: 500, // Amount of mass the admins start with.
+        adminBlockNames: 1, // Block users using admin names.
+        serverAdminPass: "",
+        chatMaxMessageLength: 70, // Length of messages in chat
+        chatIntervalTime: 2500, // ms between each message.
+        chatBlockedWords: "fuck;bitch", // Words to filter from chat
+        chatBlockedWordsTo: "****", // Word to change filtered words to.
+        allowonly: "",
       consoleUpdateTime: 100,
       autoban: 0, // Auto bans a player if they are cheating
       randomEjectMassColor: 0, // 0 = off 1 = on

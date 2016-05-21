@@ -42,6 +42,7 @@ This Modified copy was created to help those who want to open their server to th
  25. plugins. Add gamemodes and commands easily! (See example plugin and template plugin)
  26. uniban. A pre-made banlist of already known bad ips
  27. garbage collection. prevent memory leak.
+ 28. chat
  
 ### Note:
 Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it just please give some credit to the hard working dev team, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.

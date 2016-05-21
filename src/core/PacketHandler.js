@@ -11,6 +11,7 @@ function PacketHandler(gameServer, socket) {
   this.pressSpace = false;
   this.pressE = false;
   this.pressR = false;
+  this.pressT = false;
 }
 
 module.exports = PacketHandler;
@@ -110,6 +111,9 @@ PacketHandler.prototype.handleMessage = function (message) {
     case 23:
       this.pressR = true;
     break;
+     case 24:
+      this.pressT = true;
+    break;
     case 255:
       // Connection Start
       if (view.byteLength == 5) {
@@ -124,6 +128,138 @@ PacketHandler.prototype.handleMessage = function (message) {
         ));
       }
       break;
+       case 90: // from cigar
+            var message = "";
+            var maxLen = this.gameServer.config.chatMaxMessageLength * 2; // 2 bytes per char
+            var offset = 2;
+            var flags = view.getUint8(1); // for future use (e.g. broadcast vs local message)
+            if (flags & 2) {
+                offset += 4;
+            }
+            if (flags & 4) {
+                offset += 8;
+            }
+            if (flags & 8) {
+                offset += 16;
+            }
+            for (var i = offset; i < view.byteLength && i <= maxLen; i += 2) {
+                var charCode = view.getUint16(i, true);
+                if (charCode == 0) {
+                    break;
+                }
+                message += String.fromCharCode(charCode);
+            }
+            var packet = new Packet.Chat(this.socket.playerTracker, message);
+            // Send to all clients (broadcast)
+            for (var i = 0; i < this.gameServer.clients.length; i++) {
+                this.gameServer.clients[i].sendPacket(packet);
+            }
+            break;
+             case 99: // from cigar
+             if (!this.socket.playerTracker.chatAllowed) return;
+            var message = "",
+                maxLen = this.gameServer.config.chatMaxMessageLength * 2,
+                offset = 2,
+                flags = view.getUint8(1);
+
+            if (flags & 2) {
+                offset += 4;
+            }
+            if (flags & 4) {
+                offset += 8;
+            }
+            if (flags & 8) {
+                offset += 16;
+            }
+
+            for (var i = offset; i < view.byteLength && i <= maxLen; i += 2) {
+                var charCode = view.getUint16(i, true);
+                if (charCode == 0) {
+                    break;
+                }
+                message += String.fromCharCode(charCode);
+            }
+
+            var zname = wname = this.socket.playerTracker.name;
+            if (wname == "") wname = "Spectator";
+
+            if (this.gameServer.config.serverAdminPass != '') {
+                var passkey = "/rcon " + this.gameServer.config.serverAdminPass + " ";
+                if (message.substr(0, passkey.length) == passkey) {
+                  this.socket.playerTracker.isAdmin = true;
+                    var cmd = message.substr(passkey.length, message.length);
+                    var split = cmd.split(" "),
+                        first = split[0].toLowerCase();
+                    console.log("[Console] " + wname + " has issued a remote command " + cmd + " and is logged in!");
+                   
+                        this.gameServer.consoleService.execCommand(first, split);
+                    this.gameServer.pm(this.socket.playerTracker.pID,"Command Sent and Logged in!")
+                    break;
+                } else if (this.socket.playerTracker.isAdmin) {
+                  var l = "/rcon ";
+                    var cmd = message.substr(l.length, message.length);
+                    var split = cmd.split(" "),
+                        first = split[0].toLowerCase();
+                    console.log("[Console] " + wname + " has issued a remote command " + cmd);
+                   this.gameServer.pm(this.socket.playerTracker.pID,"Command Sent!")
+                        this.gameServer.consoleService.execCommand(first, split);
+                
+                break;
+                 } else if (message.substr(0, 6) == "/rcon ") {
+                    console.log("[Console] " + wname + " has issued a remote command but used the wrong password!");
+                    this.gameServer.pm(this.socket.playerTracker.pID,"Wrong Password!")
+                    break;
+                }
+            }
+
+            var date = new Date(),
+                hour = date.getHours();
+
+            if ((date - this.socket.playerTracker.cTime) < this.gameServer.config.chatIntervalTime) {
+                var time = 1 + Math.floor(((this.gameServer.config.chatIntervalTime - (date - this.socket.playerTracker.cTime)) / 1000) % 60);
+                // Happens when user tries to spam
+                break;
+            }
+
+            blockedWords = this.gameServer.config.chatBlockedWords.split(";");
+
+            // Removes filtered words.
+            var chatFilter = 0;
+
+            function checkChat() {
+                if (chatFilter !== blockedWords.length) {
+                    message = message.replace(blockedWords[chatFilter], "****");
+                    chatFilter++;
+                    checkChat();
+                }
+            }
+
+            checkChat();
+
+            this.socket.playerTracker.cTime = date;
+            var LastMsg;
+            if (message == LastMsg) {
+                ++SpamBlock;
+                if (SpamBlock > 5) this.socket.playerTracker.chatAllowed = false;
+                this.gameServer.pm(this.socket.playerTracker.pID, " Your chat is banned because you are spammin!")
+                break;
+            }
+            LastMsg = message;
+            SpamBlock = 0;
+
+            hour = (hour < 10 ? "0" : "") + hour;
+            var min = date.getMinutes();
+            min = (min < 10 ? "0" : "") + min;
+            hour += ":" + min;
+
+            var fs = require('fs');
+
+            var packet = new Packet.Chat(this.socket.playerTracker, message);
+            // Send to all clients (broadcast)
+            for (var i = 0; i < this.gameServer.clients.length; i++) {
+                this.gameServer.clients[i].sendPacket(packet);
+            }
+            break;
     default:
       break;
   }

@@ -7,8 +7,21 @@ function Op() {
 }
 
 module.exports = Op;
+Op.prototype.pressT = function (gameServer, player) {
+    for (var i in gameServer.plugins) {
+        if (gameServer.plugins[i].beforet && gameServer.plugins[i].name && gameServer.plugins[i].author && gameServer.plugins[i].version) {
+          if (!gameServer.plugins[i].beforet(player)) return;
+        }
+      }
+      player.ft = !player.ft;
+  for (var i in gameServer.clients) {
+      var client = gameServer.clients[i].playerTracker;
+      if ((typeof gameServer.clients[i].remoteAddress == 'undefined') && client.cells && client.owner == player) {
+        client.frozen = player.ft;
+      }
+    }
+}  
 
-// Override these
 Op.prototype.pressE = function (gameServer, player) {
   for (var i in gameServer.plugins) {
         if (gameServer.plugins[i].beforee && gameServer.plugins[i].name && gameServer.plugins[i].author && gameServer.plugins[i].version) {

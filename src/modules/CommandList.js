@@ -107,6 +107,7 @@ Commands.list = {
     console.log("[Console] Resetateam : Resets anti team effect for a player");
     console.log("[Console] Rainbow    : Gives rainbow effect to a player");
     console.log("[Console] Update     : Updates server to the latest version");
+    console.log("[Console] Chat       : Chat using the console!");
     console.log("[Console] changelog  : Shows a changelog");
     if (gameServer.plugins) {
       for (var i in gameServer.plugins) {
@@ -138,6 +139,7 @@ Commands.list = {
   enlarge: require('./commands/enlarge.js'),
   shrink: require('./commands/shrink.js'),
   colortext: require('./commands/colortext.js'),
+  chat: require('./commands/chat.js'),
   hide: require('./commands/hide.js'),
   announce: require('./commands/announce.js'),
   //todo the second whitlelist over writes this one, it should likely be removed:

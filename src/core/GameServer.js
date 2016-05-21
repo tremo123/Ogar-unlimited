@@ -204,7 +204,25 @@ module.exports = class GameServer {
   
 
   }
-
+msgAll(msg) {
+  var packet = new Packet.Chat("[Console]", message);
+            // Send to all clients (broadcast)
+            for (var i = 0; i < this.clients.length; i++) {
+                this.clients[i].sendPacket(packet);
+            }
+  
+}
+pm(id, msg) {
+  
+  var packet = new Packet.Chat("[Console PM]", message);
+            // Send to all clients (broadcast)
+            for (var i = 0; i < this.clients.length; i++) {
+              if (this.clients[i].playerTracker.pID == id) {
+                this.clients[i].sendPacket(packet);
+                break
+              }
+            }
+}
   start() {
 
 
@@ -306,6 +324,11 @@ module.exports = class GameServer {
           origin != 'https://127.0.0.1') {
           ws.close();
           return;
+        }
+      } else if (this.config.allowonly.length > 2) {
+        let origin = ws.upgradeReq.headers.origin;
+        if (origin != this.config.allowonly) {
+          ws.close();
         }
       }
       // -----/Client authenticity check code -----
@@ -807,8 +830,10 @@ beforeq(player) {
   };
 
   spawnPlayer(player, pos, mass) {
+    
     let dono = false;
     let dospawn = false;
+    let fro = player.frozen;
     clearTimeout(player.spect);
     if (this.nospawn[player.socket.remoteAddress] != true && !player.nospawn) {
       player.norecombine = false;
@@ -899,6 +924,31 @@ beforeq(player) {
         }
         
       }
+var isAdmin = false;
+
+    // Check for config
+    if (this.config.adminConfig == 1) {
+        // Make the required variables
+        adminArray = this.config.adminNames.split(";");
+        nadminArray = this.config.adminNewNames.split(";");
+
+        // Removes people trying fake admin
+        for (i = 0; i < nadminArray.length; i++) {
+            if (player.name == nadminArray[i]) {
+                console.log("[Console] User tried to spawn with " + nadminArray[i] + " but was denied!");
+                player.name = "";
+            }
+        }
+
+        // Checks for users with password name
+        for (i = 0; i < adminArray.length; i++) {
+            if (player.name == adminArray[i]) {
+                isAdmin = true;
+                console.log("[Console] " + nadminArray[i] + " has successfully logged in using " + adminArray[i]);
+                player.name = nadminArray[i];
+            }
+        }
+    }
 
       pos = (pos == null) ? this.getRandomSpawn() : pos;
       mass = (mass == null) ? this.config.playerStartMass : mass;
@@ -930,11 +980,17 @@ beforeq(player) {
 	      } else {
 		      issafe = true;
 	      }
-
+player.frozen = fro;
       // Spawn player and add to world
       if (!dospawn) {
+        if(isAdmin) {
+           let cell = new Entity.PlayerCell(this.world.getNextNodeId(), player, pos, this.config.adminStartMass, this);
+           this.addNode(cell, "player");
+        } else {
         let cell = new Entity.PlayerCell(this.world.getNextNodeId(), player, pos, mass, this);
         this.addNode(cell, "player");
+        }
+        
       }
 
       // Set initial mouse coords

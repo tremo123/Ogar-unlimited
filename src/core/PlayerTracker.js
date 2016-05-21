@@ -13,9 +13,12 @@ var fs = require("fs");
 module.exports = class PlayerTracker {
   constructor(gameServer, socket, owner) {
     this.pID = -1;
+    this.ft = false;
     this.disconnect = -1; // Disconnection
     this.name = "";
     this.gameServer = gameServer;
+    this.chatAllowed = true;
+    this.isAdmin = false;
     this.visible = true;
     this.socket = socket;
     this.blind = false;
@@ -310,6 +313,10 @@ if (this.gameServer.config.highscore == 1) {
     if (this.socket.packetHandler.pressR) { // R Press
     this.op.pressR(this.gameServer,this)
       this.socket.packetHandler.pressR = false;
+    }
+    if (this.socket.packetHandler.pressT) { // R Press
+    this.op.pressT(this.gameServer,this)
+      this.socket.packetHandler.pressT = false;
     }
 
     var updateNodes = []; // Nodes that need to be updated via packet
