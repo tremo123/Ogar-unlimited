@@ -205,7 +205,7 @@ module.exports = class GameServer {
 
   }
 msgAll(msg) {
-  var packet = new Packet.Chat("[Console]", message);
+  var packet = new Packet.Chat("[Console]", msg);
             // Send to all clients (broadcast)
             for (var i = 0; i < this.clients.length; i++) {
                 this.clients[i].sendPacket(packet);
@@ -214,7 +214,7 @@ msgAll(msg) {
 }
 pm(id, msg) {
   
-  var packet = new Packet.Chat("[Console PM]", message);
+  var packet = new Packet.Chat("[Console PM]", msg);
             // Send to all clients (broadcast)
             for (var i = 0; i < this.clients.length; i++) {
               if (this.clients[i].playerTracker.pID == id) {
