@@ -135,6 +135,8 @@ The current available console commands are listed here. Command names are not ca
    * Shows how to use OP
  - Plugin [command]
    * manage plugins, reload, list, delete, add, available, install, update.
+ - Chat [command] [args]
+   * Chat from the console!. Commands: all, pm. For all `chat all [msg]` for pm `chat pm [id] [msg]`
  - Announce
    * Starts the high score announce feature
  - Verify [command] [id]
