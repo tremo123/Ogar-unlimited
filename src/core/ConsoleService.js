@@ -169,7 +169,7 @@ module.exports = class ConsoleService {
       if (typeof execute !== 'undefined') {
       execute(this.gameServer, split);
     } else {
-      var execute = this.gameServer.pluginCommands[first];
+      var execute = this.gameServer.pluginCommands[command];
       if (typeof execute !== 'undefined') {
         execute(this.gameServer, split);
 
