@@ -10,7 +10,7 @@ const Updater = require('./Updater.js');
 //let updater = new Updater(this);
 
 'use strict';
-module.exports = class ControlServer {
+module.exports = class Multiverse {
   constructor(version) {
     // fields
     //this.consoleStreams = {};
@@ -55,6 +55,10 @@ module.exports = class ControlServer {
     // Run Ogar
     this.gameServer.init();
     this.gameServer.start();
+  }
+  createServer(name) {
+    
+    
   }
 
 
