@@ -415,7 +415,7 @@ if (this.gameServer.config.highscore == 1) {
       this.tickLeaderboard--;
     }
 
-    // Map obfuscation
+    /* // Map obfuscation
     var width = this.viewBox.width;
     var height = this.viewBox.height;
 
@@ -435,7 +435,7 @@ if (this.gameServer.config.highscore == 1) {
             Math.max(this.centerPos.y + this.scrambleY - height, this.gameServer.config.borderTop + this.scrambleY),
             Math.min(this.centerPos.y + this.scrambleY + height, this.gameServer.config.borderBottom + this.scrambleY)
       ));
-    }
+    } */
 
 
     // Handles disconnections
