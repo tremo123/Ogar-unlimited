@@ -106,6 +106,7 @@ downloadWithLoad(file, callback) {
 setURL(optin) {
       if (optin) var branch = "optin"; else var branch = "master";
     this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + branch + "/";
+    init()
 }
   downloadAllFiles() {
     this.dow = 0;
