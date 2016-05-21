@@ -23,31 +23,30 @@ MotherCell.prototype.getEatingRange = function () {
   return this.getSize() * 0.5;
 };
 
-MotherCell.prototype.update = function (gameServer) {
-  // Add mass
-this.mass += 0.25;
-  
+MotherCell.prototype.update = function(gameServer) {
+    if (Math.random() * 100 > 97) {
+        var maxFood = Math.random() * 2; // Max food spawned per tick
+        var i = 0; // Food spawn counter
+        while (i < maxFood) {
+            // Only spawn if food cap hasn't been reached
+            if (gameServer.currentFood < gameServer.config.foodMaxAmount * 100) {
+                this.spawnFood(gameServer);
+            }
 
-  // Spawn food
-  if (this.mass >= 222) {
-    var maxFoodSpawn = gameServer.config.foodMaxAmount * 10;
-    // Spawn food
-    var i = 0; // Food spawn counter
-    var maxFood = Math.random() * 2;
-    while (i < maxFood) {
-      if (this.mass === 222 && gameServer.currentFood < gameServer.config.foodMaxAmount * 1.5) {
-        this.spawnFood(gameServer);
-      }
-      // Only spawn if food cap hasn been reached
-      if (gameServer.currentFood < maxFoodSpawn && this.mass > 222) {
-        this.spawnFood(gameServer);
-      }
-      // Incrementers
-      this.mass--;
-      i++;
+            // Increment
+            i++;
+        }
     }
-
-  }
+    if (this.mass > 222) {
+        // Always spawn food if the mother cell is larger than 222
+        var cellSize = gameServer.config.foodMass;
+        var remaining = this.mass - 222;
+        var maxAmount = Math.min(Math.floor(remaining / cellSize), 2);
+        for (var i = 0; i < maxAmount; i++) {
+            this.spawnFood(gameServer);
+            this.mass -= cellSize;
+        }
+    }
 };
 
 MotherCell.prototype.checkEat = function (gameServer) {
@@ -129,8 +128,8 @@ MotherCell.prototype.spawnFood = function (gameServer) {
 
   // Move engine
   f.angle = angle;
-  var dist = (Math.random() * 10) + 22; // Random distance
-  f.setMoveEngineData(dist, 15);
+  var dist = (Math.random() * 8) + 8; // Random distance
+  f.setMoveEngineData(dist, 20, 0.85);
 
   gameServer.getWorld().setNodeAsMoving(f.getId(), f);
 };
