@@ -944,25 +944,7 @@ beforeq(player) {
           };
         }
       }
-msgAll(msg) {
-  var packet = new Packet.Chat("[Console]", message);
-            // Send to all clients (broadcast)
-            for (var i = 0; i < this.clients.length; i++) {
-                this.clients[i].sendPacket(packet);
-            }
-  
-}
-pm(id, msg) {
-  
-  var packet = new Packet.Chat("[Console PM]", message);
-            // Send to all clients (broadcast)
-            for (var i = 0; i < this.clients.length; i++) {
-              if (this.clients[i].playerTracker.pID == id) {
-                this.clients[i].sendPacket(packet);
-                break
-              }
-            }
-}
+
 
 
 
