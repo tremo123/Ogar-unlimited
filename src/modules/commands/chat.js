@@ -5,7 +5,8 @@ module.exports = function (gameServer, split) {
     console.log("[Console] Please specify a message!")
     return;
   }
-  gameServer.msgAll(split[2]);
+  var msg = split.slice(2, split.length).join(' ');
+  gameServer.msgAll(msg);
   console.log("[Console] Message sent to all");
    
  } else if (split[1] == "pm") {
@@ -18,7 +19,8 @@ module.exports = function (gameServer, split) {
     console.log("[Console] Please specify a message!")
     return;
   }
-   gameServer.pm(id,split[3]);
+  var msg = split.slice(3, split.length).join(' ');
+   gameServer.pm(id,msg);
    console.log("[Console] Message sent to player " + id);
  } else {
    console.log("[Console] Please specify a tag! Available: all, pm");
