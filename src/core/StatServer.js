@@ -2,18 +2,18 @@
 var http = require('http');
 
 module.exports = class StatServer {
-  constructor(gameServer, port, serverStatsUpdateTime) {
+  constructor(gameServer, port, serverStatsUpdateTime, ismaster) {
     this.gameServer = gameServer;
     this.port = port;
     this.serverStatsUpdateTime = (serverStatsUpdateTime) ? serverStatsUpdateTime : 1;
     this.stats = "";
     this.interveral = undefined;
-
+this.isMaster = ismaster;
   }
 
   start() {
     // Do not start the server if the port is negative
-    if (this.port < 1 || this.gameServer.config.vps == 1) {
+    if (this.port < 1 || this.gameServer.config.vps == 1 || !this.isMaster) {
       return;
     }
     // init stats

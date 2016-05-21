@@ -5,33 +5,35 @@
 const WorldModel = require('./WorldModel');
 const GameServer = require('./GameServer');
 const ConsoleService = require('./ConsoleService.js');
-const ConfigService = require('./ConfigService.js');
 const Updater = require('./Updater.js');
 //let updater = new Updater(this);
 
 'use strict';
 module.exports = class ControlServer {
-  constructor(version) {
+  constructor(version, multiverse, port, ismaster, name, configService, banned) {
     // fields
     //this.consoleStreams = {};
     this.servers = [];
-
+    this.name = name;
+this.port = port;
+this.configService = configService; // we need the config service first so we can setup other services / servers
+this.isMaster = ismaster;
     // share data
-    this.configService = new ConfigService(); // we need the config service first so we can setup other services / servers
-    this.config = this.configService.getConfig();
-    this.world = new WorldModel(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
-
+this.config = this.configService.getConfig();
+this.world = new WorldModel(this.config.borderRight, this.config.borderLeft, this.config.borderBottom, this.config.borderTop);
     // services
-    this.consoleService = new ConsoleService(version);
+    this.consoleService = new ConsoleService(version, this.isMaster, name);
     this.updater = new Updater(this);
+    this.multiverse = multiverse;
 
     // servers
-    this.gameServer = new GameServer(this.world, this.consoleService, this.configService , version);
+    this.gameServer = new GameServer(this.world, this.consoleService, this.configService , version, this.port, this.isMaster, this.name, banned, multiverse);
 
     // configuration
     this.consoleService.setGameServer(this.gameServer);
 
   }
+
 
   /**
    * Inits the game server i.e. calls the updater and anything else that should run before we start the server.

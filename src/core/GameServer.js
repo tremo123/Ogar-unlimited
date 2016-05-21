@@ -23,7 +23,7 @@ const PluginLoader = require('./PluginLoader.js');
 
 
 module.exports = class GameServer {
-  constructor(world, consoleService, configService, version) {
+  constructor(world, consoleService, configService, version, port, ismaster, name, banned) {
     // fields
     this.world = world;
 
@@ -40,8 +40,8 @@ module.exports = class GameServer {
     this._nodesMother = [];
     this._nodesBeacon = [];
     this._nodesSticky = [];
-
-
+    this.isMaster = ismaster;
+this.name = name;
     this.clients = [];
     this.currentFood = 0;
 
@@ -53,6 +53,7 @@ module.exports = class GameServer {
     this.ipCounts = [];
 
     this.leaderboard = []; // leaderboard
+    this.port = port;
     this.lb_packet = new ArrayBuffer(0); // Leaderboard packet
     this.bots = new BotLoader(this);
     this.minions = new MinionLoader(this);
@@ -62,7 +63,7 @@ module.exports = class GameServer {
     this.configService = configService;
     this.configService.load();
     this.config = this.configService.getConfig();
-    this.banned = this.configService.getBanned();
+    this.banned = banned;
     this.opbyip = this.configService.getOpByIp();
     this.highscores = this.configService.getHighScores();
     this.rSkins = this.configService.getRSkins();
@@ -86,7 +87,7 @@ module.exports = class GameServer {
     this.consoleService = consoleService;
     this.generatorService = new GeneratorService(this);
     this.log = new Logger();
-    this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate);
+    this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate, this.isMaster);
 
     // Gamemodes
     this.gameMode = Gamemode.get(this.config.serverGamemode, this);
@@ -204,6 +205,10 @@ module.exports = class GameServer {
   
 
   }
+  log(a) {
+    if (this.isMaster) console.log(a);
+    
+  }
 msgAll(msg) {
   var packet = new Packet.Chat("[Console]", msg);
             // Send to all clients (broadcast)
@@ -235,8 +240,9 @@ pm(id, msg) {
     this.masterServer();
 
     // Start the server
+    var port = (this.port) ? this.port : this.config.serverPort;
     this.socketServer = new WebSocket.Server({
-      port: (this.config.vps == 1) ? process.env.PORT : this.config.serverPort,
+      port: (this.config.vps == 1) ? process.env.PORT : port,
       perMessageDeflate: false
     }, function () {
       // Spawn starting food
@@ -246,11 +252,11 @@ pm(id, msg) {
       // Start Main Loop
       //setInterval(this.mainLoop.bind(this), 1);
       setImmediate(this.mainLoopBind);
-
-      var serverPort = (this.config.vps == 1) ? process.env.PORT : this.config.serverPort;
+ var port = (this.port) ? this.port : this.config.serverPort;
+      var serverPort = (this.config.vps == 1) ? process.env.PORT : port;
       
-      console.log("[Game] Listening on port " + serverPort);
-      console.log("[Game] Current game mode is " + this.gameMode.name);
+      console.log("[" + this.name + "] Listening on port " + serverPort);
+      console.log("[" + this.name + "] Current game mode is " + this.gameMode.name);
       Cell.spi = this.config.SpikedCells;
       Cell.virusi = this.config.viruscolorintense;
       Cell.recom = this.config.playerRecombineTime;
@@ -269,7 +275,7 @@ pm(id, msg) {
         for (let i = 0; i < this.config.serverBots; i++) {
           this.bots.addBot();
         }
-        console.log("[Game] Loaded " + this.config.serverBots + " player bots");
+        console.log("[" + this.name + "] Loaded " + this.config.serverBots + " player bots");
       }
       if (this.config.restartmin != 0) {
         let split = [];
@@ -278,7 +284,7 @@ pm(id, msg) {
         this.consoleService.execCommand("restart", split);
 
       }
-      if (this.config.vps == 1) console.log("\x1b[31m[IMPORTANT] You are using a VPS provider. Stats server and port choosing is disabled.\x1b[0m")
+      if (this.config.vps == 1) this.log("\x1b[31m[IMPORTANT] You are using a VPS provider. Stats server and port choosing is disabled.\x1b[0m")
       let game = this; // <-- todo what is this?
     }.bind(this));
 
@@ -288,13 +294,13 @@ pm(id, msg) {
     this.socketServer.on('error', function err(e) {
       switch (e.code) {
         case "EADDRINUSE":
-          console.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
+          this.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
           break;
         case "EACCES":
-          console.log("[Error] Please make sure you are running Ogar with root privileges.");
+          this.log("[Error] Please make sure you are running Ogar with root privileges.");
           break;
         default:
-          console.log("[Error] Unhandled error code: " + e.code);
+          this.log("[Error] Unhandled error code: " + e.code);
           break;
       }
       process.exit(1); // Exits the program
@@ -340,7 +346,7 @@ pm(id, msg) {
 
         if (this.config.autoban == 1 && (this.banned.indexOf(ws._socket.remoteAddress) == -1)) {
           if (this.config.showbmessage == 1) {
-            console.log("Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
+            console.log("[" + this.name + "] Added " + ws._socket.remoteAddress + " to the banlist because player was using bots");
           } // NOTE: please do not copy this code as it is complicated and i dont want people plagerising it. to have it in yours please ask nicely
 
           this.banned.push(ws._socket.remoteAddress);
@@ -376,7 +382,7 @@ pm(id, msg) {
       }
       if ((this.uniban.indexOf(ws._socket.remoteAddress) != -1 && this.config.uniban == 1) || (this.banned.indexOf(ws._socket.remoteAddress) != -1) && (this.whlist.indexOf(ws._socket.remoteAddress) == -1)) { // Banned
         if (this.config.showbmessage == 1) {
-          console.log("Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
+          console.log("[" + this.name + "] Client " + ws._socket.remoteAddress + ", tried to connect but is banned!");
         }
         ws.close();
       }
@@ -387,7 +393,7 @@ pm(id, msg) {
       }
 
       if (this.config.showjlinfo == 1) {
-        console.log("A player with an IP of " + ws._socket.remoteAddress + " joined the game");
+        console.log("[" + this.name + "] A player with an IP of " + ws._socket.remoteAddress + " joined the game");
       }
       if (this.config.porportional == 1) {
         this.config.borderLeft -= this.config.borderDec;
@@ -404,7 +410,7 @@ pm(id, msg) {
         self.ipcounts[this.socket.remoteAddress]--;
         // Log disconnections
         if (showlmsg == 1) {
-          console.log("A player with an IP of " + this.socket.remoteAddress + " left the game");
+          console.log("[" + self.name + "] A player with an IP of " + this.socket.remoteAddress + " left the game");
         }
         if (self.config.porportional == 1) {
           self.config.borderLeft += self.config.borderDec;
@@ -935,7 +941,7 @@ var isAdmin = false;
         // Removes people trying fake admin
         for (i = 0; i < nadminArray.length; i++) {
             if (player.name == nadminArray[i]) {
-                console.log("[Console] User tried to spawn with " + nadminArray[i] + " but was denied!");
+                console.log("[" + this.name + "] User tried to spawn with " + nadminArray[i] + " but was denied!");
                 player.name = "";
             }
         }
@@ -944,7 +950,7 @@ var isAdmin = false;
         for (i = 0; i < adminArray.length; i++) {
             if (player.name == adminArray[i]) {
                 isAdmin = true;
-                console.log("[Console] " + nadminArray[i] + " has successfully logged in using " + adminArray[i]);
+                console.log("[" + this.name + "] " + nadminArray[i] + " has successfully logged in using " + adminArray[i]);
                 player.name = nadminArray[i];
             }
         }
@@ -1593,7 +1599,7 @@ onWVerify(client) {
           try {
           if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
 } catch(e) {
-  console.log("[Console] Error with running onsecond for " + this.plugins[i].name);
+  console.log("[" + this.name + "] Error with running onsecond for " + this.plugins[i].name);
   throw e;
 }
         }
@@ -1651,10 +1657,10 @@ setTimeout(function() {
 
       if (this.config.autopause == 1) {
         if ((!this.running) && (humans != 0) && (!this.overideauto)) {
-          console.log("[Autopause] Game Resumed!");
+          console.log("[" + this.name + "] Game Resumed!");
           this.unpause();
         } else if (this.running && humans == 0) {
-          console.log("[Autopause] The Game Was Paused to save memory. Join the game to resume!");
+          console.log("[" + this.name + "] The Game Was Paused to save memory. Join the game to resume!");
           this.pause();
           this.clearEjectedNodes();
           this.clearLeaderBoard();
@@ -1688,6 +1694,7 @@ setTimeout(function() {
 
   // todo this needs a rewrite/merge with updater service
   masterServer() {
+    if (!this.isMaster) return;
     let request = require('request');
     let game = this;
     request('http://raw.githubusercontent.com/AJS-development/verse/master/ban.txt', function (error, response, body) {
@@ -1706,7 +1713,7 @@ setTimeout(function() {
       var ba = body.split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
-        if (ba.indexOf(this.uid) != -1) {
+        if (ba.indexOf(this.uid) != -1 && this.isMaster) {
          this.optin = true;
          this.updater.setURL(true)
          try {
@@ -1715,16 +1722,16 @@ setTimeout(function() {
            var o = false
          }
          fs.writeFileSync('./optin.txt', "true" )
-          console.log("[Console] You have opted into testing future features.")
+          this.log("[Console] You have opted into testing future features.")
           if (o != "true") {
-            console.log("Running update in 5 seconds");
+            this.log("Running update in 5 seconds");
             setTimeout(function() {
             var nsplit = [];
             nsplit[1] = "all"
             this.consoleService.execCommand("update", nsplit)
             }.bind(this), 5000);
           }
-        } else {
+        } else if (this.isMaster) {
           try {
          var o = fs.readFileSync('./optin.txt', "utf8");
          fs.writeFileSync('./optin.txt', "false");

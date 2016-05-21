@@ -3,21 +3,28 @@ const Commands = require('../modules/CommandList');
 const EOL = require('os').EOL;
 
 module.exports = class ConsoleService {
-  constructor(version) {
+  constructor(version, ismaster, name) {
     this.gameServer = undefined;
     this.version = version;
     this.updateInterveral = 100;
+    this.name = name;
     this.isLiveConsole = false;
     this.interveral = undefined;
     this.hasTitleBeenWriten = false;
-
+this.isMaster = ismaster;
     // commands
     this.commands = Commands.list;
 
   }
+log(a) {
+  if (this.isMaster) console.log(a)
+  
+}
+
 
   start() {
-    console.log('[\x1b[34mINFO\x1b[0m] Starting ConsoleService');
+    
+    this.log('[\x1b[34mINFO\x1b[0m] Starting ConsoleService');
     process.stdout.write("\u001b[2J\u001b[0;0H");
     if (this.gameServer === undefined) {
       throw "[\x1b[31mFAIL\x1b[0m] GameSever has not been set, cannot start!"
@@ -37,7 +44,7 @@ module.exports = class ConsoleService {
   }
 
   update() {
-    if (this.isLiveConsole) {
+    if (this.isLiveConsole && this.isMaster) {
       this.liveConsole();
     }
   }
@@ -195,17 +202,17 @@ execommand(command, args) {
 
   writeTitle() {
     // Start msg
-    console.log("\u001B[33m                                        _ _       _              _ ");
-    console.log("                                       | (_)     (_)_           | |");
-    console.log("  ___   ____  ____  ____    _   _ ____ | |_ ____  _| |_  ____ _ | |");
-    console.log(" / _ \\ / _  |/ _  |/ ___)  | | | |  _ \\| | |    \\| |  _)/ _  ) || |");
-    console.log("| |_| ( ( | ( ( | | |      | |_| | | | | | | | | | | |_( (/ ( (_| |");
-    console.log(" \\___/ \\_|| |\\_||_|_|       \\____|_| |_|_|_|_|_|_|_|\\___)____)____|");
-    console.log("      (_____|                                                      \u001B[0m");
+    this.log("\u001B[33m                                        _ _       _              _ ");
+    this.log("                                       | (_)     (_)_           | |");
+    this.log("  ___   ____  ____  ____    _   _ ____ | |_ ____  _| |_  ____ _ | |");
+    this.log(" / _ \\ / _  |/ _  |/ ___)  | | | |  _ \\| | |    \\| |  _)/ _  ) || |");
+    this.log("| |_| ( ( | ( ( | | |      | |_| | | | | | | | | | | |_( (/ ( (_| |");
+    this.log(" \\___/ \\_|| |\\_||_|_|       \\____|_| |_|_|_|_|_|_|_|\\___)____)____|");
+    this.log("      (_____|                                                      \u001B[0m");
 
-    console.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
-    console.log("[Game] By The AJS development team\x1b[0m");
-    console.log("[Game] Server version is " + this.version);
+    this.log("\x1b[32m[Game] Ogar Unlimited - An open source Agar.io server implementation");
+    this.log("[Game] By The AJS development team\x1b[0m");
+    this.log("[Game] Server version is " + this.version);
   }
 
   prompt(in_) {
@@ -240,8 +247,8 @@ execommand(command, args) {
           try {
             self.parseCommands(str);
           } catch (err) {
-            console.log("[\x1b[31mERROR\x1b[0m] Oh my, there seems to be an error with the command " + str);
-            console.log("[\x1b[31mERROR\x1b[0m] Please alert AJS dev with this message:\n" + err);
+            this.log("[\x1b[31mERROR\x1b[0m] Oh my, there seems to be an error with the command " + str);
+            this.log("[\x1b[31mERROR\x1b[0m] Please alert AJS dev with this message:\n" + err);
           }
         } else {
           self.parseCommands(str); // dev mode, throw full error
@@ -277,7 +284,7 @@ execommand(command, args) {
 
       } else {
          
-        console.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+        this.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
       }
     }
   }

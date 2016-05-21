@@ -1,7 +1,7 @@
 var Commands = require('./modules/CommandList');
-var ControlServer = require('./core/ControlServer');
+var Multiverse = require('./core/Multiverse');
 
-var ControlServer = new ControlServer('1.0.0');
+var Multiverse = new Multiverse('1.0.0');
 
 setTimeout(function () {
   process.exit(0);

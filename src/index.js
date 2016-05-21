@@ -2,8 +2,8 @@
 'use strict';
 const Readline = require('readline');
 const VERSION = '16.6.8';
-const ControlServer = require('./core/ControlServer');
-let controlServer = new ControlServer(VERSION);
+const Multiverse = require('./core/Multiverse');
+let multiverse = new Multiverse(VERSION);
 //throw error
 // Init variables
 let showConsole = true;
@@ -31,12 +31,12 @@ if (global.gc) {
 // NO ASYNC CODE HERE - only use SYNC or it will not happen
 process.on('exit', (code) => {
   console.log("[\x1b[34mINFO\x1b[0m] OgarUnlimited terminated with code: " + code);
-  controlServer.stop();
+  multiverse.stop();
 });
 
 // init/start the control server
-controlServer.init();
-setTimeout(function() {controlServer.start()},1500);
+multiverse.init();
+setTimeout(function() {multiverse.start()},1500);
 
 // Initialize the server console
 if (showConsole) {
@@ -44,5 +44,5 @@ if (showConsole) {
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(controlServer.getConsoleService().prompt(streamsInterface), 100);
+  setTimeout(multiverse.getSelected().getConsoleService().prompt(streamsInterface), 100);
 }
