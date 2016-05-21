@@ -89,10 +89,10 @@ downloadWithLoad(file, callback) {
   };
   downloadFile(file, callback) {
     let url = this.url + file.src;
-    console.log('[Downloading] [\x1b[34mINFO\x1b[0m] ' + url + ' to: ' + file.dst);
+
     request(url, function (error, response, body) {
       if (!error && response.statusCode == 200 && body != "") {
-        console.log("[\x1b[32mOK\x1b[0m] " + file.dst)
+
         fs.writeFile(file.dst, body, (err, res)=> {
           if (typeof callback === "function") {
             callback(err, res);
@@ -106,7 +106,7 @@ downloadWithLoad(file, callback) {
 setURL(optin) {
       if (optin) var branch = "optin"; else var branch = "master";
     this.url = "http://raw.githubusercontent.com/AJS-development/Ogar-unlimited/" + branch + "/";
-    init()
+    this.init()
 }
   downloadAllFiles() {
     this.dow = 0;
