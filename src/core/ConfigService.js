@@ -57,7 +57,8 @@ module.exports = class ConfigService {
       smartbthome: 1, // Automatically sends you back to normal mode after pressing Q proceding an action (default) 2 = off (you need to press Q a lot)
       restartmin: 0, // minutes to restart
       showopactions: 0, // Notifys you of an OP using his power, (0 = Off [default]) 1 = on
-      cRestoreTicks: 10, // Amount of time until the collision retores
+      cRestoreTicks: 10, // Amount of time until a cell's collision retores
+      vRestoreTicks: 10, // Amount of time until a cell's collision retores AFTER consuming a virus
       showbmessage: 0, // Notifys you if a banned player tried to join (0 = off [default]) 1 = on
       splitSpeed: 130, // Splitting speed
       showjlinfo: 0, // Notifys you if a player has left or joined (0 = off [default]) 1 = on

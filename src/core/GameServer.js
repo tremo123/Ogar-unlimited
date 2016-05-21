@@ -1442,7 +1442,7 @@ onWVerify(client) {
 	  newCell.setMoveEngineData(Math.min(newCell.getSpeed() * 10, 100), 20, this.config.virusExplosionMult); // Use dynamic instead of fixed
     newCell.calcMergeTime(this.config.playerRecombineTime);
     newCell.ignoreCollision = true; // Remove collision checks
-	  newCell.restoreCollisionTicks = 6; // If 6 is bad, change it to the one below! 
+	  newCell.restoreCollisionTicks = this.config.vRestoreTicks; // NOTE: 6 is default
 	  
 	  // Add to moving cells list
 	  this.addNode(newCell, "moving");
