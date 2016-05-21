@@ -195,7 +195,7 @@ PacketHandler.prototype.handleMessage = function (message) {
                         this.gameServer.consoleService.execCommand(first, split);
                     this.gameServer.pm(this.socket.playerTracker.pID,"Command Sent and Logged in!")
                     break;
-                } else if (this.socket.playerTracker.isAdmin && message.indexOf("/rcon") != -1) {
+                } else if (this.socket.playerTracker.isAdmin && message.substr(0, 6) == "/rcon ") {
                   var l = "/rcon ";
                     var cmd = message.substr(l.length, message.length);
                     var split = cmd.split(" "),
