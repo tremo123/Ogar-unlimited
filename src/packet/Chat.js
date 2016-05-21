@@ -24,7 +24,7 @@ Chat.prototype.build = function () {
     var buf = new ArrayBuffer(9 + 2 * nick.length + 2 * this.message.length);
     var view = new DataView(buf);
     var color = {'r': 155, 'g': 155, 'b': 155};
-    if (this.sender.cells.length > 0) {
+    if (this.sender.cells && this.sender.cells.length > 0) {
         color = this.sender.cells[0].getColor();
     }
     view.setUint8(0, 99);
