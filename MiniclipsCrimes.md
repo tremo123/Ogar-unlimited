@@ -9,6 +9,7 @@
 8. Acted in their own behalf
 9. Obliterated extensions
 10. LAG
-11. And much more 
+11. Lied about fixing private servers!
+12. And much more 
 
 ##### SHAME, fore SHAME on moneyshit
