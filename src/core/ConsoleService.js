@@ -247,8 +247,8 @@ execommand(command, args) {
           try {
             self.parseCommands(str);
           } catch (err) {
-            this.log("[\x1b[31mERROR\x1b[0m] Oh my, there seems to be an error with the command " + str);
-            this.log("[\x1b[31mERROR\x1b[0m] Please alert AJS dev with this message:\n" + err);
+            console.log("[\x1b[31mERROR\x1b[0m] Oh my, there seems to be an error with the command " + str);
+            console.log("[\x1b[31mERROR\x1b[0m] Please alert AJS dev with this message:\n" + err);
           }
         } else {
           self.parseCommands(str); // dev mode, throw full error
