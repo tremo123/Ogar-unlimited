@@ -215,4 +215,79 @@ execommand(command, args) {
     this.log("[Game] By The AJS development team\x1b[0m");
     this.log("[Game] Server version is " + this.version);
   }
+  prompt(in_) {
+    let self = this;
+    return function () {
+      var col = '';
+      if (self.gameServer.red) {
+      process.stdout.write("\x1b[31m\r");
+    }
+    if (self.gameServer.green) {
+      process.stdout.write("\x1b[32m\r");
+    }
+    if (self.gameServer.blue) {
+      process.stdout.write("\x1b[34m\r");
+    }
+    if (self.gameServer.white) {
+      process.stdout.write("\x1b[37m\r");
+    }
+    if (self.gameServer.yellow) {
+      process.stdout.write("\x1b[33m\r");
+    }
+    if (self.gameServer.bold) {
+      process.stdout.write("\x1b[1m\r");
+    }
+    if (self.gameServer.dim) {
+      process.stdout.write("\x1b[2m\r");
+    }
+      
+      
+      in_.question(">", function (str) {
+        if (self.gameServer.config.dev != 1) {
+          try {
+            self.parseCommands(str);
+          } catch (err) {
+            console.log("[\x1b[31mERROR\x1b[0m] Oh my, there seems to be an error with the command " + str);
+            console.log("[\x1b[31mERROR\x1b[0m] Please alert AJS dev with this message:\n" + err);
+          }
+        } else {
+          self.parseCommands(str); // dev mode, throw full error
+        }
+        // todo fix this
+        return self.prompt(in_)(); // Too lazy to learn async
+      });
+    };
+  }
+
+  parseCommands(str) {
+    // Log the string
+    this.gameServer.log.onCommand(str);
+
+    // Don't process ENTER
+    if (str === '')
+      return;
+
+    // Splits the string
+    var split = str.split(" ");
+
+    // Process the first string value
+    var first = split[0].toLowerCase();
+
+    // Get command function
+    var execute = this.commands[first];
+    if (typeof execute !== 'undefined') {
+      execute(this.gameServer, split);
+    } else {
+      var execute = this.gameServer.pluginCommands[first];
+      if (typeof execute !== 'undefined') {
+        execute(this.gameServer, split);
+
+      } else {
+         
+        this.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+      }
+    }
+  }
+
+};
 
