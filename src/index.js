@@ -44,5 +44,5 @@ if (showConsole) {
     input: process.stdin,
     output: process.stdout
   });
-  setTimeout(multiverse.getSelected().getConsoleService().prompt(streamsInterface), 100);
+  setTimeout(multiverse.prompt(streamsInterface), 100);
 }

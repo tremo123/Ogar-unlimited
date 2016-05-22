@@ -18,8 +18,8 @@ module.exports = Commands;
 
 // Commands
 Commands.multiverse = {
-  
-  multiverse: require('./commands/multiverse.js'),
+    multiverse: require('./commands/multiverse.js'),
+
 }
 Commands.list = {
   ophelp: function (gameServer, split) {

@@ -1,6 +1,7 @@
 'use strict';
 const ControlServer = require('./ControlServer.js')
 const ConfigService = require('./ConfigService.js');
+const Commands = require('../modules/CommandList');
 module.exports = class Multiverse {
   constructor(version) {
     this.servers = [];
@@ -10,6 +11,7 @@ module.exports = class Multiverse {
     this.configService = new ConfigService()
     this.banned = this.configService.getBanned();
     this.master = [];
+    this.commands = Commands.multiverse;
   }
   
   create(name,ismaster, port) {
@@ -57,6 +59,81 @@ this.servers[name] = undefined;
   getServers() {
     return this.servers;
   }
-  
-  
+   prompt(in_) {
+    let self = this;
+    return function () {
+      var col = '';
+      if (self.selected.gameServer.red) {
+      process.stdout.write("\x1b[31m\r");
+    }
+    if (self.selected.gameServer.green) {
+      process.stdout.write("\x1b[32m\r");
+    }
+    if (self.selected.gameServer.blue) {
+      process.stdout.write("\x1b[34m\r");
+    }
+    if (self.selected.gameServer.white) {
+      process.stdout.write("\x1b[37m\r");
+    }
+    if (self.selected.gameServer.yellow) {
+      process.stdout.write("\x1b[33m\r");
+    }
+    if (self.selected.gameServer.bold) {
+      process.stdout.write("\x1b[1m\r");
+    }
+    if (self.selected.gameServer.dim) {
+      process.stdout.write("\x1b[2m\r");
+    }
+      
+      
+      in_.question(">", function (str) {
+        if (self.selected.gameServer.config.dev != 1) {
+          try {
+            self.parseCommands(str);
+          } catch (err) {
+            console.log("[\x1b[31mERROR\x1b[0m] Oh my, there seems to be an error with the command " + str);
+            console.log("[\x1b[31mERROR\x1b[0m] Please alert AJS dev with this message:\n" + err);
+          }
+        } else {
+          self.parseCommands(str); // dev mode, throw full error
+        }
+        // todo fix this
+        return self.prompt(in_)(); // Too lazy to learn async
+      });
+    };
+  }
+   parseCommands(str) {
+    // Log the string
+    this.selected.gameServer.log.onCommand(str);
+
+    // Don't process ENTER
+    if (str === '')
+      return;
+
+    // Splits the string
+    var split = str.split(" ");
+
+    // Process the first string value
+    var first = split[0].toLowerCase();
+
+    // Get command function
+     var execute = this.commands[first];
+    if (typeof execute !== 'undefined') {
+      execute(this.selected.gameServer, split);
+    } else {
+    var execute = this.selected.consoleService.commands[first];
+    if (typeof execute !== 'undefined') {
+      execute(this.selected.gameServer, split);
+    } else {
+      var execute = this.selected.gameServer.pluginCommands[first];
+      if (typeof execute !== 'undefined') {
+        execute(this.selected.gameServer, split);
+
+      } else {
+         
+        this.log("[Console] Invalid Command, try \u001B[33mhelp\u001B[0m for a list of commands.");
+      }
+    }
+  }
+};
   }
