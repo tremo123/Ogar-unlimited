@@ -20,14 +20,18 @@ module.exports = class Multiverse {
     return l;
   }
   remove(name) {
-   for (var i in this.servers) {
-     if (this.servers[i].name == name && !this.servers[i].isMaster && this.servers[i].name != this.selected.name) {
-       
-       this.servers[i] = []
+   
+     if (this.servers[name].name == name && !this.servers[name].isMaster && this.servers[name].name != this.selected.name) {
+       var ind = this.servers.indexOf(this.servers[name]);
+if(ind != -1) {
+	this.servers.splice(ind, 1);
+} else {
+  return false;
+}
        
       return true;
      }
-   }
+   
    return false;
   }
   init() {
