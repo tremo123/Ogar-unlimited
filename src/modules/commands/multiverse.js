@@ -33,7 +33,7 @@ module.exports = function (gameServer, split) {
      console.log("[Console] Please specify a server name");
      return;
    }
- if (!gameServer.multiverse.remove(split[2]) console.log("[Console] Failed to remove server. Check it is not master or selected")
+ if (!gameServer.multiverse.remove(split[2])) console.log("[Console] Failed to remove server. Check it is not master or selected")
    
  } else if (split[1] == "select") {
    if (!split[2]) {
