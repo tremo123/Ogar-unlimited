@@ -22,6 +22,7 @@ module.exports = class Multiverse {
   remove(name) {
    
      if (this.servers[name].name == name && !this.servers[name].isMaster && this.servers[name].name != this.selected.name) {
+this.servers[name].stop();
 this.servers[name] = undefined;
 
        
