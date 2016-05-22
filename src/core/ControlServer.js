@@ -66,7 +66,7 @@ this.world = new WorldModel(this.config.borderRight, this.config.borderLeft, thi
    */
   stop(reason) {
     // todo ControlServer stop
-gameServer.stop();
+this.gameServer.stop();
   }
 
   /**
