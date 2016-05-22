@@ -1,7 +1,7 @@
 // Imports
 'use strict';
 const Readline = require('readline');
-const VERSION = '16.6.8';
+const VERSION = '16.7.3';
 const Multiverse = require('./core/Multiverse');
 let multiverse = new Multiverse(VERSION);
 //throw error
