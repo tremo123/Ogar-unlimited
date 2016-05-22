@@ -10,7 +10,7 @@ module.exports = function (gameServer, split) {
     var extra = " ";
     if (servers[i].name == gameServer.multiverse.getSelected().name) extra = extra + " (Current selected server) ";
     if (servers[i].isMaster) extra = extra + " (Main Master server) ";
-    console.log("[Console] " + a + ". " + servers[i].name + extra); 
+    console.log("[Console] " + a + ". " + servers[i].name + " running on port " + servers[i].port + extra); 
 
     
   }
