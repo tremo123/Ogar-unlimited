@@ -43,6 +43,7 @@ This Modified copy was created to help those who want to open their server to th
  26. uniban. A pre-made banlist of already known bad ips
  27. garbage collection. prevent memory leak.
  28. chat
+ 29. Multi server support (see multiverse)
  
 ### Note:
 Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it just please give some credit to the hard working dev team, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
@@ -63,6 +64,10 @@ To use a plugin, simply download the folder and drag it into the plugins folder 
 ### How do I create a plugin? Is there Documentation?
 
 This is the fun part, creating your own plugins. There is an example plugin you should look at and there is a template plugin. Currently, there is no documentation, but will be soon in the wiki
+
+### Multiverse
+Multiverse is for having multiple servers in one console. This is how you use it. The command for multiverse is `multiverse [command] [arg]`. Available commands are `list`,`create`,`remove`, and `select`. The list is used by doing `multiverse list` and it will list servers and their ports. It will also tell you f that is the master or is selected.
+
 
 ### Easy Verify
 For those of you who have trouble with minions and such, this feature is for you. Currently, there is no program that can get through all of ogar unlimited's filterrs anddd features, but in some future, someone might be able to crack the other anti bot mesures. So we created easy verify, a currently foolproof system that filters out bots. To turn on, turn verify to 1 in config. Then when a player spawns, he is frozen at a spot and is given a 3 digit code. Then that player presses w to kill himself and types in the code in the nickname box. Afteword, when pressing play again, it shows a success message. Press w again to play.
