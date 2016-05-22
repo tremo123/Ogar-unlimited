@@ -6,6 +6,7 @@ module.exports = function (gameServer, split) {
   var servers = gameServer.multiverse.getServers();
   a = 0;
   for (var i in servers) {
+    if (!servers[i]) continue;
     a++
     var extra = " ";
     if (servers[i].name == gameServer.multiverse.getSelected().name) extra = extra + " (Current selected server) ";
