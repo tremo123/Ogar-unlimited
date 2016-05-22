@@ -23,14 +23,14 @@ const PluginLoader = require('./PluginLoader.js');
 
 
 module.exports = class GameServer {
-  constructor(world, consoleService, configService, version, port, ismaster, name, banned) {
+  constructor(world, consoleService, configService, version, port, ismaster, name, banned, multiverse) {
     // fields
     this.world = world;
 
     //this.lastNodeId = 2;    // todo why 2?
     this.lastPlayerId = 1;
     this.running = true;
-
+    this.multiverse = multiverse;
     this._nodes = [];
     this._movingNodes = [];
     this._nodesPlayer = []; // Nodes controlled by players

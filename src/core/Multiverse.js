@@ -9,6 +9,7 @@ module.exports = class Multiverse {
     this.whitelist = [];
     this.configService = new ConfigService()
     this.banned = this.configService.getBanned();
+    this.master = [];
   }
   
   create(name,ismaster, port) {
@@ -19,13 +20,19 @@ module.exports = class Multiverse {
     return l;
   }
   remove(name) {
-    this.servers[name] = [];
-    
+   for (var i in this.servers) {
+     if (this.servers[i].name == name && !this.servers[i].isMaster && this.servers[i].name != this.selected.name) {
+       
+       this.servers[i] = []
+       
+      return true;
+     }
+   }
+   return false;
   }
   init() {
     
     this.selected = this.create("main", true);  
-    
   }
   start() {
     
@@ -39,7 +46,7 @@ module.exports = class Multiverse {
     return this.selected;
   }
   setSelected(a) {
-    this.selected = a;
+    this.selected = this.servers[a];
   }
   getServers() {
     return this.servers;
