@@ -15,7 +15,7 @@ module.exports = class Multiverse {
   }
   
   create(name,ismaster, port) {
-    var l = new ControlServer(this.version,this, port,ismaster, name, this.configService, this.banned);
+    var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned);
     l.init();
     l.start();
     this.servers[name] = l;
@@ -119,7 +119,7 @@ this.servers[name] = undefined;
     // Get command function
      var execute = this.commands[first];
     if (typeof execute !== 'undefined') {
-      execute(this.selected.gameServer, split);
+      execute(this, split);
     } else {
     var execute = this.selected.consoleService.commands[first];
     if (typeof execute !== 'undefined') {
