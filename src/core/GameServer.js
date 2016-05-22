@@ -304,7 +304,7 @@ pm(id, msg) {
           break;
       }
       process.exit(1); // Exits the program
-    });
+    }.bind(this));
 
     function connectionEstablished(ws) {
       let clients = this.getClients();
