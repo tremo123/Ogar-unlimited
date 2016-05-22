@@ -50,7 +50,12 @@ if(ind != -1) {
     return this.selected;
   }
   setSelected(a) {
+    if (this.servers[a].name) {
     this.selected = this.servers[a];
+    return true;
+    } else {
+      return false;
+    }
   }
   getServers() {
     return this.servers;
