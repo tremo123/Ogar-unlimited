@@ -72,6 +72,12 @@
     "name": "BotServer.js"
   },
   {
+    "hash": "f77a6ecf84b38a1da623747e67414c8442d43de3",
+    "src": "src/core/Multiverse.js",
+    "dst": "./core/Multiverse.js",
+    "name": "Multiverse.js"
+  },
+  {
     "hash": "f3b4be48072c22d274ee6f1d67fff75b89deef32",
     "src": "src/core/ConfigService.js",
     "dst": "./core/ConfigService.js",
