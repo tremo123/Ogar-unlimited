@@ -22,12 +22,8 @@ module.exports = class Multiverse {
   remove(name) {
    
      if (this.servers[name].name == name && !this.servers[name].isMaster && this.servers[name].name != this.selected.name) {
-       var ind = this.servers.indexOf(this.servers[name]);
-if(ind != -1) {
-	this.servers.splice(ind, 1);
-} else {
-  return false;
-}
+this.servers[name] = undefined;
+
        
       return true;
      }
