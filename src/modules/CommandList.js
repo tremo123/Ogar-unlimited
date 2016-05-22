@@ -58,6 +58,8 @@ Commands.list = {
     console.log("[Console] Freeze     : Freezes a player");
     console.log("[Console] spawnmass  : sets players spawn mass");
     console.log("[Console] plugin     : Manage plugins ");
+    console.log("[Console] Multiverse : Manage servers");
+    console.log("[Console] rcon       : In Chat Remote Control")
     console.log("[Console] Pcmd       : Periodical commands");
     console.log("[Console] gamemode   : change server gamemode");
     console.log("[Console] kick       : kick player or bot by client ID");
@@ -133,6 +135,8 @@ Commands.list = {
   minion: require('./commands/minion.js'),
   spawn: require('./commands/spawn.js'),
   changelog: require('./commands/changelog.js'),
+  multiverse: require('./commands/multiverse.js'),
+  rcon: require('./commands/rcon.js'),
   update: require('./commands/update.js'),
   explode: require('./commands/explode.js'),
   resetateam: require('./commands/resetateam.js'),
