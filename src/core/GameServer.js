@@ -591,6 +591,9 @@ updateStickyCells() {
     sticky.update(this);
   }
 };
+stop() {
+  
+}
   getPlayerNodes() {
     return this._nodesPlayer;
     //return this._nodesPlayer;
