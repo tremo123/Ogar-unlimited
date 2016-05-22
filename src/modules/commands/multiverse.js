@@ -40,8 +40,10 @@ module.exports = function (gameServer, split) {
      console.log("[Console] Please specify a server name");
      return;
    }
-   gameServer.multiverse.setSelected(split[2]);
+    if (gameServer.multiverse.setSelected(split[2]))
   console.log("[Console] You are now controlling server " + split[2]); 
+  else
+  console.log("[Console] That server doesnt exist!");
  } else {
    console.log("[Console] Please specify a command! (list, select,remove,create)");
  }
