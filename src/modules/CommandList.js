@@ -17,7 +17,10 @@ module.exports = Commands;
 //var fillChar = require('./commands/fillChar.js');
 
 // Commands
-
+Commands.multiverse = {
+  
+  multiverse: require('./commands/multiverse.js'),
+}
 Commands.list = {
   ophelp: function (gameServer, split) {
     console.log("[Console] ======================= OP HELP =====================");
@@ -135,7 +138,6 @@ Commands.list = {
   minion: require('./commands/minion.js'),
   spawn: require('./commands/spawn.js'),
   changelog: require('./commands/changelog.js'),
-  multiverse: require('./commands/multiverse.js'),
   rcon: require('./commands/rcon.js'),
   update: require('./commands/update.js'),
   explode: require('./commands/explode.js'),
