@@ -689,6 +689,18 @@
     "dst": "./modules/commands/pcmd.js",
     "name": "pcmd.js"
   },
+    {
+    "hash": "4ff65f06423750219e08a588ed635eccb07e9f0c",
+    "src": "src/modules/commands/multiverse.js",
+    "dst": "./modules/commands/multiverse.js",
+    "name": "multiverse.js"
+  },
+    {
+    "hash": "4ff65f06423750219e08a588ed635eccb07e9f0c",
+    "src": "src/modules/commands/rcon.js",
+    "dst": "./modules/commands/rcon.js",
+    "name": "rcon.js"
+  },
   {
     "hash": "f3c6c02dfe0f3938d285c517522a35e1d9b7560e",
     "src": "src/modules/commands/pfmsg.js",
