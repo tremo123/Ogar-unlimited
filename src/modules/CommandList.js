@@ -62,6 +62,7 @@ Commands.list = {
     console.log("[Console] spawnmass  : sets players spawn mass");
     console.log("[Console] plugin     : Manage plugins ");
     console.log("[Console] Multiverse : Manage servers");
+    console.log("[Console] Chatban    : ban/unban people from chatting");
     console.log("[Console] rcon       : In Chat Remote Control")
     console.log("[Console] Pcmd       : Periodical commands");
     console.log("[Console] gamemode   : change server gamemode");
@@ -142,6 +143,7 @@ Commands.list = {
   update: require('./commands/update.js'),
   explode: require('./commands/explode.js'),
   resetateam: require('./commands/resetateam.js'),
+  chatban: require('./commands/chatban.js'),
   enlarge: require('./commands/enlarge.js'),
   shrink: require('./commands/shrink.js'),
   colortext: require('./commands/colortext.js'),
