@@ -37,6 +37,8 @@ this.isMaster = ismaster;
     if (this.interveral) {
       clearInterval(this.interveral);
     }
+    if (this.httpServer)
+    this.httpServer.close()
   }
 
   update() {
