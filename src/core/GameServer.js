@@ -61,7 +61,6 @@ this.name = name;
     // Config
 
     this.configService = configService;
-    this.configService.load();
     this.config = this.configService.getConfig();
     this.banned = banned;
     this.opbyip = this.configService.getOpByIp();
