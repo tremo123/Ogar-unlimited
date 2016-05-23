@@ -33,6 +33,7 @@ module.exports = class Multiverse {
       old.push(p);
     }
     this.stop();
+    this.configService.load();
     for (var i in old) {
       var serv = old[i];
       if (old.selected) {
