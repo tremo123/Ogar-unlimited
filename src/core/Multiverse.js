@@ -33,6 +33,11 @@ module.exports = class Multiverse {
       serv.push(p);
     }
     this.stop();
+    if (global.gc()) {
+      console.log("[Console] Running garbage collect to reduce memory");
+      global.gc();
+    }
+    
     this.configService.load();
     for (var i in serv) {
       var old = serv[i]
