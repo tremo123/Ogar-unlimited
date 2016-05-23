@@ -8,13 +8,62 @@ module.exports = class Multiverse {
     this.selected = [];
     this.version = version;
     this.whitelist = [];
+    this.olddata = [];
     this.configService = new ConfigService()
     this.configService.load()
     this.banned = this.configService.getBanned();
     this.master = [];
     this.commands = Commands.multiverse;
   }
-  
+  restart() {
+    try {
+    var old = [];
+    for (var i in this.servers) {
+      if (!server) continue;
+      var server = this.servers[i];
+      if (server.name == this.selected.name) var s = true;
+      else var s = false;
+      var p = {
+        name: server.name,
+        port: server.port,
+        gamemode: server.gamemode,
+        isMaster: server.isMaster,
+        selected: s,
+      };
+      old.push(p);
+    }
+    this.stop();
+    for (var i in old) {
+      var serv = old[i];
+      if (old.selected) {
+        selected = this.create(old.name,old.isMaster,old.port,old.gamemode);
+        if (selected) {
+          
+          this.selected = selected;
+          console.log("[Console] Restarted and selected " + old.name);
+        } else {
+          console.log("[Console] Error in restarting server " + old.name);
+        }
+      } else {
+        if (this.create(old.name,old.isMaster,old.port,old.gamemode)) {
+        
+          console.log("[Console] Restarted " + old.name);
+        } else {
+          console.log("[Console] Error in restarting server " + old.name);
+        }
+        
+      }
+    
+    }
+    
+    return true;
+    } catch (e) {
+      console.log("[Console] Error in restarting:");
+      console.log(e);
+      return false;
+      
+    }
+  }
   create(name,ismaster, port, gamemode) {
     if (!this.servers[name]) {
     var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned, gamemode);
