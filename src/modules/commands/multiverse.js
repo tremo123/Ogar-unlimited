@@ -27,8 +27,8 @@ module.exports = function (multiverse, split) {
      console.log("[Console] Please specify a port");
      return;
    }
-   multiverse.create(split[2],false,port);
-   console.log("[Console] Created server " + split[2] + " on port " + port)
+   if (!multiverse.create(split[2],false,port)) console.log("[Console] That name is already taken!"); else 
+   console.log("[Console] Created server " + split[2] + " on port " + port);
    
  } else if (split[1] == "remove") {
    if (!split[2]) {
