@@ -66,7 +66,7 @@ To use a plugin, simply download the folder and drag it into the plugins folder 
 This is the fun part, creating your own plugins. There is an example plugin you should look at and there is a template plugin. Currently, there is no documentation, but will be soon in the wiki
 
 ### Multiverse
-Multiverse is for having multiple servers in one console. This is how you use it. The command for multiverse is `multiverse [command] [arg]`. Available commands are `list`,`create`,`remove`, and `select`. The list is used by doing `multiverse list` and it will list servers and their ports. It will also tell you f that is the master or is selected. The create command creates a server. The args are `multiverse create [name] [port]`. Make sure that the port is not repeated in other servers. Note that only the master has a statsport. To remove a server, do `multiverse remove [name]`. To then control the server using console commands, you have to select it. Do `multiverse select [name]` to select a server and start controlling it.
+Multiverse is for having multiple servers in one console. This is how you use it. The command for multiverse is `multiverse [command] [arg]`. Available commands are `list`,`create`,`remove`, and `select`. The list is used by doing `multiverse list` and it will list servers and their ports. It will also tell you f that is the master or is selected. The create command creates a server. The args are `multiverse create [name] [port] [gamemode]`. Make sure that the port is not repeated in other servers. Note that only the master has a statsport. To remove a server, do `multiverse remove [name]`. To then control the server using console commands, you have to select it. Do `multiverse select [name]` to select a server and start controlling it.
 
 
 ### Easy Verify
@@ -138,6 +138,10 @@ The current available console commands are listed here. Command names are not ca
    * Shows List Of Commands
  - Ophelp
    * Shows how to use OP
+ - quickrestart
+   * Quickly restart your server. This is not true restart and does not reduce memory;
+ - multiverse [command] [arg]
+   * manage multiple servers. see multiverse
  - Plugin [command]
    * manage plugins, reload, list, delete, add, available, install, update.
  - Chat [command] [args]
