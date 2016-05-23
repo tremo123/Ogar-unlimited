@@ -419,6 +419,12 @@
     "dst": "./modules/commands/addbot.js",
     "name": "addbot.js"
   },
+  {
+    "hash": "5bce55076e7613a017e6003a8d6a66e4a77fd9f0",
+    "src": "src/modules/commands/quickrestart.js",
+    "dst": "./modules/commands/quickrestart.js",
+    "name": "quickrestart.js"
+  },
    {
     "hash": "5bce55076e7613a017e6003a8d6a66e4a77fd9f0",
     "src": "src/modules/commands/chat.js",
