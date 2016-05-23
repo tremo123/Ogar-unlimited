@@ -9,6 +9,7 @@ module.exports = class Multiverse {
     this.version = version;
     this.whitelist = [];
     this.configService = new ConfigService()
+    this.configService.load()
     this.banned = this.configService.getBanned();
     this.master = [];
     this.commands = Commands.multiverse;
@@ -34,7 +35,6 @@ this.servers[name] = undefined;
    return false;
   }
   init() {
-    
     this.selected = this.create("main", true);  
   }
   start() {
