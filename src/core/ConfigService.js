@@ -121,7 +121,7 @@ module.exports = class ConfigService {
       randomnames: 0,
       trollvirus: 1,
       explodevirus: 1,
-      foodMassGrowPossiblity: 50, // Chance for a food to has the ability to be self growing
+      foodMassGrowPossibility: 50, // Chance for a food to has the ability to be self growing
       foodMassLimit: 5, // Maximum mass for a food can grow
       foodMassTimeout: 120, // The amount of interval for a food to grow its mass (in seconds)
       virusMinAmount: 10, // Minimum amount of viruses on the map.

@@ -9,7 +9,7 @@ function Food() {
   this.shouldSendUpdate = false;
 
   if (this.gameServer.config.foodMassGrow &&
-    this.gameServer.config.foodMassGrowPossiblity > Math.floor(Math.random() * 101)) {
+    this.gameServer.config.foodMassGrowPossibility > Math.floor(Math.random() * 101)) {
     this.grow();
   }
 }
