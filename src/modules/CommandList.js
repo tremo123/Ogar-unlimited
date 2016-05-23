@@ -20,6 +20,7 @@ module.exports = Commands;
 Commands.multiverse = {
     multiverse: require('./commands/multiverse.js'),
     exit: require('./commands/exit.js'),
+    quickrestart: require('./commands/quickrestart.js'),
 }
 Commands.list = {
   ophelp: function (gameServer, split) {
@@ -66,6 +67,7 @@ Commands.list = {
     console.log("[Console] rcon       : In Chat Remote Control")
     console.log("[Console] Pcmd       : Periodical commands");
     console.log("[Console] gamemode   : change server gamemode");
+    console.log("[Console] Quickrestart : Quickly restart the server in a rush. Not real restart");
     console.log("[Console] kick       : kick player or bot by client ID");
     console.log("[Console] kill       : kill cell(s) by client ID");
     console.log("[Console] Reset      : Destroys everything and starts from scratch");
