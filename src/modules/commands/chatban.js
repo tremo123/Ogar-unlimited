@@ -11,7 +11,7 @@ module.exports = function (gameServer, split) {
       var client = gameServer.clients[i].playerTracker;
 
       client.chatAllowed = !client.chatAllowed;
-      if (client.frozen) {
+      if (client.chatAllowed) {
         gameServer.pm(id," You are no longer banned from chatting");
         console.log("[Console] Allowed player " + id + " To chat");
 
