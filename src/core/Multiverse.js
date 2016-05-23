@@ -15,9 +15,9 @@ module.exports = class Multiverse {
     this.commands = Commands.multiverse;
   }
   
-  create(name,ismaster, port) {
+  create(name,ismaster, port, gamemode) {
     if (!this.servers[name]) {
-    var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned);
+    var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned, gamemode);
     l.init();
     l.start();
     this.servers[name] = l;
