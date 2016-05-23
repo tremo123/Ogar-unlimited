@@ -425,6 +425,11 @@
     "dst": "./modules/commands/chat.js",
     "name": "chat.js"
   },
+   "hash": "5bce55076e7613a017e6003a8d6a66e4a77fd9f0",
+    "src": "src/modules/commands/chatban.js",
+    "dst": "./modules/commands/chatban.js",
+    "name": "chatban.js"
+  },
   {
     "hash": "799852154d32c5da95211ea2dfd5ed1b5c3fe80e",
     "src": "src/modules/commands/announce.js",
