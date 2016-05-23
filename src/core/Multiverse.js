@@ -144,6 +144,7 @@ this.servers[name] = undefined;
       }
       
       in_.question(">", function (str) {
+        if (!self.selected) return;
         if (self.selected.gameServer.config.dev != 1) {
           try {
             self.parseCommands(str);
