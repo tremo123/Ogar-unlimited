@@ -140,7 +140,7 @@ this.servers[name] = undefined;
       process.stdout.write("\x1b[2m\r");
     }
       } catch (e) {
-        return;
+        console.log(e)
       }
       
       in_.question(">", function (str) {
