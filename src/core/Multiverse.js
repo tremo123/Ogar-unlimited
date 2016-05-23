@@ -16,11 +16,15 @@ module.exports = class Multiverse {
   }
   
   create(name,ismaster, port) {
+    if (!this.servers[name]) {
     var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned);
     l.init();
     l.start();
     this.servers[name] = l;
     return l;
+    } else {
+      return false;
+    }
   }
   remove(name) {
    
