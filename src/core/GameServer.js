@@ -596,6 +596,7 @@ updateStickyCells() {
 };
 stop() {
   this.socketServer.close();
+  this.statServer.stop()
 }
   getPlayerNodes() {
     return this._nodesPlayer;
