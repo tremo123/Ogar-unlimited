@@ -117,6 +117,7 @@ this.servers[name] = undefined;
     let self = this;
     return function () {
       var col = '';
+      try {
       if (self.selected.gameServer.red) {
       process.stdout.write("\x1b[31m\r");
     }
@@ -138,7 +139,9 @@ this.servers[name] = undefined;
     if (self.selected.gameServer.dim) {
       process.stdout.write("\x1b[2m\r");
     }
-      
+      } catch (e) {
+        return;
+      }
       
       in_.question(">", function (str) {
         if (self.selected.gameServer.config.dev != 1) {
