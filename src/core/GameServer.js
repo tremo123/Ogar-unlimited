@@ -297,13 +297,13 @@ pm(id, msg) {
     this.socketServer.on('error', function err(e) {
       switch (e.code) {
         case "EADDRINUSE":
-          this.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
+          console.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
           break;
         case "EACCES":
-          this.log("[Error] Please make sure you are running Ogar with root privileges.");
+          console.log("[Error] Please make sure you are running Ogar with root privileges.");
           break;
         default:
-          this.log("[Error] Unhandled error code: " + e.code);
+          console.log("[Error] Unhandled error code: " + e.code);
           break;
       }
       process.exit(1); // Exits the program
