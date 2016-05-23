@@ -17,7 +17,7 @@ module.exports = class Multiverse {
   }
   restart() {
     try {
-    var old = [];
+    var serv = [];
     for (var i in this.servers) {
       if (!server) continue;
       var server = this.servers[i];
@@ -30,12 +30,12 @@ module.exports = class Multiverse {
         isMaster: server.isMaster,
         selected: s,
       };
-      old.push(p);
+      serv.push(p);
     }
     this.stop();
     this.configService.load();
-    for (var i in old) {
-      var serv = old[i];
+    for (var i in serv) {
+      var old = serv[i]
       if (old.selected) {
         selected = this.create(old.name,old.isMaster,old.port,old.gamemode);
         if (selected) {
