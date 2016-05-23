@@ -23,7 +23,7 @@ const PluginLoader = require('./PluginLoader.js');
 
 
 module.exports = class GameServer {
-  constructor(world, consoleService, configService, version, port, ismaster, name, banned, multiverse) {
+  constructor(world, consoleService, configService, version, port, ismaster, name, banned, multiverse, gamemode) {
     // fields
     this.world = world;
 
@@ -89,7 +89,11 @@ this.name = name;
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate, this.isMaster);
 
     // Gamemodes
+    if (gamemode)
+    this.gameMode = Gamemode.get(gamemode, this);
+    else;
     this.gameMode = Gamemode.get(this.config.serverGamemode, this);
+    
 
     //bound
     this.mainLoopBind = this.mainLoop.bind(this);
