@@ -19,8 +19,8 @@ module.exports = class Multiverse {
     try {
     var serv = [];
     for (var i in this.servers) {
-      if (!server) continue;
       var server = this.servers[i];
+       if (!server) continue;
       if (server.name == this.selected.name) var s = true;
       else var s = false;
       var p = {
