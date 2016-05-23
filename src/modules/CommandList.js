@@ -19,7 +19,7 @@ module.exports = Commands;
 // Commands
 Commands.multiverse = {
     multiverse: require('./commands/multiverse.js'),
-
+    exit: require('./commands/exit.js'),
 }
 Commands.list = {
   ophelp: function (gameServer, split) {
@@ -187,7 +187,6 @@ Commands.list = {
   change: require('./commands/change.js'),
   clear: require('./commands/clear.js'),
   color: require('./commands/color.js'),
-  exit: require('./commands/exit.js'),
   restart: require('./commands/restart.js'),
   food: require('./commands/food.js'),
   gamemode: require('./commands/gamemode.js'),
