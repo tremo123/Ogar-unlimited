@@ -37,7 +37,7 @@ module.exports = class Multiverse {
     for (var i in serv) {
       var old = serv[i]
       if (old.selected) {
-        selected = this.create(old.name,old.isMaster,old.port,old.gamemode);
+       var selected = this.create(old.name,old.isMaster,old.port,old.gamemode);
         if (selected) {
           
           this.selected = selected;
