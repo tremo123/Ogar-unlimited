@@ -8,12 +8,18 @@ module.exports = class Multiverse {
     this.selected = [];
     this.version = version;
     this.whitelist = [];
+    this.info = [];
     this.olddata = [];
     this.configService = new ConfigService()
     this.configService.load()
     this.banned = this.configService.getBanned();
     this.master = [];
     this.commands = Commands.multiverse;
+    this.index = 0;
+  }
+  getNextId() {
+    this.index ++;
+    return this.index;
   }
   restart() {
     try {
@@ -70,24 +76,38 @@ module.exports = class Multiverse {
       
     }
   }
-  create(name,ismaster, port, gamemode) {
+  create(name,ismaster, port, gamemode, desc) {
     if (!this.servers[name]) {
     var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned, gamemode);
     l.init();
     l.start();
+    
+      var i = {
+      name: name,
+      port: port,
+      gamemode: gamemode,
+      description: desc,
+    }
+    var id = getNextId();
+    l.id = id;
+    this.info[id] = i;
     this.servers[name] = l;
     return l;
     } else {
       return false;
     }
+  
+    
   }
   remove(name) {
    
      if (this.servers[name].name == name && !this.servers[name].isMaster && this.servers[name].name != this.selected.name) {
+var index = this.servers[name].id;
+if (index) {
+    this.info.splice(index, 1);
+}
 this.servers[name].stop();
 this.servers[name] = undefined;
-
-       
       return true;
      }
    
