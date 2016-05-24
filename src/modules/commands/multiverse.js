@@ -27,8 +27,11 @@ module.exports = function (multiverse, split) {
      console.log("[Console] Please specify a port");
      return;
    }
-   if (!multiverse.create(split[2],false,port)) console.log("[Console] That name is already taken!"); else 
-   console.log("[Console] Created server " + split[2] + " on port " + port);
+   var gamemode = "default";
+   if (parseInt(split[4])) gamemode = split[4];
+   
+   if (!multiverse.create(split[2],false,port, parseInt(split[4]))) console.log("[Console] That name is already taken!"); else 
+   console.log("[Console] Created server " + split[2] + " on port " + port + " on gamemode " + gamemode);
    
  } else if (split[1] == "remove") {
    if (!split[2]) {
