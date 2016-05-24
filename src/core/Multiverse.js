@@ -90,6 +90,7 @@ module.exports = class Multiverse {
       port: port,
       gamemode: gamemode,
       description: desc,
+      isMaster: ismaster,
     }
     var id = this.getNextId();
     l.id = id;
