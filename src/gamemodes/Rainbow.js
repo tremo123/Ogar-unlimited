@@ -141,6 +141,7 @@ Rainbow.prototype = new FFA();
 // Gamemode Specific Functions
 
 Rainbow.prototype.changeColor = function (node) {
+  if (typeof node != "object") return;
   if (typeof node.rainbow == 'undefined') {
     node.rainbow = Math.floor(Math.random() * this.colors.length);
   }
