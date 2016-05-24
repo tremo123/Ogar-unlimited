@@ -17,6 +17,9 @@ module.exports = class Multiverse {
     this.commands = Commands.multiverse;
     this.index = 0;
   }
+  getInfo() {
+    return this.info;
+  }
   getNextId() {
     this.index ++;
     return this.index;
