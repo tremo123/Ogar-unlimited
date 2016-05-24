@@ -126,6 +126,7 @@ this.servers[name] = undefined;
     for (var i in this.servers) this.servers[i].stop();
     this.servers = [];
     this.selected = [];
+    this.info = [];
   }
   getSelected() {
     return this.selected;
