@@ -91,7 +91,7 @@ module.exports = class Multiverse {
       gamemode: gamemode,
       description: desc,
     }
-    var id = getNextId();
+    var id = this.getNextId();
     l.id = id;
     this.info[id] = i;
     this.servers[name] = l;
