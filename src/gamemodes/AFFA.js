@@ -17,5 +17,5 @@ Experimental.prototype = new FFA();
 AFFA.prototype.onServerInit = function (gameServer) {
   gameServer.lleaderboard = true
   gameServer.config.randomnames = 1;
-  gameServer.config.chatAllowed = 0;
+  gameServer.config.allowChat = 0;
 };
