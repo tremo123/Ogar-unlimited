@@ -156,6 +156,7 @@ PacketHandler.prototype.handleMessage = function (message) {
             }
             break;
              case 99: // from cigar
+             if (this.gameServer.config.allowChat == 1) {
              if (!this.socket.playerTracker.chatAllowed) return;
             var message = "",
                 maxLen = this.gameServer.config.chatMaxMessageLength * 2,
@@ -218,6 +219,7 @@ PacketHandler.prototype.handleMessage = function (message) {
             if ((date - this.socket.playerTracker.cTime) < this.gameServer.config.chatIntervalTime) {
                 var time = 1 + Math.floor(((this.gameServer.config.chatIntervalTime - (date - this.socket.playerTracker.cTime)) / 1000) % 60);
                 // Happens when user tries to spam
+                 this.gameServer.pm(this.socket.playerTracker.pID, " Please dont spam.");
                 break;
             }
 
@@ -240,13 +242,14 @@ PacketHandler.prototype.handleMessage = function (message) {
             var LastMsg;
             if (message == LastMsg) {
                 ++SpamBlock;
-                if (SpamBlock > 5) this.socket.playerTracker.chatAllowed = false;
-                this.gameServer.pm(this.socket.playerTracker.pID, " Your chat is banned because you are spammin!")
+                if (SpamBlock > 5) { this.socket.playerTracker.chatAllowed = false;
+                this.gameServer.pm(this.socket.playerTracker.pID, " Your chat is banned because you are spammin!");
+                }
+                 this.gameServer.pm(this.socket.playerTracker.pID, " Please dont spam.");
                 break;
             }
             LastMsg = message;
             SpamBlock = 0;
-
             hour = (hour < 10 ? "0" : "") + hour;
             var min = date.getMinutes();
             min = (min < 10 ? "0" : "") + min;
@@ -259,6 +262,9 @@ PacketHandler.prototype.handleMessage = function (message) {
             for (var i = 0; i < this.gameServer.clients.length; i++) {
                 this.gameServer.clients[i].sendPacket(packet);
             }
+             } else {
+                this.gameServer.pm(this.socket.playerTracker.pID, " Chat is not allowed!");
+             }
             break;
     default:
       break;
