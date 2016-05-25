@@ -18,6 +18,7 @@ module.exports = class ConfigService {
         chatMaxMessageLength: 70, // Length of messages in chat
         chatIntervalTime: 2500, // ms between each message.
         chatBlockedWords: "fuck;bitch", // Words to filter from chat
+        allowchat: 1,
         chatBlockedWordsTo: "****", // Word to change filtered words to.
         allowonly: "",
       consoleUpdateTime: 100,
