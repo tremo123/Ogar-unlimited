@@ -2,11 +2,11 @@
 var http = require('http');
 
 module.exports = class InfoServer {
-  constructor(multiverse, port, serverStatsUpdateTime) {
+  constructor(multiverse, port) {
     this.multiverse = multiverse;
     this.port = port;
-    this.serverStatsUpdateTime = (serverStatsUpdateTime) ? serverStatsUpdateTime : 1;
-    this.stats = "";
+    this.serverStatsUpdateTime = 5;
+    this.info = "";
     this.interveral = undefined;
 this.isMaster = ismaster;
   }
@@ -18,7 +18,7 @@ this.isMaster = ismaster;
     }
     // init stats
     this.update();
-
+try {
     // Show stats
     this.httpServer = http.createServer(function (req, res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
@@ -31,6 +31,9 @@ this.isMaster = ismaster;
       console.log("[Game] Loaded info server on port " + this.port);
       setInterval(this.update.bind(this), this.serverStatsUpdateTime * 1000);
     }.bind(this));
+} catch (e) {
+  console.log("[Console] couldnt start infoServer")
+}
   }
 
   stop() {
@@ -42,14 +45,15 @@ this.isMaster = ismaster;
   }
 
   update() {
-   
-    var s = {
-     
-    };
-    this.stats = JSON.stringify(s);
+    var d = [];
+   for (var i in this.multiverse.info) {
+     var server =  this.multiverse.info[i];
+   d.push(server);
+   }
+    this.info = JSON.stringify(d);
   }
 
-  getStats() {
-    return this.stats;
+  getInfo() {
+    return this.info;
   }
 };
