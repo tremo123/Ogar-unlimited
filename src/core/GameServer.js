@@ -231,6 +231,9 @@ pm(id, msg) {
               }
             }
 }
+startingFood() {
+  return this.generatorService.startFood();
+}
   start() {
 
 
