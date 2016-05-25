@@ -4,7 +4,6 @@
 
 A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. It is basically what it says in the title, Ogar, except its functionality is unlimited!
 
-This Modified copy was created to help those who want to open their server to the public. I will add more features as time goes
 
 ~~(Sorry but all client clones of agar.io are ILLEGAL, thus we are not making those. You must use `agar.io/?ip=[ip]`)~~
 **We dont support them but you can use them**
@@ -44,12 +43,17 @@ This Modified copy was created to help those who want to open their server to th
  27. garbage collection. prevent memory leak.
  28. chat
  29. Multi server support (see multiverse)
+ 30. Bots that team
  
 ### Note:
 Please note that this is updated very frequently and you should check for updates every week. I added an update system but It needs to be initialized by you (because I don't think it is the right thing to do, updating without your consent). Also you may copy this and modify it just please give some credit to the hard working dev team, that is all I care. Another note is that I am sometimes terrible in my grammar (I still cannot spell potato out loud). If there is an issue, please notify me. If there is something you want in this, just make a pull request.
 
-### Purchased Ogar UL?
-If you've purchased a copy of Ogar UL, you just got scammed. It is open source which means it is FREE. yes FREE! So if you paid any money, well, too bad
+### DO NOT BUY OGAR UL!
+If you've purchased a copy of Ogar UL, you just got scammed. It is open source which means it is FREE. yes FREE! So if you paid any money, well, too bad.
+
+### DO not get from other sources
+If you got ogarUL from anywhere besides github, DELETE IT IMMEDIATLY!!! Those might be bundled with viruses and other things. Remember you are running this probably from `sudo`. Get the github one here: https://github.com/AJS-development/Ogar-unlimited
+
 
 ### How do I install plugins from the official library?
 the official library is here: https://github.com/AJS-development/OgarUL-Plugin-Library
@@ -90,45 +94,46 @@ You can see a more detailed guide on the [wiki] (https://github.com/AJS-developm
 
 As Ogar Unlimited is written in Node.js, you must have Node.js and its "ws", and "request" module installed to use it (unless you are using the Windows binary). You can usually download Node using your distribution's package manager (for *nix-like systems), or from [the Node website](http://nodejs.org). To install the "ws" and "request" module that is required, open up your system command line (cmd for windows, terminal for mac) and type "npm install ws" and do "npm install request". To see a detailed guide go to the [Installation guide] (https://github.com/AJS-development/Ogar-unlimited/wiki/Installation) in the wiki
 
-(You can install and use Ogar unlimited on windows very quickly. First click `InstallWebSocket.bat` in src. Then wait (it takes a while), then click `Start.bat` and you're off! The next time you start the server, you only have to click `Start.bat`)
+(You can install and use Ogar unlimited on windows very quickly. First click `Installdependancies.bat` in src. Then wait (it takes a while), then click `Start.bat` and you're off! The next time you start the server, you only have to click `Start.bat`)
 
-(Binarys are also available in Releases)
+~~ (Binarys are also available in Releases)~~ OUTDATED
 
 Currently, Ogar listens on the following addresses and ports:
 * *:88 - for the stats server (I would use it to track servers)
 * *:443 - for the game server
 
-Please note that on some systems, you may have to run the process as root or otherwise elevate your privileges to allow the process to listen on the needed ports. **If you are getting an EADDRINUSE error, it means that the port required to run Ogar is being used. Usually, Skype is the culprit. To solve this, either close out skype, or change the serverPort value in gameserver.ini to a different port. You will have to change your connection ip to "127.0.0.1:PORT"**
+Please note that on some systems, you may have to run the process as root or otherwise elevate your privileges to allow the process to listen on the needed ports. **If you are getting an EADDRINUSE error, it means that the port required to run Ogar UL is being used. Usually, Skype is the culprit. To solve this, either close out skype, or change the serverPort value in settings/advconfig.ini to a different port. You will have to change your connection ip to "127.0.0.1:PORT"**
 
 Once the game server is running, you can connect (locally) by typing `agar.io/?ip=127.0.0.1:443` into your browser's address bar.
 
-## Configuring Ogar
-Use "gameserver.ini" to modify Ogar's configurations field. Player bots are currently basic and for testing purposes. To use them, change "serverBots" to a value higher than zero in the configuration file. To add/remove bot names, edit the file named "botnames.txt" which is in the same folder as "gameserver.ini". Names should be separated by using the enter key.
+## Configuring Ogar UL
+To control how your server is run, Edit files in `src/settings/`
+
 
 ## Custom Game modes
-Ogar has support for custom game modes. To switch between game modes, change the value of "serverGamemode" in the configurations file to the selected game mode id and restart the server. The current supported game modes are:
+Ogar UL has support for custom game modes. To switch between game modes, change the value of "serverGamemode" in the configurations file to the selected game mode id and restart the server. The current supported game modes are:
 
 Id   | Name
 -----|--------------
 0    | Free For All
 1    | Teams
 2    | Experimental (As of 6/13/15)
-8    | Experimental v2
 3    | Timed FFA
 4    | Virus Off (no virus's)
+5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
+6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
 7    | Shrinking FFA, Shrinks the game as time passes
+8    | Experimental v2
 10   | Tournament
 11   | Hunger Games
 12   | Zombie Mode
 13   | Team Z
 14   | Team X
-20   | Rainbow FFA - Hint: Use with "setAcid(true)" ( Use this in your Google Console)
-5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
-6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
 15   | NoCollision Teams
 16   | NoCollision TeamZ
 17   | NoCollision TeamX
 18   | Leap - Where you leap instead of split, made by Ogarplus
+20   | Rainbow FFA - Hint: Use with "setAcid(true)"
 22   | BlackHole
 
 ## Console Commands
