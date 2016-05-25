@@ -118,22 +118,22 @@ Id   | Name
 0    | Free For All
 1    | Teams
 2    | Experimental (As of 6/13/15)
-8    | Experimental v2
 3    | Timed FFA
 4    | Virus Off (no virus's)
+5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
+6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
 7    | Shrinking FFA, Shrinks the game as time passes
+8    | Experimental v2
 10   | Tournament
 11   | Hunger Games
 12   | Zombie Mode
 13   | Team Z
 14   | Team X
-20   | Rainbow FFA - Hint: Use with "setAcid(true)" ( Use this in your Google Console)
-5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
-6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
 15   | NoCollision Teams
 16   | NoCollision TeamZ
 17   | NoCollision TeamX
 18   | Leap - Where you leap instead of split, made by Ogarplus
+20   | Rainbow FFA - Hint: Use with "setAcid(true)"
 22   | BlackHole
 
 ## Console Commands
