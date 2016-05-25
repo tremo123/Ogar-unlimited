@@ -28,7 +28,11 @@ module.exports = class GeneratorService {
     this.foodSpawned = 0;
     this.interval = setInterval(this.update.bind(this), 1);
   }
-
+  startFood() {
+ for (var i = 0; i < this.config.foodStartAmount; i++) {
+    this.spawnFood();
+  }
+  }
   stop() {
     clearInterval(this.interval);
   }
