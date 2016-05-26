@@ -30,7 +30,7 @@ module.exports = function (gameServer, split) {
           var j = 0;
           var listed = [];
           var k = 0;
-          var search = split.slice(2, split.length).join(' ');
+          var search = split.slice(2, split.length).join(' ').toLowerCase();
           var desc = [];
           for (var i in ava) {
             var s = ava[i].split("|");
@@ -43,7 +43,9 @@ module.exports = function (gameServer, split) {
               listed.push(s[0]);
             } else {
             for (var m = 2; m < split.length; m++) {
-    if (ava[i].indexOf(split[m]) != -1 && listed.indexOf(s[0]) == -1) {
+              if (!split[m]) continue;
+              var se = split[m].toLowerCase();
+    if (ava[i].indexOf(se) != -1 && listed.indexOf(s[0]) == -1) {
       l[k] = {
         name: s[0],
         desc: s[1],
