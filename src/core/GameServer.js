@@ -89,11 +89,12 @@ this.name = name;
     this.statServer = new StatServer(this, this.config.serverStatsPort, this.config.serverStatsUpdate, this.isMaster);
 
     // Gamemodes
-    if (gamemode)
+    if (gamemode) {
     this.gameMode = Gamemode.get(gamemode, this);
-    else;
+    this.config.serverGamemode = gamemode;
+    } else {
     this.gameMode = Gamemode.get(this.config.serverGamemode, this);
-    
+    }
 
     //bound
     this.mainLoopBind = this.mainLoop.bind(this);
