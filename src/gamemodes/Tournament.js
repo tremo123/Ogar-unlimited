@@ -70,7 +70,7 @@ Tournament.prototype.getSpectate = function () {
 
 Tournament.prototype.prepare = function (gameServer) {
   // Remove all cells
-  let nodes = gameServer.getWorld().getNodes();
+  let nodes = gameServer._nodes;
   for (var i = 0; i < nodes.length; i++) {
     var node = nodes[0];
 
