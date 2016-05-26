@@ -73,8 +73,8 @@ Tournament.prototype.prepare = function (gameServer) {
   
   
 
-    gameServer.removeNode(node);
   gameServer.getWorld().getNodes().forEach((node)=>{
+    if (!node) return;
     gameServer.removeNode(node);
     
   })
