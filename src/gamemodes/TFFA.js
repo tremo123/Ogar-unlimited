@@ -52,16 +52,12 @@ TFFA.prototype.getSpectate = function () {
 
 TFFA.prototype.prepare = function (gameServer) {
   // Remove all cells
-  var nodes = gameServer.getWorld().getNodes();
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[0];
-
-    if (!node) {
-      continue;
-    }
-
+gameServer.getWorld().getNodes().forEach((node)=>{
+    if (!node) return;
     gameServer.removeNode(node);
-  }
+    
+  })
+ 
 
   gameServer.bots.loadNames();
 
