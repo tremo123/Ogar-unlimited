@@ -2,7 +2,7 @@
 
 >----------------------------------------------------------------------------------------------------
 
-Devin Ryan wanted this license in this work although it is completely different from his work. Still though, the credit belongs to the ajs-dev group even though legally (and unfairly) it belongs to Devin. So thats that.
+Devin Ryan wanted this license in this work although it is completely different from his work. Still though, the credit belongs to the AJS-dev group even though legally (and unfairly) it belongs to Devin. So thats that.
 >----------------------------------------------------------------------------------------------------
 
 Copyright 2015 Devin Ryan
