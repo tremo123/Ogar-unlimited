@@ -63,29 +63,23 @@ SFFA.prototype.shrink = function (gameServer) {
   config.borderTop += this.borderDec;
   config.borderBottom -= this.borderDec;
 
-  let nodes = gameServer.getWorld().getNodes();
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[i];
+   gameServer.getWorld().getNodes().forEach((node)=>{
 
     if ((!node) || (node.getType() == 0)) {
-      continue;
+      return;
     }
 
     // Move
     if (node.position.x < config.borderLeft) {
       gameServer.removeNode(node);
-      i--;
     } else if (node.position.x > config.borderRight) {
       gameServer.removeNode(node);
-      i--;
     } else if (node.position.y < config.borderTop) {
       gameServer.removeNode(node);
-      i--;
     } else if (node.position.y > config.borderBottom) {
       gameServer.removeNode(node);
-      i--;
     }
-  }
+  });
 
 };
 
