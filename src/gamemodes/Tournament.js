@@ -78,13 +78,7 @@ Tournament.prototype.prepare = function (gameServer) {
     gameServer.removeNode(node);
     
   })
-  gameServer.clients.forEach((client)=>{
-    if (!client) return;
-    var len = client.cells.length;
-for (var j = 0; j < len; j++) {
-        gameServer.removeNode(client.cells[0]);
-      }
-  });
+ 
 
   gameServer.bots.loadNames();
 
