@@ -36,7 +36,7 @@ module.exports = function (gameServer, split) {
             var s = ava[i].split("|");
 var aga = "";
  for (var k = 0; k < 2; k++) aga = aga + s[k];
- var aga = aga.toLowerCase()
+ if (aga) aga = aga.toLowerCase()
             if (aga.indexOf(search) != -1) {
               p[j] = {
                 name: s[0],
@@ -60,7 +60,7 @@ var aga = "";
   }
   }      
   }
-  if (p || l) {
+  if (p[0] || l[0]) {
   console.log("[Console] Search results for " + search + " :");
   for (var i in p) console.log("  " + p[i].name + "\n     Description: "+ p[i].desc);
   for (var i in l) console.log("  " + l[i].name + "\n     Description: "+ l[i].desc);
