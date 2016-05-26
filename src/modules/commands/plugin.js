@@ -34,6 +34,8 @@ module.exports = function (gameServer, split) {
           var desc = [];
           for (var i in ava) {
             var s = ava[i].split("|");
+var ava = "";
+ for (var k = 0; k < 2; k++) ava = ava + s[k];
             if (ava[i].indexOf(search) != -1) {
               p[j] = {
                 name: s[0],
@@ -113,7 +115,7 @@ var ok = false;
             }
           }
         if (!ok) {
-          console.log("[Console] That plugin does not exist. Do plugin available to see available plugins");
+          console.log("[Console] That plugin does not exist. Do plugin available to see available plugins and plugin search to search plugins!");
       return;
         }
           
@@ -300,7 +302,7 @@ gameServer.pluginLoader.load();
     
     
   } else {
-    console.log("[Console] Please specify a command. Available commands: list, reload, delete, add, available, install, update")
+    console.log("[Console] Please specify a command. Available commands: list,search, reload, delete, add, available, install, update")
   }
 
 
