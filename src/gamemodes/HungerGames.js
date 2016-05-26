@@ -108,16 +108,12 @@ HungerGames.prototype.onPlayerDeath = function (gameServer) {
     // Move
     if (node.position.x < config.borderLeft) {
       gameServer.removeNode(node);
-      i--;
     } else if (node.position.x > config.borderRight) {
       gameServer.removeNode(node);
-      i--;
     } else if (node.position.y < config.borderTop) {
       gameServer.removeNode(node);
-      i--;
     } else if (node.position.y > config.borderBottom) {
       gameServer.removeNode(node);
-      i--;
     }
   });
 };
