@@ -70,16 +70,20 @@ Tournament.prototype.getSpectate = function () {
 
 Tournament.prototype.prepare = function (gameServer) {
   // Remove all cells
-  let nodes = gameServer._nodes;
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[0];
-
-    if (!node) {
-      continue;
-    }
+  
+  
 
     gameServer.removeNode(node);
-  }
+  gameServer.getWorld().getNodes().forEach((node)=>{
+    gameServer.removeNode(node);
+    
+  })
+  gameServer.clients.forEach((client)=>{
+    var len = client.cells.length;
+for (var j = 0; j < len; j++) {
+        gameServer.removeNode(client.cells[0]);
+      }
+  });
 
   gameServer.bots.loadNames();
 
