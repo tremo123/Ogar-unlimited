@@ -82,16 +82,12 @@ Unlimitpvp.prototype.getSpectate = function () {
 
 Unlimitpvp.prototype.prepare = function (gameServer) {
   // Remove all cells
-  let nodes = gameServer.getWorld().getNodes();
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[0];
-
-    if (!node) {
-      continue;
-    }
-
+  gameServer.getWorld().getNodes().forEach((node)=>{
+    if (!node) return;
     gameServer.removeNode(node);
-  }
+    
+  })
+ 
 
   gameServer.bots.loadNames();
 
