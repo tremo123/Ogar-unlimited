@@ -34,9 +34,9 @@ module.exports = function (gameServer, split) {
           var desc = [];
           for (var i in ava) {
             var s = ava[i].split("|");
-var ava = "";
- for (var k = 0; k < 2; k++) ava = ava + s[k];
-            if (ava[i].indexOf(search) != -1) {
+var aga = "";
+ for (var k = 0; k < 2; k++) aga = aga + s[k];
+            if (aga[i].indexOf(search) != -1) {
               p[j] = {
                 name: s[0],
                 desc: s[1],
@@ -47,7 +47,7 @@ var ava = "";
             for (var m = 2; m < split.length; m++) {
               if (!split[m]) continue;
               var se = split[m].toLowerCase();
-    if (ava[i].indexOf(se) != -1 && listed.indexOf(s[0]) == -1) {
+    if (aga[i].indexOf(se) != -1 && listed.indexOf(s[0]) == -1) {
       l[k] = {
         name: s[0],
         desc: s[1],
