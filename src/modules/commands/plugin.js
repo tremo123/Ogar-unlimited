@@ -16,6 +16,59 @@ module.exports = function (gameServer, split) {
 
     }
     console.log("[Console] ------------------------------------------------");
+  } else if (split[1] == "search") {
+    if (!split[2]) {
+      console.log("[Console] Please enter a search term!")
+    }
+    request('https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/files.txt', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+           var ava = body.split(/[\r\n]+/).filter(function (x) {
+            return x != ''; // filter empty
+          });
+          var p = [];
+          var l = [];
+          var j = 0;
+          var listed = [];
+          var k = 0;
+          var search = split.slice(2, split.length).join(' ');
+          var desc = [];
+          for (var i in ava) {
+            var s = ava[i].split("|");
+            if (ava[i].indexOf(search) != -1) {
+              p[j] = {
+                name: s[0],
+                desc: s[1],
+              };
+              j++;
+              listed.push(s[0]);
+            } else {
+            for (var m = 2; m < split.length; m++) {
+    if (ava[i].indexOf(split[m]) != -1 && listed.indexOf(s[0]) == -1) {
+      l[k] = {
+        name: s[0],
+        desc: s[1],
+      }
+      k++
+      listed.push(s[0]);
+      break;
+    }
+  }
+  }      
+  }
+  if (p || l) {
+  console.log("[Console] Search results for " + search + " :");
+  for (var i in p) console.log("  " + p[i].name + "\n     Description: "+ p[i].desc);
+  for (var i in l) console.log("  " + l[i].name + "\n     Description: "+ l[i].desc);
+  } else {
+    console.log("[Console] No results found for " + search);
+  }
+        } else {
+          console.lofg("[Console] Failed to connect to servers");
+          return;
+        }
+   });
+   
+    
   } else if (split[1] == "reload") {
     gameServer.pluginLoader.load();
     console.log("[Console] Reloaded plugins");
