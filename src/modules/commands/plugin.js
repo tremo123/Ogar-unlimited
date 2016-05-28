@@ -21,6 +21,7 @@ module.exports = function (gameServer, split) {
       console.log("[Console] Please enter a search term!");
       return;
     }
+    console.log("[Console] Connecting to servers...");
     request('https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/files.txt', function (error, response, body) {
         if (!error && response.statusCode == 200) {
            var ava = body.split(/[\r\n]+/).filter(function (x) {
@@ -66,7 +67,7 @@ var aga = "";
   for (var i in p) console.log("  " + p[i].name + "\n     Description: "+ p[i].desc);
   for (var i in l) console.log("  " + l[i].name + "\n     Description: "+ l[i].desc);
   } else {
-    console.log("[Console] No results found for " + search);
+    console.log("[Console] No results found for " + search+ ". Make sure it exists in the plugin library");
   }
         } else {
           console.lofg("[Console] Failed to connect to servers");
@@ -191,6 +192,7 @@ gameServer.pluginLoader.load();
     
     
   } else if (split[1] == "available") {
+    console.log("[NOTE] Plugin available is depreciated, Use plugin search instead");
   console.log("[Console] Connecting to servers...");
    request('https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/files.txt', function (error, response, body) {
         if (!error && response.statusCode == 200) {
