@@ -148,7 +148,7 @@ The current available console commands are listed here. Command names are not ca
  - multiverse [command] [arg]
    * manage multiple servers. see multiverse
  - Plugin [command]
-   * manage plugins, reload, list, delete, add, available, install, update.
+   * manage plugins, reload, list, delete, add, available, install, update, search.
  - Chat [command] [args]
    * Chat from the console!. Commands: all, pm. For all `chat all [msg]` for pm `chat pm [id] [msg]`
  - Chatban [id]
