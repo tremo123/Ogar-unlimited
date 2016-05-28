@@ -18,7 +18,8 @@ module.exports = function (gameServer, split) {
     console.log("[Console] ------------------------------------------------");
   } else if (split[1] == "search") {
     if (!split[2]) {
-      console.log("[Console] Please enter a search term!")
+      console.log("[Console] Please enter a search term!");
+      return;
     }
     request('https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/files.txt', function (error, response, body) {
         if (!error && response.statusCode == 200) {
