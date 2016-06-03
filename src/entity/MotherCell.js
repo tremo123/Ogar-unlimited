@@ -37,6 +37,7 @@ MotherCell.prototype.update = function(gameServer) {
             i++;
         }
     }
+    if (gameServer.config.motherCellMassProtection == 1 && this.mass > gameServer.config.motherCellMaxMass) this.mass -= 20
     if (this.mass > 222) {
         // Always spawn food if the mother cell is larger than 222
         var cellSize = gameServer.config.foodMass;

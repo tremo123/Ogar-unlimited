@@ -15,6 +15,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.threats = []; // List of cells that can eat this bot but are too far away
     this.prey = []; // List of cells that can be eaten by this bot
     this.food = [];
+    this.rbuffer = 5;
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
     this.teamingwith = []; // player teamingwith
@@ -89,7 +90,12 @@ module.exports = class BotPlayer extends PlayerTracker {
         this.tickViewBox = this.updateIn;
         
       } else {
+        if (this.rbuffer <= 0) {
       this.tickViewBox = this.gameServer.config.botupdate;
+        } else {
+        this.tickViewBox = this.updateIn;
+        this.rbuffer--;
+        }
       }
     } else {
       this.tickViewBox--;

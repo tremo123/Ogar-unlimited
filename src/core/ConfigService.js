@@ -134,7 +134,7 @@ module.exports = class ConfigService {
       virusFeedAmount: 7, // Amount of times you need to feed a virus to shoot it
       virusShotSpeed: 135, // Speed of a virus shot
       motherCellMassProtection: 1, // Stopping mothercells from being too big (0 to disable)
-      motherCellMaxMass: 10000, // Max mass of a mothercell
+      motherCellMaxMass: 1000, // Max mass of a mothercell
       ejectMass: 12, // Mass of ejected cells
       ejectMassCooldown: 200, // Time until a player can eject mass again
       ejectMassLoss: 16, // Mass lost when ejecting cells

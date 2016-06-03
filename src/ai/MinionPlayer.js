@@ -18,8 +18,9 @@ module.exports = class MinionPlayer extends PlayerTracker {
     this.food = [];
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
-
+    this.rbuffer = 5;
     this.juke = false;
+    this.updateIn = (Math.random() * 12) >> 0;
 
     this.target;
     this.targetVirus; // Virus used to shoot into the target
@@ -94,7 +95,12 @@ module.exports = class MinionPlayer extends PlayerTracker {
     // Update
     if ((this.tickViewBox <= 0) && (this.gameServer.running)) {
       this.visibleNodes = this.calcViewBox();
-      this.tickViewBox = this.gameServer.config.minionupdate
+      if (this.rbuffer <= 0) {
+      this.tickViewBox = this.gameServer.config.minionupdate;
+      } else {
+        this.tickViewBox = this.updateIn;
+        this.rbuffer--;
+      }
     } else {
       this.tickViewBox--;
       return;
