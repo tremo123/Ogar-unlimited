@@ -219,6 +219,11 @@ reloadDataPacket() {
   }
   
 }
+getDist(x1, y1, x2, y2) { // Use Pythagoras theorem
+    let from = {'x': x1, 'y': y1 };
+    let to = {'x': x2, 'y': y2};
+    return Physics.getDist(from, to);
+  };
 pm(id, msg) {
   
   var packet = new Packet.Chat("[Console PM]", msg);
