@@ -18,7 +18,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
     this.food = [];
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
-    this.rbuffer = 5;
+    this.rbuffer = 10;
     this.juke = false;
     this.updateIn = (Math.random() * 12) >> 0;
 
