@@ -4,6 +4,18 @@ module.exports = function (gameServer, split) {
       var sx = parseInt(split[2]);
       var sy = parseInt(split[3]);
       var mass = parseInt(split[4]);
+      if (cn == "help") {
+            console.log("[Console] Spawn Command Help - To use do spawn [cellname] [x] [y] [mass] [stage(for beacons)]");
+            console.log("[Console] food       : Spawns food");
+            console.log("[Console] virus      : Spawns virus ");
+            console.log("[Console] mvirus     : Spawns Moving virus");
+            console.log("[Console] mfood      : Spawns Moving Food");
+            console.log("[Console] Mothercell : Spawns mothercell");
+            console.log("[Console] Stickycell : spawns Stickycell");
+            console.log("[Console] Beacon     : Spawns beacon");
+            console.log("[Console] help       : shows help");
+            return;
+        }
       if (isNaN(sx) || isNaN(sy)) {
           console.log("[Console] Please type in a valid coordinate");
           return;
@@ -63,17 +75,6 @@ module.exports = function (gameServer, split) {
             var m = new Entity.Beacon(gameServer.getWorld().getNextNodeId(), null, pos, mass);
         gameServer.addNode(m);
         console.log("[Console] Spawned 1  Beacon at coordinates (" + pos.x + " , " + pos.y + ") with a mass of " + mass + " ");
-        } else
-        if (cn == "help") {
-            console.log("[Console] Spawn Command Help - To use do spawn [cellname] [x] [y] [mass] [stage(for beacons)]");
-            console.log("[Console] food       : Spawns food");
-            console.log("[Console] virus      : Spawns virus ");
-            console.log("[Console] mvirus     : Spawns Moving virus");
-            console.log("[Console] mfood      : Spawns Moving Food");
-            console.log("[Console] Mothercell : Spawns mothercell");
-            console.log("[Console] Stickycell : spawns Stickycell");
-            console.log("[Console] Beacon     : Spawns beacon");
-            console.log("[Console] help       : shows help");
         } else {
             console.log("[Console] Please type in a valid cell name or do spawn help to get help");
             
