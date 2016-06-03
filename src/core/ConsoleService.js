@@ -170,15 +170,15 @@ log(a) {
    
     this.gameServer.liveticks++;
   }
-  execCommand(command, split) {
+  execCommand(command, split, sudo) {
     try {
       var execute = this.commands[command];
       if (typeof execute !== 'undefined') {
-      execute(this.gameServer, split);
+      execute(this.gameServer, split, sudo);
     } else {
       var execute = this.gameServer.pluginCommands[command];
       if (typeof execute !== 'undefined') {
-        execute(this.gameServer, split);
+        execute(this.gameServer, split, sudo);
 
       } else {
         console.warn('[\x1b[31mFAIL\x1b[0m] Failed to run command: ' + command + " args: " + split);

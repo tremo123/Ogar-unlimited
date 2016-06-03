@@ -26,7 +26,10 @@ this.version = version;
   getPC() {
     return this.extraC;
   }
-
+  log(a) {
+    if (this.gameServer.isMaster) console.log(a);
+    
+  }
   load() {
     
     if (!fs.existsSync('./plugins')) {
@@ -34,7 +37,7 @@ this.version = version;
     fs.mkdir('./plugins');
   }
     if (this.gameServer.config.dev == 1) {
-      console.log("[\x1b[34mINFO\x1b[0m] Loading plugins in dev mode");
+      this.log("[\x1b[34mINFO\x1b[0m] Loading plugins in dev mode");
       var files = fs.readdirSync('./plugins/');
       for (var i in files) {
 try {
@@ -46,7 +49,7 @@ try {
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
               var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
-                console.log("[\x1b[34mINFO\x1b[0m] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
+                this.log("[\x1b[34mINFO\x1b[0m] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
                 continue;
               }
             }
@@ -78,16 +81,16 @@ try {
     }
   } catch (err) {
     // No config
-    console.log("[\x1b[31mFAIL\x1b[0m]vPlugin configs for " + plugin.name + " Cannot be loaded");
+    this.log("[\x1b[31mFAIL\x1b[0m]vPlugin configs for " + plugin.name + " Cannot be loaded");
   }
               }
               plugin.init(this.gameServer, config);
           }
 
-          console.log("[\x1b[32mOK\x1b[0m] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
+          this.log("[\x1b[32mOK\x1b[0m] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
 
         } else {
-          console.log("[\x1b[31mFAIL\x1b[0m]Didnt load pluginfile " + files[i] + " because it was missing parameters");
+          this.log("[\x1b[31mFAIL\x1b[0m]Didnt load pluginfile " + files[i] + " because it was missing parameters");
         }
       }
 
@@ -95,7 +98,7 @@ try {
 
 
       try {
-        console.log("[\x1b[34mINFO\x1b[0m] Loading plugins");
+        this.log("[\x1b[34mINFO\x1b[0m] Loading plugins");
         var files = fs.readdirSync('./plugins/');
         for (var i in files) {
 
@@ -109,7 +112,7 @@ try {
               var com = parseInt(plugin.compatVersion.replace(/\./g,''));
               var cur = parseInt(this.version.replace(/\./g,''));
               if (cur < com) {
-                console.log("[\x1b[31mFAIL\x1b[0m] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
+                this.log("[\x1b[31mFAIL\x1b[0m] pluginfile " + files[i] + " was not loaded as it is not compatible with v" + this.version + " Required: " + plugin.compatVersion)
                 continue;
               }
             }
@@ -143,23 +146,23 @@ try {
     }
   } catch (err) {
     // No config
-    console.log("[\x1b[31mFAIL\x1b[0m] Plugin configs for " + plugin.name + " Cannot be loaded");
+    this.log("[\x1b[31mFAIL\x1b[0m] Plugin configs for " + plugin.name + " Cannot be loaded");
   }
               }
               plugin.init(this.gameServer, config);
           }
 
-              console.log("[\x1b[32mOK\x1b[0m] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
+              this.log("[\x1b[32mOK\x1b[0m] loaded plugin: " + plugin.name + " By " + plugin.author + " version " + plugin.version);
             } else {
-              console.log("[\x1b[31mFAIL\x1b[0m] Didnt load pluginfile " + files[i] + " because it was missing parameters");
+              this.log("[\x1b[31mFAIL\x1b[0m] Didnt load pluginfile " + files[i] + " because it was missing parameters");
             }
           } catch (e) {
-            console.log("[\x1b[31mFAIL\x1b[0m] Failed to load pluginfile " + files[i] + " Reason: " + e);
+            this.log("[\x1b[31mFAIL\x1b[0m] Failed to load pluginfile " + files[i] + " Reason: " + e);
 
           }
         }
       } catch (e) {
-        console.log("[\x1b[31mFAIL\x1b[0m] Couldnt load plugins");
+        this.log("[\x1b[31mFAIL\x1b[0m] Couldnt load plugins");
       }
     }
 

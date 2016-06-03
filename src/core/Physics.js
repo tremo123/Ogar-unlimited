@@ -78,6 +78,7 @@ module.exports = class Physics {
 
       // Add to moving cells list
       gameServer.addNode(split, "moving");
+      if (player.rainbowon) gameServer.setRainbowNode(split.nodeId, split);
       splitCells++;
     });
     if (splitCells > 0) player.actionMult += 0.5; // Account anti-teaming

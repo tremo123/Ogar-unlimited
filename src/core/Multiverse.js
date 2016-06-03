@@ -1,6 +1,5 @@
 'use strict';
 const ControlServer = require('./ControlServer.js')
-const ConfigService = require('./ConfigService.js');
 const Commands = require('../modules/CommandList');
 module.exports = class Multiverse {
   constructor(version) {
@@ -10,10 +9,9 @@ module.exports = class Multiverse {
     this.whitelist = [];
     this.info = [];
     this.olddata = [];
-    this.configService = new ConfigService()
-    this.configService.load()
-    this.banned = this.configService.getBanned();
+ 
     this.master = [];
+    this.ports = [];
     this.commands = Commands.multiverse;
     this.index = 0;
   }
@@ -38,20 +36,21 @@ module.exports = class Multiverse {
         gamemode: server.gamemode,
         isMaster: server.isMaster,
         selected: s,
+        title: server.title
       };
       serv.push(p);
     }
     this.stop();
-    if (global.gc()) {
+    if (global.gc) {
       console.log("[Console] Running garbage collect to reduce memory");
       global.gc();
     }
     
-    this.configService.load();
+ 
     for (var i in serv) {
       var old = serv[i]
       if (old.selected) {
-       var selected = this.create(old.name,old.isMaster,old.port,old.gamemode);
+       var selected = this.create(old.name,old.isMaster,old.port,old.gamemode, old.title);
         if (selected) {
           
           this.selected = selected;
@@ -60,7 +59,7 @@ module.exports = class Multiverse {
           console.log("[Console] Error in restarting server " + old.name);
         }
       } else {
-        if (this.create(old.name,old.isMaster,old.port,old.gamemode)) {
+        if (this.create(old.name,old.isMaster,old.port,old.gamemode, old.title)) {
         
           console.log("[Console] Restarted " + old.name);
         } else {
@@ -79,23 +78,33 @@ module.exports = class Multiverse {
       
     }
   }
-  create(name,ismaster, port, gamemode, desc) {
-    if (!this.servers[name]) {
-    var l = new ControlServer(this.version,undefined, port,ismaster, name, this.configService, this.banned, gamemode);
+  create(name,ismaster, port, gamemode, titlea) {
+    if (!this.servers[name] && (-1 == this.ports.indexOf(port) || !port)) {
+    var title = (titlea) ? titlea : name
+    var l = new ControlServer(this.version,this.info, port,ismaster, name, null ,null, gamemode, title);
     l.init();
     l.start();
+     var id = this.getNextId();
     
       var i = {
       name: name,
       port: port,
       gamemode: gamemode,
-      description: desc,
+      title: title,
       isMaster: ismaster,
+      id: id,
     }
-    var id = this.getNextId();
+    
+  if (port) this.ports.push(port);
+   
     l.id = id;
     this.info[id] = i;
     this.servers[name] = l;
+    for (var i in this.servers) {
+var server = this.servers[i];  
+if (!server) continue;
+server.gameServer.reloadDataPacket();
+}
     return l;
     } else {
       return false;
@@ -110,22 +119,37 @@ var index = this.servers[name].id;
 if (index) {
     this.info.splice(index, 1);
 }
+if (this.servers[name].port) {
+var index = this.ports.indexOf(this.servers[name].port)
+if (index != -1) {
+    this.ports.splice(index, 1);
+}
+}
 this.servers[name].stop();
 this.servers[name] = undefined;
+for (var i in this.servers) {
+var server = this.servers[i];
+  if (!server) continue;
+server.gameServer.reloadDataPacket();
+}
       return true;
      }
    
    return false;
   }
   init() {
-    this.selected = this.create("main", true);  
+    this.selected = this.create("Main", true);  
   }
   start() {
     
   }
   stop() {
-    for (var i in this.servers) this.servers[i].stop();
+    for (var i in this.servers) {
+      if (!this.servers[i]) continue;
+      this.servers[i].stop();
+    }
     this.servers = [];
+    this.index = 0;
     this.selected = [];
     this.info = [];
   }
@@ -211,11 +235,11 @@ this.servers[name] = undefined;
     } else {
     var execute = this.selected.consoleService.commands[first];
     if (typeof execute !== 'undefined') {
-      execute(this.selected.gameServer, split);
+      execute(this.selected.gameServer, split, true);
     } else {
       var execute = this.selected.gameServer.pluginCommands[first];
       if (typeof execute !== 'undefined') {
-        execute(this.selected.gameServer, split);
+        execute(this.selected.gameServer, split, true);
 
       } else {
          

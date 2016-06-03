@@ -2,7 +2,7 @@ const fs = require("fs");
 const crypto = require('crypto');
 const request = require('request');
 // plugin command
-module.exports = function (gameServer, split) {
+module.exports = function (gameServer, split, sudo) {
   if (split[1] == "list") {
     console.log("[Console] --------------- Installed Plugins ---------------");
     for (var i in gameServer.plugins) {
@@ -111,7 +111,7 @@ var ok = false;
             newsplit[1] = 'add'
             newsplit[2] = s[2]
             newsplit[3] = s[0]
-    gameServer.consoleService.execCommand('plugin', newsplit);
+    gameServer.consoleService.execCommand('plugin', newsplit, true);
             console.log("[Console] Installing " + s[0]);
            ok = true
             break;
@@ -161,7 +161,7 @@ var newsplit = [];
             newsplit[2] = url
             newsplit[3] = split[2];
             newsplit[4] = split[3];
-    gameServer.consoleService.execCommand('plugin', newsplit);
+    gameServer.consoleService.execCommand('plugin', newsplit, true);
       return;
     }
     try {
@@ -172,7 +172,7 @@ var newsplit = [];
             newsplit[1] = 'update'
             newsplit[2] = files[i];
             newsplit[3] = true;
-    gameServer.consoleService.execCommand('plugin', newsplit);
+    gameServer.consoleService.execCommand('plugin', newsplit, true);
    }
     setTimeout(function() {
             console.log("[Console] Done, Reloading...");
@@ -223,6 +223,10 @@ gameServer.pluginLoader.load();
    });
   
   } else if (split[1] == "add") {
+    if (!sudo) {
+      console.log("[Console] You cannot install a plugin unless directly at the console!");
+      return;
+    }
     if (!split[3]) {
       
       console.log("[Console] Since you did not specify a valid save-as file name, we will generate a random one");

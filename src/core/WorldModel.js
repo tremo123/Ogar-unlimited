@@ -17,6 +17,8 @@ module.exports = class WorldModel {
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
     this.virusNodes = SortedMap();
+    this.rainbowNodes = SortedMap();
+    this.ejectedNodes = new SortedMap();
   }
 
   setNode(id, node, type) {
@@ -28,12 +30,22 @@ module.exports = class WorldModel {
       case "moving":
         this.setNodeAsMoving(id, node);
         break;
+      case "virus":
+        this.setNodeAsVirus(id,node);
+        break;
+      case "ejected":
+        this.setNodeAsEjected(id,node);
+        break;
+      case "rainbow":
+        this.setNodeAsRainbow(id,node);
+        break;
     }
   }
 
   addNode(node, type) {
     let id = this.getNewNodeId();
     this.setNode(id, node, type);
+    this.setAsNode(id, node);
     return id;
   }
 
@@ -55,6 +67,12 @@ module.exports = class WorldModel {
         break;
       case 'virus':
         nodes = this.virusNodes;
+        break;
+      case 'ejected':
+        nodes = this.ejectedNodes;
+        break;
+      case 'rainbow':
+        nodes = this.rainbowNodes;
         break;
       default:
         nodes = this.nodes;
@@ -87,14 +105,25 @@ module.exports = class WorldModel {
     return foundNode;
 
   }
-
+clearAll() {
+   this.nodes.clear();
+    this.movingNodes.clear();
+    this.playerNodes.clear();
+    this.ejectedNodes.clear();
+    this.rainbowNodes.clear();
+    this.virusNodes.clear();
+    this.lastNodeId = 2;
+}
   removeNode(id) {
     this.nodes.delete(id);
     this.movingNodes.delete(id);
+    this.rainbowNodes.delete(id);
     this.playerNodes.delete(id);
+    this.ejectedNodes.delete(id);
+    this.virusNodes.delete(id);
   }
 
-  removeMovingNode(node) {
+  removeMovingNode(id) {
     this.movingNodes.delete(id);
   }
 
@@ -109,13 +138,43 @@ module.exports = class WorldModel {
   getNextNodeId() {
     return this.getNewNodeId();
   }
-
+setAsNode(id, node) {
+  this.nodes.set(id, node)
+}
+ clearEjected() {
+   this.ejectedNodes.clear();
+ }
+ clearMoving() {
+   this.movingNodes.clear();
+ }
+ clearVirus() {
+   this.virusNodes.clear();
+ }
+ clearPlayer() {
+   this.playerNodes.clear();
+ }
   setNodeAsMoving(id, node) {
     this.movingNodes.set(id, node);
   }
+  setNodeAsEjected(id, node) {
+    this.ejectedNodes.set(id,node);
+    
+  }
+  setNodeAsRainbow(id,node) {
+    this.rainbowNodes.set(id,node);
+  }
+  setNodeAsVirus(id, node) {
+    this.virusNodes.set(id, node);
+  }
 
-  removeMovingNode(id) {
-    this.movingNodes.delete(id);
+  removeEjectedNode(id) {
+    this.ejectedNodes.delete(id);
+  }
+  removePlayerNode(id) {
+    this.playerNodes.delete(id);
+  }
+  removeVirusNode(id) {
+    this.virusNodes.delete(id);
   }
 
   getMovingNodes() {

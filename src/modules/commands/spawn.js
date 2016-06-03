@@ -31,18 +31,21 @@ module.exports = function (gameServer, split) {
         } else
         if (cn == "virus") {
             var v = new Entity.Virus(gameServer.getWorld().getNextNodeId(), null, pos, mass);
-        gameServer.addNode(v);
+          if (gameServer.gameMode.ID == 2)
+          gameServer.addNode(v, "moving");
+         else
+           gameServer.addNode(v);
         console.log("[Console] Spawned 1 virus at coordinates (" + pos.x + " , " + pos.y + ") with a mass of " + mass + " ");
         } else
         if (cn == "mvirus") {
             var v = new Entity.MovingVirus(gameServer.getWorld().getNextNodeId(), null, pos, mass);
-        gameServer.addNode(v);
+        gameServer.addNode(v, "moving");
         console.log("[Console] Spawned 1  Moving virus at coordinates (" + pos.x + " , " + pos.y + ") with a mass of " + mass + " ");
         } else
         if (cn == "mfood") {
             var f = new Entity.MovingCell(gameServer.getWorld().getNextNodeId(), null, pos, mass, gameServer);
         f.setColor(gameServer.getRandomColor());
-        gameServer.addNode(f);
+        gameServer.addNode(f, "moving");
         gameServer.currentFood++;
         console.log("[Console] Spawned 1  Moving Food at coordinates (" + pos.x + " , " + pos.y + ") with a mass of " + mass + " ");
         } else
@@ -53,7 +56,7 @@ module.exports = function (gameServer, split) {
         } else
         if (cn == "stickycell") {
             var m = new Entity.StickyCell(gameServer.getWorld().getNextNodeId(), null, pos, mass);
-        gameServer.addNode(m);
+        gameServer.addNode(m, "moving");
         console.log("[Console] Spawned 1  StickyCell at coordinates (" + pos.x + " , " + pos.y + ") with a mass of " + mass + " ");
         } else
         if (cn == "beacon") {

@@ -1,10 +1,11 @@
 'use strict';
 // todo this needs review
 module.exports = function (gameServer, split) {
-  let nodes = gameServer._nodes;
-  for (var j = 0; j < nodes.length; j++) {
-      gameServer.removeNode(nodes[j]);
+  var nodes = gameServer.getWorld().getNodes().toArray();
+  for (let i = 0; i < nodes.length; i++) {
+    gameServer.removeNode(nodes[i])
     
-  }
+  } 
+  gameServer.getWorld().clearAll();
   console.log("[Console] Reset the game");
 };

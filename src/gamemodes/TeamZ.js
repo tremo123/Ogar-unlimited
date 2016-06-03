@@ -319,7 +319,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
   gameServer.running = true;
 
   // Overwrite some server functions:
-  GameServer = require('../GameServer.js');
+  GameServer = require('../core/GameServer.js');
   GS_getRandomColor = GameServer.prototype.getRandomColor; // backup
   GS_getNearestVirus = GameServer.prototype.getNearestVirus;
   GS_getCellsInRange = GameServer.prototype.getCellsInRange;

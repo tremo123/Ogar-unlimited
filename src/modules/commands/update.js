@@ -31,7 +31,10 @@ module.exports = function (gameServer, split) {
       break;
     case 'all':
       console.log("[Console] Fetching data from the servers...");
+      gameServer.updater.init()
+      setTimeout(function() {
       gameServer.updater.downloadAllFiles();
+      },2000);
       break;
     case 'updates':
       console.log("[Console] Fetching data from the servers...");

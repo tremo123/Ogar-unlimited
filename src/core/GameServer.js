@@ -31,12 +31,6 @@ module.exports = class GameServer {
     this.lastPlayerId = 1;
     this.running = true;
     this.multiverse = multiverse;
-    this._nodes = [];
-    this._movingNodes = [];
-    this._nodesPlayer = []; // Nodes controlled by players
-    this._nodesVirus = []; // Virus nodes
-    this._nodesEjected = []; // Ejected mass nodes
-    this._rainbowNodes = [];
     this._nodesMother = [];
     this._nodesBeacon = [];
     this._nodesSticky = [];
@@ -62,7 +56,7 @@ this.name = name;
 
     this.configService = configService;
     this.config = this.configService.getConfig();
-    this.banned = banned;
+    this.banned = this.configService.getBanned();
     this.opbyip = this.configService.getOpByIp();
     this.highscores = this.configService.getHighScores();
     this.rSkins = this.configService.getRSkins();
@@ -215,6 +209,14 @@ msgAll(msg) {
             for (var i = 0; i < this.clients.length; i++) {
                 this.clients[i].sendPacket(packet);
             }
+  
+}
+reloadDataPacket() {
+  for (var i in this.clients) {
+    var client = this.clients[i];
+    if (!client) continue;
+    client.sendPacket(new Packet.DataPacket(this));
+  }
   
 }
 pm(id, msg) {
@@ -473,6 +475,10 @@ startingFood() {
       ws.playerTracker = new PlayerTracker(this, ws);
       ws.packetHandler = new PacketHandler(this, ws);
       ws.on('message', ws.packetHandler.handleMessage.bind(ws.packetHandler));
+      ws.on('error', function err(error) {
+        console.log("[WARN] Caught ws error. Prevented server crash");
+        
+      });
 
       let bindObject = {
         server: this,
@@ -511,8 +517,7 @@ startingFood() {
   // todo for now leave it here
   addNode(node, type) {
     this.world.setNode(node.getId(), node, type);
-
-   this._nodes.push(node);
+//   this._nodes.push(node);
     //if (type === "moving") {
     //  this.setAsMovingNode(node);
     //}
@@ -559,9 +564,10 @@ startingFood() {
   // todo need to think about how to refactor this out
   removeNode(node) {
     if (!node) return;
+        node.onRemove(this);
     this.world.removeNode(node.getId());
     // Special on-remove actions
-    node.onRemove(this);
+
 
     // todo this is a big problem for splitting up the processes
     // Animation when eating
@@ -599,12 +605,12 @@ stop() {
   this.statServer.stop()
 }
   getPlayerNodes() {
-    return this._nodesPlayer;
+    return this.world.getNodes("player").toArray();
     //return this._nodesPlayer;
   }
 
   addPlayerNode(node) {
-    this._nodesPlayer.push(node);
+    this.world.setNode(node.getID() ,node, "player");
   }
 
   getNodesPlayer() {
@@ -618,63 +624,53 @@ stop() {
   }
 
   removeNodesPlayer(node) {
-    this.world.removeNode(node.getId());
+    this.world.removePlayerNode(node.getId())
   }
 
   // Virus Nodes
   getVirusNodes() {
-    return this._nodesVirus;
+    return this.world.getNodes("virus").toArray();
   }
 
   addVirusNodes(node) {
-    this._nodesVirus.push(node);
+    this.world.setNode(node.getId(), node, "virus");
   }
 
   removeVirusNode(node) {
-    let index = this._nodesVirus.indexOf(node);
-    if (index != -1) {
-      this._nodesVirus.splice(index, 1);
-    } else {
-      // todo do we really care?
-      console.log("[Warning] Tried to remove a non existing moving virus!");
-    }
-  }
-
+    this.world.removeVirusNode(node.getId());
+}
   // Ejected Nodes
   getEjectedNodes() {
-    return this._nodesEjected;
+    return this.world.getNodes("ejected").toArray();
   }
 
   addEjectedNodes(node) {
-    this._nodesEjected.push(node);
+    this.world.setNode(node.getId(), node, "ejected");
   }
 
   removeEjectedNode(node) {
-    let index = this._nodesEjected.indexOf(node);
-    if (index != -1) {
-      this._nodesEjected.splice(index, 1);
-    }
+  this.world.removeEjectedNode(node.getId());
   }
 
   clearEjectedNodes() {
-    this._nodesEjected = [];
+    this.world.clearEjected();
   }
 
   // rainbow nodes
   getRainbowNodes() {
-    return this._rainbowNodes;
+    return this.world.getNodes("rainbow").toArray();
   }
 
   addRainbowNode(node) {
-    this._rainbowNodes.push(node);
+    this.world.setNode(node.getId(),node,"rainbow");
   }
 
   setRainbowNode(index, node) {
-    this._rainbowNodes[index] = node;
+     this.world.setNode(node.getId(),node,"rainbow");
   }
 
   clearRainbowNodes() {
-    this._rainbowNodes = [];
+    this.world.getNodes("rainbow").clear();
   }
 
   //***************** refactoring nodes end
@@ -687,30 +683,13 @@ stop() {
     // Random spawns for players
     let pos;
 
-    if (this.currentFood > 0) {
-      // Spawn from food
-      let nodes = this.getWorld().getNodes();
-      nodes.some((node)=> {
-        if (!node || node.inRange) {
-          // Skip if food is about to be eaten/undefined
-          return false;
-        }
+   
+    
 
-        if (node.getType() == 1) {
-          pos = {
-            x: node.position.x,
-            y: node.position.y
-          };
-          this.removeNode(node);
-          return true;
-        }
-      });
-    }
-
-    if (!pos) {
+   
       // Get random spawn if no food cell is found
       pos = this.getRandomPosition();
-    }
+    
 
     return pos;
   }
@@ -942,8 +921,8 @@ var isAdmin = false;
     // Check for config
     if (this.config.adminConfig == 1) {
         // Make the required variables
-        adminArray = this.config.adminNames.split(";");
-        nadminArray = this.config.adminNewNames.split(";");
+       var adminArray = this.config.adminNames.split(";");
+        var nadminArray = this.config.adminNewNames.split(";");
 
         // Removes people trying fake admin
         for (i = 0; i < nadminArray.length; i++) {
@@ -968,11 +947,12 @@ var isAdmin = false;
       mass = (player.spawnmass > mass) ? player.spawnmass : mass;
       
           // Checks if it's safe for players to spawn
-            if (this.config.playerSafeSpawn === 1) {
+            if (this.config.playerSafeSpawn === 1 && !pos) {
               for (var j = 0; j < 30; j++) {
-                for (var i = 0; i < this._nodesPlayer.length; i++) {
+                var pnode = this.world.getNodes("player").toArray()
+                for (var i = 0; i < pnode.length; i++) {
                 var issafe = true;
-                var check = this._nodesPlayer[i];
+                var check = pnode[i];
                 var pos = this.getRandomPosition();
                 var playerSquareSize = (this.config.playerStartMass * 100) >> 0;
                 var squareR = check.mass * 100; // Checks player cell's radius
@@ -1181,9 +1161,9 @@ player.frozen = fro;
   var rightX = cell.position.x + r;
 
   // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
-  var len = this._nodesVirus.length;
+  var len = this.getVirusNodes().length;
   for (var i = 0; i < len; i++) {
-    var check = this._nodesVirus[i];
+    var check = this.getVirusNodes()[i];
 
     if (typeof check === 'undefined') {
       continue;
@@ -1243,7 +1223,7 @@ player.frozen = fro;
       y: parent.position.y
     };
 
-    let newVirus = new Entity.Virus(this.world.getNextNodeId(), null, parentPos, this.config.virusmass);
+    let newVirus = new Entity.Virus(parent.getId(), null, parentPos, this.config.virusmass);
     newVirus.setAngle(parent.getAngle());
     newVirus.setpar(owner);
     newVirus.mass = 10;
@@ -1546,7 +1526,8 @@ onWVerify(client) {
       this.tickMain++;
       setTimeout(function() {
       let count = 0;
-      this.getRainbowNodes().forEach((node)=> {
+      var rnodes = (this.config.rainbowMode == 1) ? this.world.getNodes() : this.getRainbowNodes();
+      rnodes.forEach((node)=> {
         if (!node) return;
         count++;
 
@@ -1566,7 +1547,13 @@ onWVerify(client) {
 }.bind(this), 0);
       if (this.tickMain >= this.config.fps) { // 1 Second
       setTimeout(function() {
-        let a = [];
+       
+        // let rNodes = this.getRainbowNodes();
+        // if (rNodes.length > 0) {
+
+         if (this.rrticks > 10) {
+           this.rrticks = 0;
+         let a = [];
         let d = false;
 
         this.getClients().forEach((client)=> {
@@ -1583,25 +1570,15 @@ onWVerify(client) {
               }
             }
           }
-          // todo likely do not need the client check as it was not included above - this is most likely defensive programming
-          if (client && client.playerTracker.rainbowon) {
-            client.playerTracker.cells.forEach((cell)=>this.setRainbowNode(cell.nodeId, cell));
-          }
         });
 
         if (d == false) this.mfre = false;
 
-        let rNodes = this.getRainbowNodes();
-        if (rNodes.length > 0) {
-
-          if (this.rrticks > 40) {
-            this.rrticks = 0;
-            this.clearRainbowNodes();
 
           } else {
             this.rrticks++;
           }
-        }
+      //  }
         for (var i in this.plugins) {
           try {
           if (this.plugins[i] && this.plugins[i].author && this.plugins[i].name && this.plugins[i].version && this.plugins[i].onSecond) this.plugins[i].onSecond(this);
