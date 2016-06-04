@@ -225,11 +225,11 @@ getUnique() {
    request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/uniban.txt', function (error, response, body) {
           var data = '';
           if (!error && response.statusCode == 200) {
-            fs.writeFileSync('./uniban.txt', body);
+            fs.writeFileSync(__dirname + '/../uniban.txt', body);
             this.log("[\x1b[32mOK\x1b[0m] Uniban updated");
             var data = body
           } else {
-           var data = fs.readFileSync('./uniban.txt', body);
+           var data = fs.readFileSync(__dirname + '/../uniban.txt', body);
            this.log("[\x1b[34mINFO\x1b[0m] Couldnt connect to server, uniban is loaded from local files.")
           }
           try {
@@ -273,20 +273,20 @@ this.uniqueid = random(10)
 
 
     try {
-      var test = fs.readFileSync('./files.json', 'utf-8');
+      var test = fs.readFileSync(__dirname + '/../files.json', 'utf-8');
 
     } catch (err) {
       this.log("[\x1b[34mINFO\x1b[0m] files.json not found... Generating new files.json");
       // todo we need a real generator function for this, it shouldn't be an empty file
-      fs.writeFileSync('./files.json', '');
+      fs.writeFileSync(__dirname + '/../files.json', '');
     }
     this.log('[\x1b[34mINFO\x1b[0m] Loading Config Files...');
-    let configFiles = glob.sync("./settings/*.ini");
+    let configFiles = glob.sync(__dirname + "/../settings/*.ini");
     if (configFiles === []) {
       this.log("[\x1b[34mINFO\x1b[0m] No config files found, generating: src/settings/config.ini");
 
       // Create a new config
-      fs.writeFileSync('./settings/config.ini', ini.stringify(this.config));
+      fs.writeFileSync(__dirname + '/../settings/config.ini', ini.stringify(this.config));
     }
 
     configFiles.forEach((file)=> {
@@ -304,72 +304,72 @@ this.uniqueid = random(10)
     });
 
     try {
-      var override = ini.parse(fs.readFileSync('./settings/override.ini', 'utf-8'));
+      var override = ini.parse(fs.readFileSync(__dirname + '/../settings/override.ini', 'utf-8'));
       for (var o in override) {
         this.config[o] = override[o];
       }
     } catch (err) {
       this.log("[\x1b[34mINFO\x1b[0m] Override not found... Generating new override");
-      fs.writeFileSync('./settings/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
+      fs.writeFileSync(__dirname + '/../settings/override.ini', "// Copy and paste configs from gameserver.ini that you dont want to be overwritten");
 
     }
   }
 
   loadBanned() {
     try {
-      this.banned = fs.readFileSync("./banned.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.banned = fs.readFileSync(__dirname + "/../banned.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
 
     } catch (err) {
       this.log("[\x1b[34mINFO\x1b[0m] Banned.txt not found... Generating new banned.txt");
-      fs.writeFileSync('./banned.txt', '');
+      fs.writeFileSync(__dirname +'/../banned.txt', '');
     }
   }
 
   loadOpByIp() {
     try {
-      this.opByIp = fs.readFileSync("./opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.opByIp = fs.readFileSync(__dirname + "/../opbyip.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
     } catch (err) {
       this.log("[\x1b[34mINFO\x1b[0m] opbyip.txt not found... Generating new opbyip.txt");
-      fs.writeFileSync('./opbyip.txt', '');
+      fs.writeFileSync(__dirname + '/../opbyip.txt', '');
     }
   }
 
   loadHighScores() {
     try {
-      this.highScores = fs.readFileSync('./highscores.txt', 'utf-8');
+      this.highScores = fs.readFileSync(__dirname + '/../highscores.txt', 'utf-8');
       this.highScores = "\n------------------------------\n\n" + fs.readFileSync('./highscores.txt', 'utf-8');
-      fs.writeFileSync('./highscores.txt', this.highscores);
+      fs.writeFileSync(__dirname + '/../highscores.txt', this.highscores);
     } catch (err) {
       this.log("[\x1b[34mINFO\x1b[0m] highscores.txt not found... Generating new highscores.txt");
-      fs.writeFileSync('./highscores.txt', '');
+      fs.writeFileSync(__dirname + '/../highscores.txt', '');
     }
   }
 
   loadBotNames() {
     try {
       // Read and parse the names - filter out whitespace-only names
-      this.botNames = fs.readFileSync(path.join(__dirname, '../', 'botnames.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.botNames = fs.readFileSync(path.join(__dirname, '..', 'botnames.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
       return x != ''; // filter empty names
     });
     } catch (e) {
       // Nothing, use the default names
-      fs.writeFileSync('./botnames.txt', '');
+      fs.writeFileSync(__dirname + '/../botnames.txt', '');
     }
   }
 loadRandomSkin() {
 
    try {
       // Read and parse the names - filter out whitespace-only names
-      this.skinNames = fs.readFileSync(path.join(__dirname, '../', 'randomSkins.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
+      this.skinNames = fs.readFileSync(path.join(__dirname, '/../', 'randomSkins.txt'), "utf8").split(/[\r\n]+/).filter(function (x) {
       return x != ''; // filter empty names
     });
     } catch (e) {
       // Nothing, use the default names
-      fs.writeFileSync('./randomSkins.txt', '');
+      fs.writeFileSync(__dirname + '/../randomSkins.txt', '');
     }
   }
 
@@ -377,21 +377,21 @@ loadRandomSkin() {
   // todo this needs maintenance
   loadCustomSkin() {
     try {
-      if (!fs.existsSync('customskins.txt')) {
+      if (!fs.existsSync(__dirname + '/../customskins.txt')) {
         this.log("[\x1b[34mINFO\x1b[0m] Generating customskin.txt...");
         request('https://raw.githubusercontent.com/AJS-development/Ogar-unlimited/master/src/customskins.txt', function (error, response, body) {
           if (!error && response.statusCode == 200) {
 
-            fs.writeFileSync('customskins.txt', body);
+            fs.writeFileSync(__dirname + '/../customskins.txt', body);
 
           } else {
             this.log("[\x1b[31mFAIL\x1b[0m] Could not fetch data from servers... will generate empty file");
-            fs.writeFileSync('customskins.txt', "");
+            fs.writeFileSync(__dirname + '/../customskins.txt', "");
           }
         });
 
       }
-      var loadskins = fs.readFileSync("customskins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
+      var loadskins = fs.readFileSync(__dirname + "/../customskins.txt", "utf8").split(/[\r\n]+/).filter(function (x) {
         return x != ''; // filter empty names
       });
       if (this.config.customskins == 1) {

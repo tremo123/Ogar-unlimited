@@ -30,7 +30,7 @@ module.exports = function (gameServer, split) {
     console.log("[Console] Cleared opbyip list");
   } else if (c == "record") {
     if (split[2] == "clear") {
-      fs.writeFileSync('./opbyip.txt', '');
+      fs.writeFileSync(__dirname + '/../opbyip.txt', '');
       console.log("[Console] Succesfully cleared recorded opbyip");
     } else {
 
@@ -45,7 +45,7 @@ module.exports = function (gameServer, split) {
         }
       }
 
-      fs.writeFileSync('./opbyip.txt', string);
+      fs.writeFileSync(__dirname + '/../opbyip.txt', string);
       console.log("[Console] Succesfully recorded opbyip");
     }
   } else {

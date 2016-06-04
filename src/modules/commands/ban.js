@@ -6,7 +6,7 @@ module.exports = function (gameServer, split) {
   var ip = split[1];
   if (split[1] == "record") {
     if (split[2] = "clear") {
-      fs.writeFileSync('./banned.txt', "");
+      fs.writeFileSync(__dirname + '/../banned.txt', "");
       console.log("[Console] Cleared recorded banlist");
       return;
     }
@@ -22,7 +22,7 @@ module.exports = function (gameServer, split) {
       }
     }
 
-    fs.writeFileSync('./banned.txt', string);
+    fs.writeFileSync(__dirname + '/../banned.txt', string);
     console.log("[Console] Successfully recorded banlist");
     return;
   }
@@ -67,14 +67,14 @@ module.exports = function (gameServer, split) {
       }
       if (gameServer.config.autobanrecord == 1) {
 
-        var oldstring = fs.readFileSync("./banned.txt", "utf8");
+        var oldstring = fs.readFileSync(__dirname + "/../banned.txt", "utf8");
         var string = "";
         for (var i in gameServer.banned) {
           var banned = gameServer.banned[i];
           if (banned != "") string = oldstring + "\n" + banned;
         }
 
-        fs.writeFileSync('./banned.txt', string);
+        fs.writeFileSync(__dirname + '/../banned.txt', string);
       }
     } else {
       console.log("[Console] That IP is already banned");

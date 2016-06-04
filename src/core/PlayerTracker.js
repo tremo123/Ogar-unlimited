@@ -238,13 +238,13 @@ setTimeout(function() {
 if (this.gameServer.config.highscore == 1) {
       if (this.name != this.gameServer.topusername) {
         var self = this;
-        fs.readFile('./highscores.txt', 'utf-8', function (err, score) {
+        fs.readFile(__dirname + '../highscores.txt', 'utf-8', function (err, score) {
           self.gameServer.oldtopscores.score = self.gameServer.topscore;
           self.gameServer.oldtopscores.name = self.gameServer.topusername;
           // todo replace readFileSync with readFile - this causes lag!!!
           self.gameServer.highscores = Math.floor(self.gameServer.topscore) + " By " + self.gameServer.topusername + "\n" + score;
           // todo replace writeFileSync with writeFile - this causes lag!!!
-          fs.writeFile('./highscores.txt', self.gameServer.highscores);
+          fs.writeFile(__dirname + '../highscores.txt', self.gameServer.highscores);
         });
       }
       this.gameServer.topscore = Math.floor(this.score);
