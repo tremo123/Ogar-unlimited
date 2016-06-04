@@ -98,9 +98,9 @@ Experimental.prototype.onServerInit = function (gameServer) {
     this.moveEngineTicks = 10; // Amount of times to loop the movement function
     this.moveEngineSpeed = 28;
 
-    var index = gameServer._movingNodes.indexOf(this);
+    var index = gameServer.getWorld().getNodes('moving').toArray().indexOf(this);
     if (index == -1) {
-      gameServer._movingNodes.push(this);
+      gameServer.world.setNode(this.getId(),this,"moving");
     }
   };
 
