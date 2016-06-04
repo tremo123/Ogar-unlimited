@@ -3,7 +3,13 @@ module.exports = function (gameServer, split) {
     gameServer.destroym = true;
     for (var i in gameServer.clients) {
       if (gameServer.clients[i]) {
+        var client = gameServer.clients[i];
+        if (client.owner && !client.socket.remoteAddress) {
+          client.socket.close();
+        } else {
+        
         gameServer.clients[i].playerTracker.minioncontrol = false;
+        }
 
       }
     }
