@@ -167,6 +167,21 @@ mammoth :http://agario-skins.org/images/skins/custom/mammoth.png?v0.10.3
 raptor :http://agario-skins.org/images/skins/custom/raptor.png?v0.10.3
 t_rex :http://agario-skins.org/images/skins/custom/t-rex.png?v0.10.3
 kraken :http://agario-skins.org/images/skins/custom/kraken.png?v0.10.3
-
+mask :http://ogarul.io/skins/mask.png
+chupacabra :http://ogarul.io/skins/chupacabra.png
+earthday :http://ogarul.io/skins/earthday.png
+blob :http://ogarul.io/skins/blob.png
+crow :http://ogarul.io/skins/crow.png
+grinch :http://ogarul.io/skins/grinch.png
+invader :http://ogarul.io/skins/invader.png
+pinhata :http://ogarul.io/skins/pinhata.png
+13 :http://ogarul.io/skins/thirteen.png
+witch :http://ogarul.io/skins/witch.png
+spacehunter :http://ogarul.io/skins/spaceHunter.png
+sombrero :http://ogarul.io/skins/sombrero.png
+smile :http://ogarul.io/skins/smile.png
+slime :http://ogarul.io/skins/slimeFace.png
+chilipepper :http://ogarul.io/skins/chillipeper.png
+catus :http://ogarul.io/skins/cactus.png
 
 
