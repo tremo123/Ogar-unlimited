@@ -45,4 +45,5 @@ var offset = 1;
   }
    view.setUint8(offset, 0, true); // End of string
     offset ++;
+    return buf;
 };
