@@ -7,12 +7,15 @@ module.exports = ClientPacket;
 ClientPacket.prototype.build = function() {
   // this is an upcoming feature where the game can edit the client
   var send = { // Levels of "permission": 0 = not allowed, 1 = checked off but changeable, 2 = checked on but changeable, 3 = always on
+   
+   // Macros
     sMacro: 0,
     wMacro: 0,
     qMacro: 0,
     eMacro: 0,
     rMacro: 0,
     
+    // Current client configs
     darkBG: 1,
     chat: 2,
     skins: 2,
@@ -23,9 +26,12 @@ ClientPacket.prototype.build = function() {
     showMass: 1,
     smooth: 1,
     
+    // Future feature
     minionCount: 0,
     minimap: 0,
     
+    // Others
+    maxName: 15,
   };
   var toSend = JSON.stringify(send);
   
