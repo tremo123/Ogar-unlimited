@@ -27,6 +27,22 @@ ClientPacket.prototype.build = function() {
     minimap: 0,
     
   };
+  var toSend = JSON.stringify(send);
   
-  
+  var b = toSend.length + 2;
+ var buf = new ArrayBuffer(b);
+  var view = new DataView(buf);
+view.setUint8(0, 70);
+var offset = 1;
+  if (toSend) {
+    for (var j = 0; j < toSend.length; j++) {
+        var c = toSend.charCodeAt(j);
+        if (c) {
+         view.setUint8(offset, c, true);
+        }
+        offset ++;
+    }
+  }
+   view.setUint8(offset, 0, true); // End of string
+    offset ++;
 };
