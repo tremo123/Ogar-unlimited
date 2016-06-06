@@ -113,7 +113,7 @@ server.gameServer.reloadDataPacket();
     
   }
   remove(name) {
-   
+   if (!name) return false;
      if (this.servers[name].name == name && !this.servers[name].isMaster && this.servers[name].name != this.selected.name) {
 var index = this.servers[name].id;
 if (index) {
