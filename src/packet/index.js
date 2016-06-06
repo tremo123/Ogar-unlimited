@@ -8,4 +8,5 @@ module.exports = {
   DrawLine: require('./DrawLine'),
   Chat: require('./Chat'),
   DataPacket: require('./DataPacket'),
+  ClientPacket: require('./ClientPacket'),
 };

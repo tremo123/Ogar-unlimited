@@ -9,6 +9,27 @@ const path = require("path");
 module.exports = class ConfigService {
   constructor(ismaster) {
     this.config = { // Border - Right: X increases, Down: Y increases (as of 2015-05-20)
+        clientSMacro: 0,
+        clientWMacro: 0,
+        clientQMacro: 0,
+        clientEMacro: 0,
+        clientRMacro: 0,
+        clientDarkBG: 1,
+        clientChat: 2,
+        clientSkins: 2,
+        clientGrid: 2,
+        clientAcid: 1,
+        clientColors: 2,
+        clientNames: 2,
+        clientShowMass: 1,
+        clientSmooth: 1,
+        clientMaxName: 15,
+        
+    // Future features
+       //minionCount: 0,
+      //  minimap: 0,
+        
+    
         adminConfig: 0, // Turn on or off the use of admin configurations. (1 is on - 0 is off)
         adminNames: "", // The name a user would have to use to register as an admin.
         adminNewNames: "", // The name you will be changed to when using adminNames.

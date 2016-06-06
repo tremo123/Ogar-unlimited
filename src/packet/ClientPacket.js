@@ -5,34 +5,36 @@ function ClientPacket(gameServer) {
 module.exports = ClientPacket;
 
 ClientPacket.prototype.build = function() {
+  var config = this.gameServer.config;
   // this is an upcoming feature where the game can edit the client
   var send = { // Levels of "permission": 0 = not allowed, 1 = checked off but changeable, 2 = checked on but changeable, 3 = always on
    
-   // Macros
-    sMacro: 0,
-    wMacro: 0,
-    qMacro: 0,
-    eMacro: 0,
-    rMacro: 0,
+   // Macros (1 = on)
+    sMacro: config.clientSMacro,
+    wMacro: config.clientWMacro,
+    qMacro: config.clientQMacro,
+    eMacro: config.clientEMacro,
+    rMacro: config.clientRMacro,
     
     // Current client configs
-    darkBG: 1,
-    chat: 2,
-    skins: 2,
-    grid: 2,
-    acid: 1,
-    colors: 2,
-    names: 2,
-    showMass: 1,
-    smooth: 1,
+    darkBG: config.clientDarkBG,
+    chat: config.clientChat,
+    skins: config.clientSkins,
+    grid: config.clientGrid,
+    acid: config.clientAcid,
+    colors: config.clientColors,
+    names: config.clientNames,
+    showMass: config.clientShowMass,
+    smooth: config.clientSmooth,
     
     // Future feature
     minionCount: 0,
     minimap: 0,
     
     // Others
-    maxName: 15,
+    maxName: config.clientMaxName,
   };
+ // for (var i in gameServer.client) send[i] = gameServer.client[i];
   var toSend = JSON.stringify(send);
   
   var b = toSend.length + 2;

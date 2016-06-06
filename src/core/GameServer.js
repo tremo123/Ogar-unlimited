@@ -105,6 +105,31 @@ this.name = name;
     this.updater = new Updater(this);
     this.highscores = undefined;
     this.opbyip = [];
+    this.client = { // Macros (1 = on)
+    sMacro: 0,
+    wMacro: 0,
+    qMacro: 0,
+    eMacro: 0,
+    rMacro: 0,
+    
+    // Current client configs
+    darkBG: 1,
+    chat: 2,
+    skins: 2,
+    grid: 2,
+    acid: 1,
+    colors: 2,
+    names: 2,
+    showMass: 1,
+    smooth: 1,
+    
+    // Future feature
+    minionCount: 0,
+    minimap: 0,
+    
+    // Others
+    maxName: 15,
+    };
     this.sbo = 1;
     this.ipCounts = [];
     this.minionleader = undefined;
@@ -216,6 +241,14 @@ reloadDataPacket() {
     var client = this.clients[i];
     if (!client) continue;
     client.sendPacket(new Packet.DataPacket(this));
+  }
+  
+}
+reloadClientPacket() {
+  for (var i in this.clients) {
+    var client = this.clients[i];
+    if (!client) continue;
+    client.sendPacket(new Packet.ClientPacket(this));
   }
   
 }
