@@ -17,6 +17,7 @@ module.exports = function (gameServer, split) {
   if (typeof gameServer.config[key] != 'undefined') {
     gameServer.config[key] = value;
     console.log("[Console] Set " + key + " to " + value);
+    gameServer.reloadClientPacket();
   } else {
     console.log("[Console] Invalid config value");
   }
