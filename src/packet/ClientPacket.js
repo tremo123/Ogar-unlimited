@@ -34,11 +34,12 @@ ClientPacket.prototype.build = function() {
     // Others
     maxName: config.clientMaxName,
     
-    // Advanced. If you do not know what your doing, dont do it.
-    title: "",
-    defaultusername: "",
-    nickplaceholder: "",
-    instructions: "",
+    title: config.clientTitle,
+    defaultusername: config.clientDefaultUsername,
+    nickplaceholder: config.clientNickPlaceholder,
+    instructions: config.clientInstructions,
+    
+     // Advanced. If you do not know what your doing, dont do it.
     customHTML: "",
   };
  // for (var i in gameServer.client) send[i] = gameServer.client[i];
