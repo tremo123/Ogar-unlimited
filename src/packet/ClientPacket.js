@@ -33,6 +33,13 @@ ClientPacket.prototype.build = function() {
     
     // Others
     maxName: config.clientMaxName,
+    
+    // Advanced. If you do not know what your doing, dont do it.
+    title: "",
+    defaultusername: "",
+    nickplaceholder: "",
+    instructions: "",
+    customHTML: "",
   };
  // for (var i in gameServer.client) send[i] = gameServer.client[i];
   var toSend = JSON.stringify(send);
