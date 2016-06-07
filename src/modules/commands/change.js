@@ -4,9 +4,7 @@ module.exports = function (gameServer, split) {
 
   // Check if int/float
   try {
-  if (value.indexOf('.') != -1) {
-    value = parseFloat(value);
-  } else {
+  if (!isNaN(value)) {
     value = parseInt(value);
   }
   } catch (e) {
