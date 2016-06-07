@@ -38,7 +38,7 @@ ClientPacket.prototype.build = function() {
     defaultusername: config.clientDefaultUsername,
     nickplaceholder: config.clientNickPlaceholder,
     instructions: config.clientInstructions,
-    
+    leavemessage: config.clientLeaveMessage,
      // Advanced. If you do not know what your doing, dont do it.
     customHTML: "",
   };
