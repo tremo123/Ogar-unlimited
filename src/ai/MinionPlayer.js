@@ -184,9 +184,6 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
   getState(cell) {
     // Continue to shoot viruses
-    if (this.gameState == 4) {
-      return 4;
-    }
 
     // Check for predators
     if (this.threats.length > 0) {
@@ -249,7 +246,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
           x: this.target.position.x,
           y: this.target.position.y
         };
-        this.gameState = 1;
+        this.gameState = 0;
 
         break;
     }
