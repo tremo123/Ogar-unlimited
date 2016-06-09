@@ -193,35 +193,7 @@ gameServer.pluginLoader.load();
     
   } else if (split[1] == "available") {
     console.log("[NOTE] Plugin available is depreciated, Use plugin search instead");
-  console.log("[Console] Connecting to servers...");
-   request('https://raw.githubusercontent.com/AJS-development/OgarUL-Plugin-Library/master/files.txt', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-           var ava = body.split(/[\r\n]+/).filter(function (x) {
-            return x != ''; // filter empty
-          });
-          var names = [];
-          var url = [];
-          var desc = [];
-          for (var i in ava) {
-            var s = ava[i].split("|");
-            names[i] = s[0];
-            desc[i] = s[1];
-            url[i] = s[2];
-          }
-             console.log("[Console] --------------- Available Plugins ---------------");
-          for (var i in names) {
-            console.log("  " + names[i] + "\n     Description: "+ desc[i]);
-            
-          }
-          
-          console.log("[Console] ------------------------------------------------");
-          
-        } else {
-          console.log("[Console] Failed to connect to servers");
-          return;
-        }
-   });
-  
+  return;
   } else if (split[1] == "add") {
     if (!sudo) {
       console.log("[Console] You cannot install a plugin unless directly at the console!");
