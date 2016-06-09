@@ -1,5 +1,6 @@
-function ClientPacket(gameServer) {
+function ClientPacket(gameServer, custom) {
   this.gameServer = gameServer;
+  this.custom = custom;
 }
 
 module.exports = ClientPacket;
@@ -43,6 +44,9 @@ ClientPacket.prototype.build = function() {
     customHTML: "",
   };
  // for (var i in gameServer.client) send[i] = gameServer.client[i];
+if (this.custom) {
+send = this.custom;
+}
   var toSend = JSON.stringify(send);
   
   var b = toSend.length + 2;
