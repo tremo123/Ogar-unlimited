@@ -327,7 +327,7 @@ startingFood() {
         this.consoleService.execCommand("restart", split);
 
       }
-      if (this.config.vps == 1) this.log("\x1b[31m[IMPORTANT] You are using a VPS provider. Stats server and port choosing is disabled.\x1b[0m")
+      if (this.config.vps == 1) console.log("\x1b[31m[IMPORTANT] You are using a VPS provider. Stats server and port choosing is disabled.\x1b[0m")
       let game = this; // <-- todo what is this?
     }.bind(this));
 
