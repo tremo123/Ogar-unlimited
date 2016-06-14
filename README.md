@@ -1,21 +1,29 @@
 
-![Ajs/Ogar-Unlimited](http://ogarul.tk/ajs.png)
+![Ajs/Ogar-Unlimited - Graphics by LegitSoulja](http://ogarul.tk/ajs.png)
 ### - The Next Generation Ogar
 [![Build Status](https://travis-ci.org/AJS-development/Ogar-unlimited.svg?branch=master)](https://travis-ci.org/AJS-development/Ogar-unlimited) [![Join the chat at https://gitter.im/AJS-development/Ogar-unlimited](https://badges.gitter.im/AJS-development/Ogar-unlimited.svg)](https://gitter.im/AJS-development/Ogar-unlimited?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![GitHub issues](https://img.shields.io/github/issues/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/issues)  [![GitHub forks](https://img.shields.io/github/forks/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/network)  [![GitHub stars](https://img.shields.io/github/stars/AJS-development/Ogar-unlimited.svg)](https://github.com/AJS-development/Ogar-unlimited/stargazers)  [![Plugin](https://img.shields.io/badge/Official%20Plugin%20Library-OgarUL--Plugin--Library-green.svg)](https://github.com/AJS-development/OgarUL-Plugin-Library)  [![MS](https://img.shields.io/badge/Client-AJS--dev-green.svg)](https://github.com/AJS-development/OgarUL-Client) [![Plugin](https://img.shields.io/badge/Forums-OgarUl-green.svg)](http://forum.ogarul.tk) [![Plugin](https://img.shields.io/badge/Stats-OgarUl-green.svg)](http://stats.ogarul.tk)  [![MS](https://img.shields.io/badge/Client-AJS--dev-green.svg)](http://play.ogarul.tk) 
 [![Demo] (https://img.shields.io/badge/Demo-Heroku-green.svg)] (https://github.com/AJS-development/Ogar-unlimited/wiki/Demos)
 
 A fully functional open source Agar.io server implementation, written in Node.js by the big ajs development team. Ogar Unlimited is designed to be used with the latest Agar.io client. It is basically what it says in the title, Ogar, except its functionality is unlimited!
 
-### Installation
-1. Download and install Node **v5.9.0**(_Recommended_)
-2. Download OgarUl **ZIP** or use **GIT** (_git clone git@github.com:AJS-development/Ogar-unlimited.git_)
-3. Once downloaded, CD to the extracted zip, or clone to **Ogar-unlimited** folder.
-4. Run command using cmd, or terminal (_npm install_), wait until done, or run InstallDependecies file in the **src** folder.
-5. CD to the **src** folder inside **Ogar-unlimited** and run the start.bat/sh file or use command (**node index**).
-6. You are all done. Continue reading for more info \/
+###### Installation Guide (short)
+1. Download and install Node
+    * Required version **v5.9.0**
+2. Download Ogar Unlimited (Zip or Git)
+    * [Download Latest Zip](https://github.com/AJS-development/Ogar-unlimited/archive/master.zip)
+    * ``` git clone git@github.com:AJS-development/Ogar-unlimited.git ```
+3. Once downloaded
+    * CD to the extracted zip folder, or clone to **Ogar-unlimited** folder.
+4. Install Modules
+    * Run command using cmd, or terminal **npm install**, wait until done, or run InstallDependecies.bat file in the **src** folder.
+5. Launch Ogar Unlimited
+    * CD to the **src** folder inside **Ogar-unlimited** and run the start.bat/sh file or use command (**node index**).
+6. You're all done. Continue reading for more info
 
 **NOTE: FOR THOSE WHO CANT USE THE INSTALL DEPENDANCIES SCRIPT, YOU MUST DO NPM INSTALL AFTER YOU CD INTO THE SRC FOLDER**
 
+###### Troubleshooting
+https://github.com/AJS-development/Ogar-unlimited/issues/638
 
 ### Highlight features in this modified copy
  1. PMSG command, to periodically send a message (no need for admin to be online to explain rules)
