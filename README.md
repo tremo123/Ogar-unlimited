@@ -64,7 +64,7 @@ To use a plugin, simply download the folder and drag it into the plugins folder 
 
 ### How do I create a plugin? Is there Documentation?
 
-This is the fun part, creating your own plugins. There is an example plugin you should look at and there is a template plugin. Currently, there is no documentation, but will be soon in the wiki
+This is the fun part, creating your own plugins. There is an example plugin you should look at and there is a template plugin. To get started, you can look at the plugin API documentation [here](https://github.com/AJS-development/Ogar-unlimited/wiki/Plugin-API-Tutorial).
 
 ### Multiverse
 Multiverse is for having multiple servers in one console. This is how you use it. The command for multiverse is `multiverse [command] [arg]`. Available commands are `list`,`create`,`remove`, and `select`. The list is used by doing `multiverse list` and it will list servers and their ports. It will also tell you f that is the master or is selected. The create command creates a server. The args are `multiverse create [name] [port] [gamemode] [title]`. Make sure that the port is not repeated in other servers. The title arg is optional and spaces are allowed, it is what is displayed in the client. Note that only the master has a statsport and sends multiverse data. To remove a server, do `multiverse remove [name]`. To then control the server using console commands, you have to select it. Do `multiverse select [name]` to select a server and start controlling it.
@@ -110,28 +110,28 @@ To control how your server is run, Edit files in `src/settings/`
 ## Custom Game modes
 Ogar UL has support for custom game modes. To switch between game modes, change the value of "serverGamemode" in the configurations file to the selected game mode id and restart the server. The current supported game modes are:
 
-Id   | Name
------|--------------
-0    | Free For All
-1    | Teams
-2    | Experimental (As of 6/13/15)
-3    | Timed FFA
-4    | Virus Off (no virus's)
-5    | UnlimitPVP - where you split can split indefinitly and rejoin instantly - 1v1 game (created by me)
-6    | UnlimitFFA - same as above (unlimited pvp) except in ffa (created by me)
-7    | Shrinking FFA, Shrinks the game as time passes
-8    | Experimental v2
-10   | Tournament
-11   | Hunger Games
-12   | Zombie Mode
-13   | Team Z
-14   | Team X
-15   | NoCollision Teams
-16   | NoCollision TeamZ
-17   | NoCollision TeamX
-18   | Leap - Where you leap instead of split, made by Ogarplus
-20   | Rainbow FFA - Hint: Use with "setAcid(true)"
-22   | BlackHole
+Id   | Name                         | Additional Description
+-----|------------------------------|-----------------------
+0    | Free For All                 |
+1    | Teams                        |
+2    | Experimental (As of 6/13/15) |
+3    | Timed FFA                    | Normal FFA but with time limit (see config.ini for time configuration)
+4    | Virus Off                    | No virus in the map
+5    | UnlimitPVP                   | Where you can split indefinitely and rejoin instantly - 1v1 game (created by me)
+6    | UnlimitFFA                   | Same as above (Unlimited PVP) except in FFA (created by me)
+7    | Shrinking FFA                | Shrinks the game(map size) as time passes
+8    | Experimental v2              | An improved Experimental mode (created by )
+10   | Tournament                   | Normal FFA, but with no respawn and time limit
+11   | Hunger Games                 | Adapted from a movie called "Hunger Games"
+12   | Zombie Mode                  |
+13   | Team Z                       | Teaming in Zombie Mode
+14   | Team X                       | Teaming in Experimental
+15   | NoCollision Teams            | Same as Teams mode but with no collision between teammates
+16   | NoCollision TeamZ            | Same as Team Z mode but with no collision between teammates
+17   | NoCollision TeamX            | Same as Team X mode but with no collision between teammates
+18   | Leap                         | Where you leap instead of split, made by Ogarplus
+20   | Rainbow FFA                  | Hint: Use "Acid Mode" in the settings in the custom client
+22   | BlackHole                    | Normal FFA but with one big black hole
 
 ## Console Commands
 The current available console commands are listed here. Command names are not case sensitive, but player names are.
