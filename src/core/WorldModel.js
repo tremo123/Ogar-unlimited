@@ -172,6 +172,19 @@ setAsNode(id, node) {
    this.virusNodes.clear();
    
  }
+ setQuadVirus(quad,id, node) {
+   this.quadVirusNodes[quad].set(id,node)
+ }
+ removeQuadVirus(quad,id) {
+   if (quad) {
+     this.quadVirusNodes[quad].delete(id);
+   } else {
+      this.quadVirusNodes.i.delete(id);
+   this.quadVirusNodes.ii.delete(id);
+   this.quadVirusNodes.iii.delete(id);
+   this.quadVirusNodes.iv.delete(id);
+   }
+ }
  clearVirusQuad() {
    this.quadVirusNodes.i.clear();
    this.quadVirusNodes.ii.clear();
