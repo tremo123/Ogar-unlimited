@@ -11,9 +11,15 @@ module.exports = class WorldModel {
     this.borderLeft = borderLeft;
     this.borderBottom = borderBottom;
     this.borderTop = borderTop;
-
+   
     this.lastNodeId = 2;    // todo why 2?
     this.nodes = new SortedMap();
+    this.quadVirusNodes = {
+      1: new SortedMap(),
+      2: new SortedMap(),
+      3: new SortedMap(),
+      4; new SortedMap(),
+    };
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
     this.virusNodes = SortedMap();
