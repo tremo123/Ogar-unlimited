@@ -201,12 +201,14 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
 Virus.prototype.onAdd = function (gameServer) {
   gameServer.addVirusNodes(this);
   this.quadrant = this.getQuadrant(gameServer) 
-    
+   if (this.quadrant) gameServer.world.setQuadVirus(this.quadrant, this.getId(),this);
   
 };
 
 Virus.prototype.onRemove = function (gameServer) {
-  gameServer.removeVirusNode(this)
+  gameServer.removeVirusNode(this);
+  this.quadrant = this.getQuadrant(gameServer) 
+   if (this.quadrant) gameServer.world.removeQuadVirus(undefined, this.getId());
 };
 Virus.prototype.onAutoMove = function (gameServer) {
   var r = 100; // Checking radius
