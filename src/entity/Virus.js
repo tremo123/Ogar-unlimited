@@ -18,24 +18,7 @@ module.exports = Virus;
 
 Virus.prototype = new Cell();
 
-Virus.prototype.getQuadrant(gameServer) {
-  var x = this.position.x;
-  var y = this.position.y;
-  var config = gameServer.config
-  var borderH = (config.borderBottom - borderTop) / 2;
-  var borderV = (config.borderRight - borderLeft) / 2;
-  if (x > borderV && x > borderH) {
-    return 4;
-  } else if (x > borderV && x <= borderH) {
-    return 1;
-  } else if (x <= borderV && x > borderH) {
-    return 3;
-  } else if (x <= borderV && x <= borderH) {
-    return 2
-  } else {
-    return false;
-  }
-}
+
 Virus.prototype.calcMove = null; // Only for player controlled movement
 
 Virus.prototype.feed = function (feeder, gameServer) {
