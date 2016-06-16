@@ -30,7 +30,7 @@ Virus.prototype.getQuadrant(gameServer) {
     return 1;
   } else if (x <= borderV && x > borderH) {
     return 3;
-  } else if (x > borderV && x > borderH) {
+  } else if (x <= borderV && x <= borderH) {
     return 2
   } else {
     return false;
