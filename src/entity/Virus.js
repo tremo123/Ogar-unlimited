@@ -217,6 +217,9 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
 
 Virus.prototype.onAdd = function (gameServer) {
   gameServer.addVirusNodes(this);
+  this.quadrant = this.getQuadrant(gameServer) 
+    
+  
 };
 
 Virus.prototype.onRemove = function (gameServer) {
