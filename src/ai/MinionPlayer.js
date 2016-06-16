@@ -11,7 +11,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
     this.gameState = 0;
     this.path = [];
     this.owner = owner
-
+    this.isBot = true;
     this.predators = []; // List of cells that can eat this bot
     this.threats = []; // List of cells that can eat this bot but are too far away
     this.prey = []; // List of cells that can be eaten by this bot
@@ -70,11 +70,11 @@ module.exports = class MinionPlayer extends PlayerTracker {
   update() { // Overrides the update function from player tracker
   setTimeout(function() {
     // Remove nodes from visible nodes if possible
-    for (var i = 0; i < this.nodeDestroyQueue.length; i++) {
-      var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[i]);
+   for (var i = 0; i < this.nodeDestroyQueue.length; i++) {
+       var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[i]);
       if (index > -1) {
         this.visibleNodes.splice(index, 1);
-      }
+       }
     }
 
     // Respawn if bot is dead
@@ -119,7 +119,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
     var ignoreMass = cell.mass / 5;
 
     // Loop
-    for (i in this.visibleNodes) {
+    for (var i in this.visibleNodes) {
       var check = this.visibleNodes[i];
 
       // Cannot target itself
@@ -138,10 +138,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
           }
 
           // Check for danger
-          if (cell.mass > (check.mass * 1.33)) {
-            // Add to prey list
-            this.prey.push(check);
-          } else if (check.mass > (cell.mass * 1.33) && check.owner.mouse != this.owner.mouse) {
+          if (check.mass > (cell.mass * 1.33) && check.owner.mouse != this.owner.mouse) {
             // Predator
             var dist = this.getDist(cell, check) - (r + check.getSize());
             if (dist < 300) {
@@ -151,19 +148,6 @@ module.exports = class MinionPlayer extends PlayerTracker {
               }
             }
             this.threats.push(check);
-          } else {
-            this.threats.push(check);
-          }
-          break;
-        case 1:
-          this.food.push(check);
-          break;
-        case 2: // Virus
-          if (!check.isMotherCell) this.virus.push(check); // Only real viruses! No mother cells
-          break;
-        case 3: // Ejected mass
-          if (cell.mass > 20) {
-            this.food.push(check);
           }
           break;
         default:
@@ -173,7 +157,7 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
     // Get gamestate
     var newState = this.getState(cell);
-    if ((newState != this.gameState) && (newState != 4)) {
+    if ((newState != this.gameState)) {
       // Clear target
       this.target = null;
     }
@@ -198,32 +182,18 @@ module.exports = class MinionPlayer extends PlayerTracker {
   };
 
   getState(cell) {
-    // Continue to shoot viruses
-    if (this.gameState == 4) {
-      return 4;
-    }
+    
 
     // Check for predators
     if (this.predators.length <= 0) {
-      if (this.prey.length > 0) {
-        return 3;
-      } else if (this.food.length > 0) {
-        return 1;
-      }
-    } else if (this.threats.length > 0) {
-      if ((this.cells.length == 1) && (cell.mass > 180)) {
-        var t = this.getBiggest(this.threats);
-        var tl = this.findNearbyVirus(t, 500, this.virus);
-        if (tl != false) {
-          this.target = t;
-          this.targetVirus = tl;
-          return 4;
-        }
-      } else {
+     
+        return 0;
+      
+    } else {
         // Run
         return 2;
       }
-    }
+    
 
     // Bot wanders by default
     return 0;
@@ -234,12 +204,6 @@ module.exports = class MinionPlayer extends PlayerTracker {
 
     switch (this.gameState) {
       case 0: // Wander
-
-        this.mouse = this.owner.mouse;
-
-
-        break;
-      case 1: // Looking for food
 
         this.mouse = this.owner.mouse;
 
@@ -276,30 +240,12 @@ module.exports = class MinionPlayer extends PlayerTracker {
             // Juking
             this.gameServer.splitCells(this);
           }
+        } else {
+          this.mouse = this.owner.mouse;
         }
         break;
-      case 3: // Target prey
-        this.mouse = this.owner.mouse;
-
-
-        break;
-      case 4: // Shoot virus
-
-        this.mouse = this.owner.mouse;
-
-
-        break;
       default:
-
-        //console.log("[Bot] "+cell.getName()+": Idle "+this.gameState);
-        this.target = this.findNearest(cell, this.food);
-
-        this.mouse = {
-          x: this.target.position.x,
-          y: this.target.position.y
-        };
-        this.gameState = 1;
-
+this.mouse = this.owner.mouse;
         break;
     }
 

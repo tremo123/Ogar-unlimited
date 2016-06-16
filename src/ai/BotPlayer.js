@@ -16,6 +16,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     this.prey = []; // List of cells that can be eaten by this bot
     this.food = [];
     this.rbuffer = 10;
+    this.isBot = true;
     this.foodImportant = []; // Not used - Bots will attempt to eat this regardless of nearby prey/predators
     this.virus = []; // List of viruses
     this.teamingwith = []; // player teamingwith
@@ -60,13 +61,13 @@ module.exports = class BotPlayer extends PlayerTracker {
   update() { // Overrides the update function from player tracker
   setTimeout(function() {
     // Remove nodes from visible nodes if possible
-    for (var i = 0; i < this.nodeDestroyQueue.length; i++) {
-      var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[i]);
+  
+ for (var i = 0; i < this.nodeDestroyQueue.length; i++) {
+       var index = this.visibleNodes.indexOf(this.nodeDestroyQueue[i]);
       if (index > -1) {
         this.visibleNodes.splice(index, 1);
-      }
+       }
     }
-
     // Respawn if bot is dead
     // todo see if this is leaking memory
     if (this.cells.length <= 0) {
@@ -115,7 +116,7 @@ module.exports = class BotPlayer extends PlayerTracker {
     var ignoreMass = cell.mass / 25;
 
     // Loop
-    for (i in this.visibleNodes) {
+    for (var i in this.visibleNodes) {
       var check = this.visibleNodes[i];
 
       // Cannot target itself

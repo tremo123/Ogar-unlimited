@@ -583,7 +583,7 @@ startingFood() {
       // todo memory leak?
       // client.nodeAdditionQueue is only used by human players, not bots
       // for bots it just gets collected forever, using ever-increasing amounts of memory
-      if ('_socket' in client.socket && node.visibleCheck(client.viewBox, client.centerPos)) {
+      if ('_socket' in client.socket && !client.isBot && node.visibleCheck(client.viewBox, client.centerPos)) {
         client.nodeAdditionQueue.push(node);
       }
     }
@@ -1529,8 +1529,11 @@ onWVerify(client) {
   updateClients() {
     this.getClients().forEach((client)=> {
       if (!client || !client.playerTracker) return;
+      var buffer = client.playerTracker.updateBuffer;
+     setTimeout(function() {
       client.playerTracker.antiTeamTick();
       client.playerTracker.update();
+     },buffer);
     });
   };
 
