@@ -20,6 +20,18 @@ module.exports = class WorldModel {
       iii: new SortedMap(),
       iv: new SortedMap(),
     };
+    this.quadNodes = {
+      i: new SortedMap(),
+      ii: new SortedMap(),
+      iii: new SortedMap(),
+      iv: new SortedMap(),
+    };
+    this.quadEjectedNodes = {
+      i: new SortedMap(),
+      ii: new SortedMap(),
+      iii: new SortedMap(),
+      iv: new SortedMap(),
+    };
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
     this.virusNodes = SortedMap();
