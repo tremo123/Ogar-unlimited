@@ -31,8 +31,7 @@ module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
 Cell.prototype.changeQuadrant(gameServer,quad) {
-  gameServer.getWorld().removeQuadVirus(quad,this.getId());
-  gameServer.getWorld().setQuadVirus(quad,this.getId(),this);
+ 
 }
 Cell.prototype.getQuadrant(gameServer) {
   var x = this.position.x;
