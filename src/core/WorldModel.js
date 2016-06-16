@@ -15,10 +15,10 @@ module.exports = class WorldModel {
     this.lastNodeId = 2;    // todo why 2?
     this.nodes = new SortedMap();
     this.quadVirusNodes = {
-      1: new SortedMap(),
-      2: new SortedMap(),
-      3: new SortedMap(),
-      4: new SortedMap(),
+      i: new SortedMap(),
+      ii: new SortedMap(),
+      iii: new SortedMap(),
+      iv: new SortedMap(),
     };
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
@@ -159,10 +159,10 @@ setAsNode(id, node) {
    
  }
  clearVirusQuad() {
-   this.quadVirusNodes.1.clear();
-   this.quadVirusNodes.2.clear();
-   this.quadVirusNodes.3.clear();
-   this.quadVirusNodes.4.clear();
+   this.quadVirusNodes.i.clear();
+   this.quadVirusNodes.ii.clear();
+   this.quadVirusNodes.iii.clear();
+   this.quadVirusNodes.iv.clear();
  }
  clearPlayer() {
    this.playerNodes.clear();
