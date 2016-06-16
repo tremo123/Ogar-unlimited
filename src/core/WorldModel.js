@@ -18,7 +18,7 @@ module.exports = class WorldModel {
       1: new SortedMap(),
       2: new SortedMap(),
       3: new SortedMap(),
-      4; new SortedMap(),
+      4: new SortedMap(),
     };
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
