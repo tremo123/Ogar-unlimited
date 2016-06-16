@@ -118,6 +118,7 @@ clearAll() {
     this.ejectedNodes.clear();
     this.rainbowNodes.clear();
     this.virusNodes.clear();
+    clearVirusQuad();
     this.lastNodeId = 2;
 }
   removeNode(id) {
@@ -155,6 +156,13 @@ setAsNode(id, node) {
  }
  clearVirus() {
    this.virusNodes.clear();
+   
+ }
+ clearVirusQuad() {
+   this.quadVirusNodes.1.clear();
+   this.quadVirusNodes.2.clear();
+   this.quadVirusNodes.3.clear();
+   this.quadVirusNodes.4.clear();
  }
  clearPlayer() {
    this.playerNodes.clear();
