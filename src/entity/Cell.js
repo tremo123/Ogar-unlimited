@@ -30,7 +30,24 @@ function Cell(nodeId, owner, position, mass, gameServer) {
 module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
-
+Cell.prototype.getQuadrant(gameServer) {
+  var x = this.position.x;
+  var y = this.position.y;
+  var config = gameServer.config
+  var borderH = (config.borderBottom - borderTop) / 2;
+  var borderV = (config.borderRight - borderLeft) / 2;
+  if (x > borderV && x > borderH) {
+    return "iv";
+  } else if (x > borderV && x <= borderH) {
+    return "i";
+  } else if (x <= borderV && x > borderH) {
+    return "iii";
+  } else if (x <= borderV && x <= borderH) {
+    return "ii";
+  } else {
+    return false;
+  }
+};
 Cell.prototype.getId = function () {
   return this.nodeId;
 };
