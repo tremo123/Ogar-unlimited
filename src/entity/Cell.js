@@ -63,8 +63,8 @@ Cell.prototype.quadSetup = function(gameServer) {
 }
 Cell.prototype.changeQuadrant = function(quad, gameServer) {
   if (quad) {
-if (this.quadrant) gameServer.getWorld().removeQuadMap(this.quadrant,this.getId());
- gameServer.getWorld().setQuadMap(quad,this.getId());
+// if (this.quadrant) gameServer.getWorld().removeQuadMap(this.quadrant,this.getId());
+ // gameServer.getWorld().setQuadMap(quad,this.getId());
  this.quadrant = quad;
   } else {
     console.log("[Quadmap] Change quad failed")
