@@ -1207,7 +1207,7 @@ player.frozen = fro;
   
   this.getWorld().getNodes('virus').every((check)=>{
    
-if (check.quadrant != cell.quadrant || !check) return;
+if (check.quadrant != cell.quadrant || !check) return true;
     
 
     if (!check.collisionCheck(bottomY, topY, rightX, leftX)) {
