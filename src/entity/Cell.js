@@ -58,7 +58,7 @@ Cell.prototype.quadSetup = function(gameServer) {
       this.gameServer = gameServer;
  var quad = this.getQuadrant(gameServer) 
     this.changeQuadrant(quad,gameServer);
-    }, 500);
+    }.bind(this), 500);
   }
 }
 Cell.prototype.changeQuadrant = function(quad, gameServer) {
