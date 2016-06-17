@@ -21,10 +21,6 @@ Virus.prototype = new Cell();
 
 Virus.prototype.calcMove = null; // Only for player controlled movement
 
-Virus.prototype.changeQuadrant(gameServer,quad) {
-  gameServer.getWorld().removeQuadVirus(quad,this.getId());
-  gameServer.getWorld().setQuadVirus(quad,this.getId(),this);
-};
 Virus.prototype.feed = function (feeder, gameServer) {
   if (this.moveEngineTicks == 0) this.setAngle(feeder.getAngle()); // Set direction if the virus explodes
   this.mass += feeder.mass;
@@ -203,16 +199,12 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
 };
 
 Virus.prototype.onAdd = function (gameServer) {
-  gameServer.addVirusNodes(this);
-  this.quadrant = this.getQuadrant(gameServer) 
-   if (this.quadrant) gameServer.getWorld().setQuadVirus(this.quadrant, this.getId(),this);
+
   
 };
 
 Virus.prototype.onRemove = function (gameServer) {
-  gameServer.removeVirusNode(this);
-  this.quadrant = this.getQuadrant(gameServer) 
-   if (this.quadrant) gameServer.getWorld().removeQuadVirus(undefined, this.getId());
+
 };
 Virus.prototype.onAutoMove = function (gameServer) {
   var r = 100; // Checking radius
