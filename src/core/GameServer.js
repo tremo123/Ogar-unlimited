@@ -846,7 +846,7 @@ beforeq(player) {
         }
       }
       } else {
-        cell.quadUpdate(this);
+       // cell.quadUpdate(this);
       }
       
       
@@ -1129,7 +1129,8 @@ player.frozen = fro;
   
    var quad = this.getWorld().getQuadMap(cell.quadrant);
   for (var i in quad) {
-    var check = this.getWorld().getNodes().toArray()[i];
+    var check = this.getWorld().getNodes().get(i);
+  
       // exist?
       // if something already collided with this cell, don't check for other collisions
       // Can't eat itself
