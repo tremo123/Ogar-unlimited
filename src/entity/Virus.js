@@ -11,7 +11,6 @@ function Virus() {
   this.wobbly = 0; // wobbly effect
   this.isMotherCell = false; // Not to confuse bots
   this.par;
-  this.quadrant;
 }
 
 module.exports = Virus;
@@ -199,12 +198,11 @@ Virus.prototype.onConsume = function (consumer, gameServer) {
 };
 
 Virus.prototype.onAdd = function (gameServer) {
-
-  
+  gameServer.addVirusNodes(this);
 };
 
 Virus.prototype.onRemove = function (gameServer) {
-
+  gameServer.removeVirusNode(this)
 };
 Virus.prototype.onAutoMove = function (gameServer) {
   var r = 100; // Checking radius
