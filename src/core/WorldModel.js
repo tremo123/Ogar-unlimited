@@ -176,7 +176,14 @@ getQuadMap(quad) {
  }
  removeQuadMap(quad, id) {
    try {
+     if (quad) {
    this.quadMap[quad].splice(id,1);
+     } else {
+       this.quadMap[1].splice(id,1);
+       this.quadMap[2].splice(id,1);
+       this.quadMap[3].splice(id,1);
+       this.quadMap[4].splice(id,1);
+     }
    } catch (e) {
      console.log("[Quadmap] " + e);
    }
