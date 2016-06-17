@@ -1211,7 +1211,8 @@ var quad = this.getWorld().getQuadMap(cell.getQuadrant(this));
   // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
   
   for (var i in quad) {
-    var check = this.getVirusNodes()[i];
+    var ind = quad[i]
+    var check = this.getVirusNodes()[ind];
 
     if (typeof check === 'undefined') {
       continue;
