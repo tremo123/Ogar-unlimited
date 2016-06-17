@@ -1127,13 +1127,13 @@ player.frozen = fro;
       // exist?
       // if something already collided with this cell, don't check for other collisions
       // Can't eat itself
-      if (!check || check.inRange || cell.getId() === check.getId()) return;
+      if (!check || check.inRange || cell.getId() === check.getId()) continue;
 
       // Can't eat cells that have collision turned off
-      if ((cell.owner === check.owner) && (cell.ignoreCollision)) return;
+      if ((cell.owner === check.owner) && (cell.ignoreCollision)) continue;
 
       // AABB Collision
-      if (!check.collisionCheck2(squareR, cell.position)) return;
+      if (!check.collisionCheck2(squareR, cell.position)) continue;
 
       // Cell type check - Cell must be bigger than this number times the mass of the cell being eaten
       let multiplier = this.config.sizeMult;
@@ -1142,25 +1142,25 @@ player.frozen = fro;
         case 1: // Food cell
           list.push(check);
           check.inRange = true; // skip future collision checks for this food
-          return;
+          continue;
         case 2: // Virus
           multiplier = this.config.VsizeMult;
           break;
         case 5: // Beacon
           // This cell cannot be destroyed
-          return;
+          continue;
         case 0: // Players
           // Can't eat self if it's not time to recombine yet
           if (check.owner === cell.owner) {
             if ((!cell.shouldRecombine || !check.shouldRecombine) && !cell.owner.recombineinstant) {
-              return;
+              continue;
             }
             multiplier = 1.00;
           }
           // Can't eat team members
           if (this.gameMode.haveTeams) {
             if (!check.owner && (check.owner !== cell.owner) && (check.owner.getTeam() === cell.owner.getTeam())) {
-              return;
+              continue;
             }
           }
           break;
@@ -1168,7 +1168,7 @@ player.frozen = fro;
       }
 
       // Make sure the cell is big enough to be eaten.
-      if ((check.mass * multiplier) > cell.mass) return;
+      if ((check.mass * multiplier) > cell.mass) continue;
 
       // Eating range
       let xs = Math.pow(check.position.x - cell.position.x, 2);
@@ -1178,7 +1178,7 @@ player.frozen = fro;
       let eatingRange = cell.getSize() - check.getEatingRange(); // Eating range = radius of eating cell + 40% of the radius of the cell being eaten
 
       // Not in eating range
-      if (dist > eatingRange) return;
+      if (dist > eatingRange) continue;
 
       // Add to list of cells nearby
       list.push(check);
