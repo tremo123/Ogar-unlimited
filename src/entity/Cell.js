@@ -326,9 +326,7 @@ Cell.prototype.calcMovePhys = function (config) {
   // Set position
   this.position.x = x1 >> 0;
   this.position.y = y1 >> 0;
-  var quad = false;
-  if (this.gameServer) quad = this.getQuadrant(this.gameServer);
-  if (quad && quad != this.quadrant) this.changeQuadrant(quad,gameServer);
+  if (this.gameServer) this.quadUpdate(this.gameServer)
 };
 
 // Override these
