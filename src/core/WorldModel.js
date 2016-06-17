@@ -160,7 +160,9 @@ setAsNode(id, node) {
    this.virusNodes.clear();
    
  }
-
+getQuadMap(quad) {
+  return this.quadMap[quad];
+}
  clearQuadMap() {
    this.quadMap = {
       1: [],
