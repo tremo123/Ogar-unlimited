@@ -605,7 +605,7 @@ startingFood() {
         node.onRemove(this);
     this.world.removeNode(node.getId());
     // Special on-remove actions
-
+this.world.removeQuadMap(undefined,node.getId());
 
     // todo this is a big problem for splitting up the processes
     // Animation when eating
