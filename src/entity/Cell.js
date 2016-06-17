@@ -49,6 +49,12 @@ Cell.prototype.setVis = function (state, so) {
   }
   return true;
 };
+Cell.prototype.quadSetup = function(gameServer) {
+  this.gameServer = gameServer;
+ var quad = this.getQuadrant(gameServer) 
+    this.changeQuadrant(quad,gameServer);
+  
+}
 Cell.prototype.changeQuadrant = function(quad, gameServer) {
   if (quad) {
   gameServer.getWorld().removeQuadMap(this.quadrant,this.getId());
