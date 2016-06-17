@@ -14,24 +14,14 @@ module.exports = class WorldModel {
    
     this.lastNodeId = 2;    // todo why 2?
     this.nodes = new SortedMap();
-    this.quadVirusNodes = {
-      i: new SortedMap(),
-      ii: new SortedMap(),
-      iii: new SortedMap(),
-      iv: new SortedMap(),
+    
+    this.quadMap = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
     };
-    this.quadNodes = {
-      i: new SortedMap(),
-      ii: new SortedMap(),
-      iii: new SortedMap(),
-      iv: new SortedMap(),
-    };
-    this.quadEjectedNodes = {
-      i: new SortedMap(),
-      ii: new SortedMap(),
-      iii: new SortedMap(),
-      iv: new SortedMap(),
-    };
+   
     this.movingNodes = new SortedMap();
     this.playerNodes = SortedMap();
     this.virusNodes = SortedMap();
@@ -130,9 +120,7 @@ clearAll() {
     this.ejectedNodes.clear();
     this.rainbowNodes.clear();
     this.virusNodes.clear();
-    clearVirusQuad();
-    clearEjectedQuad();
-    clearNodesQuad();
+    clearQuadMap()
     this.lastNodeId = 2;
 }
   removeNode(id) {
@@ -172,36 +160,14 @@ setAsNode(id, node) {
    this.virusNodes.clear();
    
  }
- setQuadVirus(quad,id, node) {
-   this.quadVirusNodes[quad].set(id,node)
- }
- removeQuadVirus(quad,id) {
-   if (quad) {
-     this.quadVirusNodes[quad].delete(id);
-   } else {
-      this.quadVirusNodes.i.delete(id);
-   this.quadVirusNodes.ii.delete(id);
-   this.quadVirusNodes.iii.delete(id);
-   this.quadVirusNodes.iv.delete(id);
-   }
- }
- clearVirusQuad() {
-   this.quadVirusNodes.i.clear();
-   this.quadVirusNodes.ii.clear();
-   this.quadVirusNodes.iii.clear();
-   this.quadVirusNodes.iv.clear();
- }
- clearNodesQuad() {
-   this.quadNodes.i.clear();
-   this.quadNodes.ii.clear();
-   this.quadNodes.iii.clear();
-   this.quadNodes.iv.clear();
- }
- clearEjectedQuad() {
-   this.quadEjectedNodes.i.clear();
-   this.quadEjectedNodes.ii.clear();
-   this.quadEjectedNodes.iii.clear();
-   this.quadEjectedNodes.iv.clear();
+
+ clearQuadMap() {
+   this.quadMap = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+    };
  }
  clearPlayer() {
    this.playerNodes.clear();
