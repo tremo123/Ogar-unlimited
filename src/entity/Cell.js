@@ -30,8 +30,14 @@ function Cell(nodeId, owner, position, mass, gameServer) {
 module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
-Cell.prototype.changeQuadrant(gameServer,quad) {
- 
+Cell.prototype.changeQuadrant(quad, gameServer) {
+  if (quad) {
+  gameServer.getWorld().removeQuadMap(this.quadrant,this.getId());
+ gameServer.getWorld().setQuadMap(quad,this.getId());
+ this.quadrant = quad;
+  } else {
+    console.log("[Quadmap] Change quad failed")
+  }
 }
 Cell.prototype.getQuadrant(gameServer) {
   var x = this.position.x;
@@ -40,13 +46,13 @@ Cell.prototype.getQuadrant(gameServer) {
   var borderH = (config.borderBottom - borderTop) / 2;
   var borderV = (config.borderRight - borderLeft) / 2;
   if (x > borderV && x > borderH) {
-    return "iv";
+    return 4;
   } else if (x > borderV && x <= borderH) {
-    return "i";
+    return 1;
   } else if (x <= borderV && x > borderH) {
-    return "iii";
+    return 3;
   } else if (x <= borderV && x <= borderH) {
-    return "ii";
+    return 2;
   } else {
     return false;
   }
@@ -312,6 +318,9 @@ Cell.prototype.calcMovePhys = function (config) {
   // Set position
   this.position.x = x1 >> 0;
   this.position.y = y1 >> 0;
+  var quad = false;
+  if (this.gameServer) quad = this.getQuadrant(this.gameServer);
+  if (quad && quad != this.quadrant) this.changeQuadrant(quad,gameServer);
 };
 
 // Override these
