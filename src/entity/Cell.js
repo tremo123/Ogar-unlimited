@@ -69,8 +69,8 @@ Cell.prototype.getQuadrant = function(gameServer) {
   var x = this.position.x;
   var y = this.position.y;
   var config = gameServer.config
-  var borderH = (config.borderBottom - borderTop) / 2;
-  var borderV = (config.borderRight - borderLeft) / 2;
+  var borderH = (config.borderBottom - config.borderTop) / 2;
+  var borderV = (config.borderRight - config.borderLeft) / 2;
   if (x > borderV && x > borderH) {
     return 4;
   } else if (x > borderV && x <= borderH) {
