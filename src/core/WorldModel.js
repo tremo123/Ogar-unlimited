@@ -172,17 +172,22 @@ getQuadMap(quad) {
     };
  }
  setQuadMap(quad, id) {
-   this.quadMap[quad][id] = [id];
+   this.quadMap[quad].push(id)
  }
  removeQuadMap(quad, id) {
    try {
      if (quad) {
-   this.quadMap[quad].splice(id,1);
+          var ind = this.quadMap[quad].indexOf(id);
+   this.quadMap[quad].splice(ind,1);
      } else {
-       this.quadMap[1].splice(id,1);
-       this.quadMap[2].splice(id,1);
-       this.quadMap[3].splice(id,1);
-       this.quadMap[4].splice(id,1);
+       var ind = this.quadMap[1].indexOf(id);
+       this.quadMap[1].splice(ind,1);
+       var ind = this.quadMap[1].indexOf(id);
+       this.quadMap[2].splice(ind,1);
+       var ind = this.quadMap[1].indexOf(id);
+       this.quadMap[3].splice(ind,1);
+       var ind = this.quadMap[1].indexOf(id);
+       this.quadMap[4].splice(ind,1);
      }
    } catch (e) {
      console.log("[Quadmap] " + e);
