@@ -806,10 +806,9 @@ beforeq(player) {
       // Server is paused
       return;
     }
-
-    // Loop through all player cells
-    this.getWorld().getPlayerNodes().forEach((cell)=> {
-      if (!cell) {
+    this.getWorld().getNodes().forEach((cell)=>{
+      if (cell.cellType == 0) {
+         if (!cell) {
         return;
       }
       // Have fast decay over 5k mass
@@ -846,7 +845,14 @@ beforeq(player) {
           cell.mass *= massDecay;
         }
       }
-    });
+      } else {
+        cell.quadUpdate(this);
+      }
+      
+      
+      
+    })
+    
   }
   beforespawn(player,pos,mass) {
     
