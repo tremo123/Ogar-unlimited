@@ -169,6 +169,17 @@ setAsNode(id, node) {
       4: [],
     };
  }
+ setQuadMap(quad, id) {
+   this.quadMap[quad][id] = [id];
+ }
+ removeQuadMap(quad, id) {
+   try {
+   this.quadMap[quad].splice(id,1);
+   } catch (e) {
+     console.log("[Quadmap] " + e);
+   }
+ }
+ 
  clearPlayer() {
    this.playerNodes.clear();
  }
