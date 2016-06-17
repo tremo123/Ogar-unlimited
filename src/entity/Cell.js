@@ -75,15 +75,15 @@ Cell.prototype.getQuadrant = function(gameServer) {
   var x = this.position.x;
   var y = this.position.y;
   var config = gameServer.config
-  var borderH = Math.round((config.borderBottom - config.borderTop) / 2);
-  var borderV = Math.round((config.borderRight - config.borderLeft) / 2);
-  if (x > borderV && x > borderH) {
+  var borderH = Math.round((config.borderBottom + config.borderTop) / 2);
+  var borderV = Math.round((config.borderRight + config.borderLeft) / 2);
+  if (x > borderV && y > borderH) {
     return 4;
-  } else if (x > borderV && x <= borderH) {
+  } else if (x > borderV && y <= borderH) {
     return 1;
-  } else if (x <= borderV && x > borderH) {
+  } else if (x <= borderV && y > borderH) {
     return 3;
-  } else if (x <= borderV && x <= borderH) {
+  } else if (x <= borderV && y <= borderH) {
     return 2;
   } else {
     return false;
