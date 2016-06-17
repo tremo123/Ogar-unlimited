@@ -57,7 +57,7 @@ MotherCell.prototype.checkEat = function (gameServer) {
   // Loop for potential prey
  
   gameServer.getWorld().getNodes('player').forEach((check)=> {
-  
+  if (check.quadrant != this.quadrant || !check) return;
 
     if (check.mass > safeMass) {
       // Too big to be consumed
@@ -80,7 +80,7 @@ MotherCell.prototype.checkEat = function (gameServer) {
     }
   });
   gameServer.getWorld().getNodes('moving').forEach((check)=> {
-
+if (check.quadrant != this.quadrant || !check) return;
 ///    	if ((check.getType() == 1) || (check.mass > safeMass)) {
 ///            // Too big to be consumed/ No player cells
     if ((check.getType() == 0) || (check.getType() == 1) || (check.mass > safeMass)) {
