@@ -368,6 +368,11 @@ Cell.prototype.simpleCollide = function (x1, y1, check, d) {
 Cell.prototype.abs = function (x) {
   return x < 0 ? -x : x;
 };
+Cell.prototype.quadUpdate = function(gameServer) {
+   var quad = false;
+  quad = this.getQuadrant(gameServer);
+  if (quad && quad != this.quadrant) this.changeQuadrant(quad,gameServer);
+};
 
 Cell.prototype.getDist = function (x1, y1, x2, y2) {
   var xs = x2 - x1;
