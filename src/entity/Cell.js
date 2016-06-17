@@ -30,33 +30,7 @@ function Cell(nodeId, owner, position, mass, gameServer) {
 module.exports = Cell;
 
 // Fields not defined by the constructor are considered private and need a getter/setter to access from a different class
-Cell.prototype.changeQuadrant(quad, gameServer) {
-  if (quad) {
-  gameServer.getWorld().removeQuadMap(this.quadrant,this.getId());
- gameServer.getWorld().setQuadMap(quad,this.getId());
- this.quadrant = quad;
-  } else {
-    console.log("[Quadmap] Change quad failed")
-  }
-}
-Cell.prototype.getQuadrant(gameServer) {
-  var x = this.position.x;
-  var y = this.position.y;
-  var config = gameServer.config
-  var borderH = (config.borderBottom - borderTop) / 2;
-  var borderV = (config.borderRight - borderLeft) / 2;
-  if (x > borderV && x > borderH) {
-    return 4;
-  } else if (x > borderV && x <= borderH) {
-    return 1;
-  } else if (x <= borderV && x > borderH) {
-    return 3;
-  } else if (x <= borderV && x <= borderH) {
-    return 2;
-  } else {
-    return false;
-  }
-};
+
 Cell.prototype.getId = function () {
   return this.nodeId;
 };
@@ -74,6 +48,33 @@ Cell.prototype.setVis = function (state, so) {
     this.visible = state;
   }
   return true;
+};
+Cell.prototype.changeQuadrant = function(quad, gameServer) {
+  if (quad) {
+  gameServer.getWorld().removeQuadMap(this.quadrant,this.getId());
+ gameServer.getWorld().setQuadMap(quad,this.getId());
+ this.quadrant = quad;
+  } else {
+    console.log("[Quadmap] Change quad failed")
+  }
+};
+Cell.prototype.getQuadrant = function(gameServer) {
+  var x = this.position.x;
+  var y = this.position.y;
+  var config = gameServer.config
+  var borderH = (config.borderBottom - borderTop) / 2;
+  var borderV = (config.borderRight - borderLeft) / 2;
+  if (x > borderV && x > borderH) {
+    return 4;
+  } else if (x > borderV && x <= borderH) {
+    return 1;
+  } else if (x <= borderV && x > borderH) {
+    return 3;
+  } else if (x <= borderV && x <= borderH) {
+    return 2;
+  } else {
+    return false;
+  }
 };
 Cell.prototype.getName = function () {
   if (this.owner && !this.name) {
