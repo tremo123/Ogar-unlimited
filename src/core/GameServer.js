@@ -570,7 +570,7 @@ startingFood() {
 
     // Special on-add actions
     node.onAdd(this);
-    if (node.cellType != 0) node.quadSetup(this);
+   node.quadSetup(this);
     // todo this is a big problem for splitting up the processes
     // Add to visible nodes
     let clients = this.getClients();
@@ -1120,7 +1120,10 @@ player.frozen = fro;
     let squareR = cell.getSquareSize(); // Get cell squared radius
 
     // Loop through all cells that are visible to the cell. There is probably a more efficient way of doing this but whatever
-    cell.owner.visibleNodes.forEach((check)=> {
+  
+   var quad = this.getWorld().getQuadMap(cell.quadrant);
+  for (var i in quad) {
+    var check = this.getNodes()[i];
       // exist?
       // if something already collided with this cell, don't check for other collisions
       // Can't eat itself
@@ -1182,7 +1185,7 @@ player.frozen = fro;
 
       // Something is about to eat this cell; no need to check for other collisions with it
       check.inRange = true;
-    });
+    }
 
     return list;
   }
@@ -1199,7 +1202,7 @@ player.frozen = fro;
   var rightX = cell.position.x + r;
 var quad = this.getWorld().getQuadMap(cell.quadrant);
   // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
-  var len = this.getVirusNodes().length;
+  
   for (var i in quad) {
     var check = this.getVirusNodes()[i];
 
