@@ -44,6 +44,7 @@ EjectedMass.prototype.onAutoMove = function (gameServer) {
   var beacons = gameServer._nodesBeacon;
   for (var i in beacons) {
     var beacon = beacons[i];
+    if (beacon.quadrant != this.quadrant || !beacon) return;
   if (gameServer.gameMode.ID === 8 && beacon && this.collisionCheck2(beacon.getSquareSize(), beacon.position)) {
     // The beacon has been feed
     beacon.feed(this, gameServer);
