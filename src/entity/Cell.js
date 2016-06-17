@@ -65,6 +65,7 @@ Cell.prototype.changeQuadrant = function(quad, gameServer) {
   }
 };
 Cell.prototype.getQuadrant = function(gameServer) {
+  if (!gameServer && this.gameServer) gameServer = this.gameServer;
   var x = this.position.x;
   var y = this.position.y;
   var config = gameServer.config
