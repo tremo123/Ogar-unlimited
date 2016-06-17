@@ -1123,7 +1123,7 @@ player.frozen = fro;
   
    var quad = this.getWorld().getQuadMap(cell.quadrant);
   for (var i in quad) {
-    var check = this.getWorld().getNodes().toArray()[i];
+    var check = this.getWorld().getNodes().get(i);
       // exist?
       // if something already collided with this cell, don't check for other collisions
       // Can't eat itself
@@ -1204,7 +1204,7 @@ var quad = this.getWorld().getQuadMap(cell.getQuadrant(this));
   // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
   
   for (var i in quad) {
-    var check = this.getVirusNodes()[i];
+    var check = this.getWorld().getNodes('virus').get(i);
 
     if (typeof check === 'undefined') {
       continue;
