@@ -570,7 +570,7 @@ startingFood() {
 
     // Special on-add actions
     node.onAdd(this);
-    if (node.type != 0) node.quadSetup(this);
+    if (node.cellType != 0) node.quadSetup(this);
     // todo this is a big problem for splitting up the processes
     // Add to visible nodes
     let clients = this.getClients();
