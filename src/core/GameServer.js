@@ -570,7 +570,7 @@ startingFood() {
 
     // Special on-add actions
     node.onAdd(this);
-
+    if (node.type != 0) node.quadSetup(this);
     // todo this is a big problem for splitting up the processes
     // Add to visible nodes
     let clients = this.getClients();
@@ -1197,10 +1197,10 @@ player.frozen = fro;
 
   var leftX = cell.position.x - r;
   var rightX = cell.position.x + r;
-
+var quad = this.getWorld().getQuadMap(cell.quadrant);
   // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
   var len = this.getVirusNodes().length;
-  for (var i = 0; i < len; i++) {
+  for (var i in quad) {
     var check = this.getVirusNodes()[i];
 
     if (typeof check === 'undefined') {
