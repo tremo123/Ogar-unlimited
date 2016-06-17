@@ -1203,25 +1203,22 @@ player.frozen = fro;
 
   var leftX = cell.position.x - r;
   var rightX = cell.position.x + r;
-var quad = this.getWorld().getQuadMap(cell.getQuadrant(this));
   // Loop through all viruses on the map. There is probably a more efficient way of doing this but whatever
   
-  for (var i in quad) {
-    var ind = quad[i]
-    var check = this.getVirusNodes()[ind];
-
-    if (typeof check === 'undefined') {
-      continue;
-    }
+  this.getWorld().getNodes('virus').every((check)=>{
+   
+if (check.quadrant != this.quadrant || !check) return;
+    
 
     if (!check.collisionCheck(bottomY, topY, rightX, leftX)) {
-      continue;
+      return true;
     }
 
     // Add to list of cells nearby
     virus = check;
-    break; // stop checking when a virus found
-  }
+    return false;
+     // stop checking when a virus found
+  });
   return virus;
 }
 
