@@ -187,8 +187,7 @@ PlayerCell.prototype.calcMove = function (x2, y2, gameServer) {
 
   this.position.x = x1 >> 0;
   this.position.y = y1 >> 0;
-  if (this.gameServer) quad = this.getQuadrant(this.gameServer);
-  if (quad && quad != this.quadrant) this.changeQuadrant(quad,gameServer);
+  if (this.gameServer) this.quadUpdate(this.gameServer);
 };
 
 // Override
