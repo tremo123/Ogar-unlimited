@@ -11,4 +11,20 @@ lol :http://media.giphy.com/media/oIR6xeOffCEBa/giphy.gif
 grumpy :http://cdn.grumpycats.com/wp-content/uploads/2016/01/10426136_963527260349678_715068149440486950_n-758x758.jpg
 t_rex :http://agario-skins.org/images/skins/custom/t-rex.png?v0.10.3
 space_dog :http://vignette2.wikia.nocookie.net/agario/images/e/e3/Spacedog.png/revision/latest?cb=20160317031038
-
+kraken :http://agario-skins.org/images/skins/custom/kraken.png?v0.10.3
+lion :http://agario-skins.org/images/skins/custom/lion.png?v0.10.3
+spy :http://agario-skins.org/images/skins/custom/spy.png?v0.10.3
+seal :http://agario-skins.org/images/skins/custom/seal.png?v0.10.3
+brofist :http://agario-skins.org/images/skins/custom/brofist.png?v0.10.3
+shark :http://agario-skins.org/images/skins/custom/shark.png?v0.10.3
+rocket :http://agario-skins.org/images/skins/custom/rocket.png?v0.10.3
+rooster :http://agario-skins.org/images/skins/custom/rooster.png?v0.10.3
+scarecrow :http://agario-skins.org/images/skins/custom/scarecrow.png?v0.10.3
+bear :http://agario-skins.org/images/skins/custom/bear.png?v0.10.3
+lgbt :http://agario-skins.org/images/skins/custom/lgbt.png?v0.10.3
+rockstar :http://agario-skins.org/images/skins/custom/rockstar.png?v0.10.3
+google chrome :http://agario-skins.org/images/skins/custom/google-chrome.png?v0.10.3
+astronaut :http://agario-skins.org/images/skins/custom/astronaut.png?v0.10.3
+panther :http://agario-skins.org/images/skins/custom/panther.png?v0.10.3
+mammoth :http://agario-skins.org/images/skins/custom/mammoth.png?v0.10.3
+cat :http://agario-skins.org/images/skins/custom/cat.png?v0.10.3
